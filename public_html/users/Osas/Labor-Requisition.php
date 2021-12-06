@@ -72,7 +72,7 @@
           <span class="app-menu__label">DASHBOARD</span>
         </li>
         <li>
-          <a class="app-menu__item active" href="index.php">
+          <a class="app-menu__item" href="index.php">
             <i class="app-menu__icon fa fa-home"></i>
             <span class="app-menu__label">Home</span>
           </a>
@@ -107,13 +107,13 @@
           </ul>
         </li> 
         <li class="treeview">
-          <a class="app-menu__item" href="#" data-toggle="treeview">
+          <a class="app-menu__item active" href="#" data-toggle="treeview">
             <i class="app-menu__icon fa fa-briefcase"></i>
             <span class="app-menu__label">Student Labor</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Labor-Requisition.php">Requisition</a></li>
+              <li><a class="treeview-item active" href="Labor-Requisition.php">Requisition</a></li>
               <li><a class="treeview-item" href="Labor-Application.php">Application</a></li>
               <li><a class="treeview-item" href="DTR.php">DTR</a></li>
               <li><a class="treeview-item" href="Labor-Accomplishment.php">Accomplishment Reports</a></li>
