@@ -1,0 +1,110 @@
+body{
+	/*background-color: #b83d3d;*/
+	background-color: #f5f5f5;
+}
+
+.combo{
+	width: 100%;
+}
+
+i{
+	color: red;
+}
+
+hr{
+	margin-top: 25px;
+	margin-bottom: 30px;
+}
+
+.trans-input{
+	border: 0;
+}
+
+.input--style-4::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #a1a1a1;
+  font-size: 10px;
+}
+
+.input--style-4:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #a1a1a1;
+  opacity: 1;
+  font-size: 10px;
+}
+
+.input--style-4::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #a1a1a1;
+  opacity: 1;
+  font-size: 10px;
+}
+
+.input--style-4:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #a1a1a1;
+  font-size: 10px;
+}
+
+.input--style-4:-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #a1a1a1;
+  font-size: 10px;
+}
+
+.header{
+	height: 50px;
+	padding: 5px;
+	background-color: #f5f5f5;
+}
+
+.logo{
+	margin-left: 30px;
+	margin-top: -3;
+}
+
+.headtitle{
+	font-family: Roboto;
+	font-size: 16px;
+}
+
+.container-f{
+  display: flex; /* or inline-flex */
+  align-items: center;
+  align-content: center;
+}
+
+.ml{
+	margin-left: 8px;
+
+}
+
+.btn-danger{
+	background-color:  #dc3545;
+}
+
+.child{
+	align-content: center;
+}
+
+.label {
+  font-size: 13px;
+  color: #000;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+.label2 {
+  font-size: 10px;
+  color: #555;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 5px;
+}
+
+h4{
+	font-size: 14px;
+	margin-bottom: 10px;
+}

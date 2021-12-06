@@ -1,0 +1,74 @@
+        <!-- View Pending Forms Modal -->
+   <form method="POST" action="../../php/response.php">
+              <div class="modal fade" id="exampleModal<?php echo $res['response_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Letter of Response</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container">
+                                   <h5 class="font-weight-bold">Personal Information</h5> 
+                <div class="row">
+                <div class="col-sm">
+                <input type="text" id="response_id" name="response_id" value="<?php echo $res['response_id'];?>" hidden>  
+                <input type="hidden" id="complaint_id" name="complaint_id" value="<?php echo $res['Complaint_ID'];?>" hidden>              
+                <h6 class="font-weight-bold">Name: <span class="font-weight-lighter ml-2"><?php echo $res['fullname']; ?></span></h6>
+                </div>
+                <div class="col-sm-3">               
+                <h6 class="font-weight-bold">Date: <span class="font-weight-lighter ml-2"><?php echo $res['Date_Submitted']; ?></span></h6>
+                </div>
+                </div>
+                <h6 class="font-weight-bold">Designation: <span class="font-weight-lighter ml-2"><?php echo $res['type']; ?></span></h6>
+                <h6 class="font-weight-bold">College: <span class="font-weight-lighter ml-2"><?php echo $res['college']; ?></span></h6>
+                <h6 class="font-weight-bold">Course: <span class="font-weight-lighter ml-2"><?php echo $res['coursename']; ?></span></h6>
+                <h6 class="font-weight-bold">Year Level: <span class="font-weight-lighter ml-2"><?php echo $res['year_level']; ?></span></h6>
+<br>
+                <h5 class="font-weight-bold">Complainant Information</h5>
+                <div class="row">
+                <div class="col-sm">  
+                <h6 class="font-weight-bold">Date of Incident: <span class="font-weight-lighter ml-2"><?php echo  $res['Date_of_incident']; ?></span></h6>
+                <h6 class="font-weight-bold">Location of Incident: <span class="font-weight-lighter ml-2"><?php echo $res['Loc_of_incident']; ?></span></h6>
+                <h6 class="font-weight-bold">Time of Incident: <span class="font-weight-lighter ml-2"><?php echo $res['Time_of_incident']; ?></span></h6>
+                
+  <br>              
+                <div class="row">
+                <div class="form-group col-sm">
+                <p style="font-weight: bolder;">Response Details:
+                    <textarea class="form-control" id="exampleTextarea" rows="6" name="details" required></textarea>
+                </div></p></div>
+
+
+
+               <div class="row">
+                <div class="form-group col-m-2">
+                <label class="control-label cl mt-5">Respectfully,</label><br>
+          <img id="report-student-signature" class="e-sign" width="200" height="200" style="margin-bottom:-90px; margin-top: -80px; margin-left: -70px; position:relative;" src="data:image/jpeg;base64,<?php echo base64_encode( $res['e_signature'] ); ?>"><br>
+    <span class="font-weight-lighter "><p class="Signature" style="border: 0;border-bottom: 1px solid #000; font-size: 120%;text-transform: uppercase;"></span><br>
+ <span class="font-weight-lighter "><?php echo $res['fullname']; ?></span>
+                <p style="margin-top: -8%">(Signature over printed name)
+                </p>          
+                </div>
+              </input>
+              </div>
+            </div>
+              </div>
+            </div></div>
+          
+                    <div class="modal-footer">
+
+                      <button class="btn btn-success" type="submit" name="submit" id="submit">Submit</button>
+
+                    <!--  <button class="btn btn-success" type="submit" name="submit" data-target="letresbtn">Submit</button>-->
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+  </form>
+
+          

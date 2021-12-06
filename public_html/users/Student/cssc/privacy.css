@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+h1{
+  color: #C53F3F;
+  font-size: 6vh;
+  font-family: 'Quicksand', sans-serif;
+}
+h2{
+  color: #ffa700;
+  font-size: 4vh;
+}
+h3{
+  color: gray;
+}
+p{
+  font-size: 2vh;
+}
+
+body{
+  background-color: #f2f2f2;
+}
+.privacy{
+  width: 100%;
+  padding-left: 230px;
+  text-align: center;
+}
+
+  #privacy{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    border: thin solid lightgray;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 4%;
+    border-radius: 10px;
+    border-bottom: 10px solid #973939;
+    background-color: white;
+    min-height: 400px;
+    max-height: 700px;
+    overflow: auto;
+  }
+
+  .story{
+    width: 100%;
+  }
+
+  .animated{
+    width: 50vh;
+  }
+
+  .context{
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .link{
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    color: #973939;
+  }
+
+  #open {
+  padding: 8px 15px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 20px #eee;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 10px;
+  display: block;
+  color: white;
+  border: none;
+  font-size: 2vh;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #C53F3F;
+  }
+
+  #open:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+  background-color: #973939;
+  }
+
+@media screen and (max-width: 600px) {
+  .privacy{
+  width: 100%;
+  padding:20px;
+  text-align: center;
+}
+
+  #privacy{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    border: thin solid lightgray;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    border-radius: 10px;
+    border-bottom: 10px solid #973939;
+  }
+ } 

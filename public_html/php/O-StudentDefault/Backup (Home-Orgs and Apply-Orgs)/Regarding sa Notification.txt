@@ -1,0 +1,40 @@
+<?php
+                $sql_get = mysqli_query($conn, "SELECT * FROM remarks_apply WHERE status = 0 and Submitted_by like '%".$_SESSION['id']."%'");
+                $count = mysqli_num_rows($sql_get); 
+                
+              ?> 
+
+para asa ni nga count?
+
+
+<ul class="app-notification dropdown-menu dropdown-menu-right">
+              <li class="app-notification__title">You have <?php while ($main_res = mysqli_fetch_assoc($sql_get)) { echo $count; } ?> new notifications.</li>
+              <div class="app-notification__content">
+              
+                 <?php
+                $sql_get1 = mysqli_query($conn, "SELECT * FROM remarks_apply WHERE status = 0 and Submitted_by like '%".$_SESSION['id']."%'");
+                if(mysqli_num_rows($sql_get1)>0){
+
+                    while($result = mysqli_fetch_assoc($sql_get1)){
+                      echo '<li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa  fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div data-toggle="modal" data-role="exampleModall" id="'.$result['Submitted_by'].'">
+                      <p class="app-notification__message">Remarks for submitted file.</p>
+                      <p class="app-notification__meta">'.$result['date_apply'].'</p>
+                    </div></a></li>';  
+                    }
+
+                }
+                else{
+                    echo '<li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div>
+                      <p >No Notifications</p>
+                      
+                    </div></a></li>';
+                }
+              ?>
+               
+              </div>
+              <li class="app-notification__footer"><a href="#">See all notifications.</a></li>
+            </ul>
+
+-Kani sad heheh para asa ni nga count?

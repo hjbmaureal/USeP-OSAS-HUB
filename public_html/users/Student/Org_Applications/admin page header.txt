@@ -1,0 +1,8 @@
+<section id="admin_page_header">
+<div id="wonderplugin-fullscreen-slideshow">
+<div>[smartslider3 slider=2]</div>
+</div>
+<h1 class="fade-in-text hvr-grow" style="font-size: 75px;"><strong>Administration</strong></h1>
+<p class="alignfull fade-in-text" style="font-size: 12px;">This section incorporates procedures for administration and management tasks which support the development &amp; delivery of courses at the hub, but are not directly related to the development or delivery processes themselves.</p>
+
+</section>
