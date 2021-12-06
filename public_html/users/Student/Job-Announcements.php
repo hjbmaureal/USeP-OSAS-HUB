@@ -224,7 +224,7 @@ session_start();
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
