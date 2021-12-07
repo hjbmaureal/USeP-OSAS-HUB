@@ -83,9 +83,10 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user">
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
-        <div>
-          <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">SCHOLARSHIP PORTAL</p>
-        </div>
+          <div>
+            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
+          </div>
       </div>
       <hr>
       <ul class="app-menu font-sec">
