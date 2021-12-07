@@ -38,23 +38,14 @@ include('../../../conn.php');
 if(isset($_POST['submit'])) { 
     $coll = $_POST['c_name'];
     $acronym = $_POST['d_name'];
-    $descp = $_POST['d_head'];
+    $descp = '';
    
    $sql = "INSERT INTO department (college_id, dept_name, dept_head) VALUES ('$coll', '$acronym', '$descp')";
   if($conn->query($sql)){
             $_conn['success'] = 'Updated successfully';
 
 
-            echo '<script>
-            swal({
-                title: "Update Successful",
-                type: "success"
-                }, function () {
-                    setTimeout(function () {
-                        window.location.href="../Usep_Department.php";
-                        }, 500);
-                        });
-                        </script>';
+            echo '<script>window.location.href="../Usep_Department.php";</script>';
                     }
                     else{   
                         $_conn['error'] = $conn->error;

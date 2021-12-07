@@ -12,7 +12,7 @@
      <?php
       $uid = $res['dept_id'];
       ?>
-      <form method="post" action="php/update_dept.php">
+      <form class="update-dept" method="post" action="php/update_dept.php">
         <div class="modal-body c">
 
           <div class="container">
@@ -32,8 +32,8 @@
             <input class="form-control" type="text" name="deptname" value="<?php echo $res['dept_name'] ?>">
             <br>
 
-            <h6 class="font-weight-bold">Department Head:</h6> 
-            <input class="form-control" type="text" name="depthead" value="<?php echo $res['dept_head']; ?>">
+           <!--  <h6 class="font-weight-bold">Department Head:</h6> 
+            <input class="form-control" type="text" name="depthead" value="<?php //echo $res['dept_head']; ?>"> -->
             <input type="hidden" name="ID" value="<?php echo $uid ?>">
           </div>
           </div>

@@ -40,7 +40,7 @@
 		$query = mysqli_query($conn,"SELECT * FROM department") ;
 		$uid = $_POST['ID'];
 		$deptname= $_POST['deptname'];
-		$depthead= $_POST['depthead'];
+		$depthead= '';
 		
 
 
@@ -50,16 +50,7 @@
 			$_conn['success'] = 'Updated successfully';
 
 
-			echo '<script>
-			swal({
-				title: "Update Successful",
-				type: "success"
-				}, function () {
-					setTimeout(function () {
-						window.location.href="../Usep_Department.php";
-						}, 500);
-						});
-						</script>';
+			echo '<script>window.location.href="../Usep_Department.php"</script>';
 					}
 					else{	
 						$_conn['error'] = $conn->error;

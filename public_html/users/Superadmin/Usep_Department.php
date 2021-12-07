@@ -185,7 +185,7 @@ function timeago($datetime, $full = false) {
               </li>
             <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
@@ -335,7 +335,7 @@ function timeago($datetime, $full = false) {
                             <div class="table-bd">
                               <div class="table-responsive">
                                 <br>
-                                <table class="table table-hover table-bordered" id="sampleTable">
+                                <table class="table table-hover table-bordered" id="dept-table">
                                   <thead>
                                     <tr>
                                       <th>Dept ID</th>
@@ -344,56 +344,9 @@ function timeago($datetime, $full = false) {
                                       <th>Head</th>
                                       <th>Status</th>
                                       <th>Update</th>
-
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                    <?php
-
-
-                                    // $query = "SELECT department.dept_id, department.dept_name, department.dept_head, department.status, staff.staff_id, staff.first_name, staff.last_name FROM department LEFT JOIN staff ON department.dept_head = staff.staff_id"; 
-                                    // $result = mysqli_query($conn, $query) or die( mysqli_error($conn));
-
-                                    $sql = "SELECT department.dept_id, department.college_id, department.dept_name, college.description, department.dept_head, department.status, staff.staff_id, staff.first_name, staff.last_name FROM department LEFT JOIN staff ON department.dept_head = staff.staff_id LEFT JOIN college ON college.college_id = department.college_id";
-                                    $result = mysqli_query($conn, $sql);
-
-
-                                    while($res = mysqli_fetch_array($result)){         
-                                      ?>                                      
-                                        <td><?php echo $res['dept_id']; ?></td>
-                                        <td><?php echo $res['description']; ?></td>
-                                        <td><?php echo $res['dept_name']; ?></td>
-                                        <td><?php echo $res['dept_head']; ?></td>
-                                        <td><?php echo $res['status']; ?></td>          
-                                        <td>
-
-                                          <button class="btn btn-info btn-sm" data-toggle="modal" a href="#details<?php echo $res['dept_id']; ?>"><i class="fas fa-eye"></i></button>
-                                          <?php include('php/usep_dept_modal.php'); ?>
-
-                                          <!-- for edit -->
-                                          <a class="btn btn-warning btn-sm" data-toggle="modal" a href="#detail<?php echo $res['dept_id']; ?>">  <i class="fas fa-edit" data-toggle="modal" data-target="#cordownload"></i></a>
-                                          <?php include('php/dept_modal.php'); ?>
-                                          <!--end of edit part-->
-
-
-                                          <?php 
-                                          if($res['status'] == "Active"){?>
-                                            <button role="button" class="btn btn-success btn-sm" data-toggle="modal" data-role="prodbtn2" disabled="">Enable</button>
-                                            <a class="btn btn-danger btn-sm" data-toggle="modal" a href="#dept_verify<?php echo $res['dept_id']; ?>">Disable</a>
-                                          <?php }else{?>
-                                            <a class="btn btn-success btn-sm" data-toggle="modal" a href="#dept_verify<?php echo $res['dept_id']; ?>">Enable</a>
-                                            <button role="button" class="btn btn-danger btn-sm" data-toggle="modal" data-role="prodbtn2" disabled="">Disable</button>
-
-
-                                            <?php
-                                          } include('php/dept_verify.php'); ?>   
-                                        </td>         
-                                      </tr>
-                                      <?php
-                                    }
-
-                                    ?>
                                   </tbody>
                                 </table>
                               </div>
@@ -405,7 +358,7 @@ function timeago($datetime, $full = false) {
                       </div>
                     </div>
                     <!-- ADD DEPARTMENT MODAL-->
-                    <form method="post" action="php/add_dept.php">
+                    <form id="add-dept" method="post" action="php/add_dept.php">
                       <div class="modal fade " class="department" id="addDept" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -438,7 +391,7 @@ function timeago($datetime, $full = false) {
                                 </div>
                               </div>
 
-                              <div class="row mt-2">
+                             <!--  <div class="row mt-2">
                                 <div class="col-sm-12">
 
                                   <label for="scholarship_type"><h6>Department Head</h6></label>
@@ -446,7 +399,7 @@ function timeago($datetime, $full = false) {
                                   <div id="stafflist"></div>  
 
                                 </div>
-                              </div>
+                              </div> -->
 
                              
       
@@ -593,7 +546,38 @@ function timeago($datetime, $full = false) {
                   <script type="text/javascript">
 
                     $(document).ready(function() {
-                      var table = $('#sampleTable').DataTable();
+
+                      var tbl = $('#dept-table').DataTable({
+                          serverside: false,
+                          ajax : {
+                            url : "php/select-queries.php",
+                          data : function ( d ) {
+                                d.queryno = 1;
+                          },
+                            dataSrc : "",
+                            error: function(response){
+                                swal({
+                                        title: "Something went wrong...",
+                                        text: "Server Request Failed!",
+                                        icon: "error",
+                                        buttons: false,
+                                        timer: 1800,
+                                        closeOnClickOutside: false,
+                                        closeOnEsc: false,
+                                });
+                            }
+                          },
+                          columns : [
+                            { data : "dept_id"},
+                            { data : "description"},
+                            { data : "dept_name"},
+                            { data : "dept_head"},
+                            { data : "status"},
+                            { data : "dept_id"}
+
+                          ],
+                            ordering : false
+                      });
 
                       $("#sel2").on('change',function() {
                         $.fn.dataTable.ext.search.pop();
@@ -611,10 +595,30 @@ function timeago($datetime, $full = false) {
                        table.draw();
                      });
 
-                    } );
+
+                      $(document).on("submit","#add-dept",function(){
+                        swal({
+                          title: "Add Successful",
+                          type: "success"
+                          }, function () {
+                              setTimeout(500);
+                        });
+                      });
+
+                      $(document).on("submit",".update-dept",function(){
+                        swal({
+                          title: "Update Successful",
+                          type: "success"
+                          }, function () {
+                              setTimeout(500);
+                        });
+                      });
+
+
+                    });
                   </script>
 
       
                   
-               </body>
-               </html>
+</body>
+</html>

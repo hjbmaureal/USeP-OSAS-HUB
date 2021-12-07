@@ -16,10 +16,6 @@
       while($row=mysqli_fetch_array($query)){
         $colname=$res['dept_name'];
         $coldesc=$res['dept_head'];
-
-
-
-
       }
       ?>
 
