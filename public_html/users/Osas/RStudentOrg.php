@@ -29,7 +29,7 @@
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Admin Hub</title>
+      <title>USeP OSAS Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +102,7 @@
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
       </div>
 
@@ -208,17 +208,17 @@
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -295,7 +295,9 @@
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -322,6 +324,62 @@
           </div>
         </div>
       </div>
+      <script type="text/javascript">
+        
+
+
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
         <div class="red"> 
           
         </div>

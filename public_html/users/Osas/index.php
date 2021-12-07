@@ -58,7 +58,7 @@
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
       </div>
 
@@ -171,12 +171,12 @@
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
