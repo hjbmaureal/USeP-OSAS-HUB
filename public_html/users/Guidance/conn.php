@@ -1,6 +1,6 @@
 <?php
 $databaseHost = 'localhost';
-$databaseName = 'guidance_db'; 
+$databaseName = 'backupdb-3'; 
 $databaseUsername = 'root'; 
 $databasePassword = ''; 
 $conn= mysqli_connect ($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
