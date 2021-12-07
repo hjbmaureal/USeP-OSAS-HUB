@@ -19,15 +19,51 @@
     $subject7 = $_POST['subject7'];
     $subject8 = $_POST['subject8'];
     $subject9 = $_POST['subject9'];
-    $grades1 = (float)$_POST['grade1'];
-    $grades2 = (float)$_POST['grade2'];
-    $grades3 = (float)$_POST['grade3'];
-    $grades4 = (float)$_POST['grade4'];
-    $grades5 = (float)$_POST['grade5'];
-    $grades6 = (float)$_POST['grade6'];
-    $grades7 = (float)$_POST['grade7'];
-    $grades8 = (float)$_POST['grade8'];
-    $grades9 = (float)$_POST['grade9'];
+    if(isset($_POST['grade1'])){
+      $grades1 = (float)$_POST['grade1'];
+    }else{
+      $grades1 = null;
+    }
+    if(isset($_POST['grade2'])){
+      $grades2 = (float)$_POST['grade2'];
+    }else{
+      $grades2 = null;
+    }
+    if(isset($_POST['grade3'])){
+      $grades3 = (float)$_POST['grade3'];
+    }else{
+      $grades3 = null;
+    }
+    if(isset($_POST['grade4'])){
+      $grades4 = (float)$_POST['grade4'];
+    }else{
+      $grades4 = null;
+    }
+    if(isset($_POST['grade5'])){
+      $grades5 = (float)$_POST['grade5'];
+    }else{
+      $grades5 = null;
+    }
+    if(isset($_POST['grade6'])){
+      $grades6 = (float)$_POST['grade6'];
+    }else{
+      $grades6 = null;
+    }
+    if(isset($_POST['grade7'])){
+      $grades7 = (float)$_POST['grade7'];
+    }else{
+      $grades7 = null;
+    }
+    if(isset($_POST['grade8'])){
+      $grades8 = (float)$_POST['grade8'];
+    }else{
+      $grades8 = null;
+    }
+    if(isset($_POST['grade9'])){
+      $grades9 = (float)$_POST['grade9'];
+    }else{
+      $grades9 = null;
+    }
     $unit1 = (float)$_POST['units1'];
     $unit2 = (float)$_POST['units2'];
     $unit3 = (float)$_POST['units3'];
@@ -76,7 +112,9 @@
       $new_semester = "Off Semester";
     }else{
       $new_semester = "1st Semester";
-      $new_school_year = (string)($year1 + 1).'-'.(string)($year2 + 1);
+      $int_year1 = ((int) $year1) + 1;
+      $int_year2 = ((int) $year2) + 1;
+      $new_school_year = (string)($year1).'-'.(string)($year2);
     }
 
     $new_sem_sy = $new_semester.' '.$new_school_year;
@@ -90,15 +128,16 @@
       if(false===$stmt){
         die('prepare() failed: '.htmlspecialchars($conn->error));
       }
-      $stmt->bind_param("sss", $student_id, $sp,  $new_sem_sy);
+      $check = $stmt->bind_param("sss", $student_id, $sp,  $new_sem_sy);
       if(false === $check){
+        echo 'erroruni';
         die('bind_param() failed: '.htmlspecialchars($conn->error));
       }
       if($stmt->execute()){
-        header("Location: ../users/Scholarship/promotional-report.php?operation=success");
+        // header("Location: ../users/Scholarship/promotional-report.php?operation=success");
       }else{
-        die('execute() failed: '.htmlspecialchars($stmt->error));
-        header("Location: ../users/Scholarship/promotional-report.php?operation=failed");
+        die('execute() uni failed: '.htmlspecialchars($stmt->error));
+        // header("Location: ../users/Scholarship/promotional-report.php?operation=failed");
       }
       $stmt->close();
     }
@@ -113,13 +152,14 @@
       }
       $check = $stmt->bind_param("sss", $student_id, $sp, $new_sem_sy);
       if(false === $check){
+        echo "errorcol";
         die('bind_param() failed: '.htmlspecialchars($conn->error));
       }
       if($stmt->execute()){
-        header("Location: ../users/Scholarship/promotional-report.php?operation=success");
+        // header("Location: ../users/Scholarship/promotional-report.php?operation=success");
       }else{
-        die('execute() failed: '.htmlspecialchars($stmt->error));
-        header("Location: ../users/Scholarship/promotional-report.php?operation=failed");
+        die('execute() col failed: '.htmlspecialchars($stmt->error));
+        // header("Location: ../users/Scholarship/promotional-report.php?operation=failed");
       }
       $stmt->close();
     }
@@ -130,12 +170,13 @@
     }
     $check = $stmt -> bind_param("sssssssssss",$grades1, $grades2, $grades3, $grades4, $grades5, $grades6, $grades7, $grades8, $grades9, $gwa, $grantee_id);
     if(false === $check){
+      echo "errorgrade";
       die('bind_param() failed: '.htmlspecialchars($conn->error));
     }
     if($stmt->execute()){
       header("Location: ../users/Scholarship/promotional-report.php?operation=success");
     }else{
-      die('execute() failed: '.htmlspecialchars($stmt->error));
+      die('execute() grades failed: '.htmlspecialchars($stmt->error));
       header("Location: ../users/Scholarship/promotional-report.php?operation=failed");
     }
   }

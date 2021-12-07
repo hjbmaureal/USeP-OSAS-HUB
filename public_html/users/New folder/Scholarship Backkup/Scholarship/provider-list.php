@@ -15,6 +15,7 @@
       $count = $row['cnt'];
     }
   }
+  include_once("../../php/updateStatus.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +32,8 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Dashboard</title>
+    <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+    <title>USeP Scholarship Admin Hub</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,12 +44,18 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+    <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/2c16a9550c.js" crossorigin="anonymous"></script>
   </head>
-  <body class="app sidebar-mini rtl" onload="initClock()" >
+
+
+  <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
     <header class="app-header">
+      
     </header>
+
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
@@ -75,14 +83,14 @@
         </li>
         <!-- Treeview MENU -->
         <li class="treeview">
-          <a class="app-menu__item" href="" data-toggle="treeview">
+          <a class="app-menu__item active" href="" data-toggle="treeview">
             <i class="app-menu__icon fa fa-address-book"></i>
             <span class="app-menu__label">Scholars & Grantee Record</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
           <ul class="treeview-menu">
             <li><a href="scholars-grantee-records.php" class="treeview-item">Scholars and Grantee Record</a></li>
-            <li><a href="provider-list.php" class="treeview-item">Providers List</a></li>
+            <li><a href="provider-list.php" class="treeview-item active">Providers List</a></li>
           </ul>
         </li>
         <!-- Treeview MENU -->
@@ -102,7 +110,7 @@
         </li>
         <!-- NOT Treeview MENU -->
         <li>
-          <a class="app-menu__item active" href="scholars-validation.php">
+          <a class="app-menu__item" href="scholars-validation.php">
             <i class="app-menu__icon fa fa-check-square"></i>
             <span class="app-menu__label">Scholar's Validation</span>
           </a>
@@ -321,245 +329,261 @@
           </div>
         </div>
       </div> <!-- END OF NAVBAR -->
-      <!-- MAIN CONTENT --> 
-      <!-- Title of Content -->
-      <div id="main-content-student">
 
-        <!-- Table -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="tile">
-              <div class="tile-title">
-                <!-- first row or TITLE -->
-                <div class="float-left">
-                  <h4>Scholars Validation</h4>
-                </div>
-                <div class="float-right">
-                  <p> 
-                    <a class="btn btn-danger icon-btn" id="print-button" href="#">
-                      <i class="fa fa-print"></i>Print</a>
-                  </p>
-                </div>
-                <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
-                <div class="clearfix"></div>
+       <!-- MAIN CONTENT --> 
+      <div id="main-content-provider">
+        <!-- first row or TITLE -->
+        <div class="float-left">
+          <h4>Scholarship/Provider List</h4>
+        </div>
+        <div class="float-right">
+          <p>
+            <a class="btn btn-warning icon-btn " href="#" data-toggle="modal" data-target="#addProviderModal">
+              <i class="fa fa-plus"></i>Add</a>  
+            <a class="btn btn-danger icon-btn" href="#" id="print-button">
+              <i class="fa fa-download"></i>Print</a>
+          </p>
+        </div>
+
+        <!-- MODAL FOR ADD-->
+        <div class="modal fade" id="addProviderModal" tabindex="1" role="dialog" aria-labelledby="addProviderModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h3 class="modal-title">ADD SCHOLARSHIP/PROVIDER</h3>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
               </div>
-              <form method="POST" action="">
-                <div class="row">
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortScholarshipProgram">Scholarship Program</label>
-                      <select name="sortScholarshipProgram" id="sortScholarshipProgram" class="form-control">
-                        <option value="0">ALL</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM scholarship_program")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortScholarshipProgram']) && $_POST['sortScholarshipProgram'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['program_name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['program_name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortCourse">Course</label>
-                      <select name="sortCourse" id="sortCourse" class="form-control">
-                        <option  value="0">All</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM course")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortCourse']) && $_POST['sortCourse'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-2">
-                    <div class="form-group">
-                      <label for="scholarship-type">Type</label>
-                      <select name="scholarship-type" id="scholarship-type" class="form-control">
-                        <option  value="0">All</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 1 ) echo 'selected'?> value="1">Internal</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 2 ) echo 'selected'?> value="2">External</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="sortSubmit">Filter by</label>
-                    <input type="submit" value="Filter" class="btn btn-primary form-control">
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="clearSelection">Clear Filter</label>
-                    <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
-                  </div>
-                </div>
-              </form>
-              <form id="scholars-validation-form" method="POST" action="../../php/updateScholarStatus.php">
-                <div class="tile-body">
-                  <table class="table table-hover table-bordered" id="student-table">
-                    <div class="row mt-2 justify-content-end">
-                      <div class="col-xl-2">
-                        <div class="form-group">
-                          <select name="setStatus" id="select-set-status" class="form-control">
-                            <option value="0">Select Status</option>
-                            <?php
-                              if($result = mysqli_query($conn, "SELECT * FROM student_status")){
-                                while($row = mysqli_fetch_array($result)){
-                                  echo '<option value="'.$row['status_id'].'">'.$row['description'].'</option>';
-                                }
-                              }
-                            ?>
-                          </select>
+              <form method="POST" class="needs-validation" novalidate action="../../php/addProvder.php">
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="scholarship_org" class="custom-label">Government/Organization</label>
+                        <input type="text" name="scholarship_org_input" id="scholarship_org" class="form-control" placeholder="CHED, DOST, etc..." required>
+                        <div class="invalid-tooltip">
+                          Please Enter this Field!
                         </div>
                       </div>
-                      <div class="col-xl-2">
-                        <input type="submit" id="submit-scholar-validation-table" name="update-scholar-status" class="btn btn-info form-control" value="Set Status">
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="scholarship_name">Scholarship Program Name</label>
+                        <input type="text" name="scholarship_name_input" id="scholarship_name" class="form-control" placeholder="Enter program name..." required>
+                        <div class="invalid-tooltip">
+                          Please Enter This Field!
+                        </div>
                       </div>
                     </div>
-                    <br>
-                    <thead>
-                      <tr>
-                        <th><input type="checkbox" id="select-all-student"></th>
-                        <th hidden></th>
-                        <th>Semester</th>
-                        <th>Scholarship Program</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Year Level</th>
-                        <th>Course</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        $result_semester = mysqli_query($conn, "SELECT year, sf_get_semester_id(semester) as semester FROM list_of_semester WHERE status = 'Active' ");
-                        $row_semester = mysqli_fetch_assoc($result_semester);
-                        echo '
-                            <input type="text" name="curr_semester" value="'.$row_semester['semester'].'" hidden>
-                            <input type="text" name="curr_year" value="'.$row_semester['year'].'" hidden>
-                            
-                          ';
-                        $query = "SELECT * FROM scholarship_general_info as sgi JOIN scholarship_program AS sp ON sp.program_id = sgi.program_id WHERE sgi.student_status = 0";
-                        if(isset($_POST['sortScholarshipProgram']) && isset($_POST['sortCourse']) && isset($_POST['scholarship-type'])){
-                          $sortProgram = $_POST['sortScholarshipProgram'];
-                          $sortCourse = $_POST['sortCourse'];
-                          $sortType = $_POST['scholarship-type'];
-
-                          if($sortProgram != 0){
-                            $query .= " AND sp.program_id = $sortProgram";
-                          }
-                          if($sortType != 0){
-                            $query .= " AND sp.type = $sortType";
-                          }
-                          if($sortCourse != 0){
-                            $query .= " AND sgi.course_id = $sortCourse";
-                          }
-                        }
-                        $query .= " AND sgi.semester_year = '$currSemesterYear' ORDER BY sgi.record_status DESC";
-                        // echo $query;
-                        if($result = mysqli_query($conn, $query)){
-                          while($row=mysqli_fetch_array($result)){
-                            echo'
-                              <tr>
-                                <td><input type="checkbox" name="select[]" value='.$row['grantee_id'].' class="form-control"></td>
-                                <td hidden>
-                                  <input type="text" name="student_id" value='. $row["student_id"].' class="form-control">
-                                  <input type="text" name="scholarship" value='. $row["program_name"].' class="form-control">
-                                </td>
-                                <td>'.$row['semester_year'].'</td>
-                                <td>'. $row["program_name"].'</td>
-                                <td>'. $row["last_name"].'</td>
-                                <td>'. $row["first_name"].'</td>
-                                <td>'. $row["middle_name"].'</td>
-                                <td>'. $row["year_level"].'</td>
-                                <td>'. $row["coursetitle"].'</td>
-                              </tr>'
-                            ;
-                          }
-                        }
-                      ?>
-                    </tbody>
-                  </table>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <label for="scholarship_type">Type</label>
+                      <select name="scholarship_type_input" id="scholarship_type" class="form-control" required>
+                        <option value="1">INTERNAL</option>
+                        <option value="2">EXTERNAL</option>
+                      </select>
+                      <div class="invalid-tooltip">
+                        Please Enter This Field!
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <label for="scholarship_status">Status</label>
+                      <select name="scholarship_status_input" id="scholarship_status" class="form-control" required>
+                        <option value="1" selected="selected">ACTIVE</option>
+                        <option value="2">INACTIVE</option>
+                      </select>
+                      <div class="invalid-tooltip">
+                        Please Enter This Field!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-auto">
+                      <label for="scholarshipAmount">Amount Stipend</label>
+                      <input type="text" class="form-control" name="scholarship_amount_input" id="scholarshipAmount" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-danger" type="button" data-dismiss="modal">CANCEL</button>
+                  <button class="btn btn-warning" type="submit" name="addProvider">SUBMIT</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-        <!-- Scholarship Application Table -->
+        <!-- Update Modal -->
+        <div class="modal fade" id="updateProviderModal" tabindex="1" role="dialog" aria-labelledby="updateProviderModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5 class="modal-title">UPDATE SCHOLARSHIP/PROVIDER DATA</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+              </div>
+              <form method="POST" class="needs-validation" novalidate action="../../php/updateProvderDetails.php">
+                <input type="text" id="scholarship_id_update" name="scholarship_id_update" hidden readonly>
+                <div class="modal-body">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="scholarship_org_update" class="custom-label">Government/Organization</label>
+                          <input type="text" name="scholarship_org_update" id="scholarship_org_update" class="form-control" placeholder="CHED, DOST, etc..." required>
+                          <div class="invalid-tooltip">
+                            Please Enter this Field!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="scholarship_name_update">Scholarship Program Name</label>
+                          <input type="text" name="scholarship_name_update" id="scholarship_name_update" class="form-control" placeholder="Enter program name..." required>
+                          <div class="invalid-tooltip">
+                            Please Enter This Field!
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="scholarship_type_update">Type</label>
+                        <select name="scholarship_type_update" id="scholarship_type_update" class="form-control" required>
+                          <option value="1">INTERNAL</option>
+                          <option value="2">EXTERNAL</option>
+                        </select>
+                        <div class="invalid-tooltip">
+                          Please Enter This Field!
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <label for="scholarship_status_update">Status</label>
+                        <select name="scholarship_status_update" id="scholarship_status_update" class="form-control" required>
+                          <option value="1" selected="selected">ACTIVE</option>
+                          <option value="2">INACTIVE</option>
+                        </select>
+                        <div class="invalid-tooltip">
+                          Please Enter This Field!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-auto">
+                        <label for="scholarshipAmount_update">Amount Stipend</label>
+                        <input type="text" class="form-control" name="scholarship_amount_update" id="scholarshipAmount_update" required>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-danger" type="button" data-dismiss="modal">CANCEL</button>
+                  <button class="btn btn-warning" type="submit" name="updateProvider">SUBMIT</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+        <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
+        <div class="clearfix"></div>
+        <!-- Table -->
         <div class="row">
           <div class="col-md-12">
             <div class="tile">
-              <div class="float-left">
-                <h4>Scholarship Applications</h4>
-              </div>
-              <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
-              <div class="clearfix"></div>
-              <form id="scholars-application-form" method="POST" action="../../php/updateScholarApplication.php">
-                <table class="table table-hover table-bordered" id="applicant-table">
-                  <div class="row justify-content-end">
-                    <div class="col-2">
-                      <select name="setAction" id="select-set-action" class="form-control">
-                        <option value="0">Select Action</option>
-                        <option value="1">Accept Application</option>
-                        <option value="2">Reject Application</option>
+              <!-- SECOND ROW FOR SORT OPTIONS -->
+              <form method="POST" action="">
+                <div class="row">
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="scholarship-status">Status</label>
+                      <select name="scholarship-status" id="scholarship-status" class="form-control">
+                        <option value="0">All</option>
+                        <option <?php if(isset($_POST['scholarship-status']) && $_POST['scholarship-status'] == 1 ) echo 'selected'?> value="1">Active</option>
+                        <option <?php if(isset($_POST['scholarship-status']) && $_POST['scholarship-status'] == 2 ) echo 'selected'?> value="2">Inactive</option>
                       </select>
                     </div>
-                    <div class="col-2">
-                      <input type="submit" id="submit-scholar-application-table" name="update-scholar-application" class="btn btn-info form-control" value="Confirm">
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="scholarship-type">Type</label>
+                      <select name="scholarship-type" id="scholarship-type" class="form-control">
+                        <option value="0">All</option>
+                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 1 ) echo 'selected'?> value="1">Internal</option>
+                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 2 ) echo 'selected'?> value="2">External</option>
+                      </select>
                     </div>
                   </div>
+                  <div class="col-1">
+                    <label for="sortSubmit">Filter</label>
+                    <input type="submit" value="Filter" class="btn btn-primary form-control">
+                  </div>
+                  <div class="col-1">
+                    <label for="clearSelection">Clear Filter</label>
+                    <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
+                  </div>
+                  <div class="col-4">
+                    
+                  </div>
+                  <div class="col-2">
+      
+                  </div>
+                </div>
+              </form>
+              <form id="provider-table-form" method="POST" action="../../php/updateStatus.php">
+                <div class="tile-body">
                   <br>
-                  <thead>
-                    <tr>
-                      <th><input type="checkbox" id="select-all-applicant"></th>
-                      <th>Scholarship Program</th>
-                      <th>Last Name</th>
-                      <th>First Name</th>
-                      <th>Middle Name</th>
-                      <th>Year Level</th>
-                      <th>Course</th>
-                      <th>Application for Semester</th>
-                    </tr>
-                  </thead>
-                  <?php
-                    $query = "SELECT s.last_name , s.first_name, s.middle_name, s.year_level, sf_get_course_name(s.course_id) as coursetitle, sf_get_scholarship_name(sa.program_id) as program_name, sa.semester, sa.year, sa.application_id from student as s JOIN scholarship_application as sa ON s.Student_id = sa.student_id";
-                    if($result = mysqli_query($conn, $query)){
-                      while($row=mysqli_fetch_array($result)){
-                        echo'
-                          <tr>
-                            <td><input type="checkbox" name="select[]" value='.$row['application_id'].' class="form-control"></td>
-                            <td>'. $row["program_name"].'</td>
-                            <td>'. $row["last_name"].'</td>
-                            <td>'. $row["first_name"].'</td>
-                            <td>'. $row["middle_name"].'</td>
-                            <td>'. $row["year_level"].'</td>
-                            <td>'. $row["coursetitle"].'</td>
-                            <td>'.$row['semester'].' '.$row['year'].'</td>
-                          </tr>'
-                        ;
-                      }
-                    }
-                  ?>
-                </table>
+                  <div id="provider-table-container">
+                    <table class="table table-hover table-bordered table-striped" id="provider-table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Scholarship Program</th>
+                          <th>Government/Organization</th>
+                          <th>Type</th>
+                          <th>Status</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          //Filter query conditions to database
+                          $query = "SELECT * , sf_get_type_of_scholarship(type) as scholarship_type, sf_get_scholarship_status(program_status) as scholarship_status FROM scholarship_program";
+                          if(isset($_POST["scholarship-status"]) && isset($_POST["scholarship-type"])){
+                            $sortStatus = $_POST['scholarship-status'];
+                            $sortType = $_POST['scholarship-type'];
+                            if($sortType != 0 || $sortStatus != 0){
+                              $query .= " WHERE";
+                            }
+                            if($sortType != 0){
+                              $query .= " type = $sortType";
+                            }
+                            if($sortStatus != 0 && $sortType != 0){
+                              $query .= " AND program_status = $sortStatus";
+                            }else if($sortStatus != 0){
+                              $query .= " program_status = $sortStatus";
+                            }
+                          }
+                          //echo $query; DEBUUUUUG!
+                          if($result = mysqli_query($conn,$query)){
+                            while($row = mysqli_fetch_array($result)){
+                              echo '
+                                <tr>
+                                  <td>'.$row['program_id'].'</td>
+                                  <td> '.$row['program_name'].'</td>
+                                  <td> '.$row['program_provider'].'</td>
+                                  <td> '.$row['scholarship_type'].'</td>
+                                  <td> '.$row['scholarship_status'].'</td>
+                                  <td> '.$row['amount'].'</td>
+                                </tr>
+                              ';
+                            }
+                          }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -575,31 +599,21 @@
     <script src="../../js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="../../js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
+    <!-- Page specific javascripts -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Data table plugin-->
     <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="../../js/plugins/printThis.js"></script>
     <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
+    <!-- FOR THE PHP SWAL -->
     <?php
-      if(isset($_GET['operation']) && $_GET['operation'] == 'success'){
-        echo '
-        <script>
-          Swal.fire(
-            "Scholar Status Updated!",
-            "",
-            "success"
-          )
-        </script>
-      ';
-      }
-      if(isset($_GET['selection']) && $_GET['selection'] == 'empty'){
+      if(isset($_GET['operation']) && isset($_GET['operation']) == "success"){
         echo '
           <script>
             Swal.fire(
-              "Update failed!",
-              "Select row/s using the checkboxes.",
-              "error"
+              "Provider details updated!",
+              "",
+              "success"
             )
           </script>
         ';
@@ -609,14 +623,24 @@
       var options = {
         importCSS: false,
         loadCSS: "",
-        pageTitle:"Scholars and Grantee List",
+        pageTitle:"Provider's List Report",
       }
       if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
       }
-      // CLEAR GET VARIABLES
+      //CLEAR GET VARIABLES
       if(typeof window.history.replaceState == 'function') {
-        window.history.replaceState({}, "Hide", "scholars-validation.php");
+        window.history.replaceState({}, "Hide", "provider-list.php");
+      }
+      function isChecked(){
+        if(document.getElementById('sdfLivingWithOthers').checked){
+          document.getElementById('sdfLivingWithSpecify').disabled = false;
+          document.getElementById('sdfLivingWithSpecify').required = true;
+        }
+        if(document.getElementById('sdfLivingWithParents').checked || document.getElementById('sdfLivingWithRelatives').checked || document.getElementById('sdfLivingWithFriends').checked){
+          document.getElementById('sdfLivingWithSpecify').disabled = true;
+          document.getElementById('sdfLivingWithSpecify').required = false;
+        }
       }
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (function() {
@@ -668,19 +692,13 @@
             var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
             for(var i = 0; i < ids.length; i++)
             document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-       }
+      }
+
       function initClock(){
         updateClock();
         window.setInterval("updateClock()", 1);
       }
       $(document).ready(function(){
-        var student_table = $('#student-table').DataTable();
-        var applicant_table = $('#applicant-table').DataTable();
-        var options = {
-          importCSS: false,
-          loadCSS: "",
-          pageTitle:"Scholars and Grantee List",
-        }
         //logout
         $('#logout-button').on('click', function(){
           Swal.fire({
@@ -697,29 +715,56 @@
             }
           })
         })
-        //clear filter function
+        //clear selection function
         $('#clearSelection').on('click', function(){
-          $('#sortScholarshipProgram option[value="0"]').prop("selected", "selected");
-          $('#sortSemester option[value="0"]').prop("selected", "selected");
-          $('#sortCourse option[value="0"]').prop("selected", "selected");
+          $('#scholarship-status option[value="0"]').prop("selected", "selected");
           $('#scholarship-type option[value="0"]').prop("selected", "selected");
-        })
-        $("#scholars-validation-form #select-all-student").click(function(){
-          $("#scholars-validation-form input[type='checkbox']").prop('checked', this.checked);
-        })
-
-        $("#search-button").click(function(){
-          alert(document.getElementById('sortScholarshipProgram').value)
-        })
+        });
+        //DATA TABLES
+        var provider_table = $('#provider-table').DataTable({
+          "ordering": true,
+          "columnDefs":[{
+            "targets": 0,
+            "visible": false,
+          }],
+        });
+        //PRINTTHIS
         $('#print-button').click(function(){
-          student_table.column(0).visible(false);
-          $('#student-table').printThis(options);
+          provider_table.column(0).visible(false);
+          $('#provider-table').printThis(options);
           setTimeout(() => {
-            student_table.column(0).visible(true);
+            provider_table.column(0).visible(true);
           }, 3000);
+        })
+        //TABLE SELECT WITH AJAX USING A BUNCH OF SEARCHED SOLUTIONS AND BIGBRAIN POWER (modification) AND our lord and saviour "STACKOVERFLOW"
+        $('#provider-table > tbody').on('click','td',function(e){
+          e.preventDefault();
+
+          var currentRow = $(this).closest("tr"); //SELECT ROW
+          var id = $('#provider-table').DataTable().row(currentRow).data(); //gets who data within table only including hidden values
+          var program_id = id[0];
+          console.log(program_id);
+          if(id == null){
+            //NOTIFICATION THAT NO RECORD EXISTS IN THIS ROW
+          }else{ 
+            $.ajax({ //AJAX REQUEST FOR PROVIDER DATA
+              url: '../../php/fetchProvidersData.php',
+              method: 'POST',
+              data:{program_id:program_id},
+              dataType: 'JSON',
+              success:function(data){
+                $('#scholarship_id_update').val(data[0]);
+                $('#scholarship_org_update').val(data[1]);
+                $('#scholarship_name_update').val(data[2]);
+                $('#scholarship_type_update').val(data[3]);
+                $('#scholarship_status_update').val(data[4]);
+                $('#scholarshipAmount_update').val(data[5]);
+              }
+            })
+            $('#updateProviderModal').modal('show');
+          }
         })
       })
     </script>
-
   </body>
 </html>

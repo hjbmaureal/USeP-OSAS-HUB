@@ -640,7 +640,7 @@
             Swal.fire(
               "Operation Successful!",
               "Announcement Removed!",
-              "warning"
+              "success"
             )
           </script>
         ';

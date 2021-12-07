@@ -31,7 +31,8 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Dashboard</title>
+    <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+    <title>USeP Scholarship Admin Hub</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,15 +40,20 @@
     <link rel="stylesheet" type="text/css" href="../../css/main.css">
     <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
     <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body class="app sidebar-mini rtl" onload="initClock()" >
+
+
+  <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
     <header class="app-header">
+      
     </header>
+
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
@@ -102,7 +108,7 @@
         </li>
         <!-- NOT Treeview MENU -->
         <li>
-          <a class="app-menu__item active" href="scholars-validation.php">
+          <a class="app-menu__item" href="scholars-validation.php">
             <i class="app-menu__icon fa fa-check-square"></i>
             <span class="app-menu__label">Scholar's Validation</span>
           </a>
@@ -176,7 +182,7 @@
           </a>
         </li>
         <li>
-          <a class="app-menu__item" href="scholarship-report.php">
+          <a class="app-menu__item active" href="scholarship-report.php">
             <i class="app-menu__icon fa fa-file-excel-o"></i>
             <span class="app-menu__label">Scholarship Report</span>
           </a>
@@ -321,246 +327,333 @@
           </div>
         </div>
       </div> <!-- END OF NAVBAR -->
-      <!-- MAIN CONTENT --> 
-      <!-- Title of Content -->
-      <div id="main-content-student">
 
+       <!-- MAIN CONTENT --> 
+       <!-- Title of Content -->
+      <div id="main-content-scholar">
         <!-- Table -->
         <div class="row">
-          <div class="col-md-12">
+          <div class="col">
             <div class="tile">
-              <div class="tile-title">
+              <div class="tile-body">
                 <!-- first row or TITLE -->
                 <div class="float-left">
-                  <h4>Scholars Validation</h4>
+                  <h4>Reports</h4>
                 </div>
+
                 <div class="float-right">
-                  <p> 
-                    <a class="btn btn-danger icon-btn" id="print-button" href="#">
-                      <i class="fa fa-print"></i>Print</a>
+                  <p>
+                    <a class="btn btn-danger icon-btn" id="export-button" href="#">
+                      <i class="fa fa-list-ul"></i>Export</a>
                   </p>
                 </div>
+
                 <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
                 <div class="clearfix"></div>
-              </div>
-              <form method="POST" action="">
-                <div class="row">
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortScholarshipProgram">Scholarship Program</label>
-                      <select name="sortScholarshipProgram" id="sortScholarshipProgram" class="form-control">
-                        <option value="0">ALL</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM scholarship_program")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortScholarshipProgram']) && $_POST['sortScholarshipProgram'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['program_name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['program_name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortCourse">Course</label>
-                      <select name="sortCourse" id="sortCourse" class="form-control">
-                        <option  value="0">All</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM course")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortCourse']) && $_POST['sortCourse'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-2">
-                    <div class="form-group">
-                      <label for="scholarship-type">Type</label>
-                      <select name="scholarship-type" id="scholarship-type" class="form-control">
-                        <option  value="0">All</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 1 ) echo 'selected'?> value="1">Internal</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 2 ) echo 'selected'?> value="2">External</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="sortSubmit">Filter by</label>
-                    <input type="submit" value="Filter" class="btn btn-primary form-control">
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="clearSelection">Clear Filter</label>
-                    <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
-                  </div>
-                </div>
-              </form>
-              <form id="scholars-validation-form" method="POST" action="../../php/updateScholarStatus.php">
-                <div class="tile-body">
-                  <table class="table table-hover table-bordered" id="student-table">
-                    <div class="row mt-2 justify-content-end">
-                      <div class="col-xl-2">
-                        <div class="form-group">
-                          <select name="setStatus" id="select-set-status" class="form-control">
-                            <option value="0">Select Status</option>
-                            <?php
-                              if($result = mysqli_query($conn, "SELECT * FROM student_status")){
-                                while($row = mysqli_fetch_array($result)){
-                                  echo '<option value="'.$row['status_id'].'">'.$row['description'].'</option>';
-                                }
-                              }
-                            ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-xl-2">
-                        <input type="submit" id="submit-scholar-validation-table" name="update-scholar-status" class="btn btn-info form-control" value="Set Status">
+                <!-- SECOND ROW FOR SORT OPTIONS -->
+                <!-- FILTER -->
+                <form action="" method="POST">
+                  <div class="row mb-4">
+                    <div class="col-xl">
+                      <div class="form-group">
+                        <label for="sortSemester">Semester</label>
+                        <select name="sortSemester" id="sortSemester" class="form-control" required>
+                          <option value="0">ALL</option>
+                          <option <?php if(isset($_POST['sortSemester']) && $_POST['sortSemester'] == "1st Semester" ) echo 'selected'?> value="1st Semester">1st Semester</option>
+                          <option <?php if(isset($_POST['sortSemester']) && $_POST['sortSemester'] == "2nd Semester" ) echo 'selected'?> value="2nd Semester">2nd Semester</option>
+                          <option <?php if(isset($_POST['sortSemester']) && $_POST['sortSemester'] == "Off Semester" ) echo 'selected'?> value="Off Semester">Off Semester</option>
+                        </select>
                       </div>
                     </div>
-                    <br>
-                    <thead>
-                      <tr>
-                        <th><input type="checkbox" id="select-all-student"></th>
-                        <th hidden></th>
-                        <th>Semester</th>
-                        <th>Scholarship Program</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Year Level</th>
-                        <th>Course</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                    <div class="col-xl">
+                      <div class="form-group">
+                        <label for="toYear">To</label>
+                        <?php
+                          if(isset($_POST['semesterFromYear'])){
+                            $fromYear = $_POST['semesterFromYear'];
+                            echo '<input type="text" class="form-control" name="semesterFromYear" id="semesterFromYear" value="'.$fromYear.'" placeholder="Enter year...">';
+                          }else{
+                            echo '<input type="text" class="form-control" name="semesterFromYear" id="semesterFromYear" placeholder="Enter year..." required>';
+                          }
+                        ?>
+                      </div>
+                    </div>
+                    <div class="col-xl">
+                      <div class="form-group">
+                        <label for="toYear">From</label>
+                        <?php
+                          if(isset($_POST['semesterToYear'])){
+                            $toYear = $_POST['semesterToYear'];
+                            echo '<input type="text" class="form-control" name="semesterToYear" id="semesterToYear" value="'.$toYear.'" placeholder="Enter year...">';
+                          }else{
+                            echo '<input type="text" class="form-control" name="semesterToYear" id="semesterToYear" placeholder="Enter year..." required>';
+                          }
+                        ?>
+                      </div>
+                    </div>
+                    <div class="col-xl">
+                      <label for="sortRecordStats">Filter By</label>
+                      <input type="submit" value="Filter" class="btn btn-primary form-control">
+                    </div>
+                    <div class="col-xl">
+                      <label for="sortRecordStats">Record Status</label>
+                      <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
+                    </div>
+                  </div>
+                </form>
+                <hr>
+                <table class="table table-borderless" id="scholarship-report-table">
+                  <!-- <thead>
+                    <tr>
+                      <th>A</th>
+                      <th>B</th>
+                      <th>C</th>
+                      <th>D</th>
+                      <th>E</th>
+                      <th>F</th>
+                      <th>G</th>
+                    </tr>
+                  </thead> -->
+                  <tbody>
+                    <tr>
+                      <td colspan="7" style="text-align: center;"><b>SUMMARY</b></td>
+                    </tr>
+                    <tr>
+                      <td><b>Externally Funded</b></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
                       <?php
-                        $result_semester = mysqli_query($conn, "SELECT year, sf_get_semester_id(semester) as semester FROM list_of_semester WHERE status = 'Active' ");
-                        $row_semester = mysqli_fetch_assoc($result_semester);
-                        echo '
-                            <input type="text" name="curr_semester" value="'.$row_semester['semester'].'" hidden>
-                            <input type="text" name="curr_year" value="'.$row_semester['year'].'" hidden>
-                            
-                          ';
-                        $query = "SELECT * FROM scholarship_general_info as sgi JOIN scholarship_program AS sp ON sp.program_id = sgi.program_id WHERE sgi.student_status = 0";
-                        if(isset($_POST['sortScholarshipProgram']) && isset($_POST['sortCourse']) && isset($_POST['scholarship-type'])){
-                          $sortProgram = $_POST['sortScholarshipProgram'];
-                          $sortCourse = $_POST['sortCourse'];
-                          $sortType = $_POST['scholarship-type'];
+                        // echo $currSemesterYear . "asdas";
+                        $query = "SELECT sf_get_scholarship_name(program_id) as program, count(program_id), program_id FROM scholarship_general_info WHERE program_provider != 'University' AND status_name COLLATE utf8mb4_general_ci = 'Enrolled'";
+                        $query2 = "SELECT count(student_id) FROM scholarship_general_info WHERE program_provider != 'University' AND student_status = 1";
+                        if(isset($_POST['sortSemester']) && isset($_POST['semesterToYear']) && isset($_POST['semesterFromYear'])){
+                          $semester_year = null;
 
-                          if($sortProgram != 0){
-                            $query .= " AND sp.program_id = $sortProgram";
+                          $fromYear = trim($_POST['semesterFromYear']);
+                          $toYear = trim($_POST['semesterToYear']);
+                          $semester = $_POST['sortSemester'];
+
+                          if(!empty($semester) && !empty($fromYear) && !empty($toYear)){
+                            $semester_year = $semester .' '.$fromYear.'-'.$toYear;
+                            $query .= " AND semester_year = '$semester_year'";
+                            $query2 .= " AND semester_year = '$semester_year'";
                           }
-                          if($sortType != 0){
-                            $query .= " AND sp.type = $sortType";
-                          }
-                          if($sortCourse != 0){
-                            $query .= " AND sgi.course_id = $sortCourse";
-                          }
+                        }else{
+                          $query .= " AND semester_year = '$currSemesterYear'";
+                          $query2 .= " AND semester_year = '$currSemesterYear'";
                         }
-                        $query .= " AND sgi.semester_year = '$currSemesterYear' ORDER BY sgi.record_status DESC";
-                        // echo $query;
-                        if($result = mysqli_query($conn, $query)){
-                          while($row=mysqli_fetch_array($result)){
+                        $query .= " GROUP BY program_id";
+                        if($result = mysqli_query($conn,$query)){
+                          if(mysqli_num_rows($result) == 0){
+                            echo'
+                              <tr class="bordered-cell">
+                                <td colspan="7"><center><b>NO DATA FOUND!</b></center></td>
+                              </tr>
+                            ';
+                          }
+                          while($row = mysqli_fetch_array($result)){
                             echo'
                               <tr>
-                                <td><input type="checkbox" name="select[]" value='.$row['grantee_id'].' class="form-control"></td>
-                                <td hidden>
-                                  <input type="text" name="student_id" value='. $row["student_id"].' class="form-control">
-                                  <input type="text" name="scholarship" value='. $row["program_name"].' class="form-control">
-                                </td>
-                                <td>'.$row['semester_year'].'</td>
-                                <td>'. $row["program_name"].'</td>
-                                <td>'. $row["last_name"].'</td>
-                                <td>'. $row["first_name"].'</td>
-                                <td>'. $row["middle_name"].'</td>
-                                <td>'. $row["year_level"].'</td>
-                                <td>'. $row["coursetitle"].'</td>
-                              </tr>'
-                            ;
+                                <td></td>
+                                <td>'.$row['program'].'</td>
+                                <td></td>
+                                <td></td>
+                                <td>'.$row['count(program_id)'].'</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            ';
                           }
+                        }else{
+                          echo 'Something went wrong with query... Contact Administrator!';
+                        }
+                        if($result = mysqli_query($conn, $query2)){
+                          while($row = mysqli_fetch_array($result)){
+                            echo'
+                              <tr>
+                                <td colspan="4" align="right">Total number of Under Graduate Scholars</td>
+                                <td>'.$row['count(student_id)'].'</td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            ';
+                          }
+                        }else{
+                          echo 'Something went wrong with query2... Contact Administrator!';
                         }
                       ?>
-                    </tbody>
-                  </table>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Scholarship Application Table -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="tile">
-              <div class="float-left">
-                <h4>Scholarship Applications</h4>
-              </div>
-              <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
-              <div class="clearfix"></div>
-              <form id="scholars-application-form" method="POST" action="../../php/updateScholarApplication.php">
-                <table class="table table-hover table-bordered" id="applicant-table">
-                  <div class="row justify-content-end">
-                    <div class="col-2">
-                      <select name="setAction" id="select-set-action" class="form-control">
-                        <option value="0">Select Action</option>
-                        <option value="1">Accept Application</option>
-                        <option value="2">Reject Application</option>
-                      </select>
-                    </div>
-                    <div class="col-2">
-                      <input type="submit" id="submit-scholar-application-table" name="update-scholar-application" class="btn btn-info form-control" value="Confirm">
-                    </div>
-                  </div>
-                  <br>
-                  <thead>
+                    <!-- end of first half and spacer -->
                     <tr>
-                      <th><input type="checkbox" id="select-all-applicant"></th>
-                      <th>Scholarship Program</th>
-                      <th>Last Name</th>
-                      <th>First Name</th>
-                      <th>Middle Name</th>
-                      <th>Year Level</th>
-                      <th>Course</th>
-                      <th>Application for Semester</th>
+                      <td colspan="7"></td>
                     </tr>
-                  </thead>
-                  <?php
-                    $query = "SELECT s.last_name , s.first_name, s.middle_name, s.year_level, sf_get_course_name(s.course_id) as coursetitle, sf_get_scholarship_name(sa.program_id) as program_name, sa.semester, sa.year, sa.application_id from student as s JOIN scholarship_application as sa ON s.Student_id = sa.student_id";
-                    if($result = mysqli_query($conn, $query)){
-                      while($row=mysqli_fetch_array($result)){
-                        echo'
-                          <tr>
-                            <td><input type="checkbox" name="select[]" value='.$row['application_id'].' class="form-control"></td>
-                            <td>'. $row["program_name"].'</td>
-                            <td>'. $row["last_name"].'</td>
-                            <td>'. $row["first_name"].'</td>
-                            <td>'. $row["middle_name"].'</td>
-                            <td>'. $row["year_level"].'</td>
-                            <td>'. $row["coursetitle"].'</td>
-                            <td>'.$row['semester'].' '.$row['year'].'</td>
-                          </tr>'
-                        ;
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"><center><b>Submitted by:</b></center></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"><center><b>ENTER NAME HERE</b></center></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"><center>Scholarship In-Charge</center></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"><center>Tagum Unit</center></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    
+                    <tr>
+                      <td colspan="7"><center><b>Noted:</b></center></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="3"><center><b>ENTER NAME HERE</b></center></td>
+                      <td colspan="3"><center><b>ENTER NAME HERE</b></center></td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="3"><center>OSAS Coordinator</center></td>
+                      <td colspan="3"><center>DEAN, CARS</center></td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="3"><center>Tagum Unit</center></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"><center><b>Approved:</b></center></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7"></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"><center><b>ENTER NAME HERE</b></center></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="7"><center>OIC Chancellor</center></td>
+                    </tr>
+                    
+                    <tr class="centered-text-cell">
+                      <td style="border: 1px solid;">Seq.</td>
+                      <td style="border: 1px solid;">FULL NAME</td>
+                      <td colspan="2" style="border: 1px solid;">PROGRAM COURSE</td>
+                      <td style="border: 1px solid;">YEAR LEVEL</td>
+                      <td style="border: 1px solid;">GWA for the previous semester</td>
+                      <td style="border: 1px solid;">Scholarship Status</td>
+                    </tr>
+                    <?php
+                      if($result = mysqli_query($conn, $query)){
+                        if(mysqli_num_rows($result) == 0){
+                          echo'
+                            <tr class="bordered-cell">
+                              <td colspan="7"><center><b>NO DATA FOUND!</b></center></td>
+                            </tr>
+                          ';
+                        }
+                        while($row = mysqli_fetch_array($result)){
+                          $program_id = $row['program_id'];
+                          $scholarshipProgram = $row['program'];
+                          $scholarshipCount = $row['count(program_id)'];
+                          echo'
+                            <tr class="bordered-cell">
+                              <td colspan="7"><b>'.$row['program'].'</b></td>
+                            </tr>
+                          ';
+                          $query3 = "SELECT sgi.*, pr.gwa FROM scholarship_general_info AS sgi JOIN promotional_report AS pr ON sgi.grantee_id = pr.grantee_id WHERE sgi.program_id = $program_id";
+                          if(isset($_POST['sortSemester']) && isset($_POST['semesterToYear']) && isset($_POST['semesterFromYear'])){
+                            if(!empty($semester) && !empty($fromYear) && !empty($toYear)){
+                              $semester_year = $semester .' '.$fromYear.'-'.$toYear;
+                              $query3 .= " AND sgi.semester_year = '$semester_year'";
+                            }
+                          }else{
+                              $query3 .=" AND sgi.semester_year = '$currSemesterYear'";
+                          }
+                          if($result1 = mysqli_query($conn, $query3)){
+                            $count = 0;
+                            while($row1 = mysqli_fetch_array($result1)){
+                              $count++;
+                              echo'
+                                <tr>
+                                  <td style="border: 1px solid;">'.$count.'</td>
+                                  <td style="border: 1px solid;">'.$row1['last_name'].', '.$row1['first_name'].' '.$row1['middle_name'].'</td>
+                                  <td colspan="2" style="border: 1px solid;">'.$row1['coursename'].'</td>
+                                  <td style="border: 1px solid;">'.$row1['year_level'].'</td>
+                                  <td style="border: 1px solid;">'.$row1['gwa'].'</td>
+                                  <td style="border: 1px solid;">Enter Status</td>
+                                </tr>
+                              ';
+                            }
+                          }else{
+                            echo 'Something went wrong... Contact Administrator!';
+                          }
+                        }
+                      }else{
+                          echo 'Something went wrong... Contact Administrator!';
                       }
-                    }
-                  ?>
+                      // echo $query;
+                    ?>
+                  </tbody>
                 </table>
-              </form>
+                
+              </div>
             </div>
           </div>
         </div>
@@ -575,67 +668,16 @@
     <script src="../../js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="../../js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Data table plugin-->
     <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../../js/plugins/printThis.js"></script>
     <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
-    <?php
-      if(isset($_GET['operation']) && $_GET['operation'] == 'success'){
-        echo '
-        <script>
-          Swal.fire(
-            "Scholar Status Updated!",
-            "",
-            "success"
-          )
-        </script>
-      ';
-      }
-      if(isset($_GET['selection']) && $_GET['selection'] == 'empty'){
-        echo '
-          <script>
-            Swal.fire(
-              "Update failed!",
-              "Select row/s using the checkboxes.",
-              "error"
-            )
-          </script>
-        ';
-      }
-    ?>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/jquery.table2excel.js"></script>
+
     <script type="text/javascript">
-      var options = {
-        importCSS: false,
-        loadCSS: "",
-        pageTitle:"Scholars and Grantee List",
-      }
-      if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-      }
-      // CLEAR GET VARIABLES
-      if(typeof window.history.replaceState == 'function') {
-        window.history.replaceState({}, "Hide", "scholars-validation.php");
-      }
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
+      var month, year;
+      //CLOCK
       function updateClock(){
         var now = new Date();
         var dname = now.getDay(),
@@ -646,42 +688,54 @@
             min = now.getMinutes(),
             sec = now.getSeconds(),
             pe = "AM";
-        
-            if(hou >= 12){
-              pe = "PM";
-            }
-            if(hou == 0){
-              hou = 12;
-            }
-            if(hou > 12){
-              hou = hou - 12;
-            }
 
-            Number.prototype.pad = function(digits){
-              for(var n = this.toString(); n.length < digits; n = 0 + n);
-              return n;
-            }
+          if(hou >= 12){
+            pe = "PM";
+          }
+          if(hou == 0){
+            hou = 12;
+          }
+          if(hou > 12){
+            hou = hou - 12;
+          }
 
-            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
-            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
-            for(var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-       }
+          Number.prototype.pad = function(digits){
+            for(var n = this.toString(); n.length < digits; n = 0 + n);
+            return n;
+          }
+          if(typeof month === 'undefined'){
+            month = mo;
+            year = yr;
+          }
+          var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+          var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+          var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+          var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+          for(var i = 0; i < ids.length; i++)
+          document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
       function initClock(){
         updateClock();
         window.setInterval("updateClock()", 1);
       }
+
+      // Use the outerHTML attribute to get the HTML code of the entire table element (including the <Table> tag), and then wrap it into a complete HTML document. Set charset to urf-8 to prevent garbled code
+      var html = "<html><head><meta charset='utf-8'/></head><body>" + document.getElementsByTagName("table")[0].outerHTML + "</body></html>";
+
+      // Instantiate a Blob object. The first parameter of its constructor is an array containing file contents, and the second parameter is an object containing file type attributes
+      var blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      var exportButton = document.getElementById("export-button");
+
+      // Use URL.createObjectURL() method to generate the Blob URL for the a tag.
+      exportButton.href = URL.createObjectURL(blob);
+      
+      //export button & name
+      exportButton.download = "Scholarship Report.xls";
+
+      //JQUERY FUNCTIONS
       $(document).ready(function(){
-        var student_table = $('#student-table').DataTable();
-        var applicant_table = $('#applicant-table').DataTable();
-        var options = {
-          importCSS: false,
-          loadCSS: "",
-          pageTitle:"Scholars and Grantee List",
-        }
-        //logout
+        //logout function
         $('#logout-button').on('click', function(){
           Swal.fire({
             title: 'Do you want to logout?',
@@ -703,20 +757,9 @@
           $('#sortSemester option[value="0"]').prop("selected", "selected");
           $('#sortCourse option[value="0"]').prop("selected", "selected");
           $('#scholarship-type option[value="0"]').prop("selected", "selected");
-        })
-        $("#scholars-validation-form #select-all-student").click(function(){
-          $("#scholars-validation-form input[type='checkbox']").prop('checked', this.checked);
-        })
-
-        $("#search-button").click(function(){
-          alert(document.getElementById('sortScholarshipProgram').value)
-        })
-        $('#print-button').click(function(){
-          student_table.column(0).visible(false);
-          $('#student-table').printThis(options);
-          setTimeout(() => {
-            student_table.column(0).visible(true);
-          }, 3000);
+          $('#student-status option[value="1"]').prop("selected", "selected");
+          $('#semesterFromYear').val('');
+          $('#semesterToYear').val('');
         })
       })
     </script>

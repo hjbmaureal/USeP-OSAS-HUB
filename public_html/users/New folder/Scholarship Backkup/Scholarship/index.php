@@ -31,7 +31,8 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Dashboard</title>
+    <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+    <title>USeP Scholarship Admin Hub</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,12 +45,15 @@
     <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body class="app sidebar-mini rtl" onload="initClock()" >
+  <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
     <header class="app-header">
+      <!-- CODE HERE -->
     </header>
+
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    
     <aside class="app-sidebar">
       <div class="app-sidebar__user">
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
@@ -64,8 +68,8 @@
           <span class="app-menu__label">DASHBOARD</span>
         </li>
         <li>
-          <a class="app-menu__item" href="index.php">
-            <i class="app-menu__icon fa fa-home"></i>
+          <a class="app-menu__item active" href="index.php">
+            <i class="app-menu__icon fas fa-user-check"></i>
             <span class="app-menu__label">Home</span>
           </a>
         </li>
@@ -76,7 +80,7 @@
         <!-- Treeview MENU -->
         <li class="treeview">
           <a class="app-menu__item" href="" data-toggle="treeview">
-            <i class="app-menu__icon fa fa-address-book"></i>
+            <i class="app-menu__icon fa fa-dashboard"></i>
             <span class="app-menu__label">Scholars & Grantee Record</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
@@ -88,7 +92,7 @@
         <!-- Treeview MENU -->
         <li class="treeview">
           <a class="app-menu__item" href="" data-toggle="treeview">
-            <i class="app-menu__icon fa fa-pie-chart"></i>
+            <i class="app-menu__icon fa fa-laptop"></i>
             <span class="app-menu__label">Status Tracker</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
@@ -102,8 +106,8 @@
         </li>
         <!-- NOT Treeview MENU -->
         <li>
-          <a class="app-menu__item active" href="scholars-validation.php">
-            <i class="app-menu__icon fa fa-check-square"></i>
+          <a class="app-menu__item" href="scholars-validation.php">
+            <i class="app-menu__icon fas fa-user-check"></i>
             <span class="app-menu__label">Scholar's Validation</span>
           </a>
         </li>
@@ -127,14 +131,14 @@
         <!-- NOT Treeview MENU -->
         <li>
           <a class="app-menu__item" href="enrollment-list.php">
-            <i class="app-menu__icon fa fa-book"></i>
+            <i class="app-menu__icon fas fa-clipboard-list"></i>
             <span class="app-menu__label">Enrollment List Report</span>
           </a>
         </li>
         <!-- NOT Treeview MENU -->
         <li>
           <a class="app-menu__item" href="promotional-report.php">
-            <i class="app-menu__icon fa fa-graduation-cap"></i>
+            <i class="app-menu__icon fas fa-file-alt"></i>
             <span class="app-menu__label">Promotional Report</span>
           </a>
         </li>
@@ -143,25 +147,25 @@
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-records.php">
-            <i class="app-menu__icon fa fa-folder-open"></i>
+            <i class="app-menu__icon fa fa-file-text"></i>
             <span class="app-menu__label">Records</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-documents.php">
-            <i class="app-menu__icon fa fa-file-text"></i>
+            <i class="app-menu__icon fas fa-file"></i>
             <span class="app-menu__label">Documents</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-external-reference.php">
-            <i class="app-menu__icon fa fa-external-link"></i>
+            <i class="app-menu__icon fas fa-file-export"></i>
             <span class="app-menu__label">External References</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-incoming-outgoing.php">
-            <i class="app-menu__icon fa fa-exchange"></i>
+            <i class="app-menu__icon fa fa-retweet"></i>
             <span class="app-menu__label">Incoming/Outgoing/Transmittal</span>
           </a>
         </li>
@@ -171,13 +175,13 @@
         </li>
         <li>
           <a class="app-menu__item" href="monitoring-of-scholars.php">
-            <i class="app-menu__icon fa fa-users"></i>
+            <i class="app-menu__icon fas fa-clipboard-list"></i>
             <span class="app-menu__label">Monitoring of Scholars</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="scholarship-report.php">
-            <i class="app-menu__icon fa fa-file-excel-o"></i>
+            <i class="app-menu__icon fas fa-users"></i>
             <span class="app-menu__label">Scholarship Report</span>
           </a>
         </li>
@@ -186,14 +190,13 @@
         </li>
         <li>
           <a class="app-menu__item" href="curriculum.php">
-            <i class="app-menu__icon fa fa-university"></i>
+            <i class="app-menu__icon fa fa-graduation-cap"></i>
             <span class="app-menu__label">Curriculum</span>
           </a>
         </li>
       </ul>
     </aside>
-
-    <main class="app-content" id="main-content">
+    <main class="app-content">
       <!-- navbar -->
       <div class="app-title">
       <div><!-- Sidebar toggle button-->
@@ -321,321 +324,349 @@
           </div>
         </div>
       </div> <!-- END OF NAVBAR -->
-      <!-- MAIN CONTENT --> 
-      <!-- Title of Content -->
-      <div id="main-content-student">
 
-        <!-- Table -->
+      <!-- Main Content -->
+      <div class="main-content-student">
         <div class="row">
-          <div class="col-md-12">
-            <div class="tile">
-              <div class="tile-title">
-                <!-- first row or TITLE -->
-                <div class="float-left">
-                  <h4>Scholars Validation</h4>
-                </div>
-                <div class="float-right">
-                  <p> 
-                    <a class="btn btn-danger icon-btn" id="print-button" href="#">
-                      <i class="fa fa-print"></i>Print</a>
-                  </p>
-                </div>
-                <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
-                <div class="clearfix"></div>
+          <div class="col-md-4">
+            <div class="widget-small primary"><i class="icon fa fa-id-card-o fa-3x"></i>
+              <div class="info">
+                <h4>Signed Cards</h4>
+                <?php
+                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info where card_status COLLATE utf8mb4_general_ci != 'Not Signed'");
+                  $row = mysqli_fetch_assoc($result);
+                  echo '
+                    <p><b>'.$row['count(*)'].'</b></p>
+                  ';
+                ?>
               </div>
-              <form method="POST" action="">
-                <div class="row">
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortScholarshipProgram">Scholarship Program</label>
-                      <select name="sortScholarshipProgram" id="sortScholarshipProgram" class="form-control">
-                        <option value="0">ALL</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM scholarship_program")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortScholarshipProgram']) && $_POST['sortScholarshipProgram'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['program_name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['program_name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-4">
-                    <div class="form-group">
-                      <label for="sortCourse">Course</label>
-                      <select name="sortCourse" id="sortCourse" class="form-control">
-                        <option  value="0">All</option>
-                        <?php
-                          if($result = mysqli_query($conn, "SELECT * FROM course")){
-                            $count = 1;
-                            while($row = mysqli_fetch_array($result)){
-                              echo '
-                                <option
-                              ';
-                              if(isset($_POST['sortCourse']) && $_POST['sortCourse'] == $count){
-                                echo 'selected value="'.$count.'">'.$row['name'].'</option>';
-                              }else{
-                                echo 'value="'.$count.'">'.$row['name'].'</option>';
-                              }
-                              $count++;
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-2">
-                    <div class="form-group">
-                      <label for="scholarship-type">Type</label>
-                      <select name="scholarship-type" id="scholarship-type" class="form-control">
-                        <option  value="0">All</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 1 ) echo 'selected'?> value="1">Internal</option>
-                        <option <?php if(isset($_POST['scholarship-type']) && $_POST['scholarship-type'] == 2 ) echo 'selected'?> value="2">External</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="sortSubmit">Filter by</label>
-                    <input type="submit" value="Filter" class="btn btn-primary form-control">
-                  </div>
-                  <div class="col-xl-1">
-                    <label for="clearSelection">Clear Filter</label>
-                    <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
-                  </div>
-                </div>
-              </form>
-              <form id="scholars-validation-form" method="POST" action="../../php/updateScholarStatus.php">
-                <div class="tile-body">
-                  <table class="table table-hover table-bordered" id="student-table">
-                    <div class="row mt-2 justify-content-end">
-                      <div class="col-xl-2">
-                        <div class="form-group">
-                          <select name="setStatus" id="select-set-status" class="form-control">
-                            <option value="0">Select Status</option>
-                            <?php
-                              if($result = mysqli_query($conn, "SELECT * FROM student_status")){
-                                while($row = mysqli_fetch_array($result)){
-                                  echo '<option value="'.$row['status_id'].'">'.$row['description'].'</option>';
-                                }
-                              }
-                            ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-xl-2">
-                        <input type="submit" id="submit-scholar-validation-table" name="update-scholar-status" class="btn btn-info form-control" value="Set Status">
-                      </div>
-                    </div>
-                    <br>
-                    <thead>
-                      <tr>
-                        <th><input type="checkbox" id="select-all-student"></th>
-                        <th hidden></th>
-                        <th>Semester</th>
-                        <th>Scholarship Program</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Year Level</th>
-                        <th>Course</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        $result_semester = mysqli_query($conn, "SELECT year, sf_get_semester_id(semester) as semester FROM list_of_semester WHERE status = 'Active' ");
-                        $row_semester = mysqli_fetch_assoc($result_semester);
-                        echo '
-                            <input type="text" name="curr_semester" value="'.$row_semester['semester'].'" hidden>
-                            <input type="text" name="curr_year" value="'.$row_semester['year'].'" hidden>
-                            
-                          ';
-                        $query = "SELECT * FROM scholarship_general_info as sgi JOIN scholarship_program AS sp ON sp.program_id = sgi.program_id WHERE sgi.student_status = 0";
-                        if(isset($_POST['sortScholarshipProgram']) && isset($_POST['sortCourse']) && isset($_POST['scholarship-type'])){
-                          $sortProgram = $_POST['sortScholarshipProgram'];
-                          $sortCourse = $_POST['sortCourse'];
-                          $sortType = $_POST['scholarship-type'];
-
-                          if($sortProgram != 0){
-                            $query .= " AND sp.program_id = $sortProgram";
-                          }
-                          if($sortType != 0){
-                            $query .= " AND sp.type = $sortType";
-                          }
-                          if($sortCourse != 0){
-                            $query .= " AND sgi.course_id = $sortCourse";
-                          }
-                        }
-                        $query .= " AND sgi.semester_year = '$currSemesterYear' ORDER BY sgi.record_status DESC";
-                        // echo $query;
-                        if($result = mysqli_query($conn, $query)){
-                          while($row=mysqli_fetch_array($result)){
-                            echo'
-                              <tr>
-                                <td><input type="checkbox" name="select[]" value='.$row['grantee_id'].' class="form-control"></td>
-                                <td hidden>
-                                  <input type="text" name="student_id" value='. $row["student_id"].' class="form-control">
-                                  <input type="text" name="scholarship" value='. $row["program_name"].' class="form-control">
-                                </td>
-                                <td>'.$row['semester_year'].'</td>
-                                <td>'. $row["program_name"].'</td>
-                                <td>'. $row["last_name"].'</td>
-                                <td>'. $row["first_name"].'</td>
-                                <td>'. $row["middle_name"].'</td>
-                                <td>'. $row["year_level"].'</td>
-                                <td>'. $row["coursetitle"].'</td>
-                              </tr>'
-                            ;
-                          }
-                        }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
-              </form>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="widget-small primary"><i class="icon fa fa-id-card-o fa-3x"></i>
+              <div class="info">
+                <h4>No. of Allowance Released</h4>
+                <?php
+                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info where allowance_status = 'RELEASED'");
+                  $row = mysqli_fetch_assoc($result);
+                  echo '
+                    <p><b>'.$row['count(*)'].'</b></p>
+                  ';
+                ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="widget-small primary"><i class="icon fa fa-id-card-o fa-3x"></i>
+              <div class="info">
+                <h4>Students for validation</h4>
+                <?php
+                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info where student_status = 0");
+                  $row = mysqli_fetch_assoc($result);
+                  echo '
+                    <p><b>'.$row['count(*)'].'</b></p>
+                  ';
+                ?>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Scholarship Application Table -->
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="widget-small primary"><i class="icon fa fa-id-card-o fa-3x"></i>
+              <div class="info">
+                <h4>No. of Internal Scholars</h4>
+                <?php
+                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info WHERE program_type = 'Internal'");
+                  $row = mysqli_fetch_assoc($result);
+                  echo '
+                    <p><b>'.$row['count(*)'].'</b></p>
+                  ';
+                ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="widget-small primary"><i class="icon fa fa-id-card-o fa-3x"></i>
+              <div class="info">
+                <h4>No. of External Scholars</h4>
+                <?php
+                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info WHERE program_type = 'External'");
+                  $row = mysqli_fetch_assoc($result);
+                  echo '
+                    <p><b>'.$row['count(*)'].'</b></p>
+                  ';
+                ?>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-12">
+            <div style="background-color: #c12c32; padding: 5px 10px;"></div>
             <div class="tile">
-              <div class="float-left">
-                <h4>Scholarship Applications</h4>
+              <div class="tile-title-w-btn">
+                <h3 class="title">Job Hiring Announcements</h3>
+                <div class="btn-group">
+                  <a class="btn btn-danger" href="#addAnnouncementModal" data-toggle="modal"><i class="fa fa-lg fa-plus"></i></a>
+                </div>
               </div>
-              <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
-              <div class="clearfix"></div>
-              <form id="scholars-application-form" method="POST" action="../../php/updateScholarApplication.php">
-                <table class="table table-hover table-bordered" id="applicant-table">
-                  <div class="row justify-content-end">
-                    <div class="col-2">
-                      <select name="setAction" id="select-set-action" class="form-control">
-                        <option value="0">Select Action</option>
-                        <option value="1">Accept Application</option>
-                        <option value="2">Reject Application</option>
-                      </select>
-                    </div>
-                    <div class="col-2">
-                      <input type="submit" id="submit-scholar-application-table" name="update-scholar-application" class="btn btn-info form-control" value="Confirm">
+              <?php 
+                $result = mysqli_query($conn , "SELECT * FROM scholarship_announcement");
+                while ($row=mysqli_fetch_array($result)){
+                  echo '
+                  <div class="tile">
+                    <div class="row">
+                      <div class="col-3">
+                      '.$row['date'].' | '.$row['title'].'
+                      </div>
+
+                      <div class="col-6">
+                        '.$row['content'].'
+                      </div>
+
+                      <div class="col-2">
+                        <a href="#" announcement_id ="'. $row['announcement_id'].'" type="button" id ="editAnnouncement" class="btn btn-danger btn-sm update-button" data-toggle="modal" >
+                          <i class="fas fa-pencil-square-o" style="color:white;"></i>
+                        </a>
+                        <button type="button" announcement_id ="'. $row['announcement_id'].'" class="btn btn-danger btn-sm delete-button" href="#delete-announcement-modal" data-toggle="modal" style="width:35px;">
+                          <i class="fas fa-sm fa-trash"></i>
+                        </button>
+                      </div>
+
                     </div>
                   </div>
-                  <br>
-                  <thead>
-                    <tr>
-                      <th><input type="checkbox" id="select-all-applicant"></th>
-                      <th>Scholarship Program</th>
-                      <th>Last Name</th>
-                      <th>First Name</th>
-                      <th>Middle Name</th>
-                      <th>Year Level</th>
-                      <th>Course</th>
-                      <th>Application for Semester</th>
-                    </tr>
-                  </thead>
-                  <?php
-                    $query = "SELECT s.last_name , s.first_name, s.middle_name, s.year_level, sf_get_course_name(s.course_id) as coursetitle, sf_get_scholarship_name(sa.program_id) as program_name, sa.semester, sa.year, sa.application_id from student as s JOIN scholarship_application as sa ON s.Student_id = sa.student_id";
-                    if($result = mysqli_query($conn, $query)){
-                      while($row=mysqli_fetch_array($result)){
-                        echo'
-                          <tr>
-                            <td><input type="checkbox" name="select[]" value='.$row['application_id'].' class="form-control"></td>
-                            <td>'. $row["program_name"].'</td>
-                            <td>'. $row["last_name"].'</td>
-                            <td>'. $row["first_name"].'</td>
-                            <td>'. $row["middle_name"].'</td>
-                            <td>'. $row["year_level"].'</td>
-                            <td>'. $row["coursetitle"].'</td>
-                            <td>'.$row['semester'].' '.$row['year'].'</td>
-                          </tr>'
-                        ;
-                      }
-                    }
-                  ?>
-                </table>
-              </form>
+                  ';
+                }
+              ?>
             </div>
           </div>
         </div>
       </div>
-    </main> 
+      <!-- Add Announcement Modal -->
+      <div class="modal fade" id="addAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="addAnnouncementModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Post Announcements</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <form method="POST" class="needs-validation" novalidate id="forms" action="../../php/scholarship-announcement-script.php">
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-6">
+                    <label for="addDate">Date</label>
+                    <input name="addDate" type="text" id="addDate" class="form-control" value="<?php echo date('Y-m-d');?>" uneditable>
+                  </div>
+                  <div class="col-6">
+                    <label for="addTitle">Title</label>
+                    <input name="addTitle" type="text" id="addTitle" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Please enter Title
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label for="addContent">Write</label>
+                    <input name="addContent" type="text" id="addContent" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Write post
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-    <!-- FONTAWESOME -->
+              <div class="modal-footer">
+                <button class="btn btn-primary" name="addAnnouncement" type="submit">Save</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Edit Announcement Modal -->
+      <div class="modal fade" id="editAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="editAnnouncementModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Post Announcements</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <form method="POST" class="needs-validation" novalidate id="forms" action="../../php/scholarship-announcement-script.php">
+              <div class="modal-body">
+                <input type="text" id="announcement-id" name ="announcement-id" value="" hidden>
+                <div class="row">
+                  <div class="col-6">
+                    <label for="editDate">Date</label>
+                    <input name="editDate" type="text" id="editDate" class="form-control" value="<?php echo date('Y-m-d');?>" readonly>
+                  </div>
+                  <div class="col-6">
+                    <label for="editTitle">Title</label>
+                    <input name="editTitle" type="text" id="editTitle" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Please enter Title
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label for="editContent">Write</label>
+                    <input name="editContent" type="text" id="editContent" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Write post
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" name="updateAnnouncement" type="submit">Save</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Delete Announcement Modal -->
+      <div class="modal fade" id="deleteAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="deleteAnnouncementModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Post Announcements</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <form method="POST" class="needs-validation" novalidate id="forms" action="../../php/scholarship-announcement-script.php">
+              <div class="modal-body">
+                <input type="text" id="announcement-id-delete" name="announcement-id" value="" hidden>
+                <div class="row">
+                  <div class="col-6">
+                    <label for="editDate">Date</label>
+                    <input name="editDate" type="text" id="deleteDate" class="form-control" value="<?php echo date('Y-m-d');?>" readonly>
+                  </div>
+                  <div class="col-6">
+                    <label for="editTitle">Title</label>
+                    <input name="editTitle" type="text" id="deleteTitle" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Please enter Title
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label for="editContent">Write</label>
+                    <input name="editContent" type="text" id="deleteContent" class="form-control" required>
+                    <div class="invalid-tooltip">
+                      Write post
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button class="btn btn-primary" name="deleteAnnouncement" type="submit">Delete</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- End of Edit Announcement Modal -->
+    </main>
+    
     <!-- Essential javascripts for application to work-->
     <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../js/popper.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
-    <script src="../../js/plugins/pace.min.js"></script>
+    <script src="../js/plugins/pace.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/dropzone.js"></script>
     <!-- Page specific javascripts-->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
     <!-- Data table plugin-->
     <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../../js/plugins/printThis.js"></script>
     <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
+    <!-- FOR THE PHP SWAL -->
     <?php
-      if(isset($_GET['operation']) && $_GET['operation'] == 'success'){
-        echo '
-        <script>
-          Swal.fire(
-            "Scholar Status Updated!",
-            "",
-            "success"
-          )
-        </script>
-      ';
-      }
-      if(isset($_GET['selection']) && $_GET['selection'] == 'empty'){
+      if(isset($_GET['announcement-posted'])){
         echo '
           <script>
             Swal.fire(
-              "Update failed!",
-              "Select row/s using the checkboxes.",
+              "Operation Complete!",
+              "Announcement successfully posted",
+              "success"
+            )
+          </script>
+        ';
+      }
+      if(isset($_GET['announcement-failed'])){
+        echo '
+          <script>
+            Swal.fire(
+              "Operation Failed!",
+              "Something went wrong...",
+              "error"
+            )
+          </script>
+        ';
+      }
+      if(isset($_GET['update']) && $_GET['update'] == "success"){
+        echo '
+          <script>
+            Swal.fire(
+              "Operation Successful!",
+              "Announcement Updated!",
+              "success"
+            )
+          </script>
+        ';
+      }
+      if(isset($_GET['update']) && $_GET['update'] == "failed"){
+        echo '
+          <script>
+            Swal.fire(
+              "Operation Failed!",
+              "Something went wrong...",
+              "error"
+            )
+          </script>
+        ';
+      }
+      if(isset($_GET['delete']) && $_GET['delete'] == "success"){
+        echo '
+          <script>
+            Swal.fire(
+              "Operation Successful!",
+              "Announcement Removed!",
+              "warning"
+            )
+          </script>
+        ';
+      }
+      if(isset($_GET['delete']) && $_GET['delete'] == "failed"){
+        echo '
+          <script>
+            Swal.fire(
+              "Operation Failed!",
+              "Something went wrong...",
               "error"
             )
           </script>
         ';
       }
     ?>
+    <!-- Google analytics script-->
     <script type="text/javascript">
-      var options = {
-        importCSS: false,
-        loadCSS: "",
-        pageTitle:"Scholars and Grantee List",
-      }
       if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
       }
-      // CLEAR GET VARIABLES
+      //CLEAR GET VARIABLES
       if(typeof window.history.replaceState == 'function') {
-        window.history.replaceState({}, "Hide", "scholars-validation.php");
+        window.history.replaceState({}, "Hide", "index.php");
       }
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
+      //CLOCK
       function updateClock(){
         var now = new Date();
         var dname = now.getDay(),
@@ -668,19 +699,16 @@
             var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
             for(var i = 0; i < ids.length; i++)
             document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-       }
+      }
+
       function initClock(){
         updateClock();
         window.setInterval("updateClock()", 1);
       }
+
+      //JQUERY SCRIPTS
       $(document).ready(function(){
-        var student_table = $('#student-table').DataTable();
-        var applicant_table = $('#applicant-table').DataTable();
-        var options = {
-          importCSS: false,
-          loadCSS: "",
-          pageTitle:"Scholars and Grantee List",
-        }
+
         //logout
         $('#logout-button').on('click', function(){
           Swal.fire({
@@ -697,29 +725,46 @@
             }
           })
         })
-        //clear filter function
-        $('#clearSelection').on('click', function(){
-          $('#sortScholarshipProgram option[value="0"]').prop("selected", "selected");
-          $('#sortSemester option[value="0"]').prop("selected", "selected");
-          $('#sortCourse option[value="0"]').prop("selected", "selected");
-          $('#scholarship-type option[value="0"]').prop("selected", "selected");
-        })
-        $("#scholars-validation-form #select-all-student").click(function(){
-          $("#scholars-validation-form input[type='checkbox']").prop('checked', this.checked);
-        })
 
-        $("#search-button").click(function(){
-          alert(document.getElementById('sortScholarshipProgram').value)
-        })
-        $('#print-button').click(function(){
-          student_table.column(0).visible(false);
-          $('#student-table').printThis(options);
-          setTimeout(() => {
-            student_table.column(0).visible(true);
-          }, 3000);
-        })
+        $('.update-button').on('click', function(){
+          var announcement_id = $(this).attr('announcement_id');
+          $.ajax({
+            url: '../../php/scholarship-announcement-script.php',
+            type: 'POST',
+            data: {
+              announcement_id:announcement_id
+            },
+            dataType: 'JSON',
+            success:function(data){
+              $('#announcement-id').val(data[0]);
+              $('#editDate').val(data[1]);
+              $('#editTitle').val(data[2]);
+              $('#editContent').val(data[3]);
+            }
+          })
+          $('#editAnnouncementModal').modal('show');
+        });
+
+        $('.delete-button').on('click', function(){
+          var announcement_id = $(this).attr('announcement_id');
+          $.ajax({
+            url: '../../php/scholarship-announcement-script.php',
+            type: 'POST',
+            data: {
+              announcement_id:announcement_id
+            },
+            dataType: 'JSON',
+            success:function(data){
+              console.log(data)
+              $('#announcement-id-delete').val(data[0]);
+              $('#deleteDate').val(data[1]);
+              $('#deleteTitle').val(data[2]);
+              $('#deleteContent').val(data[3]);
+            }
+          });
+          $('#deleteAnnouncementModal').modal('show');
+        });
       })
     </script>
-
   </body>
 </html>

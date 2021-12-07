@@ -7,20 +7,11 @@
   checkSessionAuth($_SESSION['id'],$_SESSION['usertype']);
   checkSessionTime();
   
-  $user_password = '';
-
-  $currSemesterYear = "";
   $id= $_SESSION['id'];
-
-  $user_id = $_SESSION['id'];
-  if($result = mysqli_query($conn, "SELECT * FROM login_credentials WHERE username = $user_id")){
-    while($row = mysqli_fetch_array($result)){
-      $user_password = $row['password'];
-    }
-  }
+  $currSemesterYear = "";
 
   include("../../php/check-semester.php"); //semester change for cronjobs
-
+  $currSemesterYear = "";
 
   $count = 0;
   if($result = mysqli_query($conn,"SELECT count(*) AS cnt FROM notif WHERE user_id is null AND message_status='Delivered' AND office_id = 2")){
@@ -229,115 +220,115 @@
     <main class="app-content" id="main-content">
       <!-- navbar -->
       <div class="app-title">
-        <div><!-- Sidebar toggle button-->
-          <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
-        </div>
-        <ul class="app-nav">
-          <li>
-            <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
-          </li>
-          <!-- SEMESTER, TIME, USER DROPDOWN -->
-            <?php
-              if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
-                while($row = mysqli_fetch_array($result)){
-                  $currSemesterYear = $row['semester'] .' '. $row['year'];
-                  echo '
-                    <li>
-                      <div class="appnavlevel">
-                        <span class="semesterYear">'.$row['semester'].'</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="appnavlevel">
-                        <span class="semesterYear">'.$row['year'].'</span>
-                      </div>
-                    </li>
-                  ';
-                }
+      <div><!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      </div>
+      <ul class="app-nav">
+        <li>
+          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+        </li>
+        <!-- SEMESTER, TIME, USER DROPDOWN -->
+          <?php
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+              while($row = mysqli_fetch_array($result)){
+                $currSemesterYear = $row['semester'] .' '. $row['year'];
+                echo '
+                  <li>
+                    <div class="appnavlevel">
+                      <span class="semesterYear">'.$row['semester'].'</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="appnavlevel">
+                      <span class="semesterYear">'.$row['year'].'</span>
+                    </div>
+                  </li>
+                ';
               }
-            ?>
-            <li>
-              <div class="datetime appnavlevel" style="color: black;">
-                <div class="date">
-                  <span id="dayname">Day</span>,
-                  <span id="month">Month</span>
-                  <span id="daynum">00</span>,
-                  <span id="year">Year</span>
-                </div>
+            }
+          ?>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="date">
+                <span id="dayname">Day</span>,
+                <span id="month">Month</span>
+                <span id="daynum">00</span>,
+                <span id="year">Year</span>
               </div>
-            </li>
-            <li>
-              <div class="datetime appnavlevel" style="color: black;">
-                <div class="time">
-                  <span id="hour">00</span>:
-                  <span id="minutes">00</span>:
-                  <span id="seconds">00</span>
-                  <span id="period">AM</span>
-                </div>
+            </div>
+          </li>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="time">
+                <span id="hour">00</span>:
+                <span id="minutes">00</span>:
+                <span id="seconds">00</span>
+                <span id="period">AM</span>
               </div>
-            </li>
-          <li class="dropdown">
-            <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
-              <b style="color: red;"><?php echo $count;  ?></b>
-              <i class=" fas fa-bell fa-lg mt-2"></i>
-            </a>
-            <ul class="app-notification dropdown-menu dropdown-menu-right">
-              <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
-                <div class="app-notification__content">                   
-                  <?php 
-                    $count_sql="SELECT * from notif where (user_id=$id or office_id = 2)  order by time desc";
-                    $result = mysqli_query($conn, $count_sql);
-                    while ($row = mysqli_fetch_assoc($result)) { 
-                      $intval = intval(trim($row['time']));
-                        if ($row['message_status']=='Delivered') {
-                          echo'
-                              <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                                <div>
-                                  <p class="app-notification__message">'.$row['message_body'].'</p>
-                                  <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                  <p class="app-notification__message">
-                                  <form method="POST" action="../../php/change_notif_status.php">
-                                    <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                    <input type="submit" name="open_notif" value="Open Message">
-                                  </form></p>
-                                </div></a></li></b>
-                                ';
-                        }else{
-                                echo'
-                              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                                <div>
-                                  <p class="app-notification__message">'.$row['message_body'].'</p>
-                                  <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                  <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+            </div>
+          </li>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
+            <b style="color: red;"><?php echo $count;  ?></b>
+            <i class=" fas fa-bell fa-lg mt-2"></i>
+          </a>
+          <ul class="app-notification dropdown-menu dropdown-menu-right">
+            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
+              <div class="app-notification__content">                   
+                <?php 
+                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 2)  order by time desc";
+                  $result = mysqli_query($conn, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'
+                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message">
+                                <form method="POST" action="../../php/change_notif_status.php">
                                   <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                                   <input type="submit" name="open_notif" value="Open Message">
-                                  </form></p>
-                                </div></a></li>
-                                ';
-                        }                 
+                                </form></p>
+                              </div></a></li></b>
+                              ';
+                      }else{
+                              echo'
+                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li>
+                              ';
+                       }                 
 
-                    }
-                  ?> 
-                </div>
-              <li class="app-notification__footer">
-                <a href="Notifications.php">See all notifications.</a>
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown">      
-                  <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                      <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
-                  </a>
-                  
-                  <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                    <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                  <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-                  </ul>
-              </li>
-        
-        </ul>
-      </div>
-      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  }
+                ?> 
+              </div>
+            <li class="app-notification__footer">
+              <a href="Notifications.php">See all notifications.</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">      
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
+                
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+            </li>
+      
+      </ul>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -1388,53 +1379,6 @@
               Swal.fire('Cancelled', '', 'info')
             }
           })
-        })
-        //MAO NI ANG PARA SA LOGIN BEFORE MAG ARCHIVE
-        $('#button-submit-archive').prop('disabled', true);
-        var archiveAction = false;
-        var compareValue = <?php echo $user_password ?>;
-        $('.check-box-inner').change(function(e){
-          var clickedOff = true;
-          if(!archiveAction){
-            Swal.fire({
-              title: 'Confirm Password',
-              html: `<input type="password" id="passwordConfirm" class="swal2-input" placeholder="Enter password...">
-              <input type="password" id="passwordConfirm2" class="swal2-input" placeholder="Confirm password...">`,
-              confirmButtonText: 'Continue',
-              focusConfirm: false,
-              preConfirm: () => {
-                const password1 = Swal.getPopup().querySelector('#passwordConfirm').value
-                const password2 = Swal.getPopup().querySelector('#passwordConfirm2').value
-                if (!password1 || !password2) {
-                  Swal.showValidationMessage(`Please enter password`)
-                }
-                return { password1: password1, password2: password2}
-              }
-            }).then((result) => {
-              clickedOff = false;
-              if(result.value.password1 === result.value.password2){
-                console.log(result.value.password1+compareValue);
-                if(result.value.password1 == compareValue){
-                  archiveAction = true;
-                  $('#button-submit-archive').prop('disabled', false);
-                }else{
-                  $(".check-box-inner").prop('checked', false);
-                  Swal.fire(
-                    "Password incorrect!",
-                    "Please try again.",
-                    "error"
-                  )
-                }
-              }else{
-                $(".check-box-inner").prop('checked', false);
-                Swal.fire(
-                  "Password does not match!",
-                  "Please try again.",
-                  "error"
-                )
-              }
-            })
-          }
         })
         var scholar_table = $('#scholar-table').DataTable({
           "ordering": false
