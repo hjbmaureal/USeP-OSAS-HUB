@@ -32,7 +32,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Super Admin</title>
+      <title>USeP Student Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -222,19 +222,19 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         <li>
           <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
         </li>
-        <!-- SEMESTER, TIME, USER DROPDOWN -->
+         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>

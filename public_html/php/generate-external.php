@@ -102,12 +102,12 @@
         }
        
       }
- //   header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=success");
+   header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=success");
     } 
   }else{
- // header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=failed");
+ header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=failed");
   }
-//header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=unknown");
+header("Location: ../users/Scholarship/generate-external-scholar-card.php?operation=unknown");
 
   function generateSchoolYears($startsy){
     $years = array();

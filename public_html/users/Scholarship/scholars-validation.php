@@ -440,6 +440,7 @@
                       <tr>
                         <th><input type="checkbox" id="select-all-student"></th>
                         <th hidden></th>
+                        <th>Semester</th>
                         <th>Scholarship Program</th>
                         <th>Last Name</th>
                         <th>First Name</th>
@@ -472,18 +473,19 @@
                           if($sortCourse != 0){
                             $query .= " AND sgi.course_id = $sortCourse";
                           }
-                          $query .= " ORDER BY sgi.record_status DESC";
                         }
+                        $query .= " AND sgi.semester_year = '$currSemesterYear' ORDER BY sgi.record_status DESC";
                         // echo $query;
                         if($result = mysqli_query($conn, $query)){
                           while($row=mysqli_fetch_array($result)){
                             echo'
                               <tr>
-                                <td><input type="checkbox" name="select[]" value='.$row['student_id'].' class="form-control"></td>
+                                <td><input type="checkbox" name="select[]" value='.$row['grantee_id'].' class="form-control"></td>
                                 <td hidden>
-                                  <input type="text" name="grantee_id" value='. $row["grantee_id"].' class="form-control">
+                                  <input type="text" name="student_id" value='. $row["student_id"].' class="form-control">
                                   <input type="text" name="scholarship" value='. $row["program_name"].' class="form-control">
                                 </td>
+                                <td>'.$row['semester_year'].'</td>
                                 <td>'. $row["program_name"].'</td>
                                 <td>'. $row["last_name"].'</td>
                                 <td>'. $row["first_name"].'</td>

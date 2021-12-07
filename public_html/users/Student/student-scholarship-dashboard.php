@@ -33,8 +33,7 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Student Hub</title>
+    <title>Student Homepage</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -217,6 +216,7 @@
       <ul class="app-nav">
         <li>
           <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <input type="text" id="session_id" value="<?php echo $session_id ?>" hidden>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -467,7 +467,7 @@
                           echo '
                             <img src="../../images/Scholarship_Cards/External/'.$session_id.'.png" alt="card picture for '.$session_id.'" class="img-fluid" width="512" height="600">
                             <br><br>
-                            <input type="button" value="download">
+                            <a class="btn btn-primary" href="../../images/Scholarship_Cards/External/'.$session_id.'.png" download> Download </a>
                           ';
                         }else{
                           echo '
@@ -558,14 +558,17 @@
         var isScholar;
         var forValidation;
         var search_id = $('#session_id').val();
+        console.log(search_id);
         $.ajax({
           url: '../../php_scholarship/fetchScholarById.php',
           method: 'POST',
           data: {search_id:search_id},
           dataType: 'JSON',
           success:function(data){
+            console.log("succcess");
             console.log(data[21]);
             forValidation = data[22];
+            console.log(data[22]);
             if(data[21] != null){
               isScholar = true;
             }else{

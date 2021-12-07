@@ -633,17 +633,17 @@ if ($conn->query($sql12) === TRUE) {
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
