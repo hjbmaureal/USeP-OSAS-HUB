@@ -91,7 +91,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Student Hub</title>
+      <title>USeP Faculty Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -132,11 +132,11 @@ function timeago($datetime, $full = false) {
             <?php 
             if ($_SESSION['access_level']==1){
               echo '                
-                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">FACULTY HEAD PORTAL</p>
+                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">FACULTY HEAD HUB</p>
               ';
             }else{
               echo '                
-                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">FACULTY PORTAL</p>
+                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">FACULTY HUB</p>
               ';
             }
           ?>
@@ -202,19 +202,19 @@ function timeago($datetime, $full = false) {
                 <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
               </li>
 
-        <!-- SEMESTER, TIME, USER DROPDOWN -->
+         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -348,12 +348,9 @@ function timeago($datetime, $full = false) {
           </li>
               
                  <li class="dropdown">
-                  <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <i class="text-warning fas fa-user-circle fa-2x"></i>
-                  </a>
-                      <!-- <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
-                </a> -->
+                  <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
               <li><a class="dropdown-item" href="Guidance_FacultyUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
