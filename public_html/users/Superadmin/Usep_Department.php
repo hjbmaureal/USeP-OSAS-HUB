@@ -358,7 +358,7 @@ function timeago($datetime, $full = false) {
                       </div>
                     </div>
                     <!-- ADD DEPARTMENT MODAL-->
-                    <form id="add-dept" method="post" action="php/add_dept.php">
+                    <form id="add-dept">
                       <div class="modal fade " class="department" id="addDept" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -385,7 +385,7 @@ function timeago($datetime, $full = false) {
                                   </div>
                                   <div class="form-group">
                                     <label for="scholarship_org"><h6>Department Name</h6></label>
-                                    <input type="text" name="d_name" id="d_name" class="form-control" placeholder="Input here..." required>
+                                    <input type="text" name="deptname" id="deptname" class="form-control" placeholder="Input here..." required>
 
                                   </div>
                                 </div>
@@ -420,7 +420,75 @@ function timeago($datetime, $full = false) {
                     </div>
 
 
+                  <!-- edit dept details modal -->
+                  <div class="modal fade " class="school_org" id="dept-detail-update-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">
+                            <span id="edit-dept-current-dept"></span></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
 
+                       <!-- <form id="dept-detail-update-form"> -->
+                          <div class="modal-body c">
+
+                            <div class="container">
+
+                              <h6 class="font-weight-bold"><h6>College Name</h6>
+                                <select type="text" name="d_name" id="edit-college-name" class="form-control" required>
+                                <option style="color:white" selected></option> 
+                                <?php
+                                    $result1=mysqli_query($conn, "SELECT * FROM college WHERE status = 'Active'");               
+                                    while($resu = mysqli_fetch_array($result1)) { 
+                                        $value1= $resu['college_id']; ?>
+                                        <option class="select-item" value="<?php echo $value1; ?>"><?php echo $resu['description'];?></option>
+                                  <?php } ?>
+                                </select>
+                              <h6 class="font-weight-bold mt-2">Department Name:</h6> 
+
+                              <input class="form-control" type="text" id="dept_name" >
+                              <br>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                             <button class="btnsend btn btn-success">Update</button>
+                             <button type="btncancel" class="btn btn-danger" data-dismiss="modal">Close</button>
+                           </div>
+
+                       <!-- </form> -->
+                     </div>
+                   </div>
+                  </div>
+
+                  <!-- view dept details modal -->
+                  <div class="modal fade " class="school_org" id="view-dept-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body c">
+
+                          <div class="container">
+
+                            <h6 class="font-weight-bold">Department Name: <span class="font-weight-lighter ml-2" id="view-dept-dept-name"></span></h6> 
+                            <h6 class="font-weight-bold">Department Head: <span class="font-weight-lighter ml-2" id="view-dept-dept-head"></span></h6> 
+
+                          </div>
+                        </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+
+                      </div>
+                    </div>
+                  </div>
 
 
 
@@ -511,6 +579,7 @@ function timeago($datetime, $full = false) {
                   <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
                   <script type="text/javascript">$('#sampleTable').DataTable();</script>
                   <script type="text/javascript">$('#sampleTable2').DataTable();</script>
+                  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                   <!-- Google analytics script-->
                   <script type="text/javascript">
                     if(document.location.hostname == 'pratikborsadiya.in') {
@@ -546,6 +615,9 @@ function timeago($datetime, $full = false) {
                   <script type="text/javascript">
 
                     $(document).ready(function() {
+                      var current_dept_id = 0;
+                      var current_dept_name = '';
+                      var current_dept_college = '';
 
                       var tbl = $('#dept-table').DataTable({
                           serverside: false,
@@ -573,7 +645,22 @@ function timeago($datetime, $full = false) {
                             { data : "dept_name"},
                             { data : "dept_head"},
                             { data : "status"},
-                            { data : "dept_id"}
+                            { 
+                                data : null,
+                                className: "text-center",
+                                render : function ( data, type, row){
+                                  let stat = row['status'];
+                                  let markup = '';
+
+                                  if (stat=='Active') {
+                                    markup = '<button class="btn btn-info btn-sm view-dept-details ml-1"><i class="fas fa-eye"></i></button><a class="btn btn-warning btn-sm edit-dept-details text-white ml-1"><i class="fas fa-edit"></i></a><button class="btn btn-success btn-sm ml-1 disable-enable-dept" disabled>Enable</button><a class="btn btn-danger btn-sm text-white ml-1 disable-enable-dept">Disable</a>';
+                                  } else {
+                                    markup = '<button class="btn btn-info btn-sm view-dept-details ml-1"><i class="fas fa-eye"></i></button><a class="btn btn-warning btn-sm edit-dept-details text-white ml-1"><i class="fas fa-edit"></i></a><button class="btn btn-success btn-sm ml-1 disable-enable-dept">Enable</button><a class="btn btn-danger btn-sm text-white ml-1 disable-enable-dept disabled">Disable</a>';
+                                  }
+
+                                  return markup
+                                }
+                            }
 
                           ],
                             ordering : false
@@ -596,22 +683,228 @@ function timeago($datetime, $full = false) {
                      });
 
 
-                      $(document).on("submit","#add-dept",function(){
-                        swal({
-                          title: "Add Successful",
-                          type: "success"
-                          }, function () {
-                              setTimeout(500);
-                        });
+                      $(document).on("click",".edit-dept-details",function(){
+                          var currentRow = $(this).closest("tr");
+                          current_dept_id =  currentRow.find("td:eq(0)").text();
+                          let _dept_name =  currentRow.find("td:eq(2)").text();
+                          let _dept_college =  currentRow.find("td:eq(1)").text();
+                          current_dept_name = _dept_name;
+                          current_dept_college = _dept_college;
+                          $('#edit-dept-current-dept').text(_dept_name);
+                          $('#dept_name').val(_dept_name);
+                          // $('#edit-college-name').val(_dept_college).change();
+                          $("#edit-college-name option").filter(function() {
+                            //may want to use $.trim in here
+                            return $(this).text() == _dept_college;
+                          }).attr('selected', true);
+                          $('#dept-detail-update-modal').modal('toggle');
                       });
 
-                      $(document).on("submit",".update-dept",function(){
-                        swal({
-                          title: "Update Successful",
-                          type: "success"
-                          }, function () {
-                              setTimeout(500);
+                      $(document).on("click",".btnsend",function(){
+                        let _this_name = $('#dept_name').val();
+                        let _this_college = $( "#edit-college-name option:selected" ).text();
+                        let _this_college_id = $( "#edit-college-name" ).val();
+                        let flag = false;
+
+                        if (current_dept_name==_this_name && current_dept_college == _this_college) {
+                            Swal.fire(
+                              'Warning!',
+                              'No changes detected!',
+                              'warning'
+                            )
+                          $('#dept-detail-update-modal').modal('toggle');
+                        } else if (_this_name.trim().length==0 || _this_college_id==0) {
+                            Swal.fire(
+                              'Warning!',
+                              'Fill all input fields!',
+                              'warning'
+                            )
+                        }else {
+                          $.ajax({
+                              url:"php/insert-update-queries.php",
+                              method:"POST",
+                              data:{id : current_dept_id, name : _this_name, college : _this_college_id, queryno : 2},
+                              success:function(response)
+                                {
+                                  if (response.length == 0){
+                                    tbl.ajax.reload();
+                                    Swal.fire({
+                                      position: 'center',
+                                      icon: 'success',
+                                      title: 'Your work has been saved',
+                                      showConfirmButton: false,
+                                      timer: 1000
+                                    })
+                                  } else {
+                                    Swal.fire({
+                                      position: 'center',
+                                      icon: 'error',
+                                      title: 'Something went wrong! Try again!',
+                                      showConfirmButton: false,
+                                      timer: 1000
+                                    })
+                                  }
+                                  $('#dept-detail-update-modal').modal('toggle');
+                                },
+                              error: function(response){
+                                $('.fetched-data').text('');
+                                alert("fail" + JSON.stringify(response));
+                              }
+                          });
+                        }
+
+                      });
+
+                      $(document).on("click",".view-dept-details",function(){
+                          var currentRow = $(this).closest("tr");
+                          let _dept_name =  currentRow.find("td:eq(2)").text();
+                          let _dept_head =  currentRow.find("td:eq(3)").text();
+                          $('#view-dept-dept-name').text(_dept_name);
+                          $('#view-dept-dept-head').text(_dept_head);
+                          $('#view-dept-modal').modal('toggle');
+                      });
+
+                      $(document).on("submit","#add-dept",function(e){
+                        e.preventDefault();
+                        let _this_college_id = $('#c_name').val();
+                        let _this_dept_name = $('#deptname').val();
+
+
+                        $.ajax({
+                            url:"php/insert-update-queries.php",
+                            method:"POST",
+                            data:{name: _this_dept_name,college: _this_college_id, queryno : 3},
+                            success:function(response)
+                              {
+                                if (response.length == 0){
+                                  tbl.ajax.reload();
+                                  Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Your work has been saved',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                  })
+                                } else {
+                                  Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Something went wrong! Try again!',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                  })
+                                }
+                                $('#add-dept').trigger("reset");
+                                $('#addDept').modal('toggle');
+
+                              },
+                            error: function(response){
+                              $('.fetched-data').text('');
+                              alert("fail" + JSON.stringify(response));
+                            }
                         });
+
+
+                      });
+
+
+                      $(document).on("click",".disable-enable-dept",function(){
+
+                        var currentRow = $(this).closest("tr");
+                        let _dept_id = currentRow.find("td:eq(0)").text();
+                        let _dept_stat = currentRow.find("td:eq(4)").text();
+                        let set_stat = (_dept_stat=='Active') ? 'Inactive' : 'Active';
+                        console.log(set_stat);
+                        console.log(_dept_id);
+
+                            Swal.fire({
+                                  title: 'Password Validation',
+                                  html: `<input type="password" id="password" class="swal2-input" placeholder="Password">`,
+                                  confirmButtonText: 'Validate',
+                                  focusConfirm: false,
+                                  preConfirm: () => {
+                                    const password = Swal.getPopup().querySelector('#password').value
+                                    if (!password) {
+                                      Swal.showValidationMessage(`Please enter password`)
+                                    }
+                                    return {password: password }
+                                  }
+                                }).then((result) => {
+                                  let password = result.value.password;
+                                  
+                                  $.ajax({
+                                      url:"../../php/users-check-password.php",
+                                      method:"POST",
+                                      data:{pass:password},
+                                      success:function(response)
+                                        {
+                                          try {
+                                            var obj = JSON.parse(response);
+                                            var result = obj[0].res;
+                                            if (result==0){
+                                              Swal.fire({
+                                                position: 'center',
+                                                icon: 'error',
+                                                title: 'Wrong password!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                              })
+                                            } else if (result==1) {
+
+                                              Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: 'Authentication Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                              })
+                                              .then(() => {
+
+                                                    $.ajax({
+                                                        url:"php/insert-update-queries.php",
+                                                        method:"POST",
+                                                        data:{id : _dept_id, stat : set_stat, queryno : 1},
+                                                        success:function(response)
+                                                          {
+                                                            if (response.length == 0){
+                                                              tbl.ajax.reload();
+                                                              Swal.fire({
+                                                                position: 'center',
+                                                                icon: 'success',
+                                                                title: 'Your work has been saved',
+                                                                showConfirmButton: false,
+                                                                timer: 1000
+                                                              })
+                                                            } else {
+                                                              Swal.fire({
+                                                                position: 'center',
+                                                                icon: 'error',
+                                                                title: 'Something went wrong! Try again!',
+                                                                showConfirmButton: false,
+                                                                timer: 1000
+                                                              })
+                                                            }
+                                                          },
+                                                        error: function(response){
+                                                          $('.fetched-data').text('');
+                                                          alert("fail" + JSON.stringify(response));
+                                                        }
+                                                    });
+                                              })
+                                            }
+
+
+                                          } catch (e) {
+                                            alert("Server error. Reload page."+response);
+                                          }
+                                        },
+                                      error: function(response){
+                                        $('.fetched-data').text('');
+                                        alert("fail" + JSON.stringify(response));
+                                      }
+                                  })
+
+                            });
                       });
 
 

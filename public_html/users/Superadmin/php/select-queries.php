@@ -1,5 +1,5 @@
 <?php
-    include('../conn.php');
+    include('../../../conn.php');
 
 	$data = array();
 
@@ -25,3 +25,4 @@
 
     }
 
+    echo json_encode($data);
