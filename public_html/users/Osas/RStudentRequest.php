@@ -28,7 +28,7 @@
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Admin Hub</title>
+      <title>USeP OSAS Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,7 +98,7 @@
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
       </div>
 
@@ -152,8 +152,9 @@
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Labor-Requisition.php">Requisition</a></li>
               <li><a class="treeview-item" href="Labor-Application.php">Application</a></li>
-              <li><a class="treeview-item" href="DTR.php">DTR & Salary</a></li>
+              <li><a class="treeview-item" href="DTR.php">DTR</a></li>
               <li><a class="treeview-item" href="Labor-Accomplishment.php">Accomplishment Reports</a></li>
+              <li><a class="treeview-item" href="Labor-Hired-Students.php">History</a></li>
             </ul>
         </li>
         <li>
@@ -189,7 +190,6 @@
         </li>
       </ul>
     </aside>
-
        <!--navbar-->
 
           <main class="app-content">
@@ -204,17 +204,17 @@
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -291,7 +291,9 @@
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
