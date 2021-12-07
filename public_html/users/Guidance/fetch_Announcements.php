@@ -1,11 +1,24 @@
 <?php
 
+$servername="localhost";
 
-$conn = new mysqli('localhost', 'root', '', 'backupdb-3');
+$username= "root";
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+$password="";
+
+$dbname="guidance_db";
+
+
+
+$conn =  new mysqli($servername, $username, $password, $dbname);
+
+
+
+  if($conn->connect_error){
+
+    die("Connection Failed: " . $conn->coonect_error);
+
+  }
 
 	$announcement_id=$_POST["announcement_id"];
 

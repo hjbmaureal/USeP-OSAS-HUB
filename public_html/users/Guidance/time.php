@@ -79,7 +79,7 @@ function formatDate(datestr)
 }
 
 $(".datepicker").datetimepicker({
-    format: 'dd/mm/yyyy hh',
+    format: 'dd/mm/yyyy hh:ii',
     startDate: new Date(),
     datesDisabled: datesForDisable,
     daysOfWeekDisabled: [0,6],

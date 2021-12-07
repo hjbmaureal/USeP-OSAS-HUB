@@ -1,21 +1,54 @@
-<?php include('../../conn.php');
-  /*include 'conn.php';*/
-  include '../../php/notification-timeago.php'; 
-  session_start();
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
-    echo '<script type="text/javascript">'; 
-    echo 'window.location= "../../index.php";';
-    echo '</script>';
-  }
+<?php include('conn.php');
+   include('session_admin.php');
    $admin_id=$_SESSION['id'];
 
+     $count_sql="SELECT * from notif where user_id='$admin_id' and message_status='Delivered'";
 
-  $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' or office_id = 2) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+          $result1 = mysqli_query($conn, $count_sql);
+
+          $count2 = 0;
+
+          while ($row = mysqli_fetch_assoc($result1)) {                             
+
+            $count2++;
+
+                              }
+
+
+function timeago($datetime, $full = false) {
+  date_default_timezone_set('Asia/Manila');
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+  $string = array(
+    'y' => 'yr',
+    'm' => 'mon',
+    'w' => 'week',
+    'd' => 'day',
+    'h' => 'hr',
+    'i' => 'min',
+    's' => 'sec',
+  );
+  foreach ($string as $k => &$v) {
+    if ($diff->$k) {
+      $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+    } 
+    else {
+      unset($string[$k]);
+    }
+  }
+  if (!$full) {
+    $string = array_slice($string, 0, 1);
+  }
+  
+  return $string ? implode(', ', $string) . '' : 'just now';
+}
 
 
    ?>
+
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -98,7 +131,7 @@
   </style>
 
     </head>
-      <body class="app sidebar-mini rtl" onload="initClock()">
+      <body class="app sidebar-mini rtl">
       <!-- Navbar-->
 
         
@@ -151,189 +184,80 @@
 
        <!--navbar-->
 
-   <main class="app-content">
+          <main class="app-content">
             
         <div class="app-title">
-      <div><!-- Sidebar toggle button-->
-        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
-      </div>
-      <ul class="app-nav">
-        <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
-        </li>
-        <!-- SEMESTER, TIME, USER DROPDOWN -->
-          <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
-              while($row = mysqli_fetch_array($result)){
-                $currSemesterYear = $row['semester'] .' '. $row['year'];
-                echo '
-                  <li>
-                    <div class="appnavlevel">
-                      <span class="semesterYear">'.$row['semester'].'</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="appnavlevel">
-                      <span class="semesterYear">'.$row['year'].'</span>
-                    </div>
-                  </li>
-                ';
-              }
-            }
-          ?>
-          <li>
-            <div class="datetime appnavlevel" style="color: black;">
-              <div class="date">
-                <span id="dayname">Day</span>,
-                <span id="month">Month</span>
-                <span id="daynum">00</span>,
-                <span id="year">Year</span>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="datetime appnavlevel" style="color: black;">
-              <div class="time">
-                <span id="hour">00</span>:
-                <span id="minutes">00</span>:
-                <span id="seconds">00</span>
-                <span id="period">AM</span>
-              </div>
-            </div>
-          </li>
-        <li class="dropdown">
-          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
-            <b style="color: red;"><?php echo $count;  ?></b>
-            <i class=" fas fa-bell fa-lg mt-2"></i>
-          </a>
-          <ul class="app-notification dropdown-menu dropdown-menu-right">
-            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
-              <div class="app-notification__content">                   
-                <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 2)  order by time desc";
-                  $result = mysqli_query($conn, $count_sql);
-                  while ($row = mysqli_fetch_assoc($result)) { 
-                    $intval = intval(trim($row['time']));
-                      if ($row['message_status']=='Delivered') {
-                        echo'
-                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">'.$row['message_body'].'</p>
-                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                <p class="app-notification__message">
-                                <form method="POST" action="../../php/change_notif_status.php">
-                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                  <input type="submit" name="open_notif" value="Open Message">
-                                </form></p>
-                              </div></a></li></b>
-                              ';
-                      }else{
-                              echo'
-                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">'.$row['message_body'].'</p>
-                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                <input type="submit" name="open_notif" value="Open Message">
-                                </form></p>
-                              </div></a></li>
-                              ';
-                       }                 
-
-                  }
-                ?> 
-              </div>
-            <li class="app-notification__footer">
-              <a href="Notifications.php">See all notifications.</a>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown">      
-               <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+           <div><!-- Sidebar toggle button--><a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
+          <ul class="app-nav">
+            <li>
+                <a class="appnavlevel">Hi, 
+                  <?php
+                  $selectname = "SELECT staff.*, department.dept_name, office.office_name FROM staff 
+              JOIN department ON staff.dept_id = department.dept_id JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.account_status='Active'";
+                  $query = $conn->query($selectname);
+                  $user = $query->fetch_assoc();
+                  $image_data=$user['pic'];
+                   echo $user['first_name'].' '.$user['last_name'];?>!
                 </a>
-                <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-                </ul>
-            </li>
+              </li>
+   <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count2;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
+            <ul class="app-notification dropdown-menu dropdown-menu-right">
+              <li class="app-notification__title">You have <?php echo $count2;  ?> new notifications.</li>
+              <div class="app-notification__content">
+
+                <?php
+
+                $count_sql="SELECT * from notif where user_id='$admin_id'  order by _time desc";
+
+                $result = mysqli_query($conn, $count_sql);
+
+                while ($row = mysqli_fetch_assoc($result)) { 
+                  $intval = intval(trim($row['_time']));
+                  if ($row['message_status']=='Delivered') {
+
+                    
+                    echo'
+                  <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div>
+                      <p class="app-notification__message">'.$row['message_body'].'</p>
+                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      <input type="submit" name="open_notif" value="Open Message">
+                      </form></p>
+                    </div></a></li></b>
+                    ';
+                  }else{
+                    echo'
+                  <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div>
+                      <p class="app-notification__message">'.$row['message_body'].'</p>
+                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      <input type="submit" name="open_notif" value="Open Message">
+                      </form></p>
+                    </div></a></li>
+                    ';
+                  }
+
+                                    }
+                ?>
+                
+              </div>
+              <li class="app-notification__footer"><a href="adminSeeAllNotif.php?link=Guidance_Admin_StudRec.php">See all notifications.</a></li>
+            </ul>
+          </li>
+              
+                 <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+            <ul class="dropdown-menu settings-menu dropdown-menu-right">
+              <li><a class="dropdown-item" href="Guidance_AdminUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="../index.php"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            </ul>
+          </li>
       
-      </ul>
-    </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <form action="../../logout.php"><button class="btn btn-primary" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
-            </div>
-          </div>
+          </ul>
         </div>
-      </div>
-      <script type="text/javascript">
-        
-
-
-        //CLOCK
-      function updateClock(){
-        var now = new Date();
-        var dname = now.getDay(),
-            mo = now.getMonth(),
-            dnum = now.getDate(),
-            yr = now.getFullYear(),
-            hou = now.getHours(),
-            min = now.getMinutes(),
-            sec = now.getSeconds(),
-            pe = "AM";
-        
-            if(hou >= 12){
-              pe = "PM";
-            }
-            if(hou == 0){
-              hou = 12;
-            }
-            if(hou > 12){
-              hou = hou - 12;
-            }
-
-            Number.prototype.pad = function(digits){
-              for(var n = this.toString(); n.length < digits; n = 0 + n);
-              return n;
-            }
-
-            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
-            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
-            for(var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-      }
-
-      function initClock(){
-        updateClock();
-        window.setInterval("updateClock()", 1);
-      }
-      var myInput = document.getElementById("newPass");
-      var letter = document.getElementById("letter");
-      var capital = document.getElementById("capital");
-      var number = document.getElementById("number");
-      var length = document.getElementById("length");
-      var special = document.getElementById("special");
-
-      var loadFile = function (event,imgname) {
-        console.log("userPic");
-        var image = document.getElementById(imgname);
-        image.src = URL.createObjectURL(event.target.files[0]);
-      };
-      </script>
         <div class="red"> 
           
         </div>
@@ -406,20 +330,38 @@
 
                      
                   <div class="inline-block">
-                    Semester
+                    Month: 
                     <br>
-                    <select class="bootstrap-select">
+                    <select class="bootstrap-select" name="filtermonth" id="filtermonth">
                         <option class="select-item" value="all" selected="selected">All</option>
-                        <?php
-                                            $sql="SELECT * FROM semester";
-                                            $result = mysqli_query($conn, $sql);
+                        <option class="select-item" value="01">January</option>
+                        <option class="select-item" value="02">February</option>
+                        <option class="select-item" value="03">March</option>
+                        <option class="select-item" value="04">April</option>
+                        <option class="select-item" value="05">May</option>
+                        <option class="select-item" value="06">June</option>
+                        <option class="select-item" value="07">July</option>
+                        <option class="select-item" value="08">August</option>
+                        <option class="select-item" value="09">September</option>
+                        <option class="select-item" value="10">October</option>
+                        <option class="select-item" value="11">November</option>
+                        <option class="select-item" value="12">December</option>
+                      </select>
+                    </div>
 
-                                           if($result = mysqli_query($conn,$sql)){               
-                                                while($res = mysqli_fetch_array($result)) {         
-                                                    $value= $res['semester']; ?>
-                                                    <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['semester'];?></option>
-                                              <?php }
-                                              } ?>
+                    <div class="inline-block">
+                    Status
+                    <br>
+                    <input type="text" name="student_id" id="student_id" hidden="hidden" value="<?php echo $student_id;?>">
+                    <select class="bootstrap-select" name="filterstatus" id="filterstatus">
+                        <option class="select-item" value="all" selected="selected">All</option>
+                       <?php
+                          $result=mysqli_query($conn, "SELECT * FROM _status where status_id !='2' and status_id !='4' and status_id !='5'");               
+                          while($res = mysqli_fetch_array($result)) { 
+                           
+                              $value= $res['status_id']; ?>
+                              <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
+                        <?php } ?>
                       </select>
                     </div>
                       </div>
@@ -431,6 +373,7 @@
                   </div>
                 </div>
                   <div class="table-bd">
+                    <div class="calldiv">
                 <div class="table-responsive">
                   <br>
                   <table class="table table-hover table-bordered" id="counselling-table">
@@ -440,7 +383,7 @@
                       <th>Status</th>
                       <th>Date Completed</th>
                       <th class="max">Mode of Communication</th>
-                      <th>Evaluation</th>
+                      <th>Remarks/Concerns</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -470,6 +413,7 @@
                      
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
               </div>
@@ -586,7 +530,7 @@
                include('conn.php');
 $id=$student_id;
 $intake_id=$row2['intake_id'];
- $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id'");
+ $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='$id'");
 if($prorow=mysqli_fetch_array($sqlselect)){
   $image_data=$prorow['e_signature'];
    $q7=$prorow['Q7'];
@@ -865,7 +809,47 @@ if($prorow=mysqli_fetch_array($sqlselect)){
         <!--</div>-->
       </main>
       <!-- Essential javascripts for application to work-->
+      <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#filterstatus").on('change', function(){
+                    var status = $(this).val();
+                    var month = $("#filtermonth").val();
+                    var student_id = $("#student_id").val();
+                    /*alert(status);*/
+                    $.ajax({
+                          url:"filter_studentRec.php",
+                          type:"POST",
+                          data:{status: status, month: month, student_id: student_id},
+                          beforeSend:function(){
+                            $(".calldiv").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".calldiv").html(data);
+                          },
+                    });
+                
+                  });
 
+                  $("#filtermonth").on('change', function(){
+                    var month = $(this).val();
+                    var status =$("#filterstatus").val();
+                    var student_id = $("#student_id").val();
+                    /*alert(student_id);*/
+                    $.ajax({
+                          url:"filter_studentRec.php",
+                          type:"POST",
+                          data:{status: status, month: month, student_id: student_id},
+                          beforeSend:function(){
+                            $(".calldiv").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".calldiv").html(data);
+                          },
+                    });
+                
+                  });
+                });
+              </script>
       <script type="text/javascript">
         
          if ( window.history.replaceState ) {

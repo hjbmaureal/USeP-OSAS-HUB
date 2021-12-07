@@ -1,9 +1,11 @@
 <?php
+$databaseHost = 'localhost';
+$databaseName = 'guidance_db'; 
+$databaseUsername = 'root'; 
+$databasePassword = ''; 
+$conn= mysqli_connect ($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
 
-$conn = new mysqli('localhost', 'root', '', 'backupdb-3');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
+  if($conn->connect_error){
+    die("Connection Failed: " . $conn->connect_error);
+  }
 ?>

@@ -1,22 +1,54 @@
-<?php include('../../conn.php');
-  /*include 'conn.php';*/
-  include '../../php/notification-timeago.php'; 
-  session_start();
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
-    echo '<script type="text/javascript">'; 
-    echo 'window.location= "../../index.php";';
-    echo '</script>';
+ 
+   <?php include('conn.php');
+   include('session_admin.php');
+   $admin_id=$_SESSION['id'];  
+
+
+     $count_sql="SELECT * from notif where user_id='$admin_id' and message_status='Delivered'";
+
+          $result1 = mysqli_query($conn, $count_sql);
+
+          $count2 = 0;
+
+          while ($row = mysqli_fetch_assoc($result1)) {                             
+
+            $count2++;
+
+                              }
+
+
+function timeago($datetime, $full = false) {
+  date_default_timezone_set('Asia/Manila');
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+  $string = array(
+    'y' => 'yr',
+    'm' => 'mon',
+    'w' => 'week',
+    'd' => 'day',
+    'h' => 'hr',
+    'i' => 'min',
+    's' => 'sec',
+  );
+  foreach ($string as $k => &$v) {
+    if ($diff->$k) {
+      $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+    } 
+    else {
+      unset($string[$k]);
+    }
   }
-   $admin_id=$_SESSION['id'];
+  if (!$full) {
+    $string = array_slice($string, 0, 1);
+  }
+  
+  return $string ? implode(', ', $string) . '' : 'just now';
+}
 
 
-  $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' or office_id = 2) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
-
-   ?>
-   <?php
 
   if (isset($_POST['create_pdf'])) {
      function fetch_data(){  
@@ -32,7 +64,7 @@
                               }
                               return $output;
     }
-      $conn = mysqli_connect("localhost", "root", "", "backupdb-3");
+      $conn = mysqli_connect("localhost", "root", "", "guidance_db");
        $count="SELECT count(counsel_eval_id) as count from counselling_evaluation";
                     if($result = mysqli_query($conn, $count)){
           while ($row = mysqli_fetch_assoc($result)) {     
@@ -309,7 +341,7 @@ $obj_pdf->IncludeJS($js);
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-<body class="app sidebar-mini rtl" onload="initClock()">
+      <body class="app sidebar-mini rtl">
       <!-- Navbar-->
 
         
@@ -345,7 +377,7 @@ $obj_pdf->IncludeJS($js);
           </li>
           <li><a class="app-menu__item" href="Guidance_Admin_Records.php"><i class="app-menu__icon fas fa-vcard"></i><span class="app-menu__label">Student Records</span></a></li>
           <li><a class="app-menu__item" href="Guidance_Appointment.php"><i class="app-menu__icon  fas fa-calendar-check-o"></i><span class="app-menu__label">Appointments</span></a></li>
-          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-line-chart"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item active" href="Guidance_Reports.php" data-toggle="treeview"><i class="app-menu__icon  fas fa-line-chart"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Guidance_Reports.php">Counselling Reports</a></li>
               <li><a class="treeview-item" href="Guidance_GroupGuidance_Reports.php">Group Guidance Reports</a></li>
@@ -362,190 +394,85 @@ $obj_pdf->IncludeJS($js);
 
        <!--navbar-->
 
-
-  <main class="app-content">
+          <main class="app-content">
             
         <div class="app-title">
-      <div><!-- Sidebar toggle button-->
-        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
-      </div>
-      <ul class="app-nav">
-        <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
-        </li>
-        <!-- SEMESTER, TIME, USER DROPDOWN -->
-          <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
-              while($row = mysqli_fetch_array($result)){
-                $currSemesterYear = $row['semester'] .' '. $row['year'];
-                echo '
-                  <li>
-                    <div class="appnavlevel" style="color: black;">
-                      <span class="semesterYear">'.$row['semester'].'</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="appnavlevel" style="color: black;">
-                      <span class="semesterYear">'.$row['year'].'</span>
-                    </div>
-                  </li>
-                ';
-              }
-            }
-          ?>
-          <li>
-            <div class="datetime appnavlevel" style="color: black;">
-              <div class="date">
-                <span id="dayname">Day</span>,
-                <span id="month">Month</span>
-                <span id="daynum">00</span>,
-                <span id="year">Year</span>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="datetime appnavlevel" style="color: black;">
-              <div class="time">
-                <span id="hour">00</span>:
-                <span id="minutes">00</span>:
-                <span id="seconds">00</span>
-                <span id="period">AM</span>
-              </div>
-            </div>
-          </li>
-        <li class="dropdown">
-          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
-            <b style="color: red;"><?php echo $count;  ?></b>
-            <i class=" fas fa-bell fa-lg mt-2"></i>
-          </a>
-          <ul class="app-notification dropdown-menu dropdown-menu-right">
-            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
-              <div class="app-notification__content">                   
-                <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 2)  order by time desc";
-                  $result = mysqli_query($conn, $count_sql);
-                  while ($row = mysqli_fetch_assoc($result)) { 
-                    $intval = intval(trim($row['time']));
-                      if ($row['message_status']=='Delivered') {
-                        echo'
-                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">'.$row['message_body'].'</p>
-                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                <p class="app-notification__message">
-                                <form method="POST" action="../../php/change_notif_status.php">
-                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                  <input type="submit" name="open_notif" value="Open Message">
-                                </form></p>
-                              </div></a></li></b>
-                              ';
-                      }else{
-                              echo'
-                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">'.$row['message_body'].'</p>
-                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                <input type="submit" name="open_notif" value="Open Message">
-                                </form></p>
-                              </div></a></li>
-                              ';
-                       }                 
-
-                  }
-                ?> 
-              </div>
-            <li class="app-notification__footer">
-              <a href="Notifications.php">See all notifications.</a>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown">      
-               <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+           <div><!-- Sidebar toggle button--><a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
+          <ul class="app-nav">
+            <li>
+                <a class="appnavlevel">Hi, 
+                  <?php
+                  $selectname = "SELECT staff.*, department.dept_name, office.office_name FROM staff 
+              JOIN department ON staff.dept_id = department.dept_id JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.account_status='Active'";
+                  $query = $conn->query($selectname);
+                  $user = $query->fetch_assoc();
+                  $image_data=$user['pic'];
+                   echo $user['first_name'].' '.$user['last_name'];?>!
                 </a>
-                <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-                </ul>
-            </li>
+              </li>
+             <!-- <li class="app-search">
+                   <input class="app-search__input" type="search" placeholder="Search">
+                  <button class="app-search__button"><i class="fa fa-search"></i></button>
+              </li>-->  
+ <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count2;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
+            <ul class="app-notification dropdown-menu dropdown-menu-right">
+              <li class="app-notification__title">You have <?php echo $count2;  ?> new notifications.</li>
+              <div class="app-notification__content">
+
+                <?php
+
+                $count_sql="SELECT * from notif where user_id='$admin_id'  order by _time desc";
+
+                $result2 = mysqli_query($conn, $count_sql);
+
+                while ($row = mysqli_fetch_assoc($result2)) { 
+                  $intval = intval(trim($row['_time']));
+                  if ($row['message_status']=='Delivered') {
+
+                    
+                    echo'
+                  <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div>
+                      <p class="app-notification__message">'.$row['message_body'].'</p>
+                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
+                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      <input type="submit" name="open_notif" value="Open Message">
+                      </form></p>
+                    </div></a></li></b>
+                    ';
+                  }else{
+                    echo'
+                  <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                    <div>
+                      <p class="app-notification__message">'.$row['message_body'].'</p>
+                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
+                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      <input type="submit" name="open_notif" value="Open Message">
+                      </form></p>
+                    </div></a></li>
+                    ';
+                  }
+                  
+
+                                    }
+                ?>
+                
+              </div>
+              <li class="app-notification__footer"><a href="adminSeeAllNotif.php?link=Guidance_GroupCounselling.php">See all notifications.</a></li>
+            </ul>
+          </li>
+              
+                 <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+            <ul class="dropdown-menu settings-menu dropdown-menu-right">
+              <li><a class="dropdown-item" href="Guidance_AdminUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="../index.php"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            </ul>
+          </li>
       
-      </ul>
-    </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <form action="../../logout.php"><button class="btn btn-primary" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
-            </div>
-          </div>
+          </ul>
         </div>
-      </div>
-      <script type="text/javascript">
-        
-
-
-        //CLOCK
-      function updateClock(){
-        var now = new Date();
-        var dname = now.getDay(),
-            mo = now.getMonth(),
-            dnum = now.getDate(),
-            yr = now.getFullYear(),
-            hou = now.getHours(),
-            min = now.getMinutes(),
-            sec = now.getSeconds(),
-            pe = "AM";
-        
-            if(hou >= 12){
-              pe = "PM";
-            }
-            if(hou == 0){
-              hou = 12;
-            }
-            if(hou > 12){
-              hou = hou - 12;
-            }
-
-            Number.prototype.pad = function(digits){
-              for(var n = this.toString(); n.length < digits; n = 0 + n);
-              return n;
-            }
-
-            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
-            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
-            for(var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-      }
-
-      function initClock(){
-        updateClock();
-        window.setInterval("updateClock()", 1);
-      }
-      var myInput = document.getElementById("newPass");
-      var letter = document.getElementById("letter");
-      var capital = document.getElementById("capital");
-      var number = document.getElementById("number");
-      var length = document.getElementById("length");
-      var special = document.getElementById("special");
-
-      var loadFile = function (event,imgname) {
-        console.log("userPic");
-        var image = document.getElementById(imgname); 
-        image.src = URL.createObjectURL(event.target.files[0]);
-      };
-      </script>
         <div class="red"> 
           
         </div>
@@ -566,7 +493,7 @@ $obj_pdf->IncludeJS($js);
                   <div class="row">
                       <div class="col-sm">
                           <div class="inline-block float ml-2 mt-1">
-                            <button class="btn btn-danger btn-sm verify" name="create_pdf" formtarget="_blank"><i class="fas fa-download"></i> Export</button>
+                            <button class="btn btn-danger btn-sm verify" name="create_pdf"><i class="fas fa-download"></i> Export</button>
                             &nbsp;<button class="btn btn-warning btn-sm verify" id="print-button"><i class="fas fa-print"></i> Print</button>
                             </div>
                       </div>
@@ -591,7 +518,6 @@ $obj_pdf->IncludeJS($js);
                         <option class="select-item" value="12">December</option>
                       </select>
                     </div>
-                      <div class="inline-block">
                     Month to: 
                     <select class="bootstrap-select" name="filtermonth2" id="filtermonth2" disabled>
                         <option class="select-item" value="to" selected="selected">Month to</option>
@@ -608,7 +534,6 @@ $obj_pdf->IncludeJS($js);
                         <option class="select-item" value="11">November</option>
                         <option class="select-item" value="12">December</option>
                       </select>
-                    </div>
 
                       &emsp;&emsp;
                     School Year: 
@@ -724,9 +649,6 @@ $obj_pdf->IncludeJS($js);
 
       <!-- Essential javascripts for application to work-->
       <script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
       <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
@@ -734,7 +656,6 @@ $obj_pdf->IncludeJS($js);
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript" src="js/jquery.min.js"></script>
-      <script type="text/javascript" src="js/Chart.min.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -891,6 +812,8 @@ $("#print-button").on("click", function () {
             var label3 = document.getElementById('label3');
             var tablabel = document.getElementById('tab-label');
             var tab = document.getElementById('sampleTable2');
+             var filteryear = $("#filteryear").val();
+            var filteryear2 = $("#filteryear2").val();
             var htmlToPrint = '' +
                 '<style type="text/css">' +
                 'table {' +
@@ -912,7 +835,7 @@ $("#print-button").on("click", function () {
                 windowContent += '<body>';
                 windowContent += '<div id="title" style="margin-top:48px;"><div align="center"><img src="image/logo.png" alt="USeP Logo" height="100px" width="100px"></div></div>';
                 windowContent += '<div id="title"><div align="center" style="font-size:18px;"><b>University of Southeastern Philippines</b><br><i>University Guidance and Assessment Center</i><br><br></div></div>';
-                windowContent += '<div align="center" style="font-size:16px;">Counselling Evaluation Summary<br></div><br><br><br><br>';
+                windowContent += '<div align="center" style="font-size:16px;">Counselling Evaluation Summary '+filteryear+'-'+filteryear2+'<br></div><br<br><br>';
                 windowContent += '<div style="margin-left:100px;">';
                 windowContent += label1.outerHTML;
                 windowContent += '</div>';
@@ -932,20 +855,14 @@ $("#print-button").on("click", function () {
                 windowContent += '</body>';
                 windowContent += '</html>';
 
-                const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
-                printWin.document.open();
-                printWin.document.write(windowContent); 
-                printWin.document.close();
-                printWin.print();
+    var printWindow = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);                
+    printWindow.document.write(windowContent);
+    printWindow.document.write("<script src=\'http://code.jquery.com/jquery-1.10.1.min.js\'><\/script>");
+    printWindow.document.write("<script>$(window).load(function(){ print(); close(); });<\/script>");
+    printWindow.document.close();               
+        }); 
 
-                // printWin.document.addEventListener('load', function() {
-                //     printWin.focus();
-                //     printWin.print();
-                //     // printWin.document.close();
-                //     // printWin.close();            
-                // });
-            
-        });   
+
 </script>
 
         <script type="text/javascript">

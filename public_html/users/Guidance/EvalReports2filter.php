@@ -2,12 +2,15 @@
 
 header('Content-Type: application/json');
 
+$databaseHost = 'localhost';
+$databaseName = 'guidance_db'; 
+$databaseUsername = 'root'; 
+$databasePassword = ''; 
+$conn= mysqli_connect ($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
 
-$conn = new mysqli('localhost', 'root', '', 'backupdb-3');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+  if($conn->connect_error){
+    die("Connection Failed: " . $conn->connect_error);
+  }
 if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) && isset($_POST['toyear'])) {
   
 $from=$_POST['from'];

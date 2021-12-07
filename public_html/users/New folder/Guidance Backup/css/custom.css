@@ -1,0 +1,46 @@
+.clearfix{
+  clear: both;
+}
+.datetime{
+  color: black;
+}
+
+.semesterYear{
+  color: black;
+}
+
+.hidden{
+  display: none;
+}
+
+.red-bar{
+  background-color: #C12C32;
+  padding: 8px 10px;
+}
+
+.valid {
+  color: green;
+  }
+
+.valid:before {
+position: relative;
+content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+color: red;
+}
+
+.invalid:before {
+position: relative; 
+content: "✖";
+}
+
+.bg-data-form{
+  background-color: ghostwhite;
+}
+
+.bg-dashboard{
+  background-color: snow;
+}

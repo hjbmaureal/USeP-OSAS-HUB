@@ -34,7 +34,7 @@ if (isset($_POST['status']) && isset($_POST['month']) && isset($_POST['position'
           $count=mysqli_num_rows($sql);
   
 ?>
- <table class="table table-hover table-bordered" id="sampleTable">
+ <table class="table table-hover table-bordered" id="reports-table">
   <?php 
       if ($count) {
             ?>
@@ -99,16 +99,16 @@ if (isset($_POST['grrfrom']) && isset($_POST['grrto']) && isset($_POST['fromyear
 }
   $result = mysqli_query($conn, $sql);
   $count=mysqli_num_rows($result); ?>
-  <table class="table table-hover table-bordered" id="sampleTable2">
+  <table class="data-table" id="reports-table" cellpadding="10px">
       <?php 
       if ($count) {
             ?>
-                    <thead>
-                      <tr>
-                      <th>Faculty Name</th>
-                      <th>Student Referred</th>
-                      <th class="max">Date Received</th>
-                      <th class="max">Date Completed</th>
+                    <thead align="center">
+                      <tr >
+                      <th width="20%">Faculty Name</th>
+                      <th width="20%">Student Referred</th>
+                      <th width="25%">Date Received</th>
+                      <th cwidth="30%">Date Completed</th>
                     </tr>
       <?php }else{ echo "SORRY! no record found";} ?>
                   </thead>
@@ -117,12 +117,12 @@ if (isset($_POST['grrfrom']) && isset($_POST['grrto']) && isset($_POST['fromyear
                    if($result = mysqli_query($conn, $sql)){
           while ($row = mysqli_fetch_assoc($result)) {
 
-                                echo'<tr>
+                                echo'<tr align="center">
                                   
                                   <td>'. $row['f_name'].' '.$row['l_name'].'</td>
                                   <td>'. $row['first_name'].'  
                                   '. $row['last_name'].'</td>
-                                  <td>'. $row['status'].'</td> 
+                                  <td>'. $row['date_filed'].'</td> 
                                   <td>'. $row['refdate_completed'].'</td>
                                 </tr>';}}?>
   </tbody>
@@ -151,11 +151,11 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
 
  $result = mysqli_query($conn, $sql);
   $count=mysqli_num_rows($result); ?>
-  <table class="table table-hover table-bordered" id="sampleTable2">
+  <table class="data-table" id="reports-table" cellpadding="10px">
       <?php 
       if ($count) {
             ?>
-                    <thead>
+                    <thead align="center">
                       <tr>
                       <th>Date|Time</th>
                       <th>Purpose/Topic</th>
@@ -190,5 +190,10 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
 
 
 ?>
+<script type="text/javascript">
+  
+$('#reports-table').DataTable();
+  
+</script>
 
  

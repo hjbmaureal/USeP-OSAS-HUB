@@ -236,7 +236,7 @@
       </div></div>
         <div class="modal-footer">
      
-         <button type="submit" name="print" class="btn btn-success"  onclick="print_specific_div_content<?php echo $referral_id;?>()"><i class="fas fa-print"></i>&nbsp;Print</button>
+         <button type="submit" name="print" class="btn btn-success" class="btn btn-warning" style="color:white; background-color: yellow;" onclick="print_specific_div_content<?php echo $referral_id;?>()"><i class="fas fa-print"></i>&nbsp;Print</button>
           </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel
           </button>

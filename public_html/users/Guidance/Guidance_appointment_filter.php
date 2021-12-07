@@ -58,6 +58,8 @@ include('conn.php');
                                                 <a class="btn btn-info btn-sm" data-toggle="modal" href="#appointmentView<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-eye"></i></a>
 
                                                 <a class="btn btn-warning btn-sm" data-toggle="modal" href="#appointmentEdit<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-edit"></i></a>
+
+                                                <a class="btn btn-danger btn-sm" data-toggle="modal" href="#appointmentCancel_indiv<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-close"></i></a>
                                                 <?php include('Guidancce_Appointment_Modal.php'); ?>
                                                 </td>
                                               </tr>
@@ -91,6 +93,7 @@ include('conn.php');
                                                 <a class="btn btn-info btn-sm" data-toggle="modal" href="#appointmentViewgroup<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-eye"></i></a>
 
                                                 <a class="btn btn-warning btn-sm" data-toggle="modal" href="#appointmentEditgroup<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-edit"></i></a>
+                                                <a class="btn btn-danger btn-sm" data-toggle="modal" href="#appointmentCancel_group<?php echo $id;?>" data-backdrop="static" data-keyboard="false"><i class="fas fa-close"></i></a>
                                                 <?php include('Guidancce_Appointment_Modal.php'); ?>
                                                 </td>
                                               </tr>

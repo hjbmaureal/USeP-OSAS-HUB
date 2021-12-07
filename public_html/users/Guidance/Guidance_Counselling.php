@@ -33,9 +33,9 @@
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <!--  TITLE -->
+  <!--  TITLE -->
     <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>Admin | USeP Virtual Hub</title>
+      <title>USeP Guidance Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -350,6 +350,7 @@ width: 1px !important;
        
 
          <!--<div class="page-error tile">-->
+
 
 <div class="row">
         <div class="col-md-12">
@@ -777,6 +778,20 @@ width: 1px !important;
                           </div>
                           <div class="row">
                             <div class="col-sm">
+                                <div class="form-group">
+                                  <label class="control-label" id="linklabel" hidden="">Link</label><input class="form-control" type="text" name="link" id="link" readonly="" hidden="">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                  <label class="control-label" id="codelabel" hidden="">Code</label><input class="form-control" type="text" name="code" id="code" readonly="" hidden="">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Date</label>
                                  <input type="text"name="appointment_date3" id="appointment_date3" class="form-control datepicker" onkeydown="return false" placeholder="YY-MM-DD" autocomplete="off" required="">
@@ -831,6 +846,20 @@ width: 1px !important;
                             <div class="col-sm">
                                 <div class="form-group">
                                   <label class="control-label">Mode of Communication</label><input class="form-control" type="text" name="mode_name2" id="mode_name2" readonly="">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                  <label class="control-label" id="vlinklabel" hidden="">Link</label><input class="form-control" type="text" name="vlink" id="vlink" readonly="" hidden="">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                  <label class="control-label" id="codelabel" hidden="">Code</label><input class="form-control" type="text" name="vcode" id="vcode" readonly="" hidden="">
                                 </div>
                             </div>
                           </div>
@@ -948,7 +977,7 @@ width: 1px !important;
 
 <!--  End updated status -->
 
-<div id="myModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div id="myModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -963,10 +992,20 @@ width: 1px !important;
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
       <!--</div>-->
     </main>
+<?php  
+      if ($count2!=0) { ?>
+        <script type="text/javascript">
+    $(document).ready(function(){
+        $("#myModal").modal('show');
+    });
+</script>
+      <?php
+    }
+      ?>
 
     <script type="text/javascript">
        //prevent form resubmission
@@ -1041,6 +1080,16 @@ document.getElementById('concerns').style.border='1px solid red';
           $('#mode_name2').val(data[3]);
           $('#appointment_date2').val(data[4]);
           $('#appointment_time2').val(data[5]);
+          if (data[11]!=='' && data[11]!==null) {
+            $("#vlink").prop('hidden', false);
+            $("#vlinklabel").prop('hidden', false);
+            $('#vlink').val(data[11]);
+          }
+          if (data[12]!=='' && data[12]!==null) {
+            $("#vcode").prop('hidden', false);
+            $("#vcodelabel").prop('hidden', false);
+            $('#vcode').val(data[12]);
+          }
             
 
       
@@ -1073,7 +1122,16 @@ document.getElementById('concerns').style.border='1px solid red';
           $('#mode_name2').val(data[3]);
           $('#appointment_date2').val(data[4]);
           $('#appointment_time2').val(data[5]);
-            
+           if (data[11]!=='' && data[11]!==null) {
+            $("#link").prop('hidden', false);
+            $("#linklabel").prop('hidden', false);
+            $('#link').val(data[11]);
+          }
+          if (data[12]!=='' && data[12]!==null) {
+            $("#code").prop('hidden', false);
+            $("#codelabel").prop('hidden', false);
+            $('#code').val(data[12]);
+          }
 
       
         }, error: function(errorThrown){
@@ -1109,7 +1167,16 @@ document.getElementById('concerns').style.border='1px solid red';
           $('#mode_name3').val(data[4]);
           $('#appointment_date3').val(data[5]+' '+data[6]);
           /*$('#appointment_time3').val(data[6]);*/
-          
+          if (data[12]!=='' && data[12]!==null) {
+            $("#link").prop('hidden', false);
+            $("#linklabel").prop('hidden', false);
+            $('#link').val(data[12]);
+          }
+          if (data[13]!=='' && data[13]!==null) {
+            $("#code").prop('hidden', false);
+            $("#codelabel").prop('hidden', false);
+            $('#code').val(data[13]);
+          }
       
         }, error: function(errorThrown){
                 console.log("error!");
@@ -1275,50 +1342,50 @@ $(".datepicker").datetimepicker({
     }
     }
 });</script>
- <!-- Essential javascripts for application to work-->
-    <script src="../../js/jquery-3.3.1.min.js"></script>
-    <script src="../../js/popper.min.js"></script>
-    <script src="../../js/bootstrap.min.js"></script>
-    <script src="../../js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="../../js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
-    <script type="text/javascript" src="../../js/plugins/moment.min.js"></script>
-    <script type="text/javascript" src="../../js/plugins/jquery-ui.custom.min.js"></script>
-    <script type="text/javascript" src="../../js/plugins/fullcalendar.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-
+      <!-- Essential javascripts for application to work-->
       
-     var calendar = $('#calendar').fullCalendar({
-          editable: true,
-          header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-          },
-          events:'calendarLoad.php',  
-          selectable:true,
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
+      <!-- The javascript plugin to display page loading on top-->
+      <script src="js/plugins/pace.min.js"></script>
+      <!-- Page specific javascripts-->
+      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript">
+        $('#demoNotify').click(function(){
+          $.notify({
+            title: "Update Complete : ",
+            message: "Verified Successfuly!",
+            icon: 'fa fa-check' 
+          },{
+            type: "info"
+          });
         });
-    
-      });
+      </script>
+      <script>
+        <!-- table selection -->
+          $('#selectAll').click(function (e) {
+    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+});
+      </script>
+      <!-- Data table plugin-->
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#sampleTable').DataTable();</script>
+      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
+      <!-- Google analytics script-->
+      <script type="text/javascript">
+        if(document.location.hostname == 'pratikborsadiya.in') {
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-72504830-1', 'auto');
+          ga('send', 'pageview');
+        }
+      </script>
 
-      function onload(){
-
-      }
-    </script>
-    <!-- Google analytics script-->
-    <script type="text/javascript">
-      if(document.location.hostname == 'pratikborsadiya.in') {
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-72504830-1', 'auto');
-        ga('send', 'pageview');
-      }
-    </script>
     </body>
   </html>

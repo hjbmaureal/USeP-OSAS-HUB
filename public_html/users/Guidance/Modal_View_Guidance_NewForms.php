@@ -4,8 +4,8 @@
 
 
 <?php
-include('../../conn.php');
 $try=$row['Student_id'].$row['intake_id'];
+include('conn.php');
 $id=$row['Student_id'];
 $intake_id=$row['intake_id'];
  ?>
@@ -106,10 +106,11 @@ $intake_id=$row['intake_id'];
 
                 </p>
                 <?php 
+
                  $q7= ''; 
                  $rd=array();$checked_arr=array();
                  $rd=array("Walk-in","Call-in","Referred");
-                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
+                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
                 if($prorow=mysqli_fetch_array($sqlselect)){ $q7=$prorow['Q7'];
                   $checked_arr[]=$prorow['intake_type'];
                   $image_data=$prorow['e_signature'];
@@ -359,7 +360,7 @@ $intake_id=$row['intake_id'];
                     </div>
                     </td>
                     <td colspan="2">35. Date Accomplished <br><i class="fa fa-caret-left" aria-hidden="true"></i>
-
+                      
                              <input type="text" name="date_accomplished" class="intake datepicker" value="<?php echo $prorow['date_filed']; ?>" id="date_accomplished" placeholder="YYYY/MM/DD" autocomplete="off" readonly><br>
                     </td>
                   </tr>
@@ -369,81 +370,13 @@ $intake_id=$row['intake_id'];
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" name="print" class="btn btn-success" onclick="print_specific_div_content<?php echo $intake_id; ?>()"><i class="fas fa-print"></i>&nbsp;Print</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="print" class="btn btn-success" onclick="print_specific_div_content<?php echo $intake_id; ?>()">Print</button>
           </div>        
         </div>
       </div>
     </div>
-
-
-  <!--END OF MODAL-->
- <!-- DATEPICKER -->
-<?php 
-                 $results[]= '';$disableTimeArr[]=''; $i=0;$count=0;
-                $from= date('Y-m-d'); 
-                $sql="SELECT DATE_FORMAT(appointment_date, '%d') as dy,appointment_date, appointment_time FROM `guidance_appointments` WHERE appointment_date > '$from'";
-                $result = mysqli_query($conn, $sql);
-
-                while($row = mysqli_fetch_assoc($result)){
-
-                  /*collect all schedule by hours(format-11/27/2021:8)*/
-                  $hourholder=date('H', strtotime($row['appointment_time']));
-                  $hourRemoveLeadingZero=ltrim($hourholder, "0");
-                  $dateholder=date('m/d/Y',strtotime($row['appointment_date']));
-                  $timeToDisableVar=$dateholder.':'.$hourRemoveLeadingZero;
-                  $disableTimeArr[]='"'.$timeToDisableVar.'"';
-                  
-                  /*count the number of schedule, if >= 6 disable dates*/
-                  $sql2="SELECT DATE_FORMAT(appointment_date, '%d') as dy, appointment_date FROM `guidance_appointments` WHERE  appointment_date > '$from' and DATE_FORMAT(appointment_date, '%d')";
-                $result2 = mysqli_query($conn, $sql2);
-               
-                while($row2 = mysqli_fetch_assoc($result2)){
-                  if ($row['dy']==$row2['dy']) {
-                    $count++;
-                    if ($count==6) {
-                      $time= strtotime($row['appointment_date']);
-                    $holder=date('d-m-Y', $time);
-                    $results[] = '"'.$holder.'"';
-                    }
-                    # code...
-                  }
-                  
-                }
-                    
-                } 
-                $results=array_filter($results);
-                $totaldayslist= implode(", ", $results);
-                $disableTimeArr=array_filter($disableTimeArr);
-                $timeToDisable= implode(", ", $disableTimeArr);
-                ?>
-                <!-- DISABLE DATESCHEDULE -->
-<script type="text/javascript">
-    var disabledtimes_mapping = [<?php echo $timeToDisable;?>];
-    var datesForDisable = [<?php echo $totaldayslist;?>];
-function formatDate(datestr)
-{
-    var date = new Date(datestr);
-    var day = date.getDate(); day = day>9?day:"0"+day;
-    var month = date.getMonth()+1; month = month>9?month:"0"+month;
-    return month+"/"+day+"/"+date.getFullYear();
-}
-
-$(".datepicker").datetimepicker({
-    format: 'yyyy/mm/dd hh:ii',
-    startDate: new Date(),
-    datesDisabled: datesForDisable,
-    daysOfWeekDisabled: [0,6],
-    autoclose: true,
-    onRenderHour:function(date){
-  if(disabledtimes_mapping.indexOf(formatDate(date)+":"+date.getUTCHours())>-1)
-    {
-        return ['disabled'];
-    }
-    }
-});</script>
-
-<script type="text/javascript">
+    <script type="text/javascript">
    $(document).ready(function(){
     $("input:radio").click(function(){
         return false;
@@ -453,8 +386,7 @@ $(".datepicker").datetimepicker({
     });
    });
 </script>
-
- <script type="text/javascript">
+     <script type="text/javascript">
   function print_specific_div_content<?php echo $intake_id; ?>(){
     var win = window.open('','','left=0,top=0,width=900,height=700,toolbar=0,scrollbars=0,status =0');
 

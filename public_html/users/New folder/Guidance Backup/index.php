@@ -36,7 +36,7 @@
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
   <!--  TITLE -->
     <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>Admin | USeP Virtual Hub</title>
+      <title>USeP Guidance Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,11 +63,12 @@
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
         <div class="app-sidebar__user">
-          <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
+        <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
-            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">GUIDANCE OFFICE</p>
+            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
-        </div>
+      </div>
 
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
@@ -340,7 +341,7 @@
               <div id="external-events">
                         
                                        <?php 
-                  $sql1="SELECT appointment_id FROM guidance_appointments WHERE guidance_appointments.status_id='3'";
+                  $sql1="SELECT appointment_id FROM guidance_appointments WHERE guidance_appointments.status_id='3' LIMIT 5";
                         if($result1 = mysqli_query($conn, $sql1)){
                             while ($app_row = mysqli_fetch_assoc($result1)) {
                                 /*COMPER INDV_APPOINTMENT*/
@@ -353,7 +354,7 @@
                                               $id=$row['id'];?>
                                               <div class="fc-event">
                 <b>Date:</b> <?php echo $row['appointment_date'];?><br>
-                <b>Date:</b> <?php echo $row['appointment_time'];?><br>
+                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
                   <b>Client:</b> <?php echo $row['first_name'].' '.$row['last_name'];?>
                 </div>
                                               <?php }}
@@ -379,7 +380,7 @@
                                                 }?>
                                               <div class="fc-event">
                 <b>Date:</b> <?php echo $row['appointment_date'];?><br>
-                <b>Date:</b> <?php echo $row['appointment_time'];?><br>
+                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
                   <b>Client:</b> <?php echo $row['title'].' '.$year_level." ".$section;?>
                 </div>
                                               <?php }} 
@@ -396,10 +397,10 @@
               <div class="tile">
               <center><h4 class="title">SUMMARY AND REPORTS</h4></center>
               <div class="tile-body" align="center">
-              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 10px;" href="Guidance_Reports.php"> Counselling</a></div>
-              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 10px;" href="Guidance_Referral_Reports.php">Referrals</a></div>
-              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 10px;" href="Guidance_Evaluation_Reports.php"> Evaluation</a></div>
-              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 10px;" href="Guidance_GroupGuidance_Reports.php">Group Guidance</a></div>
+              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 12px;" href="Guidance_Reports.php"> Counselling</a></div>
+              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 12px;" href="Guidance_Referral_Reports.php">Referrals</a></div>
+              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 12px;" href="Guidance_Evaluation_Reports.php"> Evaluation</a></div>
+              <div class="btn-group"><a class="btn btn-primary" style="border-radius: 2px; font-size: 12px;" href="Guidance_GroupGuidance_Reports.php">Group Guidance</a></div>
             </div>
           </div>
           

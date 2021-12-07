@@ -11,7 +11,7 @@ $set=mysqli_fetch_array($sqlselect);?>
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">SET APPOINTMENT</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">SET APPOINTMENT FOR REFERRALS</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -46,7 +46,7 @@ $set=mysqli_fetch_array($sqlselect);?>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="exampleSelect1">Mode of Communication</label>
-                                    <select class="form-control" id="mode_com" name="mode" required="">
+                                    <select class="form-control" id="modecom<?php echo $referral_id;?>" name="mode" required="">
                                       <?php
                                            $result2=mysqli_query($conn, "SELECT * FROM mode_of_communication");               
                                           while($res = mysqli_fetch_array($result2)) { 
@@ -60,7 +60,7 @@ $set=mysqli_fetch_array($sqlselect);?>
                                   </div>
                             </div>
                           </div>
-                          <div class="calldivlink">
+                          <div class="calldivlink<?php echo $referral_id;?>">
                           </div>
                           <div class="row">
                             <div class="col-sm">
@@ -117,6 +117,25 @@ $set=mysqli_fetch_array($sqlselect);?>
                     </form>
                   </div>
                 </div>
+                <script type="text/javascript">
+    $(document).ready(function(){
+                  $("#modecom<?php echo $referral_id;?>").on('change', function(){
+                    var mode = $(this).val();
+                    /*alert(mode);*/
+                    
+                    $.ajax({
+                          url:"filter_fblink.php",
+                          type:"POST",
+                          data:{mode: mode},
+                          success:function(data){
+                            $(".calldivlink<?php echo $referral_id;?>").html(data);
+                          },
+                    });
+                    
+                  });
+                });
+</script>
+
 
                  <!-- DATEPICKER -->
 <?php 

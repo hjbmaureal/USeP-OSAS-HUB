@@ -24,7 +24,7 @@ if (isset($_POST['ggidd'])) {
     for($i=0; $i<$chkcount; $i++){
       
       $del = $chk[$i];
-      $stat="PRESENT";
+      $stat="ATTENDED";
       $sql10="UPDATE participants set attendance='$stat' WHERE Student_id='$del' AND grp_guidance_id=$gid";
       $res = $conn->query($sql10);
     } 

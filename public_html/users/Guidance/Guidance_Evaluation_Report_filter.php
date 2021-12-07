@@ -46,11 +46,11 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
     <input type="hidden" id="filtermonth2"name="filtermonth2" value="<?php echo $to;?>">
     <input type="hidden" id="fromyear"name="fromyear" value="<?php echo $fromyear;?>">
     <input type="hidden" id="toyear"name="toyear" value="<?php echo $toyear;?>">
-    <div class="calldata">
-    <div class="row d-flex justify-content-center" style="margin-top: 20px">
+    <div class="displayChart" id="displayChart">
+          <div class="row d-flex justify-content-center" style="margin-top: 20px" id="chart1">
           <div class="col-md-6">
           <div class="tile" style="border-width:2px; border-style: solid;"> 
-            <h5 class="title">Quality (Effectiveness) of the Service</h5>
+            <div id="label1"><h5 class="title">Quality (Effectiveness) of the Service</h5>
             <h9>Total Number of Respondents:</h9>
 
             <?php 
@@ -58,6 +58,7 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
           while ($row = mysqli_fetch_assoc($result)) {     
                  ?>
             <b> <?php echo $row['count'];}}?></b><br>
+        </div>
             <div>
               <canvas id="myChart"></canvas>
             </div>
@@ -65,13 +66,14 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
           </div>
           <div class="col-md-6">
           <div class="tile" style="border-width:2px; border-style: solid;">
-            <h5 class="title">Timeliness (Waiting Period)</h5>
+            <div id="label2"><h5 class="title">Timeliness (Waiting Period)</h5>
             <h9>Total Number of Respondents:</h9>
             <?php
                     if($result = mysqli_query($conn, $count2)){
           while ($row = mysqli_fetch_assoc($result)) {     
                  ?>
             <b> <?php echo $row['count'];}}?></b><br>
+            </div>
             <div>
               <canvas id="myChart2"></canvas>
             </div>
@@ -79,25 +81,24 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
           </div>
           <div class="col-md-6">
           <div class="tile" style="border-width:2px; border-style: solid;">
-            <h5 class="title">Student's Satisfaction</h5>
+            <div id="label3"><h5 class="title">Student's Satisfaction</h5>
             <h9>Total Number of Respondents:</h9>
             <?php 
                     if($result = mysqli_query($conn, $count3)){
           while ($row = mysqli_fetch_assoc($result)) {     
                  ?>
             <b> <?php echo $row['count'];}}?></b><br>
+        </div>
             <div>
               <canvas id="myChart3"></canvas>
             </div>
             </div>
           </div>
         </div>
-      
-      </div>
           <div class="row d-flex justify-content-center">
           <div class="col-md-11">
             <div class="tile">
-              <div class="tile-body">
+              <div class="tile-body" id="tab-label">
                 
                 <div class="center"><h5>Other Comments/Suggestions</h5></div>
                 <div><h9>Total Number of Respondents:</h9>
@@ -113,7 +114,7 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
                   <div class="calldiv">
                   <table class="table table-hover table-bordered" id="sampleTable2">
                     <thead>
-                      <tr>
+                      <tr align="center">
                       <th>Course</th>
                       <th>Comments/Suggestions</th>
                     </tr>
@@ -135,6 +136,10 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
  
                 </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 <?php if ($from=='from' && $fromyear=='' && $toyear=='') { ?>
 <script>
 $(document).ready(function(){
@@ -450,14 +455,10 @@ var myBarChart = new Chart(ctx, {
 <?php }
 
 
-
-
-
-
-
-
-
-
-
-
 ?>
+
+<script type="text/javascript">
+  
+$('#sampleTable2').DataTable();
+  
+</script>

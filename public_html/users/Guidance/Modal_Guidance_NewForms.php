@@ -15,52 +15,32 @@
   <!--Set Appointment Modal -->
 <div class="modal fade" id="viewmodalupdate?<?php echo $row['Student_id'].$row['intake_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" role="document">
 
-<?php include('../../conn.php');
+  <?php
+include('conn.php');
 $id=$row['Student_id'];
 $intake_id=$row['intake_id'];
  $sqlselect=mysqli_query($conn,"SELECT guidance_appointments.status_id, guidance_appointments.appointment_id, student.last_name,student.year_level, student.first_name, student.middle_name, mode_of_communication.communication_mode, course.title, guidance_appointments.appointment_date, guidance_appointments.appointment_time from guidance_appointments JOIN indv_counselling on indv_counselling.appointment_id=guidance_appointments.appointment_id JOIN intake_form on indv_counselling.intake_id=intake_form.intake_id JOIN student ON student.Student_id=intake_form.Student_id JOIN course ON student.course_id=course.course_id JOIN mode_of_communication ON mode_of_communication.mode_id=guidance_appointments.mode_id WHERE intake_form.intake_id='$intake_id'");
-$sched=mysqli_fetch_array($sqlselect);?>
 
+$sched=mysqli_fetch_array($sqlselect);?>
+ 
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">SET APPOINTMENT</h5>
+                        <h5 class="modal-title">Intake Form | <?php echo $id; ?></h5>
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
                         <div class="container"> 
+                          <div class="row">
+                            <div class="col-sm">
 
-                            <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label">Student's Name</label><input class="form-control" type="text" name="first_name2" id="first_name2" value="<?php echo $sched['first_name'].' '.$sched['middle_name'].'. '.$sched['last_name'];?>" disabled>
-                                  
-                                </div>
+                              <h5> Are sure you want to Accept Intake Form of Student <?php echo $id; ?>? </h5>
+
+                              <input type="hidden" name="student_id" value="<?php echo $id; ?>"><input type="hidden" name="intake_id" value="<?php echo $intake_id;?>"><input type="hidden" name="appointment_id" value="<?php echo $sched['appointment_id'];?>"><input type="hidden" name="status_id" value="<?php echo $sched['status_id'];?>">
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label">Course & Year</label><input class="form-control" type="text" value="<?php echo $sched['title'].'-'.$sched['year_level'];?>" disabled>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm">
-                                <div class="form-group">
-                                  <label class="control-label">Mode of Communication</label><input class="form-control" type="text" name="mode_name" id="mode_name" value="<?php echo $sched['communication_mode'];?>" disabled>
-                                </div><input type="hidden" name="student_id" value="<?php echo $id; ?>"><input type="hidden" name="intake_id" value="<?php echo $intake_id;?>"><input type="hidden" name="appointment_id" value="<?php echo $sched['appointment_id'];?>"><input type="hidden" name="status_id" value="<?php echo $sched['status_id'];?>">
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label">Date</label>
-                                 <input type="text"name="appointment_date" id="appointment_date" value="<?php echo $sched['appointment_date']." ".$sched['appointment_time'];?>" class="form-control datepicker" onkeydown="return false" placeholder="YY-MM-DD" autocomplete="off" required="">
-                                </div>
-                            </div>
-                          </div>
+                          
                           <div class="row">
                             <div class="col-sm">
                              <!--  <div class="form-group">
@@ -74,130 +54,27 @@ $sched=mysqli_fetch_array($sqlselect);?>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
-                        <button type="submit" class="btn btn-success" id="submit" name="submit">SAVE CHANGES</button>
+                        <button type="submit" class="btn btn-success" id="submit" name="submit">ACCEPT</button>
                       </div>
                     </div>
                   </div>
                 </div>
 
    </form>
-<?php 
+<!-- <?php 
 
  if(isset($_POST['submit'])){
                       $appointment_id = $_POST['appointment_id'];
                       $intake_id = $_POST['intake_id'];
-                      $newDate = date('Y-m-d',strtotime($_POST['appointment_date']));
-                      $newTime = date('H:i',strtotime($_POST['appointment_date']));
-                      $status_id = $_POST['status_id'];
-                      $student_id = $_POST['student_id'];
 
-                      $query = "UPDATE guidance_appointments SET appointment_date = '$newDate', `appointment_time`='$newTime', status_id = '$status_id' WHERE appointment_id = '$appointment_id'";
-
-                      if(mysqli_query($conn,$query)){
-                            $query2 = "UPDATE intake_form SET date_verify = now() where intake_id='$intake_id'";
-                          }
-                      if(mysqli_query($conn,$query2)){
-                         /*Get Cred from database*/
-                        }
-                            $cred = "SELECT last_name, first_name, middle_name, email_add, appointment_date, appointment_time, mode_of_communication.communication_mode FROM guidance_appointments left join indv_counselling on indv_counselling.appointment_id=guidance_appointments.appointment_id LEFT JOIN mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id LEFT join intake_form on indv_counselling.intake_id = intake_form.intake_id LEFT JOIN student on intake_form.Student_id=student.Student_id WHERE guidance_appointments.appointment_id='$appointment_id'";
-                            if($cd=mysqli_query($conn,$cred)){
-                              while ($creds = mysqli_fetch_assoc($cd)) {
-                            /*Send schedule to Google callendar*/
-                            $newTime=date('H:i',strtotime('+4 hours', strtotime($newTime)));
-                            $from_name = "Guidance Office";        
-                            $from_address = "lloydsryan30@gmail.com";        
-                            $to_name = $creds['last_name'].', '.$creds['first_name'].' '.$creds['middle_name'];        
-                            $to_address = $creds['email_add'];          
-                            $startTime = $creds['appointment_date'].' '.$newTime;  
-                            $endTime = "";    
-                            $subject = "Guidance Meeting Schedule";   
-                            $description = "Guidance Meeting Schedule";    
-                            $location = $creds['communication_mode'];    
-                            $domain = 'gmail.com';
-                            
-                            //Create Email Headers
-                            $mime_boundary = "----Meeting Booking----".MD5(TIME());
-
-                            $headers = "From: ".$from_name." <".$from_address.">\n";
-                            $headers .= "Reply-To: ".$from_name." <".$from_address.">\n";
-                            $headers .= "MIME-Version: 1.0\n";
-                            $headers .= "Content-Type: multipart/alternative; boundary=\"$mime_boundary\"\n";
-                            $headers .= "Content-class: urn:content-classes:calendarmessage\n";
-                            
-                            //Create Email Body (HTML)
-                            $message = "--$mime_boundary\r\n";
-                            $message .= "Content-Type: text/html; charset=UTF-8\n";
-                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
-                            $message .= "<html>\n";
-                            $message .= "<body>\n";
-                            
-                            $message .= 'Group Guidance Meeting';
-                            
-                            $message .= "</body>\n";
-                            $message .= "</html>\n";
-                            $message .= "--$mime_boundary\r\n";
-
-                            //Event setting
-                            $ical = 'BEGIN:VCALENDAR' . "\r\n" .
-                            'PRODID:-//Microsoft Corporation//Outlook 10.0 MIMEDIR//EN' . "\r\n" .
-                            'VERSION:2.0' . "\r\n" .
-                            'METHOD:REQUEST' . "\r\n" .
-                            'BEGIN:VTIMEZONE' . "\r\n" .
-                            'TZID:Eastern Time' . "\r\n" .
-                            'BEGIN:STANDARD' . "\r\n" .
-                            'DTSTART:20091101T020000' . "\r\n" .
-                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11' . "\r\n" .
-                            'TZOFFSETFROM:-0400' . "\r\n" .
-                            'TZOFFSETTO:-0500' . "\r\n" .
-                            'TZNAME:EST' . "\r\n" .
-                            'END:STANDARD' . "\r\n" .
-                            'BEGIN:DAYLIGHT' . "\r\n" .
-                            'DTSTART:20090301T020000' . "\r\n" .
-                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3' . "\r\n" .
-                            'TZOFFSETFROM:-0500' . "\r\n" .
-                            'TZOFFSETTO:-0400' . "\r\n" .
-                            'TZNAME:EDST' . "\r\n" .
-                            'END:DAYLIGHT' . "\r\n" .
-                            'END:VTIMEZONE' . "\r\n" .  
-                            'BEGIN:VEVENT' . "\r\n" .
-                            'ORGANIZER;CN="'.$from_name.'":MAILTO:'.$from_address. "\r\n" .
-                            'ATTENDEE;CN="'.$to_name.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$to_address. "\r\n" .
-                            'LAST-MODIFIED:' . date("Ymd\TGis") . "\r\n" .
-                            'UID:'.date("Ymd\TGis", strtotime($startTime)).rand()."@".$domain."\r\n" .
-                            'DTSTAMP:'.date("Ymd\TGis"). "\r\n" .
-                            'DTSTART;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($startTime)). "\r\n" .
-                            'DTEND;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($endTime)). "\r\n" .
-                            'TRANSP:OPAQUE'. "\r\n" .
-                            'SEQUENCE:1'. "\r\n" .
-                            'SUMMARY:' . $subject . "\r\n" .
-                            'LOCATION:' . $location . "\r\n" .
-                            'CLASS:PUBLIC'. "\r\n" .
-                            'PRIORITY:5'. "\r\n" .
-                            'BEGIN:VALARM' . "\r\n" .
-                            'TRIGGER:-PT15M' . "\r\n" .
-                            'ACTION:DISPLAY' . "\r\n" .
-                            'DESCRIPTION:Reminder' . "\r\n" .
-                            'END:VALARM' . "\r\n" .
-                            'END:VEVENT'. "\r\n" .
-                            'END:VCALENDAR'. "\r\n";
-                            $message .= 'Content-Type: text/calendar;name="meeting.ics";method=REQUEST'."\n";
-                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
-                            $message .= $ical;
-
-                            if(mail($to_address, $subject, $message, $headers)){
-                        
-                            }else{
-                         
-                            }}
-                        
-
-
-                           newNotif($conn,$student_id);
+                      $query2 = "UPDATE intake_form SET date_verify = now() where intake_id='$intake_id'";
+                          
+                      newNotif($conn,$student_id);
                         }else{
                           echo "error";
                         }
-                    }
-                    ?>
+                    
+                    ?> -->
 
            
   <!--View Forms Modal -->
@@ -207,8 +84,8 @@ $sched=mysqli_fetch_array($sqlselect);?>
 
 
 <?php
-include('../../conn.php');
 $try=$row['Student_id'].$row['intake_id'];
+include('conn.php');
 $id=$row['Student_id'];
 $intake_id=$row['intake_id'];
  ?>
@@ -313,7 +190,7 @@ $intake_id=$row['intake_id'];
                  $q7= ''; 
                  $rd=array();$checked_arr=array();
                  $rd=array("Walk-in","Call-in","Referred");
-                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
+                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
                 if($prorow=mysqli_fetch_array($sqlselect)){ $q7=$prorow['Q7'];
                   $checked_arr[]=$prorow['intake_type'];
                   $image_data=$prorow['e_signature'];
@@ -573,8 +450,8 @@ $intake_id=$row['intake_id'];
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" name="print" class="btn btn-success" onclick="print_specific_div_content<?php echo $intake_id; ?>()"><i class="fas fa-print"></i>&nbsp;Print</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="submit" name="print" class="btn btn-success" onclick="print_specific_div_content<?php echo $intake_id; ?>()">Print</button>
           </div>        
         </div>
       </div>

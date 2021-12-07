@@ -53,7 +53,7 @@
               <?php     
                       $sql8 = "SELECT student.Student_id, student.first_name, student.middle_name, student.last_name, student.e_signature, student.section, student.year_level, participants.grp_guidance_id, participants.attendance 
                         FROM course JOIN student ON course.course_id = student.course_id
-                        JOIN participants ON student.Student_id = participants.Student_id WHERE participants.grp_guidance_id = '$g_id' AND participants.attendance='PRESENT'";
+                        JOIN participants ON student.Student_id = participants.Student_id WHERE participants.grp_guidance_id = '$g_id' AND participants.attendance='ATTENDED'";
                       $result8 = $conn->query($sql8);
                       if ($result8->num_rows > 0) {
                       // output data of each row

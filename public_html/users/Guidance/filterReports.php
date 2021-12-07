@@ -93,5 +93,10 @@ if (isset($_POST['mode']) && isset($_POST['from']) && isset($_POST['to']) && iss
 
   <?php }
 
-  ?><?php
+  ?>
  
+<script type="text/javascript">
+  
+$('#reports-table').DataTable();
+  
+</script>
