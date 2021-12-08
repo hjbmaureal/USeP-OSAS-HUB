@@ -25,8 +25,8 @@
     <!-- <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all"> -->
 
     <!-- Main CSS-->
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-    <link href="css/main.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/fonts/icomoon/style.css">
+    <link href="css/reg_main.css" rel="stylesheet" media="all">
     <link href="css/reg.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <!-- Jquery JS-->

@@ -40,31 +40,37 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="../../css/main.css">
-          <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
-    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
           <!-- FILTER LINK -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">    
-    <!--Jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <!-- DATEPICKER --> 
+          <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
- 
-   
-      <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
-
-<script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+     <!-- Data table plugin-->
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <!-- DISABLE DATE AND TIME SCRIPT -->
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+      <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
       <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet"/> -->
+      <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/> -->
+ 
+
+
  <style>
    .form-control select {
 width: 1px !important;
@@ -106,23 +112,25 @@ width: 1px !important;
   </style>
 
   </head>
-      <body class="app sidebar-mini rtl"onload="initClock()">
+      <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
         
       <header class="app-header">
+    
+   
       </header>
 
       <!-- Sidebar menu-->
-
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
         <aside class="app-sidebar">
         <div class="app-sidebar__user">
-          <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
+        <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
-            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">GUIDANCE OFFICE</p>
+            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
-        </div>
+      </div>
 
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
@@ -160,7 +168,7 @@ width: 1px !important;
 
   <main class="app-content">
             
-        <div class="app-title">
+          <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>

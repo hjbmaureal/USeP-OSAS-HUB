@@ -190,7 +190,7 @@ $intake_id=$row['intake_id'];
                  $q7= ''; 
                  $rd=array();$checked_arr=array();
                  $rd=array("Walk-in","Call-in","Referred");
-                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
+                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
                 if($prorow=mysqli_fetch_array($sqlselect)){ $q7=$prorow['Q7'];
                   $checked_arr[]=$prorow['intake_type'];
                   $image_data=$prorow['e_signature'];
