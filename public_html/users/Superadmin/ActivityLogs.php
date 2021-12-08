@@ -346,6 +346,7 @@ function timeago($datetime, $full = false) {
                   <th>IP Address</th>
                   <th>DateTime Accessed</th>
                   <th>Activity</th>
+                  <th>Page</th>
                   
                     </tr>
                   </thead>
@@ -361,7 +362,8 @@ function timeago($datetime, $full = false) {
             <td><?php echo $res['User_type']; ?></td>
             <td><?php echo $res['IP_address']; ?></td>  
             <td><?php echo $res['Date_Time']; ?></td> 
-            <td><?php echo $res['Activity']; ?></td>      
+            <td><?php echo $res['Activity']; ?></td>
+            <td><?php echo $res['Page']; ?></td>        
 
             <?php
                 }

@@ -1,36 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <!-- Twitter meta-->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@pratikborsadiya">
+    <meta property="twitter:creator" content="@pratikborsadiya">
+    <!-- Open Graph Meta-->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vali Admin">
+    <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+    <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+    <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+    <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+    <link rel="icon" href="../image/logo.png" type="image/gif" sizes="16x16">
+    <title>Student Hub</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="../css/superadmin/main_main.css">
+    <link rel="stylesheet" type="text/css" href="../css/superadmin/upstyle_main.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
 <?php
-  include_once('conn.php');
-  $staff_id = $_POST['staff_id'];
+  session_start();
+  include("../conn.php"); 
+  $student_id = $_POST['id'];
   $changePass;
   $passState;
-  $profileChanged = true;
-  $signChanged = true;
+  $photo = '';
   $email = $_POST['newEmail'];
   $contact = $_POST['newNum'];
 
   if(isset($_POST['submit-user-profile'])){
-    echo "dddd";
-      if($_FILES['profilePic']['name']){
-        echo $_FILES['profilePic']['name'];
-        move_uploaded_file($_FILES['profilePic']['tmp_name'], "../../images/".$_FILES['profilePic']['name']);
-        $img="../../images/".$_FILES['profilePic']['name'];
-        
-      }else{
-        $profileChanged  = false;
-        echo $_FILES['profilePic']['error'];
-      }
+    $file = "";
+    $file1 = "";
+    $query = "";
 
-      if($_FILES['signPic']['name']){
-        move_uploaded_file($_FILES['signPic']['tmp_name'], "../../images/".$_FILES['signPic']['name']);
-        $img2="../../images/".$_FILES['signPic']['name'];
-        }
-      else{
-        $signChanged = false;
-        echo $_FILES['signPic']['error'];
-      }
 
-      if (isset($_POST['currPass']) && isset($_POST['newPass'])&& isset($_POST['confirmNewPass'])) {
-        echo "pass";
+ if (isset($_POST['currPass']) && isset($_POST['newPass'])&& isset($_POST['confirmNewPass'])) {
+       
         function validate($data){
             $data = trim($data);
             $data = stripslashes($data);
@@ -52,35 +76,69 @@
           // hashing the password
           $oldPass = $oldPass;
           $newPass =$newPass;
-          $sql = "SELECT password FROM staff WHERE staff_id='$staff_id' AND password='$oldPass'";
+          $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
-              $changePass = true;
-              echo $changePass;
+              $query = "UPDATE student SET password='$newPass' WHERE Student_id='$student_id';";
+              mysqli_query($conn, $query);
             }else{
               $passState = "incorrect-password";
             }
         }
       }
-    $query = "UPDATE staff SET";
-    if($changePass){
-      $query.=" password = '$newPass',";
-      $passState ="";
-    }
-    if($profileChanged){
-      $query.="pic='$img',";
-    }
-    if($signChanged){
-      $query.="e_signature = '$img2',";
-    }
-    // echo $staff_id.''. $changePass . ' ' . $email . ' ' . $contact .' '. $img .' ' . $img2 . ' ' . $newPass .' ' .$oldPass .' '.$confirmNewPass;
-    $query.=" email_add = '$email' , phone_num = '$contact' WHERE Staff_id='$staff_id'";
-    
-    echo $query;
-    if(mysqli_query($conn, $query)){
-      header('location:user-profiles.php?'.$passState.'update-success');
-    }
-    else{
-      header('location:user-profiles.php?update-failed');
-    }
-  }
+    //$query
+
+      if(!file_exists($_FILES['image1']['tmp_name']) && !file_exists($_FILES['image']['tmp_name'])){
+        $file = "";
+        $file1= "";
+        $query = "UPDATE student SET phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+      } elseif (!file_exists($_FILES['image1']['tmp_name']) && file_exists($_FILES['image']['tmp_name'])) {
+          $file1="";
+          $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+          $query = "UPDATE student SET pic='$file',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+      } elseif (!file_exists($_FILES['image']['tmp_name']) && file_exists($_FILES['image1']['tmp_name'])) {
+          $file = "";
+          $file1  = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
+          $query = "UPDATE student SET e_signature='$file1',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+      }  else {
+          $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+          $file1 = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
+          $query = "UPDATE student SET pic = '$file', e_signature = '$file1',phone_number='$contact', email_add = '$email' WHERE Student_id='$student_id';";
+      }
+
+ }
+
+      if(mysqli_query($conn, $query))
+     {
+       
+        session_destroy();
+        echo '<script>
+            swal({
+              title: "Updated Successfully",
+              text: "Data has been updated. You need to Login again to apply all updated changes. Thank You :3",
+              type: "success"
+              }, function () {
+                setTimeout(function () {
+                  window.location.href="../index.php";
+                  }, 500);
+                  });
+                  </script>'; 
+              
+     }else{
+       echo '<script>
+       swal({
+          title: "Update Failed.",
+          text: "Unable to update data. Try again.",
+          type: "warning"
+          }, function () {
+            setTimeout(function () {
+              window.location.href="../users/Student/user-profiles.php";
+              }, 500);
+              });
+              </script>'; 
+              $_conn['error'] = $conn->error;
+              echo $conn->error;
+     }
+
+
+   
