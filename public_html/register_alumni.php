@@ -11,7 +11,7 @@
     <script type="text/javascript" src="script/script.js"></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
 
-    <!-- Title Page-->
+    <!-- Title Page-->      
     <link rel="icon" href="images/logo.png" type="image/gif" sizes="16x16">
     <title>Register | USeP Virtual Hub</title>
     <!-- Icons font CSS-->
@@ -25,12 +25,14 @@
     <!-- <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all"> -->
 
     <!-- Main CSS-->
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-    <link href="css/main.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="css/fonts/icomoon/style.css">
+    <link href="css/reg_main.css" rel="stylesheet" media="all">
     <link href="css/reg.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <!-- Jquery JS-->
     <script src="vendor/jquery/jquery.min.js"></script>
+
+
 </head>
 
 <body>
