@@ -566,6 +566,13 @@ if ($conn->query($sql12) === TRUE) {
       <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
       <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
+    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
@@ -726,7 +733,7 @@ if ($conn->query($sql12) === TRUE) {
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                 <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
                 </ul>
             </li>
       

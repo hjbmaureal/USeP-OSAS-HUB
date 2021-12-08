@@ -33,7 +33,7 @@
     }
   }
   $count = 0;
-  if($result = mysqli_query($conn,"SELECT count(*) AS cnt FROM notif WHERE user_id is null AND message_status='Delivered' AND office_id = 2")){
+  if($result = mysqli_query($conn,"SELECT count(*) AS cnt FROM notif WHERE user_id='$id' AND message_status='Delivered' AND office_id = 2")){
     while($row = mysqli_fetch_array($result)){
       $count = $row['cnt'];
     }
@@ -277,7 +277,7 @@
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 2)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 2)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
