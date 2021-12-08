@@ -13,10 +13,7 @@
   $staff_id = $_SESSION['id'];
   $result = mysqli_query($conn, "SELECT * FROM staffdetails WHERE staff_id = '$staff_id'");
   $row = mysqli_fetch_assoc($result);
-  $staff_pic = $row['pic'];
-  $staff_sign = $row['e_signature'];
-  $email_add = $row['email_add'];
-  $contact = $row['phone_num'];
+
 
 $id = $_SESSION['id'];
     $count_sql="SELECT * from forgot_pass_requests where remarks='Request Delivered'";

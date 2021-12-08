@@ -1,6 +1,7 @@
 <?php
 session_start();
-include("../conn.php"); 
+include("../conn.php");
+include 'logactivity.php';
 
 if(isset($_POST['submit'])){
 
@@ -33,12 +34,15 @@ if(isset($_POST['submit'])){
                 $_SESSION['college'] = isset($row['college']) ? $row['college'] : '';
                 $_SESSION['usertype'] = $row['usertype'];
                 $_SESSION['office'] = $row['staff_office'];
-                $_SESSION['photo'] = base64_encode($row['pic']);
-                $_SESSION['pic'] = $pic;
+                
+                $_SESSION['pic'] = base64_encode ($row['pic']);
                 $_SESSION['user_signature'] = base64_encode ($row['e_signature']);
                 $_SESSION['access_level'] = $row['access_level'];
                 $access_level = $row['access_level'];
                 $_SESSION['org_id'] = $row['student_org'];
+                $activity = 'Successfully Logged in.';
+                $page = 'public_html/index.php';   
+                log_activity($activity,$page);
                 if($_SESSION['id']=='superadmin'){         
                     echo '<script type="text/javascript">'; 
                      echo 'location.href= "../users/Superadmin/";';
@@ -109,11 +113,19 @@ if(isset($_POST['submit'])){
                      echo '</script>';
                 }
             }
-        } else {    
+        
+        } else {
+
+                $activity = 'Incorrect Password.';
+                $page = '/osaweb/Log-in.html';
+                log_activity($activity,$page);
+                 echo '<script>alert(\"Incorrect Password!\")</script>"';   
+
                  echo '<script type="text/javascript">'; 
                  echo 'window.location= "../index.php";';
                  echo '</script>';
             }
+
     }
 
 }
