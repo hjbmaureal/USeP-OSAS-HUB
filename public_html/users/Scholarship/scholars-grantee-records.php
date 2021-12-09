@@ -1562,6 +1562,7 @@
 
         //RADIO BUTTON AJAX $('input[name="sdfLivingWithUpdate"][value="'+data[12]+'"]').prop('checked', true);
         $('#print-button').click(function(){
+          console.log("Hello world");
           scholar_table.column(0).visible(false);
           $('#scholar-table').printThis(options);
           setTimeout(() => {

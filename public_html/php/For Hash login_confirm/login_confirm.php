@@ -7,22 +7,24 @@ if(isset($_POST['submit'])){
 
      $uid = $_POST['uname'];
      $password = $_POST['pword'];
+
+
+     $check_query="SELECT * from login_credentials where username='$uid'";
+     $resultPass= mysqli_query($conn,$check_query);
+     $row=mysqli_fetch_assoc($resultPass);
         $data = array();
 
+    $hash= $row['password'];
 
-    $sql = "call spLogIn(?,?)";
-    $stmt = mysqli_stmt_init($conn);
+
+
+    /*$superadmin= '1234';
+    $hashed_pass = password_hash($superadmin, PASSWORD_DEFAULT);*/
+   /* $sql = "call spLogIn(?,?)";
+    $stmt = mysqli_stmt_init($conn);*/
                 
-    if (!mysqli_stmt_prepare($stmt,$sql)){
-        echo "SQL statement failed!";
-    } else {
-        mysqli_stmt_bind_param($stmt,"ss", $uid,$password);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $resultCheck = mysqli_num_rows($result);
-        if ($resultCheck > 0){
-            while ($row = mysqli_fetch_assoc($result)){ 
-
+    if (password_verify($password,$hash )){
+       
                 if (empty($row['pic'])) $row['pic'] = file_get_contents("../images/logo.png");
                 if (empty($row['e_signature'])) $row['e_signature'] = file_get_contents("../images/e-sig.png");
                 $data[] = $row;
@@ -40,6 +42,7 @@ if(isset($_POST['submit'])){
                 $_SESSION['access_level'] = $row['access_level'];
                 $access_level = $row['access_level'];
                 $_SESSION['org_id'] = $row['student_org'];
+                $_SESSION['position'] = $row['staff_position'];
                 $activity = 'Successfully Logged in.';
                 $page = 'public_html/index.php';   
                 log_activity($activity,$page);
@@ -85,12 +88,24 @@ if(isset($_POST['submit'])){
                     } 
                 }
                 if ($_SESSION['usertype']=='Coordinator'){
-                    $access_level = $row['access_level'];
-                    if ($_SESSION['office'] =='Guidance' && $access_level == 1){
+                    if($_SESSION['position']=='Guidance Counselor'){
+                            $access_level = $row['access_level'];
+                        if ($_SESSION['office'] =='Guidance' && $access_level == 1){
+                             echo '<script type="text/javascript">'; 
+                             echo 'window.location= "../users/Guidance/";';
+                             echo '</script>';
+                        } 
+                    }else{
+                         $activity = 'Incorrect Password.';
+                        $page = '/osaweb/Log-in.html';
+                        log_activity($activity,$page);
+                         echo '<script>alert(\"Incorrect Password!\")</script>"';   
+
                          echo '<script type="text/javascript">'; 
-                         echo 'window.location= "../users/Guidance/";';
+                         echo 'window.location= "../index.php?res=Incorrect";';
                          echo '</script>';
-                    } 
+                    }
+                    
                 }
                 if ($_SESSION['usertype']=='Faculty' && $access_level = 2){
                      echo '<script type="text/javascript">'; 
@@ -112,11 +127,11 @@ if(isset($_POST['submit'])){
                      echo 'window.location= "../users/Faculty/";';
                      echo '</script>';
                 }
-            }
         
-        } else {
+    } else {
+        
 
-                $activity = 'Incorrect Password.';
+               $activity = 'Incorrect Password.';
                 $page = '/osaweb/Log-in.html';
                 log_activity($activity,$page);
                  echo '<script>alert(\"Incorrect Password!\")</script>"';   
@@ -124,8 +139,7 @@ if(isset($_POST['submit'])){
                  echo '<script type="text/javascript">'; 
                  echo 'window.location= "../index.php?res=Incorrect";';
                  echo '</script>';
-            }
+       
 
     }
-
 }

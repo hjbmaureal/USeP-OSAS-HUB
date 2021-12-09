@@ -52,7 +52,7 @@ if (isset($_POST['pass'])){
     }else{
       $stats = "Active";}
 
-      $sql="UPDATE school_organization SET status ='$stats' WHERE org_id= '$User_id' ";
+      $sql="UPDATE approve_funded SET status ='$stats' WHERE id= '$User_id' ";
       !$query = $conn->query($sql);
 
       echo '<script>

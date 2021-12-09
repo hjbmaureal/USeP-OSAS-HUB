@@ -1,5 +1,5 @@
  <form method="POST" action="php/org_act-dis.php">    
-<div class="modal fade " id="org_verify<?php echo $res['org_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade " id="org_verify<?php echo $res['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -16,11 +16,11 @@
                                   <input class="form-control" type="password" id="pass" name="pass" placeholder="Input your password" required>  
                                   
                                   <?php include('../../conn.php');
-                                      $sqlselect=mysqli_query($conn,"SELECT * FROM school_organization where org_id='".$res['org_id']."'");
+                                      $sqlselect=mysqli_query($conn,"SELECT * FROM approve_funded where id='".$res['id']."'");
                                       $prorow=mysqli_fetch_array($sqlselect);
                                   ?>
 
-                                  <input type="hidden" name="eid" value="<?php echo $res['org_id']; ?>">
+                                  <input type="hidden" name="eid" value="<?php echo $res['id']; ?>">
                                   <input type="hidden" name="status" value="<?php echo $prorow['status']; ?>">
                                 </div>
 

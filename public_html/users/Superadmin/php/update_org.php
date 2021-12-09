@@ -33,14 +33,13 @@
 </head>
 <body>
 
-	<?php
-	include('conn.php');
+<?php
+include('conn.php');
 
-	if(isset($_POST['submit'])){
-		$query = mysqli_query($conn,"SELECT * FROM school_organization") ;
-		$uid = $_POST['ID'];
-		$orgname= $_POST['orgname'];
-		$orgdesc= $_POST['orgdesc'];
+if(isset($_POST['submit'])){
+	$query = mysqli_query($conn,"SELECT * FROM approve_funded") ;
+	$uid = $_POST['id'];
+	$orgname= $_POST['orgname'];
 		$gov= $_POST['gov'];
 		$adviser= $_POST['adviser'];
 		$type= $_POST['type'];
@@ -48,7 +47,7 @@
 
 
 
-		$sql = "UPDATE school_organization SET org_desc = '$orgdesc', org_name = '$orgname', governor_id = '$gov', staff_id = '$adviser', fund_type = '$type' WHERE org_id = '$uid'";
+		$sql = "UPDATE approve_funded SET  org_pres_gov = '$gov', org_adviser = '$adviser' WHERE id = '$uid'";
 		if($conn->query($sql)){
 			$_conn['success'] = 'Updated successfully';
 

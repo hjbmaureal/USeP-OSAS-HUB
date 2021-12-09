@@ -55,7 +55,7 @@ if(isset($_POST['submit'])) {
     $pass = $_POST['password'];
 
     $location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
-    $location2 = addslashes(file_get_contents($_FILES["prof_pic"]["tmp_name"]));
+
 
 
 
@@ -109,8 +109,7 @@ if ($major == "null") {
     '$phone', 
     '$year', 
     '$pass', 
-    '$location', 
-    '$location2', 
+    '$location',  
     '$datenow', 
     '$datenow' );";
 

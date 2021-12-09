@@ -337,25 +337,7 @@ function timeago($datetime, $full = false) {
                     
                   <?php
                   include('conn.php');
-                  $query = "SELECT
-
-                    o.*,
-
-                    st.Student_id,
-                    st.last_name as st_l,
-                    st.first_name as st_f,
-                    st.middle_name as st_m,
-                    
-                    sf.staff_id,
-                    sf.last_name as sf_l,
-                    sf.first_name as sf_f,
-                    sf.middle_name as sf_m
-
-                    FROM school_organization as o 
-                    LEFT JOIN student as st 
-                    ON o.governor_id = st.Student_id
-                    LEFT JOIN staff as sf
-                    ON o.staff_id = sf.staff_id"; 
+                  $query = "SELECT * FROM approve_funded";                
 
                   $result = mysqli_query($conn, $query);
 
@@ -363,26 +345,26 @@ function timeago($datetime, $full = false) {
         while($res = mysqli_fetch_array($result)){         
             ?>
             <tr>
-            <td><?php echo $res['org_id']; ?></td>
+            <td><?php echo $res['id']; ?></td>
             <td style="min-width:200px"><?php echo $res['org_name']; ?></td>
-            <td><?php echo $res['org_status']; ?></td>
-            <td style="min-width:200px"><?php echo $res['st_f']. ' ' .$res['st_m']. ' ' .$res['st_l']; ?></td>
-            <td style="min-width:200px"><?php echo $res['sf_f']. ' ' .$res['sf_m']. ' ' .$res['sf_l']; ?></td>
+            <td><?php echo $res['type']; ?></td>                                        
+            <td style="min-width:200px"><?php echo $res['org_pres_gov']; ?></td>
+            <td style="min-width:200px"><?php echo $res['org_adviser']; ?></td>
             <td><?php echo $res['status']; ?></td>          
                      <td>
                           
-                      <button class="btn btn-info btn-sm" data-toggle="modal" a href="#details<?php echo $res['org_id']; ?>"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-info btn-sm" data-toggle="modal" a href="#details<?php echo $res['id']; ?>"><i class="fas fa-eye"></i></button>
                       <?php include('php/student_org_modal.php'); ?>
 
                       <!-- for edit -->
-                      <a class="btn btn-warning btn-sm" data-toggle="modal" a href="#editdetails<?php echo $res['org_id']; ?>">  <i class="fas fa-edit" data-toggle="modal" data-target="#cordownload"></i></a>                      <!--end of edit part--> 
+                      <a class="btn btn-warning btn-sm" data-toggle="modal" a href="#editdetails<?php echo $res['id']; ?>">  <i class="fas fa-edit" data-toggle="modal" data-target="#cordownload"></i></a>                      <!--end of edit part--> 
                       <?php include('php/org_modal.php'); ?>
                     <?php 
                     if($res['status'] == "Active"){?>
                       <button role="button" class="btn btn-success btn-sm" data-toggle="modal" data-role="prodbtn2" disabled="">Enable</button>
-                      <a class="btn btn-danger btn-sm" data-toggle="modal" a href="#org_verify<?php echo $res['org_id']; ?>">Disable</a>
+                      <a class="btn btn-danger btn-sm" data-toggle="modal" a href="#org_verify<?php echo $res['id']; ?>">Disable</a>
                     <?php }else{?>
-                    <a class="btn btn-success btn-sm" data-toggle="modal" a href="#org_verify<?php echo $res['org_id']; ?>">Enable</a>
+                    <a class="btn btn-success btn-sm" data-toggle="modal" a href="#org_verify<?php echo $res['id']; ?>">Enable</a>
                     <button role="button" class="btn btn-danger btn-sm" data-toggle="modal" data-role="prodbtn2" disabled="">Disable</button>
                 
                      
@@ -423,7 +405,7 @@ function timeago($datetime, $full = false) {
       <script src="../../js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="j../../s/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -553,6 +535,34 @@ var filterItem=$(this).val()
 
 } );
                 </script>
+ <script type="text/javascript">
+                      $(document).ready(function()
+                          {
+                            $('#search').keyup(function(){
+                              var Search = $('#search').val();
+                              
+                              if(Search!=""){
+                                  $.ajax({
+                                    url: 'search.php',
+                                    method: 'POST',
+                                    data: {search:Search},
+                                    success:function(data){
+                                      $('#content').html(data);
+                                    }
+                                  })
+                              }
+                              else{
+                                   $('#content').html('');
+                              }
+                              $(document).on('click', 'a', function (){
+                                $('#search').val($(this).text());
+                                $('#content').html('');
+                              })
+
+                            }) 
+          
+                          })
+                    </script>
 
   </body>
 </html>

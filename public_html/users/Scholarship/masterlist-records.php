@@ -518,7 +518,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
             <form action="../../php/scholarship-masterlist-script.php" method="POST" enctype="multipart/form-data">
-              <input type="text" name="recordNumber" id="delete-record-no" hidden>
+              <input type="hidden" name="recordNumber" id="delete-record-no" hidden>
               <div class="modal-header">
                 <h5 class="modal-title">Delete Record?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="close">

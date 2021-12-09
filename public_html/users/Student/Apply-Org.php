@@ -854,7 +854,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                     <div class="tile-footer"></div>
                           <button class="btn btn-success" name="submit" id="submit" type="submit" >Submit</button>
-                           <a class="btn btn-primary" href="Home-Orgs.html" style="float: right;">Cancel</a>
+                           <a class="btn btn-primary" href="Home-Orgs.php" style="float: right;">Cancel</a>
                     </div>
 
               
