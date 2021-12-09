@@ -86,7 +86,7 @@ if(isset($_POST['submit'])){
                     } 
                 }
                 if ($_SESSION['usertype']=='Coordinator'){
-                    if($_SESSION['position']=='Guidance Councelor'){
+                    if($_SESSION['position']=='Guidance Counselor'){
                             $access_level = $row['access_level'];
                         if ($_SESSION['office'] =='Guidance' && $access_level == 1){
                              echo '<script type="text/javascript">'; 
