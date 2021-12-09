@@ -370,7 +370,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                        <input type="file" name="image" id="imgInp"/>
                      
                       </div>
-                         <img id='img-upload' class="rounded-circle" src="data:image/jpeg;base64,<?php echo $_SESSION['pic'] ?>" style="max-width:50%;" />
+                         <img id='img-upload' class="rounded-circle" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:50%;" />
                     </div>
                     <div class="col-lg">
                       <h3><?php echo $_SESSION['id'] ?></h3>
