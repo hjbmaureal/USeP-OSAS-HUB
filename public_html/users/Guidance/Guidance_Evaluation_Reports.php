@@ -12,7 +12,7 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' or office_id = 4) and message_status='Delivered'");
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 
@@ -308,6 +308,19 @@ $obj_pdf->IncludeJS($js);
           <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+       <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
+    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+     <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
+    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
@@ -422,7 +435,7 @@ $obj_pdf->IncludeJS($js);
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 4)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$admin_id AND office_id = 4)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -722,7 +735,7 @@ $obj_pdf->IncludeJS($js);
       </main>
 
       <!-- Essential javascripts for application to work-->
-      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="../../js/jquery-3.3.1.min.js"></script>
       <!-- The javascript plugin to display page loading on top-->
       <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
@@ -730,6 +743,20 @@ $obj_pdf->IncludeJS($js);
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript" src="js/jquery.min.js"></script>
+           <!-- Essential javascripts for application to work-->
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/popper.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="../../js/plugins/pace.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Page specific javascripts-->
+    <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/plugins/jquery.table2excel.js"></script>
 
 <script>
 $(document).ready(function(){

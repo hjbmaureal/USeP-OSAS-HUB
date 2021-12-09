@@ -314,19 +314,14 @@ function timeago($datetime, $full = false) {
                             </div>
                             <br><br>
                             <div class="row">
-                              <!-- <div class="col-sm">
-                                Status
-                                <select class="bootstrap-select" id="sel2">
-                                  <option class="select-item" value="All" selected="selected">All</option>
-                                  <option class="select-item" value="Active">Active</option>
-                                  <option class="select-item" value="Disabled">Disabled</option>
-                                  <select name="sortCourse" id="sortCourse" class="form-control">
-                                  <option  value="0">All</option>
-                                  <option  value="0">All</option>
-                                  <option <?php //if(isset($_POST['status']) && $_POST['status'] == 'DONE' ) echo 'selected'?> value="DONE">DONE</option>
-                                  <option <?php //if(isset($_POST['status']) && $_POST['status'] == 'NOT DONE' ) echo 'selected'?> value="NOT DONE">NOT DONE</option>
-                                </select>
-                              </div> -->
+                                <div class="col-sm">
+                                  Status
+                                  <select class="bootstrap-select" id="sel2">
+                                    <option class="select-item" value="All" selected="selected">All</option>
+                                    <option class="select-item" value="Active">Active</option>
+                                    <option class="select-item" value="Inactive">Inactive</option>
+                                  </select>
+                                </div>
                               <div class="col-sm">
                                 <button class="btn btn-danger btn-sm  button-sm mtop add-wid float-right" data-toggle="modal" data-target="#addDept"><i class="fas fa-plus mr-1"></i> Add New</button>
                               </div>
@@ -667,19 +662,19 @@ function timeago($datetime, $full = false) {
                       });
 
                       $("#sel2").on('change',function() {
+                        console.log($(this).val());
                         $.fn.dataTable.ext.search.pop();
-                        table.draw();
+                        tbl.draw();
                         var filterItem=$(this).val()
                         $.fn.dataTable.ext.search.push(
                           function(settings, data, dataIndex) {
-
-                            return $(table.row(dataIndex).node()).children("td:nth-child(4)").text()==filterItem;
+                            return $(tbl.row(dataIndex).node()).children("td:nth-child(5)").text()==filterItem;
                           }
                           );
                         if ("All"==filterItem) {
                          $.fn.dataTable.ext.search.pop();
                        }
-                       table.draw();
+                       tbl.draw();
                      });
 
 
