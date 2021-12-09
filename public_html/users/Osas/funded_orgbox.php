@@ -106,10 +106,13 @@
                         </div>
                       </div>
 
-<div>
-<label class="control-label ml-2 mt-2">Accreditation Files Submitted:</label>
-                        <div class="remarks-container container p-3">
-                          <div class="row">
+
+
+                      <div class="col-sm-12">
+                    <label class="control-label ml-2 mt-2">Accreditation Files Submitted:</label></div>
+
+                        
+                          
                             <div class="col-sm">
                              <div class="tile card text-center h120" >
                                <div class="card-body fs1">
@@ -144,9 +147,9 @@
                         </div>
                       </div>
 
-                    </div>
+                
 
-                    <div class="row mt-2">    
+                     
                      <div class="col-sm">
                       <div class="tile card text-center h120" >
                        <div class="card-body fs1">
@@ -184,7 +187,6 @@
 
 
           </div>
-</div>                   
 ';  }  
                
       ?>

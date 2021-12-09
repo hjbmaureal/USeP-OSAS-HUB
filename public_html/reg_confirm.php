@@ -208,7 +208,7 @@ if($stmt = mysqli_prepare($conn, $sql)){
         $sdfSpouseUpdate,
         $sdfSpouseOccupationUpdate,
         $null,
-        $pass,
+        $hashed_pass,
         $location3,
         $location2);
     

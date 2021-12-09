@@ -469,7 +469,7 @@
                     <!-- Page specific javascripts-->
                     <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
                     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                	<script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+                	<script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
                 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	                <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
                   
@@ -582,7 +582,7 @@
                           icon: "success",
                           })
                           $.ajax({
-                            url: 'function1.php',
+                            url: 'function.php',
                             method: 'POST',
                             data:{
                               send_data: 'done',

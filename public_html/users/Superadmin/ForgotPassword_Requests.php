@@ -69,7 +69,7 @@ $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $message = "Your new password is ".$new_pass.". Remember it well and don't forget it next time.";
 
 
-//$new_pass = password_hash($new_pass,PASSWORD_DEFAULT);
+$new_pass = password_hash($new_pass,PASSWORD_DEFAULT);
  $change_pass_query = $conn->prepare("call spUpdatePass(?,?)");
  $change_pass_query->bind_param("ss", $new_pass, $student_id);
  $result2 = $change_pass_query->execute();

@@ -7,22 +7,24 @@ if(isset($_POST['submit'])){
 
      $uid = $_POST['uname'];
      $password = $_POST['pword'];
+
+
+     $check_query="SELECT * from login_credentials where username='$uid'";
+     $resultPass= mysqli_query($conn,$check_query);
+     $row=mysqli_fetch_assoc($resultPass);
         $data = array();
 
+    $hash= $row['password'];
 
-    $sql = "call spLogIn(?,?)";
-    $stmt = mysqli_stmt_init($conn);
+
+
+    /*$superadmin= '1234';
+    $hashed_pass = password_hash($superadmin, PASSWORD_DEFAULT);*/
+   /* $sql = "call spLogIn(?,?)";
+    $stmt = mysqli_stmt_init($conn);*/
                 
-    if (!mysqli_stmt_prepare($stmt,$sql)){
-        echo "SQL statement failed!";
-    } else {
-        mysqli_stmt_bind_param($stmt,"ss", $uid,$password);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $resultCheck = mysqli_num_rows($result);
-        if ($resultCheck > 0){
-            while ($row = mysqli_fetch_assoc($result)){ 
-
+    if (password_verify($password,$hash )){
+       
                 if (empty($row['pic'])) $row['pic'] = file_get_contents("../images/logo.png");
                 if (empty($row['e_signature'])) $row['e_signature'] = file_get_contents("../images/e-sig.png");
                 $data[] = $row;
@@ -116,20 +118,19 @@ if(isset($_POST['submit'])){
                      echo 'window.location= "../users/Faculty/";';
                      echo '</script>';
                 }
-            }
         
-        } else {
+    } else {
+        
 
                 $activity = 'Incorrect Password.';
-                $page = '/osaweb/Log-in.html';
+                $page = '/public_html/index.php';
                 log_activity($activity,$page);
                  echo '<script>alert(\"Incorrect Password!\")</script>"';   
 
                  echo '<script type="text/javascript">'; 
                  echo 'window.location= "../index.php";';
                  echo '</script>';
-            }
+       
 
     }
-
 }

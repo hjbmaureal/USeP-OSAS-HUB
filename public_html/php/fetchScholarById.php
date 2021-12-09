@@ -1,5 +1,5 @@
 <?php
-  include_once("connect_db.php");
+  include_once("conn.php");
   $student_id = "";
   $student_id = $_POST['search_id'];
   $results = array();
