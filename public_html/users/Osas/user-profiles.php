@@ -241,8 +241,9 @@ function timeago($datetime, $full = false) {
           </li>
         <li class="dropdown">
           <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
-            <b style="color: red;"><?php echo $count;  ?></b>
             <i class=" fas fa-bell fa-lg mt-2"></i>
+            <b style="color: red;"><?php echo $count;  ?></b>
+            
           </a>
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
