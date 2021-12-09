@@ -35,7 +35,7 @@ if(isset($_POST['submit'])){
                 $_SESSION['usertype'] = $row['usertype'];
                 $_SESSION['office'] = $row['staff_office'];
                 
-                $_SESSION['pic'] = base64_encode ($row['pic']);
+                $_SESSION['photo'] = base64_encode ($row['pic']);
                 $_SESSION['user_signature'] = base64_encode ($row['e_signature']);
                 $_SESSION['access_level'] = $row['access_level'];
                 $access_level = $row['access_level'];
