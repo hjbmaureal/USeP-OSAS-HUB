@@ -49,8 +49,10 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
     <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/main.css">
+
       <link rel="stylesheet" type="text/css" href="css/announcements.css">
           <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle_main.css">
 
       <!-- Font-icon css-->
           <link rel="stylesheet" type="text/css" href="css/all.min.css">
@@ -360,27 +362,43 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           <!-- SECOND ROW -->
           <div class="row">
             <div class="col-xl">
-              <div class="red-bar"></div>
+              <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
               <div class="tile">
                 <div class="container">
                   <div class="row">
                     <div class="col-4" >
-                      <div style="height: 100px; width: 150px;border-radius: 50%;margin-left: 40px;">
-                        <span class="btn btn-default btn-file">
-                       <input type="file" name="image" id="imgInp"/>
-                     
+                      <div class="prof-picture">
+                        <img id='img-upload' class="prof" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" /></div>
+                         
+                    <div class="image-upload">
+                     <label for="imgInp">
+                      <img class="camera" src="../../images/camera1.png" style="cursor: pointer;">
+                  </label>
+                    <input id="imgInp" type="file" name="image"/>
                       </div>
-                         <img id='img-upload' class="rounded-circle" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:50%;" />
+
+                         <!--span class="btn btn-default btn-file">
+                       <input type="file" name="image" id="imgInp"-->
                     </div>
                     <div class="col-lg">
-                      <h3><?php echo $_SESSION['id'] ?></h3>
+
+                      <?php 
+
+                      $id = $_SESSION['id'];  
+                      $result = mysqli_query($conn, "SELECT * FROM studentdetails WHERE student_id = '$id'");
+                     $row = mysqli_fetch_assoc($result);
+?>
+                      <h3><?php echo $row['student_id'] ?></h3>
                       <h4><?php echo $_SESSION['fullname'] ?></h4>
-                      <h5><?php echo $_SESSION['college'] ?></h5>
-                      <h5><?php echo $_SESSION['usertype'] ?></h5>
+                      <h4><?php echo $row['college'] ?></h4>
+                      <h4><?php echo $row['coursename'] ?></h4>
+                      <h4><?php echo $row['section'] ?></h4>
+                      <h4><?php echo $_SESSION['usertype'] ?></h4>
                     </div>
                   </div>
                 </div>
               </div>
+
             </div>
           </div> <!-- END OF SECOND ROW -->
           <h3>Update Personal Information</h3>
@@ -389,7 +407,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
             <div class="col-xl">
               <div class="tile">
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-sm-6">
                     <div class="form-group">
                       <label for="emailAddress">Email Address</label>
                       <input type="email" name="newEmail" class="form-control" value="" placeholder="Enter your email address...">
@@ -399,18 +417,47 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       <input type="text" name="newNum" class="form-control" value="" placeholder="Enter your contact number...">
                     </div>
                   </div>
-                  <div class="col-6">
-                    <label for="eSign" class="control-label">E-Signature</label>
-                    <div class="tile-body">
-                      <div style="height: 100px; width: 150px;border-radius: 50%;margin-left: 40px;">
-                         <span class="btn btn-default btn-file">
-                             <input type="file" name="image1" id="imgInp1"  />
-                         
-                      </div>
-                    <img id='img-upload1' class="rectangle" src="data:image/jpeg;base64,<?php echo $_SESSION['user_signature'] ?>" style="max-width:50%;" />
+                  <div class="col-sm-6">
+                    <div class="row p-2">
+                        <div class="col">
+                         <label for="eSign" class="control-label">E-Signature</label>
+                        </div>
+                        <div class="col">
+                           <!--  <label for="fuck2">
+                            <div style="width:20px; height:30px; border:1px solid black;">
+                              sdf
 
-                     
+                            </div>
+                          </label>-->
+                          <input type="file" name="image1" id="imgInp1"  />
+
+
+
+
+
+
+                            <!--<span class="btn btn-default btn-file">-->
+                             
+                              
+
+                        </div>
+
                     </div>
+                    <style type="text/css">
+                      .center {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          height: 200px;
+                          border: 3px solid green; 
+                        }
+                    </style>
+                    <div class="tile-body" style="width: 100%; height: 200px;" class="center"><center>
+                      <div style=" border: 5px solid #C12C32; height:180px;" class="center">
+                         <img id='img-upload1' src="data:image/jpeg;base64,<?php echo $_SESSION['user_signature'] ?>" style="max-width:50%; height: 120px;" class="vertical-center"/>
+                      </div>
+                             
+                    </div></center>
                   </div>
                 </div>
               </div>

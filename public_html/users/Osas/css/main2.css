@@ -2809,6 +2809,10 @@ fieldset:disabled a.btn {
   border-color: #bd2130;
 }
 
+
+
+
+
 /*.btn-danger:focus, .btn-danger.focus {
   -webkit-box-shadow: 0 0 0 0 rgba(225, 83, 97, 0.5);
           box-shadow: 0 0 0 0 rgba(225, 83, 97, 0.5);
@@ -10825,7 +10829,7 @@ table.table-bordered.dataTable td {
 table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child,
 table.table-bordered.dataTable td:last-child,
 table.table-bordered.dataTable td:last-child {
- /* border-right-width: 0;*/
+  border-right-width: 0;
 }
 
 table.table-bordered.dataTable tbody th,
@@ -16005,6 +16009,30 @@ be a descendant of the grid when it is being dragged.
           animation: bSpinner 0.8s linear infinite;
 }
 
+
+
+.complaints {
+  padding: 15px;
+  border: 2px solid #C12C32;
+  border-radius: 10px;
+}
+
+
+.appointment_box {
+  padding: 20px;
+  border: 1.5px solid #2B4550;
+  border-radius: 15px;
+}
+
+
+.box {
+  padding: 40px;
+  border: 1.5px solid #2B4550;
+  border-radius: 15px;
+
+}
+
+
 @-webkit-keyframes bSpinner {
   0% {
     -webkit-transform: rotate(0deg);
@@ -16031,9 +16059,9 @@ be a descendant of the grid when it is being dragged.
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  border-radius: 4px;
+  border-radius: 15px;
   color: #FFF;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -16049,9 +16077,9 @@ be a descendant of the grid when it is being dragged.
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 20px;
+  padding: 30px;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px 0 0 4px;
+  border-radius: 10px 0 0 10px;
   font-size: 2.5rem;
 }
 
@@ -16065,7 +16093,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small .info h4 {
-  text-transform: uppercase;
+
   margin: 0;
   margin-bottom: 5px;
   font-weight: 400;
@@ -16078,7 +16106,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.primary {
-  background-color: #c82333;
+  background-color: #65818D;
 }
 
 .widget-small.primary.coloured-icon {
@@ -16087,12 +16115,12 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.primary.coloured-icon .icon {
-  background-color: #c82333;
+  background-color:#65818D;
   color: #fff;
 }
 
 .widget-small.info {
-  background-color: #17a2b8;
+  background-color: #65818D;
 }
 
 .widget-small.info.coloured-icon {
@@ -16101,12 +16129,12 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.info.coloured-icon .icon {
-  background-color: #17a2b8;
+  background-color: #65818D;
   color: #fff;
 }
 
 .widget-small.warning {
-  background-color: #ffc107;
+  background-color: #65818D;
 }
 
 .widget-small.warning.coloured-icon {
@@ -16115,12 +16143,12 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.warning.coloured-icon .icon {
-  background-color: #ffc107;
+  background-color: #65818D;
   color: #fff;
 }
 
 .widget-small.danger {
-  background-color: #dc3545;
+  background-color: #65818D;
 }
 
 .widget-small.danger.coloured-icon {
@@ -16129,7 +16157,7 @@ be a descendant of the grid when it is being dragged.
 }
 
 .widget-small.danger.coloured-icon .icon {
-  background-color: #dc3545;
+  background-color: #65818D;
   color: #fff;
 }
 
@@ -16747,11 +16775,8 @@ be a descendant of the grid when it is being dragged.
   color: #666;
 }
 
-/* mine */
-body{
-  background-color: #e9ebf0;
-}
+.head {
+text-align: center;
+font-size: 15px;
 
-.dp{
-  width: 48px;
 }
