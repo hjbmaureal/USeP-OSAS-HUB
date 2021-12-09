@@ -36,10 +36,12 @@ if(isset($_POST['submit'])){
                 $_SESSION['office'] = $row['staff_office'];
                 
                 $_SESSION['pic'] = base64_encode ($row['pic']);
+                 $_SESSION['photo'] = base64_encode ($row['pic']);
                 $_SESSION['user_signature'] = base64_encode ($row['e_signature']);
                 $_SESSION['access_level'] = $row['access_level'];
                 $access_level = $row['access_level'];
                 $_SESSION['org_id'] = $row['student_org'];
+                $_SESSION['position'] = $row['staff_position'];
                 $activity = 'Successfully Logged in.';
                 $page = 'public_html/index.php';   
                 log_activity($activity,$page);
@@ -85,12 +87,15 @@ if(isset($_POST['submit'])){
                     } 
                 }
                 if ($_SESSION['usertype']=='Coordinator'){
-                    $access_level = $row['access_level'];
-                    if ($_SESSION['office'] =='Guidance' && $access_level == 1){
-                         echo '<script type="text/javascript">'; 
-                         echo 'window.location= "../users/Guidance/";';
-                         echo '</script>';
-                    } 
+                    if($_SESSION['position']=='Guidance Councelor'){
+                            $access_level = $row['access_level'];
+                        if ($_SESSION['office'] =='Guidance' && $access_level == 1){
+                             echo '<script type="text/javascript">'; 
+                             echo 'window.location= "../users/Guidance/";';
+                             echo '</script>';
+                        } 
+                    }
+                    
                 }
                 if ($_SESSION['usertype']=='Faculty' && $access_level = 2){
                      echo '<script type="text/javascript">'; 

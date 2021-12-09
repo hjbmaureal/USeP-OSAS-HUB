@@ -109,6 +109,7 @@ if(isset($_POST['submit'])) {
       $sdfParentAddressUpdate = "N/A";
   }
 
+$location3 = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
   $location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
   $sdfSpouseUpdate = $_POST['sdfSpouseUpdate'];
   $sdfSpouseOccupationUpdate = $_POST['sdfSpouseOccupationUpdate'];
@@ -207,8 +208,8 @@ if($stmt = mysqli_prepare($conn, $sql)){
         $sdfSpouseUpdate,
         $sdfSpouseOccupationUpdate,
         $null,
-        $hashed_pass,
-        $location,
+        $pass,
+        $location3,
         $location2);
     
         if(mysqli_stmt_execute($stmt)){

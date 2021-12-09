@@ -11,6 +11,7 @@ h3{
 .landingpage{
   width: 100%;
   padding-left: 20px;
+
 }
 
 @media screen and (max-width: 600px) {
@@ -234,28 +235,7 @@ h3{
 
 #myImg:hover {opacity: 0.7;}
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: white; /* Fallback color */
-}
 
-/* Modal Content (image) */
-.modal-content {
-  margin: auto;
-  display: block;
-  margin-left: 260px;
-  width: 80vw;
-  align-items: center;
-}
 
 /* Caption of Modal Image */
 #caption {
@@ -527,19 +507,18 @@ h3{
   background-color: #e8e8e8;
   text-align: center;
   font-weight: bold;
-  padding-left: 20px;
+  padding-left: 50px;
 }
 
   .pending{
     float: left;
-    margin-top: 40px;
-     margin-left: 320px;
+    margin-top: 20px;
   }
 
   .new{
     float: left;
-    margin-left: 100px;
-    margin-top: 40px;
+    margin-left: 10px;
+    margin-top: 20px;
   }
 
   .count{

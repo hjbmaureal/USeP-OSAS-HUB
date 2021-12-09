@@ -619,6 +619,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+      <?php  
+      if ($count!=0) 
+        { 
+          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
+        }
+      ?>
       <!-- Data table plugin-->
       <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>

@@ -8,6 +8,8 @@
                               echo '
                               <p class="text-black">Organization Name: <b><input type="text" name="name" style="border:none;" value="'.$res['Org_Name'].'"></b></p>
                               <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'"></p>
+                              <input type="hidden" name="gov" value="'.$res['Org_President_Governor'].'">
+                              <input type="hidden" name="by" value="'.$res['Submitted_by'].'">
                                 <div class=" tile remarks-container container p-3 mt-3">
                                  <div class="row">
                                   <div class="col-sm-9"> 
@@ -47,7 +49,7 @@
                                   
                                       <input class="file-input2 style"  id="file-input2" type="file" name="image" onchange="ssvalue2()" style="margin-top: -500px; margin-bottom: 10px; font-size:8px; " />
                                       <div class="mx-auto">
-                                       <img src="../image/files.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px;"  alt="..."/></div> 
+                                       <img src="../../images/files.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px;"  alt="..."/></div> 
                                       <input class="file-input2" type="text" name="image" value="No Image Selected" id="input2" style="border-style: none;
                                       background: transparent;" disabled >
                                       
