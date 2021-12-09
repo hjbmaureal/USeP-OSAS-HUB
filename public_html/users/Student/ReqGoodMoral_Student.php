@@ -475,7 +475,7 @@ $reqby = $_SESSION['id'];
 $datereq = date('Y-m-d H:i:s');
 $orno = $_POST['or_no'];
 $purpose = $_POST['purpose'];
-$orpic =$_POST['or_pic'] ;
+$file = addslashes(file_get_contents($_FILES["or_pic"]["tmp_name"]));
  
 
 $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
@@ -488,7 +488,7 @@ $notif_body = "A student requests for a Good Moral Certificate.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/Response.php', 'Delivered')");
 
  $sql = mysqli_query($conn,"INSERT INTO good_moral_requests (request_id, last_sy_attended, requested_by, date_requested, or_no, purpose, or_pic)
- VALUES ('','$lastsyattendedfrom-$lastsyattendedto','$reqby','$datereq','$orno','$purpose','$orpic')");
+ VALUES ('','$lastsyattendedfrom-$lastsyattendedto','$reqby','$datereq','$orno','$purpose','$file')");
 
 if ($sql && $notification) {
     echo '<script>
@@ -603,8 +603,7 @@ if ($sql && $notification) {
                 <div class="row">
                   <div class="form-group col-sm">
                     <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. Please upload your Official Reciept. 
-                    <input class="form-control-file" type="file" id="or_pic" name="or_pic" aria-describedby="fileHelp" required=""> 
-                    
+                    <input type="file" id="or_pic" name="or_pic" required="">                    
                   </div>
                 </div>
 

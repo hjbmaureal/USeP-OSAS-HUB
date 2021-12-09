@@ -109,7 +109,7 @@ if(isset($_POST['submit'])) {
       $sdfParentAddressUpdate = "N/A";
   }
 
-  $location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
+  /*$location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));*/
   $sdfSpouseUpdate = $_POST['sdfSpouseUpdate'];
   $sdfSpouseOccupationUpdate = $_POST['sdfSpouseOccupationUpdate'];
 
@@ -166,10 +166,10 @@ if ($major == "null") {
     }   
 
 // Prepare an insert statement
-$sql = "call spRegisterStudent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+$sql = "call spRegisterStudent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 if($stmt = mysqli_prepare($conn, $sql)){
         // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($stmt,"ssssssssssssssssssssssssssssssssssssssss",
+    mysqli_stmt_bind_param($stmt,"sssssssssssssssssssssssssssssssssssssss",
         $id_num,
         $last_name,
         $first_name,
@@ -208,7 +208,6 @@ if($stmt = mysqli_prepare($conn, $sql)){
         $sdfSpouseOccupationUpdate,
         $null,
         $hashed_pass,
-        $location,
         $location2);
     
         if(mysqli_stmt_execute($stmt)){
