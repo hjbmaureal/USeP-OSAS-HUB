@@ -14,7 +14,7 @@
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
     <link rel="icon" href="../image/logo.png" type="image/gif" sizes="16x16">
-    <title>Student Hub</title>
+    <title>Usep Osas Hub</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,7 +38,7 @@
 <?php
   session_start();
   include("../conn.php"); 
-  $student_id = $_POST['id'];
+  $staff_id = $_POST['id'];
   $changePass;
   $passState;
   $photo = '';
@@ -74,10 +74,10 @@
           // hashing the password
           $oldPass = $oldPass;
           $newPass =$newPass;
-          $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
+          $sql = "SELECT * FROM staff WHERE Staff_id='$staff_id' AND password='$oldPass'";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
-              $query = "UPDATE student SET password='$newPass' WHERE Student_id='$student_id';";
+              $query = "UPDATE staff SET password='$newPass' WHERE Staff_id='$staff_id';";
               mysqli_query($conn, $query);
             }else{
               $passState = "incorrect-password";
@@ -89,19 +89,19 @@
       if(!file_exists($_FILES['image1']['tmp_name']) && !file_exists($_FILES['image']['tmp_name'])){
         $file = "";
         $file1= "";
-        $query = "UPDATE student SET phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+        $query = "UPDATE staff SET phone_num='$contact', email_add = '$email'  WHERE Staff_id='$staff_id';";
       } elseif (!file_exists($_FILES['image1']['tmp_name']) && file_exists($_FILES['image']['tmp_name'])) {
           $file1="";
           $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-          $query = "UPDATE student SET pic='$file',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+          $query = "UPDATE staff SET pic='$file',phone_num='$contact', email_add = '$email'  WHERE Staff_id='$staff_id';";
       } elseif (!file_exists($_FILES['image']['tmp_name']) && file_exists($_FILES['image1']['tmp_name'])) {
           $file = "";
           $file1  = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
-          $query = "UPDATE student SET e_signature='$file1',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+          $query = "UPDATE staff SET e_signature='$file1',phone_num='$contact', email_add = '$email'  WHERE Staff_id='$staff_id';";
       }  else {
           $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
           $file1 = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
-          $query = "UPDATE student SET pic = '$file', e_signature = '$file1',phone_number='$contact', email_add = '$email' WHERE Student_id='$student_id';";
+          $query = "UPDATE staff SET pic = '$file', e_signature = '$file1',phone_num='$contact', email_add = '$email' WHERE Staff_id='$staff_id';";
       }
 
  }
@@ -130,7 +130,7 @@
           type: "warning"
           }, function () {
             setTimeout(function () {
-              window.location.href="../users/Student/user-profiles.php";
+              window.location.href="../users/Osas/user-profiles.php";
               }, 500);
               });
               </script>'; 

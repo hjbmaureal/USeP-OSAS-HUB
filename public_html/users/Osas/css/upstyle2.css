@@ -1,4 +1,4 @@
-.app-sidebar__toggle {
+ .app-sidebar__toggle {
   padding: 0 0px;
   font-family: fontAwesome;
   color: #232324;
@@ -277,23 +277,12 @@ hr{
 }
 
 .id-picture{
-
-  width: 150px;
-  height: 150px;
+  border: 1px solid;
+  width: 170px;
+  height: 170px;
+  float: right;
   background-color: white;
-  border-radius: 50%;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-
-.pix{
-  border: 3px solid;
-  border-color: #C12C32;
-   width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  vertical-align: middle; max-width: 100%;
+  margin-right: 20px;
 }
 
 .modal-width{
@@ -330,20 +319,4 @@ hr{
 
 .min{
   max-width: 100%;
-}
-.center{
-display: flex;
-justify-content: center;
-}
-.signature {
-    border: 0;
-    border-bottom: 1px solid #000;
-}
-.containers{
-
-  margin-left: 865px;
-}
-.container1{
-
-  margin-left: 440px;
 }
