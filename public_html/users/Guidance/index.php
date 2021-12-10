@@ -2,7 +2,7 @@
   /*include 'conn.php';*/
   include '../../php/notification-timeago.php'; 
   session_start();
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
+  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Coordinator' || isset($_SESSION['office']) != 'Guidance'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';

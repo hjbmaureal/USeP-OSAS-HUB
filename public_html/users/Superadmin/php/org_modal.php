@@ -1,5 +1,5 @@
 
-              <div class="modal fade" id="editdetails<?php echo $res['org_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="editdetails<?php echo $res['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog modal-md-9" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -15,8 +15,8 @@
                                               
                                     
                     $array = array();           
-                    $uid = $res['org_id'];
-                    $query = mysqli_query($conn,'SELECT * FROM school_organization where org_id <>"'. $res['org_id'].  '"');
+                    $uid = $res['id'];
+                    $query = mysqli_query($conn,'SELECT * FROM approve_funded where id <>"'. $res['id'].  '"');
 
                     ?>
                             <form method="POST" action="php/update_org.php">  
@@ -27,18 +27,11 @@
 
                  <h5 class="font-weight-bold">Organization Information</h5>
 
-                <div class="row">
-                <div class="form-group col-sm">
-                <p>Organization desc
-                <input class="form-control" type="text" id="orgdesc" name="orgdesc" value="<?php echo $res['org_desc']; ?>">
-                <input type="hidden" name="ID" value="<?php echo $uid ?>">
-                </div>
-                </p>
-                </div>
+               
                 <div class="row">
                 <div class="form-group col-sm">
                 <p>Organization Name
-                <input class="form-control" type="text" id="orgname" name="orgname" value="<?php echo $res['org_name']; ?>">
+                <input class="form-control" type="text" id="orgname" name="orgname" value="<?php echo $res['org_name']; ?>" disabled>
                 <input type="hidden" name="ID" value="<?php echo $uid ?>">
                 </div>
                 </p>
@@ -46,24 +39,31 @@
                 <div class="row">
                 <div class="form-group col-sm">
                 <p>Organization Governor/ President
-                <input class="form-control" type="text" id="gov" name="gov" value="<?php echo $res['governor_id']; ?>">
+                <input class="form-control" type="text" id="search" name="gov" value="<?php echo $res['org_pres_gov']; ?>">
+                <div class="card-body">
+                                          <div class="list-group list-group-item-action" id="content">
+                                           
+                                            
+                                          </div>
+                                        </div>
                 </div>
                 </p>
                 </div>
+                
                 <div class="row">
                 <div class="form-group col-sm">
                 <p>Organization Adviser
-                <input class="form-control" type="text" id="adviser" name="adviser" value="<?php echo $res['staff_id']; ?>">
+                <input class="form-control" type="text" id="adviser" name="adviser" value="<?php echo $res['org_adviser']; ?>">
                 </div></p></div>
                 <div class="row">
                 <div class="form-group col-sm">
                 <p>Organization Type
-                <select class="form-control" id="type" name="type"> 
-                      <option value="<?php echo $res["fund_type"] ?>" selected=""><?php echo $res["fund_type"] ?></option>
+                <select class="form-control" id="type" name="type" disabled=""> 
+                      <option value="<?php echo $res["type"] ?>" selected=""><?php echo $res["type"] ?></option>
                                       <?php 
-                                        if($res["fund_type"]=="Funded") {
+                                        if($res["type"]=="Govt. Funded") {
                                             echo "<option value ='Non-Funded'>Non-Funded</option>";
-                                        }else if($res["fund_type"]=="Non-Funded") {
+                                        }else if($res["fund_type"]=="Non Govt.-Funded") {
                                             echo "<option value ='Funded'>Funded</option>";
                                         }
                                         else{
@@ -89,3 +89,5 @@
               </div>
             </div>
           </div>
+
+          

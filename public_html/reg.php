@@ -287,21 +287,10 @@
           </div>
    
               <div class="col-2">
-                <div class="input-group">
-                    <label class="label combo">Section<i>*</i></label>
-                    <div class="rs-select2  js-select-simple select--no-search">
-                        <select name="section" class="input--style-5" style="width:260px" required>
-                            <option value="" selected="selected">Choose Option</option>
-                            <option value="1st Year">1st Year</option>
-                            <option value="2nd Year">2nd Year</option>
-                            <option value="3rd Year">3rd Year</option>
-                            <option value="4th Year">4th Year</option>
-                            <option value="5th Year">5th Year</option>
-                            <option value="6th Year">6th Year</option>
-                        </select>
-                        <div class="select-dropdown"></div>
-                    </div>
-                </div>
+              <div class="input-group">
+                            <label class="label">Section <i>*</i></label>
+                            <input class="input--style-4" type="text" name="section" required>
+                        </div>
             </div>
             <div class="col-2">
                 <div class="input-group">
@@ -464,7 +453,7 @@
     <hr>
     <div class="input-group">
      <div class="input-group">
-        <label class="label" style="font-size: 13px;">CURRENT CERTIFICATE OF REGISTRATION  <i>*</i></label>
+        <label class="label" style="font-size: 13px;">CURRENT CERTIFICATE OF REGISTRATION <i>PDF file only *</i></label>
         <input class="trans-input" type="file" id="myFile" name="cor" accept=".pdf,.PDF"  required>
     </div>
     <!--<div class="input-group">

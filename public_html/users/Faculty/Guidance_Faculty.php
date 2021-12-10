@@ -427,35 +427,7 @@ function timeago($datetime, $full = false) {
         <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="white" fill-opacity="1" d="M0,192L30,170.7C60,149,120,107,180,90.7C240,75,300,85,360,117.3C420,149,480,203,540,213.3C600,224,660,192,720,160C780,128,840,96,900,74.7C960,53,1020,43,1080,37.3C1140,32,1200,32,1260,37.3C1320,43,1380,53,1410,58.7L1440,64L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"></path></svg>
 
 
-        <!-- The Modal -->
-          <div id="myModal" class="modal">
-            <span class="close">&times;</span>
-            <img class="modal-content" id="img01">
-            <div id="caption"></div>
-            </div>
-
-              <script>
-              // Get the modal
-              var modal = document.getElementById("myModal");
-
-              // Get the image and insert it inside the modal - use its "alt" text as a caption
-              var img = document.getElementById("myImg");
-              var modalImg = document.getElementById("img01");
-              var captionText = document.getElementById("caption");
-              img.onclick = function(){
-              modal.style.display = "block";
-              modalImg.src = this.src;
-              captionText.innerHTML = this.alt;
-              }
-
-              // Get the <span> element that closes the modal
-              var span = document.getElementsByClassName("close")[0];
-
-              // When the user clicks on <span> (x), close the modal
-              span.onclick = function() { 
-              modal.style.display = "none";
-              }
-              </script>
+     
       </section>
 
 <!--mandate-->

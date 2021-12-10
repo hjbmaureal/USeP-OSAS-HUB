@@ -374,7 +374,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 </ul>
             </li>
             <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+               <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -713,18 +715,22 @@ $('.owl-carousel').owlCarousel({
 </html>
 <?php 
 if(isset($_POST['applyButton'])){
-  $querycheck= "SELECT * from org_applications";
-  $res = mysqli_query($conn, $querycheck);
-  $id = $_SESSION['id'];
 
-  while($row = mysqli_fetch_array($res)){
-    if($row['Submitted_by'] != $id){
-      echo'<script> window.location.href="Apply-Org.php";</script>';
+  $id = $_SESSION['id'];
+  $querycheck= "SELECT Submitted_by from org_applications WHERE Submitted_by='$id'";
+  $res = mysqli_query($conn, $querycheck);
+
+  $row = mysqli_fetch_assoc($res);
+
+    if($row['Submitted_by'] == $id){
+     
+      echo '<script>swal("Your account has already submitted an application.", "Wait for the admin to process your current application before submitting another.", "warning")</script>';
+     /* echo '<script>swal("Your account has already submitted an application.", "Wait for the admin to process your current application before submitting another.", "success")</script>';*/
     }
     else{
-      echo '<script>swal("Your account has already submitted an application.", "Wait for the admin to process your current application before submitting another.", "warning")</script>';
+      echo'<script> window.location.href="Apply-Org.php";</script>'; 
     }
-  }
+  
   
 
   }

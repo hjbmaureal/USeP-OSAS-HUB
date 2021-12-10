@@ -403,7 +403,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
   $row=mysqli_fetch_array($query);
 
     ?>
-    <form method="POST" action="../../php/complaint.php">  
+    <form method="POST" action="complaint.php">  
         <div class="row">
         <div class="col-md">
           <div style="background-color: #C12C32; padding: 8px 10px;"> </div>

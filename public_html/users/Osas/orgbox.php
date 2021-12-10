@@ -47,10 +47,10 @@
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                              <label  name="idd"><input type="text" name="idd" style="border:none;" value="'.$res['ID'].'"></label><br>
-                              <label name="gov">Student Org. President/Governor: <input type="text" style="border:none;" name="gov" value="'.$res['Org_President_Governor'].'"></label><br>
-                              <label name="adviser">Student Org. Adviser: <input type="text" style="border:none;" name="adviser" value="'.$res['Org_Adviser'].'"></label><br>
-                              <label name="type">Organization Type:<input type="text" name="type" style="border:none;" value="'.$res['Type'].'"> </label><br>
+                              <label  name="idd"><input type="hidden" name="idd" style="border:none;" value="'.$res['ID'].'"></label><br>
+                              <label name="gov">Student Org. President/Governor: <input type="text" readonly style="border:none; width:238px;" name="gov" value="'.$res['Org_President_Governor'].'"></label><br>
+                              <label name="adviser">Student Org. Adviser: <input type="text" readonly style="border:none;" name="adviser" value="'.$res['Org_Adviser'].'"></label><br>
+                              <label name="type">Organization Type:<input type="text" name="type" readonly style="border:none;" value="'.$res['Type'].'"> </label><br>
                               <label class="control-label ml-2 mt-2">File Submitted:</label>
                               <!--<div class="remarks-container container p-3">-->
                                 <div class="row">

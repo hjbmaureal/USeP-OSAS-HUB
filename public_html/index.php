@@ -92,5 +92,22 @@ include('conn.php');
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php 
+      if (isset($_GET['res'])){
+        if ($_GET['res']=="Incorrect"){
+          echo "
+              <script type='text/javascript'>
+              Swal.fire(
+                  'Error',
+                  'Incorrect username or password!',
+                  'error'
+                )
+              </script>
+          ";
+        }
+      }
+    ?>
   </body>
 </html>

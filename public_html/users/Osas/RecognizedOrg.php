@@ -641,7 +641,7 @@ if (isset($_GET['CBL_logo'])) {
                                         
 
                                   
-                                         $tab = mysqli_query($conn,"SELECT * FROM org_filess WHERE type =' Govt. Funded'");
+                                         $tab = mysqli_query($conn,"SELECT * FROM org_filess WHERE Type=' Govt. Funded'");
 
                                          
                                            while($res = mysqli_fetch_array($tab)) { 
@@ -658,7 +658,7 @@ if (isset($_GET['CBL_logo'])) {
 
                                            $ress = mysqli_fetch_array($tabb);
                                         ?> 
-                                        <img src="../O-StudentDefault/Org_Applications/<?php echo $ress['logo'] ?>" class="card-img-top imgbx" class="card-img-top imgbx" alt="...">
+                                        <img src="../Student/Org_Applications/<?php echo $ress['logo'] ?>" class="card-img-top imgbx" class="card-img-top imgbx" alt="...">
                                       </div>
                                       <div class="card-body">
                                         <p class="card-text txbx"><?php echo $res['Org'] ?></p>

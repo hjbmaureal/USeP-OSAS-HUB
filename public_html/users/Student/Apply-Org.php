@@ -66,7 +66,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <link rel="icon" href="../image/logo.png" type="image/gif" sizes="16x16">
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
       <title>USeP Student Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -513,15 +513,16 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           <div>Attach files:</div>
           <div class="tile" >
               <div class="owl-carousel owl-theme"  >
-                  <?php
-                $sql = mysqli_query($conn, "SELECT * FROM remarks_apply WHERE status=0 and Submitted_by like '".$_SESSION['id']."'");
+                   <?php
+                  $id= $_SESSION['id'];
+                $sql = mysqli_query($conn, "SELECT * FROM remarks_apply WHERE status=0 and Submitted_by like '$id'");
                 $res = mysqli_num_rows($sql); 
                 
-                $filequery = "SELECT file FROM remarks_apply WHERE status=0 and Submitted_by like '".$_SESSION['id']."'";
+                $filequery = "SELECT file FROM remarks_apply WHERE status=0 and Submitted_by like '$id'";
                 $fileres = mysqli_query($conn,$filequery);
                 $result = mysqli_fetch_array($fileres);
 
-              ?>   
+              ?>  
 
 
                <div class="item image-upload" >
@@ -543,6 +544,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       </div>   
                                       <? echo $name_array[$i] ?>
                                     </div>
+                                    
                                     <?php 
                                         
                                     if ($result['file'] == "Application Letter"){
@@ -852,7 +854,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                     <div class="tile-footer"></div>
                           <button class="btn btn-success" name="submit" id="submit" type="submit" >Submit</button>
-                           <a class="btn btn-primary" href="Home-Orgs.html" style="float: right;">Cancel</a>
+                           <a class="btn btn-primary" href="Home-Orgs.php" style="float: right;">Cancel</a>
                     </div>
 
               
@@ -898,7 +900,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                                 <label style="font-size: 2px; color: white;"><?php echo $res['image']; ?></label>
                                             </div>
                                         <div style="margin-left: 20px; margin-top: -20px;">
-                                                <a href="Apply-Org.php?file_id=<?php echo $res['Submitted_by'];?>&image=<?php echo $res['image'];?>"><button type="button"  style="margin-top:0px; border-style:none;"> <img name="image" src="../M-Admin/Remarks/<?php echo $res['image']; ?>" style="width:90px; border-radius: 15px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: -15px;"/></button></a>
+                                                <a href="Apply-Org.php?file_id=<?php echo $res['Submitted_by'];?>&image=<?php echo $res['image'];?>"><button type="button"  style="margin-top:0px; border-style:none;"> <img name="image" src="../Osas/Remarks/<?php echo $res['image']; ?>" style="width:90px; border-radius: 15px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: -15px;"/></button></a>
                                         </div>    
                                              
                                           </div>
@@ -1174,6 +1176,17 @@ if(isset($_FILES['Letter_intent'])){
    $query = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Org_Name = '$fileName1'";
 $run = mysqli_query($conn,$query);
 } 
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student has applied for New Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
      echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({
@@ -1351,7 +1364,14 @@ if(isset($_POST['postbtn'])){
 }
 
        }
-    
+    $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
        echo '<script> 
                                                   $(document).ready(function(){
                                                     swal({
@@ -1362,15 +1382,17 @@ if(isset($_POST['postbtn'])){
                                                       
                                                     })
                                                   });
+
                                                    </script>';
                                                    $updateStat = "UPDATE remarks_apply SET status = 1 WHERE Submitted_by = '$by'";
                                                    $upres = mysqli_query($conn,$updateStat);
                                                    $query0 = "UPDATE org_applications set status = 0  where Submitted_by ='$by'";
                                                     $run0 = mysqli_query($conn,$query0);
-
+                                                   echo "<meta http-equiv='refresh' content='2'>";
       
     
 }
+
  else{
                                             echo '<script> 
                                                 $(document).ready(function(){

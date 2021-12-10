@@ -1,0 +1,42 @@
+Select year_level into yl, semester into sem from student 
+
+IF yl = '5th Year' and sem = 'Off Semester'  THEN
+	UPDATE student set year_level = '6th Year', semester = new_sem, year =  where year_level = '5th Year';
+ELSEIF yl = '5th Year' and sem = '2nd Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '5th Year';
+ELSEIF yl = '5th Year' and sem = '1st Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '5th Year';
+
+END IF;
+
+IF yl = '4th Year' and sem = 'Off Semester' THEN
+	UPDATE student set year_level = '5th Year', semester = new_sem, year =  where year_level = '4th Year';
+ELSEIF yl = '4th Year' and sem = '2nd Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '4th Year';
+ELSEIF yl = '4th Year' and sem = '1st Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '4th Year';
+END IF;
+
+IF yl = '3rd Year' and sem = 'Off Semester' THEN
+	UPDATE student set year_level = '4th Year', semester = new_sem, year =  where year_level = '3rd Year';
+ELSEIF yl = '3rd Year' and sem = '2nd Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '3rd Year';
+ELSEIF yl = '3rd Year' and sem = '1st Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '3rd Year';
+END IF;
+
+IF yl = '2nd Year' and sem = 'Off Semester' THEN
+	UPDATE student set year_level = '3rd Year', semester = new_sem, year =  where year_level = '2nd Year';
+ELSEIF yl = '2nd Year' and sem = '2nd Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '2nd Year';
+ELSEIF yl = '2nd Year' and sem = '1st Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '2nd Year';
+END IF;
+
+IF yl = '1st Year' and sem = 'Off Semester' THEN
+	UPDATE student set year_level = '2nd Year', semester = new_sem, year =  where year_level = '1st Year';
+ELSEIF yl = '1st Year' and sem = '2nd Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '1st Year';
+ELSEIF yl = '1st Year' and sem = '1st Semester' THEN
+	UPDATE student set semester = new_sem, year =  where year_level = '1st Year';
+END IF;

@@ -117,12 +117,12 @@ if(isset($_POST['submit'])){
         } else {
 
                 $activity = 'Incorrect Password.';
-                $page = '/osaweb/Log-in.html';
+                $page = 'USeP-OSAS-HUB/public_html/index.php';
                 log_activity($activity,$page);
                  echo '<script>alert(\"Incorrect Password!\")</script>"';   
 
                  echo '<script type="text/javascript">'; 
-                 echo 'window.location= "../index.php";';
+                 echo 'window.location= "../index.php?res=Incorrect";';
                  echo '</script>';
             }
 

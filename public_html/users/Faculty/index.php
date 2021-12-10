@@ -96,13 +96,13 @@ function timeago($datetime, $full = false) {
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="../../css/main.css">
-          <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
+       <link rel="stylesheet" type="text/css" href="css/main.css">
+      <link rel="stylesheet" type="text/css" href="css/announcements.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+
       <!-- Font-icon css-->
-      <link href="http://fonts.cdnfonts.com/css/olde-english" rel="stylesheet">  
-      <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -405,47 +405,179 @@ function timeago($datetime, $full = false) {
        
 
          <!--<div class="page-error tile">-->
-        <h4 style="text-align: center;">ANNOUNCEMENTS</h4> <br>
+       <h1>ANNOUNCEMENTS</h1><br> 
+  <div class="feed">
+    <h3 class="tile-title">THIS WEEK</h3>
 
+    <div class="today">
+              <p class="d"><i class="fas fa-bullhorn"></i> New posts from OSAS</p>
+              <?php
+              $legit=date("Y-m-d");
+              $real=date_create(date("Y-m-d"));
+              $real1=date_sub($real,date_interval_create_from_date_string("7 days"));
+              $really1=date_format($real,"Y-m-d");
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=1 AND
+                announcements._date BETWEEN '" . $really1 . "' AND  '" . $legit . "' ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>
 
-        <div class="row">
-            <div class="col-xl">
-               <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
-              <div class="tile">
-                <h3 class="tile-title" >Office of Students Affair and Services</h3>
-                <div class="tile-body">Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.</div>
-                <div class="tile-footer"><p style="margin-left: 910px;"><a class="btn btn-primary icon-btn" href=""></i>Read More </a></p></div>
-              </div>
-            </div>
+              <p class="t"><?php echo $row['title']; ?></p>
+              <p class="d"><?php echo $row['_date']; ?></p>
 
-
-            <div class="col-xl">
-              <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
-              <div class="tile">
-                <h3 class="tile-title" >OSAS Scholarship</h3>
-                <div class="tile-body">Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.</div>
-                <div class="tile-footer"><p style="margin-left: 910px;"><a class="btn btn-primary icon-btn" href=""></i>Read More </a></p></div>
-              </div>
-            </div>
-
-        <div class="col-xl">
-            <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
-            <div class="tile">
-                <h3 class="tile-title" >OSAS Guidance</h3>
-                <div class="tile-body">Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.</div>
-                <div class="tile-footer"><p style="margin-left: 910px;"><a class="btn btn-primary icon-btn" href=""></i>Read More </a></p></div>
-            </div>
-        </div>
-
-        <div class="col-xl">
-            <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
-            <div class="tile">
-                <h3 class="tile-title" >OSAS Clinic</h3>
-                <div class="tile-body">Hey there, I am a very simple card. I am good at containing small bits of information. I am quite convenient because I require little markup to use effectively.</div>
-                <div class="tile-footer"><p style="margin-left: 910px;"><a class="btn btn-primary icon-btn" href=""></i>Read More </a></p></div>
-            </div>
-        </div>
+              <?php }?> 
+              <div class="lenk"><a href="#osas" class="read" style="text-decoration: none;"><i class="fas fa-arrow-circle-right"></i></a> </div>            
     </div>
+
+    <div class="today">
+              <p class="d"><i class="fas fa-bullhorn"></i> New posts from OSAS-Scholarship</p>
+              <?php
+              $legit=date("Y-m-d");
+              $real=date_create(date("Y-m-d"));
+              $real1=date_sub($real,date_interval_create_from_date_string("7 days"));
+              $really1=date_format($real,"Y-m-d");
+              $sql2="select scholarship_announcement.announcement_id,scholarship_announcement.date,scholarship_announcement.title,scholarship_announcement.content from scholarship_announcement WHERE
+                scholarship_announcement.date BETWEEN '" . $really1 . "' AND  '" . $legit . "' ORDER BY scholarship_announcement.date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>
+              <p class="t"><?php echo $row['title']; ?></p>
+              <p class="d"><?php echo $row['date']; ?></p>
+              <?php }?> 
+              <div class="lenk"><a href="#scholarship" class="read" style="text-decoration: none;"><i class="fas fa-arrow-circle-right"></i></a> </div> 
+              
+    </div>
+
+    <div class="today">
+              <p class="d"><i class="fas fa-bullhorn"></i> New posts from Clinic</p>
+              <?php
+              $legit=date("Y-m-d");
+              $real=date_create(date("Y-m-d"));
+              $real1=date_sub($real,date_interval_create_from_date_string("7 days"));
+              $really1=date_format($real,"Y-m-d");
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=3 AND
+                announcements._date BETWEEN '" . $really1 . "' AND  '" . $legit . "' ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>
+              <p class="t"><?php echo $row['title']; ?></p>
+              <p class="d"><?php echo $row['_date']; ?></p>
+              <?php }?> 
+              <div class="lenk"><a href="#clinic" class="read" style="text-decoration: none;"><i class="fas fa-arrow-circle-right"></i></a> </div> 
+              
+    </div>
+
+    <div class="today">
+              <p class="d"><i class="fas fa-bullhorn"></i> New posts from Guidance Office</p>
+              <?php
+              $legit=date("Y-m-d");
+              $real=date_create(date("Y-m-d"));
+              $real1=date_sub($real,date_interval_create_from_date_string("7 days"));
+              $really1=date_format($real,"Y-m-d");
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=4 AND
+                announcements._date BETWEEN '" . $really1 . "' AND  '" . $legit . "' ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>
+              <p class="t"><?php echo $row['title']; ?></p>
+              <p class="d"><?php echo $row['_date']; ?></p>
+              <?php }?> 
+              <div class="lenk"><a href="#guidance" class="read" style="text-decoration: none;"><i class="fas fa-arrow-circle-right"></i></a> </div> 
+              
+    </div>
+  </div>
+
+  <div class="announcements">
+        <div id="osas" class="announcement">
+          <div class="news">
+            <h3 class="tile-title">Office of Students Affair and Services</h3>
+             <?php 
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=1 ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>          
+
+            <ul class="timeline">
+              <li class="event" data-date=<?php echo $row['_date']; ?>>
+                <h3><?php echo $row['title']; ?></h3>
+                <div class="justnow" <?php if ($row['_date']!=date("Y-m-d")){ echo 'style="display:none;"'; } ?>>
+                <i class="far fa-clock"></i> POSTED TODAY
+                </div><br>
+                  <p><?php echo $row['content']; ?></p>
+              </li>
+            </ul>  
+            <?php }?><center><div style="color: #b3b3b3; font-family: 'Quicksand', sans-serif;"><br><br><p>No more posts to show</p></div></center>
+          </div>
+        </div>
+
+
+        <div id="scholarship" class="announcement">
+          <div class="news">
+            <h3 class="tile-title">OSAS Scholarship</h3>
+             <?php 
+              $sql2="select scholarship_announcement.announcement_id,scholarship_announcement.date,scholarship_announcement.title,scholarship_announcement.content from scholarship_announcement ORDER BY scholarship_announcement.date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>          
+
+            <ul class="timeline">
+              <li class="event" data-date=<?php echo $row['date']; ?>>
+                <h3><?php echo $row['title']; ?></h3>
+                <div class="justnow" <?php if ($row['date']!=date("Y-m-d")){ echo 'style="display:none;"'; } ?>>
+                <i class="far fa-clock"></i> POSTED TODAY
+                </div><br>
+                  <p><?php echo $row['content']; ?></p>
+              </li>
+            </ul>  
+            <?php }?><center><div style="color: #b3b3b3; font-family: 'Quicksand', sans-serif;"><br><br><p>No more posts to show</p></div></center>
+          </div>
+        </div>
+
+        <div id="clinic" class="announcement">
+          <div class="news">
+            <h3 class="tile-title">OSAS Clinic</h3>
+             <?php 
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=3 ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>          
+
+            <ul class="timeline">
+              <li class="event" data-date=<?php echo $row['_date']; ?>>
+                <h3><?php echo $row['title']; ?></h3>
+                <div class="justnow" <?php if ($row['_date']!=date("Y-m-d")){ echo 'style="display:none;"'; } ?>>
+                <i class="far fa-clock"></i> POSTED TODAY
+                </div><br>
+                  <p><?php echo $row['content']; ?></p>
+              </li>
+            </ul>  
+            <?php }?><center><div style="color: #b3b3b3; font-family: 'Quicksand', sans-serif;"><br><br><p>No more posts to show</p></div></center>
+          </div>
+        </div>
+
+        <div id="guidance" class="announcement">
+          <div class="news">
+            <h3 class="tile-title">OSAS Guidance</h3>
+             <?php 
+              $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=4 ORDER BY announcements._date DESC";
+                $result = mysqli_query($conn, $sql2);
+                while ($row = mysqli_fetch_assoc($result)) {
+              ?>          
+
+            <ul class="timeline">
+              <li class="event" data-date=<?php echo $row['_date']; ?>>
+                <h3><?php echo $row['title']; ?></h3>
+                <div class="justnow" <?php if ($row['_date']!=date("Y-m-d")){ echo 'style="display:none;"'; } ?>>
+                <i class="far fa-clock"></i> POSTED TODAY
+                </div><br>
+                  <p><?php echo $row['content']; ?></p>
+              </li>
+            </ul>  
+            <?php }?><center><div style="color: #b3b3b3; font-family: 'Quicksand', sans-serif;"><br><br><p>No more posts to show</p></div></center>
+          </div>
+        </div>
+
+  </div>
 
       </main>
       <!-- Essential javascripts for application to work-->
@@ -470,9 +602,9 @@ function timeago($datetime, $full = false) {
       <!-- Google analytics script-->
       
       <?php  
-      if ($count!=0) 
+      if ($count2!=0) 
         { 
-          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
+          echo '<script>swal("Notification Alert!", "You have '.$count2.' unread notification/s!", "success")</script>';
         }
       ?>
       <script type="text/javascript">
