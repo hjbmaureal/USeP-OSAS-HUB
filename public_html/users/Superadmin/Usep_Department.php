@@ -863,13 +863,11 @@ function timeago($datetime, $full = false) {
                                                           {
                                                             if (response.length == 0){
                                                               tbl.ajax.reload();
-                                                              Swal.fire({
-                                                                position: 'center',
-                                                                icon: 'success',
-                                                                title: 'Your work has been saved',
-                                                                showConfirmButton: false,
-                                                                timer: 1000
-                                                              })
+                                                              Swal.fire(
+                                                                'Success!',
+                                                                'Changes has been saved successfully',
+                                                                'success'
+                                                              )
                                                             } else {
                                                               Swal.fire({
                                                                 position: 'center',

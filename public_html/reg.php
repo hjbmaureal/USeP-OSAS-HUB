@@ -456,6 +456,10 @@
         <label class="label" style="font-size: 13px;">CURRENT CERTIFICATE OF REGISTRATION <i>PDF file only *</i></label>
         <input class="trans-input" type="file" id="myFile" name="cor" accept=".pdf,.PDF"  required>
     </div>
+    <!--<div class="input-group">
+        <label class="label">ID PICTURE  <i>*</i></label>
+        <input class="trans-input" type="file" id="myFile" name="id_pic" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG" required>
+    </div>-->
 </div>
 <hr>
 
