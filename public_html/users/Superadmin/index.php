@@ -63,44 +63,7 @@ function timeago($datetime, $full = false) {
   return $string ? implode(', ', $string) . '' : 'just now';
 }
 /*-------------------------------------------------------------------------------------------------------------------*/
-$currSemesterYear = "";
-$month= "";
-$august_year="";
-$january_june_year="";
-  if(isset($_POST['changeSemester'])){
-    $month = date('m');
-    $august_year1 = date('Y');
-    $august_year2 = date('Y') + 1;
-    $august_year = $august_year1.'-'.$august_year2;
-    $january_june_year = date('Y') - 1 .'-'.date('Y');
-    
 
-   
-
-    //temporary ra ni for testing, manual input ra
-    //$month = 6;
-    /*$january_june_year = "2021-2022";*/
-
-    // printf($august_year);
-    // printf($january_june_year);
-    $stmt = $conn->prepare("call ScholarshipChangeSemesterEvent(?,?)");
-    if($month == 8){ // AUGUST FIRST SEMESTER
-      //CHANGESEMESTEREVENT
-      $check = $stmt->bind_param("ss",$month, $august_year);
-    }else if($month == 1){ // JANUARY SECOND SEMESTER
-      //CHANGESEMESTEREVENT
-      $check = $stmt->bind_param("ss",$month, $january_june_year);
-    }else if($month == 6){ // JUNE SUMMER/OFF SEMESTER
-      //CHANGESEMESTEREVENT
-      $check = $stmt->bind_param("ss",$month, $january_june_year);
-    }
-    $stmt->execute();
-    if($stmt){
-      echo '<script>alert("Success")</script>';
-    }else{
-      echo '<script>alert("Failed")</script>';
-    }
-  }
   /*-------------------------------------------------------------------------------------------------------------------*/
   ?>
   <!DOCTYPE html>
@@ -395,8 +358,37 @@ $january_june_year="";
           </div>
         </div>
         <div class="col-md-3">
-          <form method="POST">
-              <input type="submit" value="Change Semester" name="changeSemester" class="btn btn-primary">
+          <!-- <input type="submit" value="Change Semester" name="changeSemester" class="btn btn-primary"> -->
+          <a class="btn btn-primary" data-toggle="modal" a href="#changeSem_verify">Change Semester</a>
+          <form method="POST" action="php/changeSem.php">
+              <div class="modal fade " id="changeSem_verify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+
+                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
+
+                          <h5 class="modal-title" id="exampleModalLongTitle">Change Semester Verify password</h5>
+                          
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button></div>
+                              <div class="modal-body c">
+                                <div class="container">
+                                  <h6>Superadmin Password:</h6>
+                                  <input class="form-control" type="password" id="pass" name="pass" placeholder="Input your password" required>  
+                                  
+                                </div>
+
+                              </div>
+                    
+                    <div class="modal-footer">
+                      <input type="submit" class="btn btn-success" name="changeSemester"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
             </form>
         </div>
       </div>
