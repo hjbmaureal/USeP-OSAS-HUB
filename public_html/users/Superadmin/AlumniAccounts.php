@@ -397,7 +397,7 @@ function timeago($datetime, $full = false) {
                    else{
                    ?>
                     
-                          <button data-target="#enable-dialog<?php echo $res['id']; ?>" role="button" class="btn btn-success btn-sm" data-toggle="modal" id="formid" onclick="toggleClasses()" >Activate</button>
+                          <button data-target="#enable-dialog<?php echo $res['id']; ?>" role="button" class="btn btn-success btn-sm" data-toggle="modal" id="formid" onclick="toggleClasses()" >Enable</button>
 
                                <button data-target="#disable-dialog" disabled="disabled" class="btn btn-danger btn-sm">Disable</button>
  

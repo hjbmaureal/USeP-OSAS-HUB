@@ -108,7 +108,7 @@ if ($major == "null") {
     '$email', 
     '$phone', 
     '$year', 
-    '$pass', 
+    '$hashed_pass', 
     '$location',  
     '$datenow', 
     '$datenow' );";

@@ -498,7 +498,7 @@
                             student.type as type,
                             good_moral_requests.date_requested as date_req 
                             FROM student JOIN course ON  student.course_id = course.course_id 
-                            JOIN good_moral_requests ON student.Student_id = good_moral_requests.requested_by";
+                            JOIN good_moral_requests ON student.Student_id = good_moral_requests.requested_by where good_moral_requests.request_id is not Null";
 
                     if(!empty($_POST['schl_yr']) || isset($_POST['month_drpdwn']) || isset($_POST['yr_lvl']) || isset($_POST['course_dropdwn']) || isset($_POST['stdnt_typ'])){
 
@@ -514,7 +514,7 @@
                       }
                       if ($month != "0") {
                         # code...
-                        $sql .= " AND month(complaint.Date_of_incident) = '$month' ";
+                        $sql .= " AND good_moral_requests.date_requested like '%-$month-%' ";
                       }
                       if ($yrlvl != "0") {
                         # code...

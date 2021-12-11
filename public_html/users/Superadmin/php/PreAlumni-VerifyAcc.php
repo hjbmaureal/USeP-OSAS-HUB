@@ -44,7 +44,7 @@ $stmt->bind_param("i", $SA_id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 
-if ($user && $SA_pass==$user['password'])
+if (password_verify($SA_pass, $user['password']))
 {
   $User_id= $_POST['eid'];
   $name= $_POST['efirst'];

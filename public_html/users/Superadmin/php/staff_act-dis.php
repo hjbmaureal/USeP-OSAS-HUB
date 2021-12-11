@@ -36,14 +36,15 @@
 include('../../../conn.php');
 if (isset($_POST['pass'])){
 
+  $username= 'superadmin';
   $pass= $_POST['pass'];
-  $stmt = $conn->prepare("SELECT * FROM superadmin WHERE password = ?");
-  $stmt->bind_param("i", $pass);
+  $stmt = $conn->prepare("SELECT * FROM superadmin WHERE username = ?");
+  $stmt->bind_param("s", $username);
   $stmt->execute();
   $user = $stmt->get_result()->fetch_assoc();
 
 
-  if ($user && $pass==$user['password']){
+  if (password_verify($pass, $user['password'])){
     $User_id= $_POST['eid'];
     $stats= $_POST['status'];
 

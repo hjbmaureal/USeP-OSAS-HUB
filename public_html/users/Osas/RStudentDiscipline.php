@@ -549,7 +549,7 @@
                       JOIN student ON student.Student_id = complaint.Student_id
                       JOIN course ON  student.course_id = course.course_id 
                       JOIN college ON course.college_id = college.college_id
-                      LEFT JOIN response ON complaint.Complaint_ID = response.Complaint_ID";
+                      LEFT JOIN response ON complaint.Complaint_ID = response.Complaint_ID where complaint.Complaint_ID is not NULL";
 
                        if (!empty($_POST['yr_drpdwn']) || isset($_POST['month_drpdwn']) || isset($_POST['yr_lvl']) || isset($_POST['course_dropdwn']) || isset($_POST['college_drpdwn']) || isset($_POST['action_drpdwn'])) {
                          # code...

@@ -49,7 +49,7 @@ if (isset($_POST['eid'])){
         $stmt->bind_result($id, $pass);
         $stmt->store_result();
   while($row = $stmt->fetch()){
-    if($username == $id && $password == $pass){
+    if(password_verify($password, $pass)){
                 
                if($stats == "Active"){      
                 $sql2="UPDATE alumni SET account_status ='$stats' WHERE id = '$aid' ";
