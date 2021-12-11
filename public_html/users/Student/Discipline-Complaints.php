@@ -495,7 +495,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 <div class="form-group col-sm">
                 <div class="form-check">
                 <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" required>I hereby swear that the complaint and statements hereunder are true and unbiased.
+                <input class="form-check-input" type="checkbox" style="z-index: 1;" required>I hereby swear that the complaint and statements hereunder are true and unbiased.
                 </label>
                 </div>
                 </div>

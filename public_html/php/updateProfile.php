@@ -60,21 +60,21 @@
             return $data;
         }
           
-        $oldPass = validate($_POST['currPass']);
+$oldPass = validate($_POST['currPass']);
         $newPass = validate($_POST['newPass']);
         $confirmNewPass = validate($_POST['confirmNewPass']);
 
-      /* $check_query="SELECT * from login_credentials where username='$uid'";
+       $check_query="SELECT * from login_credentials where username='$uid'";
      $resultPass= mysqli_query($conn,$check_query);
      $row=mysqli_fetch_assoc($resultPass);
         $data = array();
 
-    //$hash= $row['password'];
+    $hash= $row['password'];
 
 
         
 
-if (password_verify($oldPass,$hash)){*/
+if (password_verify($oldPass,$hash)){
 
         if(empty($oldPass)){  
           $passState = "current-password-required";
@@ -89,16 +89,16 @@ if (password_verify($oldPass,$hash)){*/
           $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
-              //$hashed_pass = password_hash($newPass, PASSWORD_DEFAULT);
+              $hashed_pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-              $query = "UPDATE student SET password='$newPass' WHERE Student_id='$student_id';";
+              $query = "UPDATE student SET password='$hashed_pass' WHERE Student_id='$student_id';";
               mysqli_query($conn, $query);
             }else{
               $passState = "incorrect-password";
             }
         }
       }
-   // }
+    }
     //$query
 
       if(!file_exists($_FILES['image1']['tmp_name']) && !file_exists($_FILES['image']['tmp_name'])){
