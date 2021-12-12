@@ -43,11 +43,16 @@
         $statuscom = 'Pending';
         $action_taken = $_POST['action_taken3'];
 
+
+      $result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'");
+             $row = mysqli_fetch_assoc($result);
+                $sem_year = $row['semester'] .' '. $row['year'];
+
         $sql1 = "SELECT Complaint_ID FROM response WHERE Complaint_ID = '$complaintID'";
 
-        $sql2 = "INSERT into response (Complaint_ID ,status, defendant, time_forwarded, link, details, date_schedule,  time_from, time_to, meeting_type , meeting_link, meeting_id , passcode , action_taken, notification_status) values('$complaintID',  'Pending', '$dependantID', now(),'Discipline-Response.php', Null , Null,  Null, Null,  'N/A','N/A', 'N/A', 'N/A', '$action_taken', '0')";
+        $sql2 = "INSERT into response (Complaint_ID ,status, defendant, time_forwarded, link, details, date_schedule,  time_from, time_to, meeting_type , meeting_link, meeting_id , passcode , action_taken, notification_status, sem_year) values('$complaintID',  'Pending', '$dependantID', now(),'Discipline-Response.php', Null , Null,  Null, Null,  'N/A','N/A', 'N/A', 'N/A', '$action_taken', '0', '$sem_year')";
         $sql3 = "UPDATE complaint SET Status = '$statuscom' WHERE Complaint_ID = '$complaintID' ";
-        $sql4 = "UPDATE response SET defendant = '$dependantID', action_taken = '$action_taken',status = 'Pending' WHERE Complaint_ID = '$complaintID' ";
+        $sql4 = "UPDATE response SET defendant = '$dependantID', action_taken = '$action_taken',status = 'Pending', sem_year = '$sem_year' WHERE Complaint_ID = '$complaintID' ";
         $sql5 = "INSERT into notif (user_id, message_body, time, link, message_status) values('$dependantID',  'You have a Complaint', now(), '../users/Student/Discipline-Response.php', 'Delivered')";
         
         // echo $statuscom;

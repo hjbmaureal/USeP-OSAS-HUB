@@ -574,7 +574,7 @@ if (isset($_GET['AFS'])) {
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
           </div>
       </div>
 
@@ -680,17 +680,17 @@ if (isset($_GET['AFS'])) {
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel" style="color:black;">
+                    <div class="appnavlevel">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel" style="color:black;">
+                    <div class="appnavlevel">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -767,9 +767,7 @@ if (isset($_GET['AFS'])) {
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
-                </a>
+                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -837,10 +835,10 @@ if (isset($_GET['AFS'])) {
 
 
                                       <div style="padding-right: 2px;" class="col-sm">
-                                          <button type="submit"  name="submit1" class="btn btn-success btn-sm blocking float-right mt-2 w-50"  value="<?php echo $res['ID']?>"><i class="fas fa-thumbs-up" ></i></button>
+                                          <button type="button" data-name="approvebtn" class="btn btn-success btn-sm blocking float-right mt-2 w-50" data-toggle="modal" data-role="org_verify"  id="<?php echo $res['ID'];?>" ><i class="fas fa-thumbs-up" ></i></button>
                                       </div>
                                       <div style="padding-left: 2px;" class="col-sm">
-                                          <button type="submit"  name="submit2" class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  value="<?php echo $res['ID']?>"><i class="fas fa-thumbs-down" ></i></button>
+                                          <button type="button" name="disapprovebtn" class="btn btn-danger btn-sm blocking float-left mt-2 w-50" data-toggle="modal" data-role="org_verifydis"  id="<?php echo $res['ID']?>" data-name="disapprovebtn"><i class="fas fa-thumbs-down" ></i></button>
                                       </div> 
                                     </form> 
                                     </div>
@@ -920,14 +918,50 @@ if (isset($_GET['AFS'])) {
               </div>
             </div>
          
-                        <!--<div class="modal-footer">
-                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>-->
                       </div>
                     </div>
                   </div>
  </form>
                   <!-- schedule -->
+
+                  <!-- Verify Modal -->
+
+<form method="POST" action="modal/org_approve.php">    
+    <div class="modal fade " id="org_verify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verify"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+<form method="POST" action="modal/org_dis.php">    
+    <div class="modal fade " id="org_verifydis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verifydis"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+
+                  <!-- end modal -->
 
 
                   <!--<div class="page-error tile">-->
@@ -999,6 +1033,44 @@ $('.owl-carousel').owlCarousel({
 })
   </script>
 
+    <script type="text/javascript">
+      $(document).on('click','[data-role="org_verify"]', function(){
+        var id = $(this).attr("id");
+        var btn = $(this).data('name');
+        $.ajax({  
+          url:'modal/org_verify.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verify').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verify').modal("show");
+        $('#approvebtn').val(btn);
+
+
+      });
+  </script>
+  <script type="text/javascript">
+      $(document).on('click','[data-role="org_verifydis"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'modal/org_verifydis.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verifydis').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verifydis').modal("show");
+
+
+      });
+  </script>
   
   
     <script type="text/javascript">
@@ -1096,160 +1168,8 @@ $('.owl-carousel').owlCarousel({
   </body>
 </html>  
 <?php
-if(isset($_POST['submit1'])){
 
-                                          $id = $_POST['submit1'];
-                                          $tab = mysqli_query($conn,"SELECT * from org_applications where ID='$id'");
-                                          $res = mysqli_fetch_array($tab);
 
-                                          if($res){
-                                               
-                                            $name = $res['Org_Name'];
-                                            $idd =  $res['ID'];
-                                            $gov =  $res['Org_President_Governor'];
-                                            $adviser =  $res['Org_Adviser'];
-                                            $type =  $res['Type'];
-                                            $logo = $res['Logo'];
-                                            $submittedby= $res['Submitted_by'];
-
-                                            
-
-                                            if ($type == "Govt. Funded"){
-
-                                            $query = "INSERT INTO govt_funded_org(org_name,id,org_pres_gov,org_adviser,type,logo) VALUES('$name','$idd','$gov','$adviser','$type','$logo')";
-                                            $run = mysqli_query($conn, $query);
-                                            $queryadd = "INSERT INTO approve_funded(org_name,id,org_pres_gov,org_adviser,type,logo) VALUES('$name','$idd','$gov','$adviser','$type','$logo')";
-                                            $runadd = mysqli_query($conn, $queryadd);
-                                          
-
-                                            if($run){
-                                                    $query1 = "DELETE FROM org_applications WHERE ID ='$idd' ";
-                                                 $run1 = mysqli_query($conn, $query1);
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "success",
-                                                    title: "'.$name.' :Approved as an Govt. Funded Org",
-                                                    showConfirmButton: true
-                                                    
-                                                  })
-                                                });
-                                                 </script>';
-                                                 $querr = mysqli_query($conn,"SELECT * FROM approve_funded where ID = '$idd'");
-                                                 $runaddd = mysqli_fetch_array($querr);
-
-$notif_body = "Congratulations! The Org Application you filed has been approved.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$submittedby', '$notif_body',now(),'../users/Student/Home-Orgs.php', 'Delivered')");
-                                                 
-                                                    }
-                                        else{
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "warning",
-                                                    title: "'.$name.' :Not approved",
-                                                    showConfirmButton: true
-                                                   
-                                                  })
-                                               });
-
-                                                </script>';
-                                                
-                                        }
-                                          }
-                                          if ($type == "Non-Govt. Funded"){
-                                            $query = "INSERT INTO non_govt_funded_org(org_name,id,org_pres_gov,org_adviser,type,logo) VALUES('$name','$idd','$gov','$adviser','$type','$logo')";
-                                            $run = mysqli_query($conn, $query);
-                                            $queryadd = "INSERT INTO approve_funded(org_name,id,org_pres_gov,org_adviser,type) VALUES('$name','$idd','$gov','$adviser','$type')";
-                                            $runadd = mysqli_query($conn, $queryadd);
-
-                                            if($run){
-                                                $query12 = "DELETE FROM org_applications WHERE ID ='$idd' ";
-                                                 $run12 = mysqli_query($conn, $query12);
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "success",
-                                                    title: "'.$name.' :Approved as Non-Govt. Funded Org",
-                                                    showConfirmButton: true
-                                                    
-                                                  })
-                                                });
-                                                 </script>';
-$notif_body = "Congratulations! The Org Application you filed has been approved.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$submittedby', '$notif_body',now(),'../users/Student/Home-Orgs.php', 'Delivered')");
-                                                    }
-                                        else{
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "warning",
-                                                    title: "'.$name.' :Not approved",
-                                                    showConfirmButton: true
-                                                   
-                                                  })
-                                               });
-
-                                                </script>';
-                                                
-                                        }
-                                          }
-                                          else{
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "Success",
-                                                    title: "'.$name.' Approved",
-                                                    showConfirmButton: true
-                                                    
-                                                  })
-                                                });
-                                                 </script>';
-                                                 $gov = $runaddd['org_pres_gov'];
-$notif_body = "Congratulations! The Org Application you filed has been approved.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$submittedby', '$notif_body',now(),'../users/Student/Home-Orgs.php', 'Delivered')");
-
-                                          }
-                                      }
-                                      
-     }
-
-if(isset($_POST['submit2']))
-                                        {
-
-                                          $id = $_POST['submit2'];
-                                          $tab = mysqli_query($conn,"SELECT * from org_applications where ID='$id'");
-                                          $res = mysqli_fetch_array($tab);
-                                          $name= $res['Org_Name'];
-                                          $gov =  $res['Org_pres_gov'];
-                                          $submittedby= $res['Submitted_by'];
-
-                                          if($res){
-                                            $tab1 = mysqli_query($conn,"DELETE * from org_applications where ID='$id'");
-                                          $res1 = mysqli_fetch_array($tab1);
-                                          echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "warning",
-                                                    title: "'.$name.'Org disapproved",
-                                                    showConfirmButton: true
-                                                   
-                                                  })
-                                               });
-
-                                                </script>';
-
-$notif_body = "Sorry, the Org Application you filed has been disapproved.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$submittedby', '$notif_body',now(),'../users/Student/Home-Orgs.php', 'Delivered')");
-                                            
-                                        }
-                                    }
 
 
 if(isset($_POST['postbtn'])){
@@ -1274,8 +1194,6 @@ $query = "INSERT INTO remarks_apply(org_name,gov,Submitted_by,file,message,date_
 
 
    if($run){ 
-$notif_body = "You have a remarks regarding to you sent files in Student Organization.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/Student/Apply-Org.php', 'Delivered')");
     
 echo '<script> 
                                                 $(document).ready(function(){

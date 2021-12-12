@@ -322,16 +322,37 @@ function timeago($datetime, $full = false) {
                         </div>
                         <div class="row">
                           <div class="col mt-1">
-                            <div class="inline-block">
-                              Employee Type<br>
-                              <select class="bootstrap-select" id="sel2">
-                                <option class="select-item" value="All" selected="selected">All</option>
-                                <option class="select-item" value="Faculty">Faculty</option>
-                                <option class="select-item" value="Staff">Staff</option>
-                                <option class="select-item" value="Medical Personnel">Medical Personnel</option>
-                              </select>
-                            </div>
-                          </div>
+<form method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
+                     
+                  <div class="inline-block">
+                    Employee Type
+                    <BR>
+                    <select class="bootstrap-select size-150px" name="type_dropdwn" id="type_dropdwn">
+                      <option class="select-item" value="0">All</option>
+                        <?php
+                                    
+                                   
+                                    $sql="SELECT DISTINCT type FROM staffdetails";
+                                    $result = mysqli_query($conn,$sql);
+                                    while($row=mysqli_fetch_array($result)){
+                                          echo "<option class='select-item'";
+                                          if(isset($_POST['type_dropdwn']) && $_POST['type_dropdwn'] == $row['type']){
+                                              echo "selected value='".$row['type']."'>".$row['type']."</option>";
+                                          }else{
+                                            echo "value='".$row['type']."'>".$row['type']."</option>";
+                                          }
+                                    }
+                                ?>
+                            </select>
+                    </div>
+                    
+                      </div>
+
+                    
+<div class="inline-block float mr-7 mt-3">
+                      <button class="btn btn-secondary" name="filter" type="submit" id="filter" style="margin-right: 12px; "><i class="fas fa-filter"></i>&nbsp; Filter</button>
+                    </div>
+            </form>
                         </div>
 
                         <div class="table-bd">
@@ -351,7 +372,7 @@ function timeago($datetime, $full = false) {
                               
                               <?php
                               include("conn.php");
-                              $tab = mysqli_query($conn,"SELECT 
+                              $sql = "SELECT 
 
                                 s.*,
 
@@ -368,7 +389,25 @@ function timeago($datetime, $full = false) {
                                 LEFT JOIN department as d
                                 ON s.dept_id = d.dept_id
                                 JOIN office as o
-                                ON s.office_id = o.office_id");
+                                ON s.office_id = o.office_id where s.staff_id is not null";
+                  if (isset($_POST['type_dropdwn'])) {
+                         # code...
+                        
+
+                      
+                       
+                        $type_comp = $_POST['type_dropdwn'];
+
+                        
+
+                        if ($type_comp != "0") {
+                          # code...
+                          $sql .= " AND s.type = '$type_comp' ";
+                        }
+
+                       }
+                        echo '<input type="text" name="sql_val" id="sql_val" style="width:1000px;" value="'.$sql.'" hidden>';
+                              $tab = mysqli_query($conn,$sql);
 
 
                               while($res = mysqli_fetch_array($tab)) {         

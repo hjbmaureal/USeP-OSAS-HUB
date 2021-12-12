@@ -315,33 +315,61 @@ function timeago($datetime, $full = false) {
                   </div>
                   <br><br>
                   <div class="row">
-                    <div class="col-auto">
-
+                    <div class="col mt-1">
+<form method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
                      
                   <div class="inline-block">
                     Course
                     <BR>
-                    <select class="bootstrap-select">
-                        <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="2">Verified</option>
-                        <option class="select-item" value="3">Pending</option>
-                      </select>
+                    <select class="bootstrap-select size-150px" name="course_dropdwn" id="course_dropdwn">
+                      <option class="select-item" value="0">All</option>
+                        <?php
+                                    
+                                   
+                                    $sql="SELECT DISTINCT title FROM course";
+                                    $result = mysqli_query($conn,$sql);
+                                    while($row=mysqli_fetch_array($result)){
+                                          echo "<option class='select-item'";
+                                          if(isset($_POST['course_dropdwn']) && $_POST['course_dropdwn'] == $row['title']){
+                                              echo "selected value='".$row['title']."'>".$row['title']."</option>";
+                                          }else{
+                                            echo "value='".$row['title']."'>".$row['title']."</option>";
+                                          }
+                                    }
+                                ?>
+                            </select>
                     </div>
 
 
                   <div class="inline-block">
                     Year Level
                     <BR>
-                    <select class="bootstrap-select">
-                        <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="2">Verified</option>
-                        <option class="select-item" value="3">Pending</option>
-                      </select>
+                    <select class="bootstrap-select size-150px" name="year_level_dropdwn" id="year_level_dropdwn">
+                      <option class="select-item" value="0">All</option>
+                        <?php
+                                    
+                                   
+                                    $sql="SELECT DISTINCT year_level FROM studentdetails";
+                                    $result = mysqli_query($conn,$sql);
+                                    while($row=mysqli_fetch_array($result)){
+                                          echo "<option class='select-item'";
+                                          if(isset($_POST['year_level_dropdwn']) && $_POST['year_level_dropdwn'] == $row['year_level']){
+                                              echo "selected value='".$row['year_level']."'>".$row['year_level']."</option>";
+                                          }else{
+                                            echo "value='".$row['year_level']."'>".$row['year_level']."</option>";
+                                          }
+                                    }
+                                ?>
+                            </select>
                     </div>
                     
-
-           
                       </div>
+
+                    
+<div class="inline-block float mr-7 mt-3">
+                      <button class="btn btn-secondary" name="filter" type="submit" id="filter" style="margin-right: 12px; "><i class="fas fa-filter"></i>&nbsp; Filter</button>
+                    </div>
+            </form>
                       </div>
                 <!-- Table -->
 
@@ -363,9 +391,30 @@ function timeago($datetime, $full = false) {
                     <tr>
                   <?php
                   include("conn.php");
-                  $tab = mysqli_query($conn,"SELECT * FROM studentdetails");
+                  $sql = "SELECT * FROM studentdetails where student_id is not null";
+                  if (isset($_POST['course_dropdwn']) || isset($_POST['year_level_dropdwn'])) {
+                         # code...
+                        
 
+                      
+                        $course_comp = $_POST['course_dropdwn'];
+                        $year_level_comp = $_POST['year_level_dropdwn'];
 
+                        
+
+                        if ($course_comp != "0") {
+                          # code...
+                          $sql .= " AND coursetitle like '$course_comp%' ";
+                        }
+                        if ($year_level_comp != "0") {
+                          # code...
+                          $sql .= " AND year_level like '$year_level_comp%' ";
+                        }
+
+                       }
+                        echo '<input type="text" name="sql_val" id="sql_val" style="width:1000px;" value="'.$sql.'" hidden>';
+
+        $tab = mysqli_query($conn,$sql);
         while($res = mysqli_fetch_array($tab)) {         
             ?>
             <td><?php echo $res['student_id']; ?></td>

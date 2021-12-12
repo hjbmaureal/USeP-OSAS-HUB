@@ -48,6 +48,10 @@ if(isset($_POST['submit'])) {
     $witness1 = $_POST['witness1']; 
     $witness2 = $_POST['witness2']; 
     $witness3 = $_POST['witness3'];
+
+      $result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'");
+             $row = mysqli_fetch_assoc($result);
+                $sem_year = $row['semester'] .' '. $row['year'];
     
 $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
@@ -58,7 +62,7 @@ $admin_id= $request['staff_id'];
 $notif_body = "A student filed a complaint.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/Complaints.php', 'Delivered')");
        
-$sql = mysqli_query($conn, "call AddComplaint('$date_submitted','$date_incident','$time','$location','$name','$designation','$details','$witness1','$witness2','$witness3','Pending','$student_id'  )");
+$sql = mysqli_query($conn, "call AddComplaint('$date_submitted','$date_incident','$time','$location','$name','$designation','$details','$witness1','$witness2','$witness3','Pending','$student_id', '$sem_year' )");
   
 //$query=mysqli_query($con,"call registration('$fname','$email','$password')");
         //char2x rani hahahahha
