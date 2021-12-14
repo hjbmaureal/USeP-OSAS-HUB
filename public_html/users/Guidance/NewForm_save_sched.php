@@ -11,7 +11,7 @@ include('conn.php');
                       $query = "UPDATE guidance_appointments SET appointment_date = '$newDate', appointment_time = '$newTime', status_id = '$status_id' WHERE appointment_id = '$appointment_id'";
 
                       if(mysqli_query($conn,$query)){
-                      		/* newNotif($conn,$student_id);*/
+                          /* newNotif($conn,$student_id);*/
                           $_SESSION['success']=$student_id;
                           header('location: Guidance_NewForms.php');
                         }else{

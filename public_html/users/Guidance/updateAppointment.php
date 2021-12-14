@@ -7,8 +7,15 @@ if (isset($_POST['updatebut'])) {
   $mode=$_POST['mode'];
   $date=date('Y-m-d',strtotime($_POST['date']));
   $time=date('H:i',strtotime($_POST['date']));
-  
-          $sqlUpdate="UPDATE `guidance_appointments` SET `mode_id`='$mode',`appointment_date`='$date',`appointment_time`='$time' WHERE guidance_appointments.appointment_id='$id'";
+  $link='';
+  if (isset($_POST['link'])) {
+      $link=$_POST['link'];
+  }
+  $code='';
+  if (isset($_POST['code'])) {
+      $link=$_POST['code'];
+  }
+          $sqlUpdate="UPDATE `guidance_appointments` SET `mode_id`='$mode',`appointment_date`='$date',`appointment_time`='$time', link='$link', meeting_code='$code' WHERE guidance_appointments.appointment_id='$id'";
          $prorow3=$conn->query($sqlUpdate);
 
          /*Get Cred from database*/
@@ -112,12 +119,11 @@ if (isset($_POST['updatebut'])) {
            $_SESSION['success'] = 'Appointment updated successfully';
          header('location: Guidance_Appointment.php');
 }
-else{echo "ERROR";}
 
 function newNotif($conn,$stud_id){
 
-                        $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$stud_id', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
-
+                        
+                            $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$stud_id', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
                               if($result){
                                 echo '<script>
                                     alert("Succesful");

@@ -331,7 +331,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <li class="dropdown">      
                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
@@ -342,7 +342,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       
       </ul>
     </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -474,9 +474,8 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                     <select class="bootstrap-select" id="filterStat" name="filterStat">
                         <option class="select-item" value="all" selected="selected">All</option>
                         <?php
-                                            $sql="SELECT * FROM _status where status_id='4' or status_id='5'";
+                                            $sql="SELECT * FROM _status where status_id='1' or status_id='3'";
                                             $result = mysqli_query($conn, $sql);
-
                                            if($result = mysqli_query($conn,$sql)){               
                                                 while($res = mysqli_fetch_array($result)) {         
                                                     $value= $res['status_id']; ?>
@@ -502,12 +501,13 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       <th class="max">Purpose/Topic</th>                      
                       <th class="max">Mode of Communication</th>
                       <th >Status</th>
+                      <th >Attendance</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php 
 
-                      $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
+                      $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
                       $result = mysqli_query($conn, $sql);
                        if($result = mysqli_query($conn,$sql)){
                           while ($row2 = mysqli_fetch_assoc($result)) {
@@ -518,10 +518,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <td>'. $row2['topic'].'</td>
                                   <td>'. $row2['mode'].'</td> 
                                   <td>'. $row2['status'].'</td>
+                                  <td>'. $row2['attendance'].'</td>
                                  
                                   
 
-                                </tr>';}
+                                </tr>';
+                              }
                               }
 
        ?>

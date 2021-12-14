@@ -10,9 +10,11 @@
    $admin_id=$_SESSION['id'];
 
 
-  $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' or office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+   $count = 0;
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
 
@@ -66,6 +68,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -200,7 +203,8 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -313,7 +317,7 @@
                   </thead>
                   <tbody>
                     <?php 
-    $sql="SELECT * from notif where (user_id=$admin_id AND office_id = 4)  order by time desc";
+    $sql="SELECT * from notif where user_id=$admin_id  order by time desc";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         if ($row['message_status']=='Delivered') {

@@ -6,7 +6,7 @@ $username= "root";
 
 $password="";
 
-$dbname="guidance_db";
+$dbname="backupdb-3";
 
 
 

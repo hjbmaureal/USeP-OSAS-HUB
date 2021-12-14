@@ -60,33 +60,33 @@
             return $data;
         }
           
-$oldPass = validate($_POST['currPass']);
+        $oldPass = validate($_POST['currPass']);
         $newPass = validate($_POST['newPass']);
         $confirmNewPass = validate($_POST['confirmNewPass']);
 
-       $check_query="SELECT * from login_credentials where username='$uid'";
-     $resultPass= mysqli_query($conn,$check_query);
-     $row=mysqli_fetch_assoc($resultPass);
+        $check_query="SELECT * from login_credentials where username='$student_id'";
+        $resultPass= mysqli_query($conn,$check_query);
+        $row=mysqli_fetch_assoc($resultPass);
         $data = array();
 
-    $hash= $row['password'];
+        $hash= $row['password'];
 
 
         
 
-if (password_verify($oldPass,$hash)){
+        if (password_verify($oldPass,$hash)){
 
-        if(empty($oldPass)){  
-          $passState = "current-password-required";
-        }else if(empty($newPass)){
-          $passState = "new-pass-required";
-        }else if($newPass != $confirmNewPass){
-          $passState = "password-dont-match";
-        }else {
+          if(empty($oldPass)){  
+            $passState = "current-password-required";
+          }else if(empty($newPass)){
+            $passState = "new-pass-required";
+          }else if($newPass != $confirmNewPass){
+            $passState = "password-dont-match";
+          }else {
           // hashing the password
-          $oldPass = $oldPass;
-          $newPass =$newPass;
-          $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
+            $oldPass = $oldPass;
+            $newPass =$newPass;
+            $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
               $hashed_pass = password_hash($newPass, PASSWORD_DEFAULT);
@@ -96,9 +96,9 @@ if (password_verify($oldPass,$hash)){
             }else{
               $passState = "incorrect-password";
             }
+          }
         }
       }
-    }
     //$query
 
       if(!file_exists($_FILES['image1']['tmp_name']) && !file_exists($_FILES['image']['tmp_name'])){
@@ -106,52 +106,49 @@ if (password_verify($oldPass,$hash)){
         $file1= "";
         $query = "UPDATE student SET phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
       } elseif (!file_exists($_FILES['image1']['tmp_name']) && file_exists($_FILES['image']['tmp_name'])) {
-          $file1="";
-          $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-          $query = "UPDATE student SET pic='$file',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+        $file1="";
+        $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+        $query = "UPDATE student SET pic='$file',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
       } elseif (!file_exists($_FILES['image']['tmp_name']) && file_exists($_FILES['image1']['tmp_name'])) {
-          $file = "";
-          $file1  = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
-          $query = "UPDATE student SET e_signature='$file1',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
+        $file = "";
+        $file1  = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
+        $query = "UPDATE student SET e_signature='$file1',phone_number='$contact', email_add = '$email'  WHERE Student_id='$student_id';";
       }  else {
-          $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-          $file1 = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
-          $query = "UPDATE student SET pic = '$file', e_signature = '$file1',phone_number='$contact', email_add = '$email' WHERE Student_id='$student_id';";
+        $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+        $file1 = addslashes(file_get_contents($_FILES["image1"]["tmp_name"]));
+        $query = "UPDATE student SET pic = '$file', e_signature = '$file1',phone_number='$contact', email_add = '$email' WHERE Student_id='$student_id';";
       }
 
- }
+    }
 
-      if(mysqli_query($conn, $query))
-     {
-       
-        session_destroy();
-        echo '<script>
-            swal({
-              title: "Updated Successfully",
-              text: "Data has been updated. You need to Login again to apply all updated changes. Thank You :3",
-              type: "success"
-              }, function () {
-                setTimeout(function () {
-                  window.location.href="../index.php";
-                  }, 500);
-                  });
-                  </script>'; 
-              
-     }else{
-       echo '<script>
-       swal({
-          title: "Update Failed.",
-          text: "Unable to update data. Try again.",
-          type: "warning"
-          }, function () {
-            setTimeout(function () {
-              window.location.href="../users/Student/user-profiles.php";
-              }, 500);
-              });
-              </script>'; 
-              $_conn['error'] = $conn->error;
-              echo $conn->error;
-     }
-
-
-   
+    if(mysqli_query($conn, $query))
+    {
+     
+      session_destroy();
+      echo '<script>
+      swal({
+        title: "Updated Successfully",
+        text: "Data has been updated. You need to Login again to apply all updated changes. Thank You :3",
+        type: "success"
+        }, function () {
+          setTimeout(function () {
+            window.location.href="../index.php";
+            }, 500);
+            });
+            </script>'; 
+            
+          }else{
+           echo '<script>
+           swal({
+            title: "Update Failed.",
+            text: "Unable to update data. Try again.",
+            type: "warning"
+            }, function () {
+              setTimeout(function () {
+                window.location.href="../users/Student/user-profiles.php";
+                }, 500);
+                });
+                </script>'; 
+                $_conn['error'] = $conn->error;
+                echo $conn->error;
+              }

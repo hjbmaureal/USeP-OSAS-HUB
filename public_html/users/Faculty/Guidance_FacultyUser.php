@@ -329,7 +329,7 @@ function timeago($datetime, $full = false) {
               
                  <li class="dropdown">
                   <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
@@ -367,6 +367,12 @@ function timeago($datetime, $full = false) {
          <!--<div class="page-error tile">-->
 <h2>USER PROFILE</h2> <br>
 
+<?php
+                  $selectname = "SELECT * FROM staff JOIN office on office.office_id=staff.office_id JOIN department on department.dept_id=staff.dept_id WHERE staff.staff_id='$faculty_id'";
+                  $query = $conn->query($selectname);
+                  $user = $query->fetch_assoc();
+
+                  ?>
   
 
   <div class="row">

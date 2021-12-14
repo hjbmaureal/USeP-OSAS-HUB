@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -121,6 +122,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -256,7 +258,8 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -343,7 +346,7 @@
           
         </div>
 
-      <!-- Navbar-->
+  <!-- Navbar-->
 
          <!--<div class="page-error tile">-->
 
@@ -453,8 +456,8 @@
                       </div>
                   </div>
                 </div>
+                <div class="calldiv">
                   <div class="table-bd">
-                    <div class="calldiv">
                 <div class="table-responsive">
                   <br>
                   <table class="table table-hover table-bordered" id="counselling-table">
@@ -500,7 +503,128 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tile">
+              <div class="tile-body">
+                <div>
+                <div>
+                <div class="float-left"><h4>Group Guidance Activities</h4></div>
+                  </div>
+                  <br><br>
+                  <div class="row">
+                    <div class="col-auto">  
+                     <div class="inline-block">
+                    Month from: 
+                    <br>
+                    <select class="bootstrap-select" name="filtermonthg" id="filtermonthg" >
+                        <option class="select-item" value="from" selected="selected">All</option>
+                        <option class="select-item" value="01">January</option>
+                        <option class="select-item" value="02">February</option>
+                        <option class="select-item" value="03">March</option>
+                        <option class="select-item" value="04">April</option>
+                        <option class="select-item" value="05" >May</option>
+                        <option class="select-item" value="06">June</option>
+                        <option class="select-item" value="07">July</option>
+                        <option class="select-item" value="08">August</option>
+                        <option class="select-item" value="09">September</option>
+                        <option class="select-item" value="10">October</option>
+                        <option class="select-item" value="11">November</option>
+                        <option class="select-item" value="12">December</option>
+                      </select>
+                    </div>
+                      <div class="inline-block">
+                      
+                    Month to: 
+                    <br>
+                    <select class="bootstrap-select" name="filtermonth2g" id="filtermonth2g">
+                        <option class="select-item" value="to" selected="selected">All</option>
+                        <option class="select-item" value="01">January</option>
+                        <option class="select-item" value="02">February</option>
+                        <option class="select-item" value="03">March</option>
+                        <option class="select-item" value="04">April</option>
+                        <option class="select-item" value="05">May</option>
+                        <option class="select-item" value="06">June</option>
+                        <option class="select-item" value="07">July</option>
+                        <option class="select-item" value="08">August</option>
+                        <option class="select-item" value="09">September</option>
+                        <option class="select-item" value="10">October</option>
+                        <option class="select-item" value="11">November</option>
+                        <option class="select-item" value="12">December</option>
+                      </select>
+                    </div>    
+                  
+                  <div class="inline-block">
+                      Status
+                    <br>
+                    <select class="bootstrap-select" id="filterStatg" name="filterStatg">
+                        <option class="select-item" value="all" selected="selected">All</option>
+                        <?php
+                                            $sql="SELECT * FROM _status where status_id='1' or status_id='3'";
+                                            $result = mysqli_query($conn, $sql);
+                                           if($result = mysqli_query($conn,$sql)){               
+                                                while($res = mysqli_fetch_array($result)) {         
+                                                    $value= $res['status_id']; ?>
+                                                    <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
+                                              <?php }
+                                              } ?>
+                      </select>
+                    </div>
+                      </div>
+                      
+
+                  </div>
+                </div>
+                  <div class="table-bd">
+                <div class="table-responsive">
+                  <br>
+                  <div id="filteredDivG" class="filteredDivG">
+                  <table class="table table-hover table-bordered" id="groupTable">
+                    <thead>
+                      <tr align="center">
+                      <th>Date </th>
+                      <th>Time</th>
+                      <th class="max">Purpose/Topic</th>                      
+                      <th class="max">Mode of Communication</th>
+                      <th >Status</th>
+                      <th >Attendance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+
+                      $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$student_id'";
+                      $result = mysqli_query($conn, $sql);
+                       if($result = mysqli_query($conn,$sql)){
+                          while ($row2 = mysqli_fetch_assoc($result)) {
+
+                                echo'<tr align="center">
+                                  <td>'. $row2['appointment_date'].'</td>
+                                  <td>'. $row2['appointment_time'].'</td>
+                                  <td>'. $row2['topic'].'</td>
+                                  <td>'. $row2['mode'].'</td> 
+                                  <td>'. $row2['status'].'</td>
+                                  <td>'. $row2['attendance'].'</td>
+                                 
+                                  
+
+                                </tr>';
+                              }
+                              }
+
+       ?>
+                     
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>   
 
  <!--View Forms Modal -->
   <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -611,7 +735,7 @@
                include('conn.php');
 $id=$student_id;
 $intake_id=$row2['intake_id'];
- $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='$id'");
+ $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_general_info on scholarship_general_info.student_id=student.Student_id where student.Student_id='$id'");
 if($prorow=mysqli_fetch_array($sqlselect)){
   $image_data=$prorow['e_signature'];
    $q7=$prorow['Q7'];
@@ -663,7 +787,12 @@ if($prorow=mysqli_fetch_array($sqlselect)){
                             <input type="text" name="gender" id="gender" style="border:transparent;" value="<?php  echo $prorow['sex'];?>" readonly>
                     </td>
                     <td>8. Age<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="age" id="age" style="border:transparent;" value="<?php  echo $prorow['last_name'];?>" readonly>
+                        <?php $date=date('Y-m-d');
+                        $date1 = new DateTime($date);
+                        $date2 = new DateTime($prorow['birth_date']);
+                        $interval = $date1->diff($date2);
+ ?>
+                            <input type="text" name="age" id="age" style="border:transparent;" value="<?php  echo $interval->y;?>" readonly>
                     </td>
                     <td>9. Birthdate<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input type="text" name="bdate" id="bdate" style="border:transparent;"  value="<?php  echo $prorow['birth_date'];?>" readonly>
@@ -706,7 +835,7 @@ if($prorow=mysqli_fetch_array($sqlselect)){
                             <input type="text" name="father_occupation" id="father_occupation" style="border:transparent;"  value="<?php  echo $prorow['father_occupation'];?>" readonly>
                     </td>
                     <td>19. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="father_contact" id="father_contact" style="border:transparent;" value="<?php  echo $prorow['father_contact'];?>" readonly>
+                            <input type="text" name="father_contact" id="father_contact" style="border:transparent;" value="<?php  echo $prorow['father_con_number'];?>" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -717,7 +846,7 @@ if($prorow=mysqli_fetch_array($sqlselect)){
                             <input type="text" name="mother_occupation" id="mother_occupation" style="border:transparent;" value="<?php  echo $prorow['mother_occupation'];?>" readonly>
                     </td>
                     <td>22. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="mother_contact" id="mother_contact" style="border:transparent;" value="<?php  echo $prorow['mother_contact'];?>" readonly>
+                            <input type="text" name="mother_contact" id="mother_contact" style="border:transparent;" value="<?php  echo $prorow['mother_con_number'];?>" readonly>
                     </td>
                   </tr>
                    <tr>
@@ -890,6 +1019,88 @@ if($prorow=mysqli_fetch_array($sqlselect)){
         <!--</div>-->
       </main>
       <!-- Essential javascripts for application to work-->
+        <script type="text/javascript">
+
+                $(document).ready(function(){
+                  $("#filterStatg").on('change', function(){
+                    var status = $("#filterStatg").val();
+                    var filtermonth = $("#filtermonthg").val();
+                    var filtermonth2 = $("#filtermonth2g").val();
+                    var student_id = $("#student_id").val();
+                    /* alert(value);*/
+                    $.ajax({
+                          url:"filter_Admin_Records.php",
+                          type:"POST",
+                          data:{student_id:student_id,status: status, from : filtermonth, to : filtermonth2},
+                          beforeSend:function(){
+                            $(".filteredDivG").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".filteredDivG").html(data);
+                          },
+                    });
+                
+                  });
+
+                 $("#filtermonthg").on('change', function(){
+                    var status = $("#filterStatg").val();
+                    var filtermonth = $("#filtermonthg").val();
+                    var filtermonth2 = $("#filtermonth2g").val();
+                    var student_id = $("#student_id").val();
+                      $('#filtermonth2g').prop("disabled", false);
+                      $('#filterStatg').prop("disabled", true);
+                      if (filtermonth=='from') {
+                      $('#filterStatg').prop("disabled", true);
+                        filtermonth2='to';
+                      }if (filtermonth2=='to') {
+                        $('#filterStatg').prop("disabled", true);
+                        filtermonth='from';
+                      }
+                    if (filtermonth2!='to') {
+
+                    $.ajax({
+                          url:"filter_Admin_Records.php",
+                          type:"POST",
+                          data:{student_id:student_id,status: status, from : filtermonth, to : filtermonth2},
+                          beforeSend:function(){
+                            $(".filteredDivG").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".filteredDivG").html(data);
+                          },
+                    });
+                }
+                  });
+                  $("#filtermonth2g").on('change', function(){
+                    var status = $("#filterStatg").val();
+                    var filtermonth = $("#filtermonthg").val();
+                    var filtermonth2 = $("#filtermonth2g").val();
+                    var student_id = $("#student_id").val();
+                    $('#filterStatg').prop("disabled", false);
+                    if (filtermonth=='from') {
+                      $('#filterStatg').prop("disabled", true);
+                        filtermonth2='to';
+                      }if (filtermonth2=='to') {
+                        $('#filterStatg').prop("disabled", true);
+                        filtermonth='from';
+                      }
+                    if (filtermonth!='from') {
+                    $.ajax({
+                          url:"filter_Admin_Records.php",
+                          type:"POST",
+                          data:{student_id:student_id,status: status, from : filtermonth, to : filtermonth2},
+                          beforeSend:function(){
+                            $(".filteredDivG").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".filteredDivG").html(data);
+                          },
+                    });
+                }
+                  });
+
+                });
+        </script>
       <script type="text/javascript">
                 $(document).ready(function(){
                   $("#filterstatus").on('change', function(){
@@ -938,6 +1149,7 @@ if($prorow=mysqli_fetch_array($sqlselect)){
           }
 
           $('#counselling-table').DataTable();
+          $('#groupTable').DataTable();
 
 
   
@@ -966,7 +1178,7 @@ if($prorow=mysqli_fetch_array($sqlselect)){
 }
     </script>
       
-      <script src="js/jquery-3.3.1.min.js"></script>
+      <!-- <script src="js/jquery-3.3.1.min.js"></script> -->
       <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>

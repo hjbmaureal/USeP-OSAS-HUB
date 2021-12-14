@@ -1,6 +1,7 @@
  <?php
 session_start();
 include("conn.php");
+error_reporting(0);
 
 include '../../php/notification-timeago.php'; 
   if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
@@ -17,6 +18,7 @@ include '../../php/notification-timeago.php';
 $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement");
   while($row=mysqli_fetch_array($query2)){ $job_count = ($row['cnt']==0) ? '' : $row['cnt'] ;} 
 
+
  if (isset($_GET['image'])) {
     $file_name = $_GET['image'];
     $file_id = $_GET['file_id'];
@@ -26,7 +28,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
     $result = mysqli_query($conn, $sql);
 
     $file = mysqli_fetch_assoc($result);
-    $filepath = '../M-Admin/Remarks/'. $file['image'];
+    $filepath = '../Osas/Remarks/'. $file['image'];
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
@@ -34,8 +36,8 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize('../M-Admin/Remarks/' . $file['image']));
-        readfile('../M-Admin/Remarks/' . $file['image']);
+        header('Content-Length: ' . filesize('../Osas/Remarks/' . $file['image']));
+        readfile('../Osas/Remarks/' . $file['image']);
 
 
 
@@ -319,7 +321,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
@@ -453,16 +455,16 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                           <div class="row">
                               <div class="form-group col-sm-6">
                               <p style="font-weight: bolder;">Organization Name: 
-                              <input class="form-control sm-8" type="text" id="email" name="org_name"></p>
+                              <input class="form-control sm-8" type="text" id="email" name="org_name" required=""></p>
                               </div>
                             </div>
 
                           <div class="row">
                               <div class="form-group col-sm-6">
                               <p style="font-weight: bolder;">Student Organization Governor/President Name: 
-                              <input class="form-control sm-8" type="text" id="search"  placeholder="Enter Lastname .. " name="Org_pres_gov">
+                              <input class="form-control sm-8" type="text" id="search"  placeholder="Enter Lastname .. " name="Org_pres_gov" required="">
                               <div class="card-body">
-                                          <div class="list-group list-group-item-action" id="content">
+                                          <div class="list-group list-group-item-action" id="content" >
                                            
                                             
                                           </div>
@@ -473,7 +475,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                              <div class="row">
                               <div class="form-group col-sm-6">
                               <p style="font-weight: bolder;">Student Organization Adviser: 
-                              <input class="form-control sm-8" type="text" id="email" name="Org_adviser">
+                              <input class="form-control sm-8" type="text" id="email" name="Org_adviser" required="">
                               </div>
                             </div>
 
@@ -492,12 +494,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                              <div class="col-sm-4">  
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input class="form-check-input" type="radio" name="type" value="Govt. Funded"> Govt. Funded Organization
+                                    <input class="form-check-input" type="radio" name="type" value="Govt. Funded" required=""> Govt. Funded Organization
                                   </label>
                                 </div>
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input class="form-check-input" type="radio" name="type" value="Non-Govt. Funded"> Non-Funded Organization
+                                    <input class="form-check-input" type="radio" name="type" value="Non-Govt. Funded" required=""> Non-Funded Organization
                                   </label>
                                 </div>
                               </div>
@@ -505,7 +507,26 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
               <br><br><br>
                         </div>
                       </div>
+                          <?php
+
+            $files = array();
+            $filesrow = 0;
+
+
+
+               $results = mysqli_query($conn, "SELECT file FROM remarks_apply WHERE status=0 and Submitted_by like '".$_SESSION['id']."'");       
+                while ($row = mysqli_fetch_array($results)) {
+                   $files[$filesrow]= $row["file"];
+                   $filesrow++;
+                 }
                        
+                       
+                 $tabquery = mysqli_query($conn,"SELECT * from remarks_apply where status=0 and Submitted_by like '".$_SESSION['id']."'" );             
+                 $resquery = mysqli_fetch_array($tabquery);
+
+
+
+              ?>  
 
   <div class="row">
         <div class="col-xl">
@@ -513,22 +534,13 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           <div>Attach files:</div>
           <div class="tile" >
               <div class="owl-carousel owl-theme"  >
-                   <?php
-                  $id= $_SESSION['id'];
-                $sql = mysqli_query($conn, "SELECT * FROM remarks_apply WHERE status=0 and Submitted_by like '$id'");
-                $res = mysqli_num_rows($sql); 
-                
-                $filequery = "SELECT file FROM remarks_apply WHERE status=0 and Submitted_by like '$id'";
-                $fileres = mysqli_query($conn,$filequery);
-                $result = mysqli_fetch_array($fileres);
-
-              ?>  
+              
 
 
                <div class="item image-upload" >
                                       <label for="file-input1" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input1" id="file-input1" type="file" name="App_letter" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" /> 
+                                      <input class="file-input1" id="file-input1" type="file" name="App_letter" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" / required> 
                                       <input type="text" name="" id="input1" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue1() {
@@ -541,20 +553,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       </div>
                                       <div class="card-body">
                                         <p class="card-text txbx">Application Letter </p>
+                                        <input type="hidden" name="id" value="<?php echo $resquery['ID']; ?>" />
                                       </div>   
                                       <? echo $name_array[$i] ?>
                                     </div>
-                                    
                                     <?php 
-                                        
-                                    if ($result['file'] == "Application Letter"){
-                                      echo '
-                                        <button type="button"  class="btn btn-warning btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                     $tabquery = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Application Letter' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery = mysqli_fetch_array($tabquery);
+                                   
+                                    if ($files[0] == "Application Letter" ||$files[1] == "Application Letter" ||$files[2] == "Application Letter" ||$files[3] == "Application Letter" ||$files[4] == "Application Letter" ||$files[5] == "Application Letter" ||$files[6] == "Application Letter" ||$files[7] == "Application Letter" ||$files[8] == "Application Letter" ||$files[9] == "Application Letter" ){ 
+                                      ?>
+                                      
+                                        <button type="button" class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                   <?php }
+                                   else{ ?>
+                                       
+                                       <button type="button"   class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                   <?php }
                                    ?>
                                   </div>
                                   
@@ -562,7 +577,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input2" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input2"  id="file-input2" type="file" name="MVS" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input2"  id="file-input2" type="file" name="MVS" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;"  required />
                                       <input type="text" name="" id="input2" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue2() {
@@ -579,15 +594,18 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <?echo $name_array[$i]?>   
                                     </div>
                                     <?php 
+                                    $tabquery1 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Mission Vission Statement' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery1 = mysqli_fetch_array($tabquery1);
 
-                                    if ($result['file'] == "Mission Vission Statement"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                      if ($files[0] == "Mission Vission Statement" ||$files[1] == "Mission Vission Statement" ||$files[2] == "Mission Vission Statement" ||$files[3] == "Mission Vission Statement" ||$files[4] == "Mission Vission Statement" ||$files[5] == "Mission Vission Statement" ||$files[6] == "Mission Vission Statement" ||$files[7] == "Mission Vission Statement" ||$files[8] == "Mission Vission Statement" ||$files[9] == "Mission Vission Statement" ){ 
+                                        ?>
+                                      
+                                        <button  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery1['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                    <?php }
+                                    else{ ?>
+                                      
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                   <?php }
                                    ?>
                                   </div>
                                   
@@ -595,7 +613,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input3" >
                                     <div class="img card text-center btn btn-light orgbox" >
-                                      <input class="file-input3"  id="file-input3" type="file" name="Aff_Lead" onchange="ssvalue3()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input3"  id="file-input3" type="file" name="Aff_Lead" onchange="ssvalue3()" style="margin-top: -100px; margin-bottom: 80px;"required />
                                       <input type="text" name="" id="input3" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue3() {
@@ -612,15 +630,18 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i]?>                                    
                                     </div>
                                     <?php 
+                                    $tabquery2 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Notarized Affidavit of Le' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery2 = mysqli_fetch_array($tabquery2);
 
-                                    if ($result['file'] == "Affidavit of Leadership"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    if ($files[0] == "Notarized Affidavit of Le" ||$files[1] == "Notarized Affidavit of Le" ||$files[2] == "Notarized Affidavit of Le" ||$files[3] == "Notarized Affidavit of Le" ||$files[4] == "Notarized Affidavit of Le" ||$files[5] == "Notarized Affidavit of Le" ||$files[6] == "Notarized Affidavit of Le" ||$files[7] == "Notarized Affidavit of Le" ||$files[8] == "Notarized Affidavit of Le" ||$files[9] == "Notarized Affidavit of Le" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery2['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
+                                   else{ ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                 <?php   }
                                    ?>
                                   </div>
 
@@ -628,7 +649,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input4">
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input4"  id="file-input4" type="file" name="Resolution" onchange="ssvalue4()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input4"  id="file-input4" type="file" name="Resolution" onchange="ssvalue4()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input4" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue4() {
@@ -645,15 +666,18 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?> 
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Resolution"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery3 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Resolution' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery3 = mysqli_fetch_array($tabquery3);
+                                   
+                               if ($files[0] == "Resolution" ||$files[1] == "Resolution" ||$files[2] == "Resolution" ||$files[3] == "Resolution" ||$files[4] == "Resolution" ||$files[5] == "Resolution" ||$files[6] == "Resolution" ||$files[7] == "Resolution" ||$files[8] == "Resolution" ||$files[9] == "Resolution" ){ 
+                                        ?>
+                                     
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery3['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
+                                   else{ ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                  <?php  }
                                    ?>
                                   </div>
                   
@@ -661,7 +685,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <div class="item image-upload" >
                                       <label for="file-input5" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input5"  id="file-input5" type="file" name="Letter_Permission" onchange="ssvalue5()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input5"  id="file-input5" type="file" name="Letter_Permission" onchange="ssvalue5()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input5" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue5() {
@@ -678,22 +702,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Letter of Permission"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery4 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Letter of Permission' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery4 = mysqli_fetch_array($tabquery4);
+                                    if ($files[0] == "Letter of Permission" ||$files[1] == "Letter of Permission" ||$files[2] == "Letter of Permission" ||$files[3] == "Letter of Permission" ||$files[4] == "Letter of Permission" ||$files[5] == "Letter of Permission" ||$files[6] == "Letter of Permission" ||$files[7] == "Letter of Permission" ||$files[8] == "Letter of Permission" ||$files[9] == "Letter of Permission" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery4['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                   <?php }
+                                    else{ ?>
+                                       <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                  <?php  }
                                    ?>
                                   </div>   
                                  
                                   <div class="item image-upload" >
                                       <label for="file-input6" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input6"  id="file-input6" type="file" name="Letter_content" onchange="ssvalue6()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input6"  id="file-input6" type="file" name="Letter_content" onchange="ssvalue6()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input6" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue6() {
@@ -705,26 +730,28 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                         <img src="../../images/files.png" class="card-img-top imgbx" alt="..."/>
                                       </div>
                                     <div class="card-body">
-                                        <p class="card-text txbx">Letter of Content</p>
+                                        <p class="card-text txbx">Letter of Consent</p>
                                       </div> 
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Letter of Content"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery5 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Letter of Consent' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery5 = mysqli_fetch_array($tabquery5);
+                                      if ($files[0] == "Letter of Consent" ||$files[1] == "Letter of Consent" ||$files[2] == "Letter of Consent" ||$files[3] == "Letter of Consent" ||$files[4] == "Letter of Consent" ||$files[5] == "Letter of Consent" ||$files[6] == "Letter of Consent" ||$files[7] == "Letter of Consent" ||$files[8] == "Letter of Consent" ||$files[9] == "Letter of Consent" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery5['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
+                                    else{ ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload" >
                                       <label for="file-input7" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input7"  id="file-input7" type="file" name="Lists" onchange="ssvalue7()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input7"  id="file-input7" type="file" name="Lists" onchange="ssvalue7()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input7" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue7() {
@@ -741,21 +768,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "List of Officers and Memb"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery6 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='List of Officers and Memb' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery6 = mysqli_fetch_array($tabquery6);
+                                  if ($files[0] == "List of Officers and Memb" ||$files[1] == "List of Officers and Memb" ||$files[2] == "List of Officers and Memb" ||$files[3] == "List of Officers and Memb" ||$files[4] == "List of Officers and Memb" ||$files[5] == "List of Officers and Memb" ||$files[6] == "List of Officers and Memb" ||$files[7] == "List of Officers and Memb" ||$files[8] == "List of Officers and Memb" ||$files[9] == "List of Officers and Memb" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery6['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                   <?php }
+                                    else{  ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload" >
                                       <label for="file-input8" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input8"  id="file-input8" type="file" name="ConsLaw" onchange="ssvalue8()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input8"  id="file-input8" type="file" name="ConsLaw" onchange="ssvalue8()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input8" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue8() {
@@ -772,21 +801,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Constitutional by Laws"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery7 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Constitutional by Laws' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery7 = mysqli_fetch_array($tabquery7);
+                                    if ($files[0] == "Constitutional by Laws" ||$files[1] == "Constitutional by Laws" ||$files[2] == "Constitutional by Laws" ||$files[3] == "Constitutional by Laws" ||$files[4] == "Constitutional by Laws" ||$files[5] == "Constitutional by Laws" ||$files[6] == "Constitutional by Laws" ||$files[7] == "Constitutional by Laws" ||$files[8] == "Constitutional by Laws" ||$files[9] == "Constitutional by Laws" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery7['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                   <?php }
+                                    else{ ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload">
                                       <label for="file-input9" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input9"  id="file-input9" type="file" name="Logo" onchange="ssvalue9()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input9"  id="file-input9" type="file" name="Logo" onchange="ssvalue9()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input9" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue9() {
@@ -803,21 +834,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Official Logo"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                     $tabquery8 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Official Logo' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery8 = mysqli_fetch_array($tabquery8);
+                                    if ($files[0] == "Official Logo" ||$files[1] == "Official Logo" ||$files[2] == "Official Logo" ||$files[3] == "Official Logo" ||$files[4] == "Official Logo" ||$files[5] == "Official Logo" ||$files[6] == "Official Logo" ||$files[7] == "Official Logo" ||$files[8] == "Official Logo" ||$files[9] == "Official Logo" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery8['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                   <?php }
+                                    else{ ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                  <?php  }
                                    ?>
                                   </div>
                                   <div class="item image-upload" >
                                       <label for="file-input0" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input0"  id="file-input0" type="file" name="Letter_intent" onchange="ssvalue0()" style="margin-top: -100px; margin-bottom: 80px;" />
+                                      <input class="file-input0"  id="file-input0" type="file" name="Letter_intent" onchange="ssvalue0()" style="margin-top: -100px; margin-bottom: 80px;" required />
                                       <input type="text" name="" id="input0" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue0() {
@@ -834,15 +867,18 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <? echo $name_array[$i] ?>  
                                     </div>
                                     <?php 
-
-                                    if ($result['file'] == "Letter ot Intent"){
-                                      echo '
-                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-target="#remarkk-modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
-                                    else{
-                                       echo '
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3" data-toggle="modal"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>'; 
-                                    }
+                                    $tabquery9 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='Letter ot Intent' and Submitted_by like '".$_SESSION['id']."' " );             
+                                      $resquery9 = mysqli_fetch_array($tabquery9);
+                                  
+                                  if ($files[0] == "Letter ot Intent" ||$files[1] == "Letter ot Intent" ||$files[2] == "Letter ot Intent" ||$files[3] == "Letter ot Intent" ||$files[4] == "Letter ot Intent" ||$files[5] == "Letter ot Intent" ||$files[6] == "Letter ot Intent" ||$files[7] == "Letter ot Intent" ||$files[8] == "Letter ot Intent" ||$files[9] == "Letter ot Intent" ){ 
+                                        ?>
+                                      
+                                        <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery9['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                  <?php  }
+                                    else{  ?>
+                                       
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                   <?php }
                                    ?>
                                   </div>             
          
@@ -854,7 +890,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                     <div class="tile-footer"></div>
                           <button class="btn btn-success" name="submit" id="submit" type="submit" >Submit</button>
-                           <a class="btn btn-primary" href="Home-Orgs.php" style="float: right;">Cancel</a>
+                           <a class="btn btn-primary" href="Home-Orgs.html" style="float: right;">Cancel</a>
                     </div>
 
               
@@ -866,60 +902,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 <div class="modal-dialog modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     
-                    <div class="modal-body">
-
-                      <?php 
-                        include("conn.php");
-
-                              $id = $_SESSION['id'];
-                              $tab = mysqli_query($conn,"SELECT * from remarks_apply where Submitted_by ='$id' " );             
-                              $res = mysqli_fetch_array($tab);
-                                ?>
-                              
-                              <div class="modal-header" style="margin-bottom: 10px; padding: 0px;">
-                                 <h5 class="modal-title" id="exampleModalLabel"><b> <?php echo $res['org_name']; ?> </b></h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                              </div>
-                              <div class="tile" style="border-radius:5px; margin-bottom: 0px;">
-                                  <h5 class="modal-title" id="exampleModalLabel">Remark:&emsp;<input type="text" name="by" style="border:none; width:300px;" value=" <?php echo $res['file'];?>"></h5>
-                                  <div class="container">
-                              
-                                      <div class="row">
-                                        <div class="form-group col-md-9">
-                                           <p style="font-weight: bolder;">Comment Details:
-
-                                               <textarea class="form-control" id="exampleTextarea" rows="9" disable="" > <?php echo $res['message']; ?></textarea>
-                                               </p>
-                                       </div>
-                                      <div class="col-md-3">
-                                          <p style="font-weight: bolder; margin-bottom:0px;">Attachments:</p>             
-                                          <div class="tile" style="height:200px;">
-                                           <div>
-                                                <label style="font-size: 2px; color: white;"><?php echo $res['image']; ?></label>
-                                            </div>
-                                        <div style="margin-left: 20px; margin-top: -20px;">
-                                                <a href="Apply-Org.php?file_id=<?php echo $res['Submitted_by'];?>&image=<?php echo $res['image'];?>"><button type="button"  style="margin-top:0px; border-style:none;"> <img name="image" src="../Osas/Remarks/<?php echo $res['image']; ?>" style="width:90px; border-radius: 15px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: -15px;"/></button></a>
-                                        </div>    
-                                             
-                                          </div>
-                                      </div>
-
-                                   </div>
-                                    <div style="top: 0px;">
-                                        <p style="font-weight: bolder;">Attach new file</p>
-                                                   <input class="file-input11" id="file-input11" type="file" name="filee" onchange="ssvalue11()" style="margin-top: -100px; margin-bottom: 30px;" /> 
-                                                   <input type="text" name="" id="" value=""  style="border-style: none;background: transparent;" disabled >
-                                         </div>
-                                       </div>
-                                    </div>
-                                <script>
-                                    function ssvalue11() {
-                                    var val = document.getElementById("file-input11").value.replace("C:\\fakepath\\", "");
-                                    document.getElementById("input11").value = val;
-                                    }
-                               </script>
+                    <div class="modal-body" id="remarkk">
+                      
+                      
                             </div> 
                             <div class="modal-footer">
                                 <button type="submit" name="postbtn" class="btn btn-danger"><i class="mr-1 fas fa-paper-plane"></i> SUBMIT</button>
@@ -928,10 +913,26 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                    </div>     
                 </div>            
         </form>
+
+
+        <div class="modal fade modal-auto-clear" id="no-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog modal-lg" role="document">
+                  <div class="modal-content" style="background: #26a7db; width: 450px; position: absolute ; left: 40%;">
+                    
+                    <div class="modal-body"><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                        <b style="color:white;"> &emsp; No remarks for this file.</b>
+                      
+                            </div> 
+                                                     
+                      </div>   
+                   </div>     
+                </div>   
             
         
 </main>
-    <script src="../../js/jquery.min.js"></script>
+   
     <script src="../../js/jquery-3.3.1.min.js"></script>
       <script src="../../js/popper.min.js"></script>
       <script src="../../js/bootstrap.min.js"></script>
@@ -943,16 +944,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript" src="../../js/plugins/dropzone.js"></script>
       <script type="text/javascript">
-        $('#demoNotify').click(function(){
-          $.notify({
-            title: "Update Complete : ",
-            message: "Disable Successfuly!",
-            icon: 'fa fa-check' 
-          },{
-            type: "info"
-          });
-        });
+       $('.modal-auto-clear').on('shown.bs.modal', function () {
+    $(this).delay(500).fadeOut(200, function () {
+        $(this).modal('hide');
+    });
+})
       </script>
+      
+      
       <script>
         <!-- table selection -->
           $('#selectAll').click(function (e) {
@@ -1026,7 +1025,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                           })
                     </script>
      
-  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/jquery.min.js"></script> 
 <script src="../../js/owl.carousel.min.js"></script>
   <script type="text/javascript">
 $('.owl-carousel').owlCarousel({
@@ -1047,8 +1046,8 @@ $('.owl-carousel').owlCarousel({
     }
 })
   </script>
-  <!-- <script type="text/javascript">
-      $(document).on('click','[data-role="exampleModall"]', function(){
+   <script type="text/javascript">
+      $(document).on('click','[data-role="remarkk-modal"]', function(){
         var id = $(this).attr("id");
         $.ajax({  
           url:'remarkk.php',  
@@ -1064,7 +1063,14 @@ $('.owl-carousel').owlCarousel({
 
 
       });
-  </script> -->
+  </script>
+  <script type="text/javascript">
+        $('.demoNotify').click(function(){
+          $.notify("No remarks for this file", "error");
+        });
+      </script>
+
+<script src="../../js/notify.js"></script> 
 
   </body>
 </html>
@@ -1175,8 +1181,7 @@ if(isset($_FILES['Letter_intent'])){
   $movepdf = move_uploaded_file($pdf_tmp,$path);
    $query = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Org_Name = '$fileName1'";
 $run = mysqli_query($conn,$query);
-} 
-
+}
 
 $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
@@ -1185,8 +1190,7 @@ $request=mysqli_fetch_assoc($result2);
 $admin_id= $request['staff_id'];
 
 $notif_body = "A student has applied for New Organization.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
-
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')"); 
      echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({
@@ -1229,15 +1233,18 @@ if(isset($_POST['postbtn'])){
    $roww = mysqli_fetch_array($ress);
 
   if ($roww){  
-    
+    if(isset($_FILES['filee'])){
         
        if($filesub=="Application Letter"){
-        if(isset($_FILES['filee'])){
+        
         $pdf_name = $_FILES['filee']['name'];
         $pdf_size = $_FILES['filee']['size'];
        $pdf_tmp = $_FILES['filee']['tmp_name'];
        $path = "Org_Applications/".$pdf_name;
        $movepdf = move_uploaded_file($pdf_tmp,$path);
+
+       $querydel = "UPDATE org_applications set App_letter=' '  where Submitted_by like '$by'";
+      $rundel = mysqli_query($conn,$querydel);
 
        $query = "UPDATE org_applications set App_letter='$pdf_name'  where Submitted_by like '$by'";
       $run = mysqli_query($conn,$query);
@@ -1252,6 +1259,9 @@ if(isset($_POST['postbtn'])){
        $pdf_tmp1 = $_FILES['filee']['tmp_name'];
        $path1 = "Org_Applications/".$pdf_name1;
        $movepdf1 = move_uploaded_file($pdf_tmp1,$path1);
+
+       $query1del = "UPDATE org_applications set MVS=''  where Submitted_by like '$by'";
+      $run1del = mysqli_query($conn,$query1del);
 
        $query1 = "UPDATE org_applications set MVS='$pdf_name1'  where Submitted_by like '$by'";
       $run1 = mysqli_query($conn,$query1);
@@ -1268,6 +1278,9 @@ if(isset($_POST['postbtn'])){
        $path2 = "Org_Applications/".$pdf_name2;
        $movepdf2 = move_uploaded_file($pdf_tmp2,$path2);
 
+       $query2del = "UPDATE org_applications set Aff_Lead=' '  where Submitted_by like '$by'";
+      $run2del = mysqli_query($conn,$query2del);
+
        $query2 = "UPDATE org_applications set Aff_Lead='$pdf_name2'  where Submitted_by like '$by'";
       $run2 = mysqli_query($conn,$query2);
     }
@@ -1280,6 +1293,10 @@ if(isset($_POST['postbtn'])){
        $pdf_tmp3 = $_FILES['filee']['tmp_name'];
        $path3 = "Org_Applications/".$pdf_name3;
        $movepdf3 = move_uploaded_file($pdf_tmp3,$path3);
+
+       $query3del = "UPDATE org_applications set Resolution=' '  where Submitted_by like '$by'";
+      $run3del = mysqli_query($conn,$query3del);
+
 
        $query3 = "UPDATE org_applications set Resolution='$pdf_name3'  where Submitted_by like '$by'";
       $run3 = mysqli_query($conn,$query3);
@@ -1294,6 +1311,9 @@ if(isset($_POST['postbtn'])){
        $path4 = "Org_Applications/".$pdf_name4;
        $movepdf4 = move_uploaded_file($pdf_tmp4,$path4);
 
+       $query4del = "UPDATE org_applications set Letter_Permission=' '  where Submitted_by like '$by'";
+      $run4del = mysqli_query($conn,$query4del);
+
        $query4 = "UPDATE org_applications set Letter_Permission='$pdf_name4'  where Submitted_by like '$by'";
       $run4 = mysqli_query($conn,$query4);
 
@@ -1306,6 +1326,9 @@ if(isset($_POST['postbtn'])){
        $pdf_tmp5 = $_FILES['filee']['tmp_name'];
        $path5 = "Org_Applications/".$pdf_name5;
        $movepdf5 = move_uploaded_file($pdf_tmp5,$path5);
+
+       $query5del = "UPDATE org_applications set Letter_content=' '  where Submitted_by like '$by'";
+      $run5del = mysqli_query($conn,$query5del);
 
        $query5 = "UPDATE org_applications set Letter_content='$pdf_name5'  where Submitted_by like '$by'";
       $run5 = mysqli_query($conn,$query5);
@@ -1320,6 +1343,9 @@ if(isset($_POST['postbtn'])){
        $path6 = "Org_Applications/".$pdf_name6;
        $movepdf6 = move_uploaded_file($pdf_tmp6,$path6);
 
+       $query6del = "UPDATE org_applications set Lists=' '  where Submitted_by like '$by'";
+      $run6del = mysqli_query($conn,$query6del);
+
        $query6 = "UPDATE org_applications set Lists='$pdf_name6'  where Submitted_by like '$by'";
       $run6 = mysqli_query($conn,$query6);
 
@@ -1332,6 +1358,9 @@ if(isset($_POST['postbtn'])){
        $pdf_tmp7 = $_FILES['filee']['tmp_name'];
        $path7 = "Org_Applications/".$pdf_name7;
        $movepdf7 = move_uploaded_file($pdf_tmp7,$path7);
+
+       $query7del = "UPDATE org_applications set ConsLaw=' '  where Submitted_by like '$by'";
+      $run7del = mysqli_query($conn,$query7del);
 
        $query7 = "UPDATE org_applications set ConsLaw='$pdf_name7'  where Submitted_by like '$by'";
       $run7 = mysqli_query($conn,$query7);
@@ -1346,6 +1375,9 @@ if(isset($_POST['postbtn'])){
        $path8 = "Org_Applications/".$pdf_name8;
        $movepdf8 = move_uploaded_file($pdf_tmp8,$path8);
 
+       $query8del = "UPDATE org_applications set Logo=' '  where Submitted_by like '$by'";
+      $run8del = mysqli_query($conn,$query8del);
+
        $query8 = "UPDATE org_applications set Logo='$pdf_name8'  where Submitted_by like '$by'";
       $run8 = mysqli_query($conn,$query8);
 
@@ -1359,12 +1391,15 @@ if(isset($_POST['postbtn'])){
        $path9 = "Org_Applications/".$pdf_name9;
        $movepdf9 = move_uploaded_file($pdf_tmp9,$path9);
 
+       $query9del = "UPDATE org_applications set Letter_intent=' '  where Submitted_by like '$by'";
+      $run9del = mysqli_query($conn,$query9del);
+
        $query9 = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Submitted_by like '$by'";
       $run9 = mysqli_query($conn,$query9);
 }
 
        }
-    $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
 $request=mysqli_fetch_assoc($result2);
 
@@ -1380,19 +1415,20 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       title: "File sumbitted successfully",
                                                       showConfirmButton: true
                                                       
-                                                    })
+                                                    }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Apply-Org.php";
+                                                  }, 500);)
                                                   });
-
                                                    </script>';
                                                    $updateStat = "UPDATE remarks_apply SET status = 1 WHERE Submitted_by = '$by'";
                                                    $upres = mysqli_query($conn,$updateStat);
                                                    $query0 = "UPDATE org_applications set status = 0  where Submitted_by ='$by'";
                                                     $run0 = mysqli_query($conn,$query0);
-                                                   echo "<meta http-equiv='refresh' content='2'>";
+
       
     
 }
-
  else{
                                             echo '<script> 
                                                 $(document).ready(function(){

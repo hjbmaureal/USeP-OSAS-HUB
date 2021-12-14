@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -216,6 +217,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -351,7 +353,8 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>"style="  width: 30px; height: 30px;;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -575,7 +578,13 @@
                     var mode = $("#filtermode").val();
                     $("#filtermonth2").prop("disabled", false);
                     $("#filtermode").prop("disabled", true);
-
+                    if(filtermonth=='all'){
+                      filtermonth2='all';
+                    }if (filteryear=='') {
+                      filteryear2='';
+                    }if (filteryear2=='') {
+                      filteryear='';
+                    }
                     if (filtermonth2!='all') {
 
                     $.ajax({
@@ -616,6 +625,11 @@
                     var filteryear2 = $("#filteryear2").val();
                     var mode = $("#filtermode").val();
                     $("#filtermode").prop("disabled", false);
+                      if (filteryear=='') {
+                      filteryear2='';
+                    }if (filteryear2=='') {
+                      filteryear='';
+                    }
 
                     //  alert(filtermonth);
                     // alert(filtermonth2);
@@ -623,6 +637,9 @@
                     // alert(filteryear2);
                     // alert(filtermode);
                     // /*alert(filtermonth);*/
+                    if(filtermonth2=='all'){
+                      filtermonth='all';
+                    }
                     if (filtermonth!='all') {
                     $.ajax({
                           url:"filterReports.php",
@@ -646,7 +663,11 @@
                     var filteryear = $("#filteryear").val();
                     var filteryear2 = $("#filteryear2").val();
                     var mode = $("#filtermode").val();
-                    
+                    if(filtermonth=='all'){
+                      filtermonth2='all';
+                    }if(filtermonth2=='all'){
+                      filtermonth='all';
+                    }
                     // alert(filtermonth);
                     // alert(filtermonth2);
                     // alert(filteryear);
@@ -677,7 +698,11 @@
                     var filteryear = $("#filteryear").val();
                     var filteryear2 = $("#filteryear2").val();
                     var mode = $("#filtermode").val();
-                    
+                    if(filtermonth=='all'){
+                      filtermonth2='all';
+                    }if(filtermonth2=='all'){
+                      filtermonth='all';
+                    }
                     // alert(filtermonth);
                     // alert(filtermonth2);
                     // alert(filteryear);
@@ -704,6 +729,15 @@
                     var filteryear = $("#filteryear").val();
                     var filteryear2 = $("#filteryear2").val();
                     var mode = $("#filtermode").val();
+                    if(filtermonth=='all'){
+                      filtermonth2='all';
+                    }if(filtermonth2=='all'){
+                      filtermonth='all';
+                    }if (filteryear=='') {
+                      filteryear2='';
+                    }if (filteryear2=='') {
+                      filteryear='';
+                    }
 
                     // alert(mode);
                     

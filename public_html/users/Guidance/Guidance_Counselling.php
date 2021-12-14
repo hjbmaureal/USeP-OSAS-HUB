@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -139,6 +140,7 @@ width: 1px !important;
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -274,7 +276,8 @@ width: 1px !important;
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -675,7 +678,7 @@ width: 1px !important;
                     }
                   function newNotif($conn,$student_id){
 
-                        $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$student_id', 'The admin has set your counselling schedule.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
+                        $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$student_id', 'The admin has set your counselling schedule.',now(),'../users/Student/Guidance_Student_Counselling.php', 'Delivered')");
 
                               if($result){
                               
@@ -923,7 +926,7 @@ width: 1px !important;
                             <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Date Filed:</label>
-                                  <input type="text" name="date_filed" id="date_filed3" class="form-control datepicker" onkeydown="return false" placeholder="MM/DD/YY" autocomplete="off" required="">
+                                  <input type="text" name="date_filed" id="date_filed3" class="form-control datepicker" onkeydown="return false" placeholder="MM/DD/YY" autocomplete="off" required="" readonly>
                                 </div>
                             </div>
                           </div>
@@ -1012,7 +1015,7 @@ width: 1px !important;
       <!--</div>-->
     </main>
 <?php  
-      if ($count2!=0) { ?>
+      if ($count!=0) { ?>
         <script type="text/javascript">
     $(document).ready(function(){
         $("#myModal").modal('show');
@@ -1180,6 +1183,7 @@ document.getElementById('concerns').style.border='1px solid red';
           $('#first_name3').val(data[2]);
           $('#course_year3').val(data[3]);
           $('#mode_name3').val(data[4]);
+          $('#student_id3').val(data[8]);
           $('#appointment_date3').val(data[5]+' '+data[6]);
           /*$('#appointment_time3').val(data[6]);*/
           if (data[12]!=='' && data[12]!==null) {
@@ -1388,8 +1392,6 @@ $(".datepicker").datetimepicker({
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-      <script type="text/javascript">$('#sampleTable').DataTable();</script>
-      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {

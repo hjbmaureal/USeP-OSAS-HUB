@@ -1,5 +1,7 @@
-
-<?php 
+<script type="text/javascript" src="jsg/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="jsg/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#counselling-table').DataTable();</script>
+      <?php 
 sleep(1);
 include('conn.php');
 if (isset($_POST['student_id']) && isset($_POST['month']) && isset($_POST['status'])) {
@@ -35,7 +37,10 @@ if (isset($_POST['student_id']) && isset($_POST['month']) && isset($_POST['statu
                 $result = mysqli_query($conn, $sql);
                 $count=mysqli_num_rows($result);
 ?>
+  <div class="table-bd">
+  <div class="table-responsive">
  <table class="table table-hover table-bordered" id="counselling-table">
+
   <?php 
       if ($count) {
             ?>
@@ -66,8 +71,11 @@ if (isset($_POST['student_id']) && isset($_POST['month']) && isset($_POST['statu
                                 </tr>';
                       }}
 
-       ?> </tbody> </table>
+       ?> </tbody> </table> </div> </div>
 
   <?php }
 
-  ?><?php
+  ?>
+
+
+  

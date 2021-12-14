@@ -83,5 +83,10 @@ if (isset($_POST['course']) && isset($_POST['month']) && isset($_POST['status'])
 
   <?php }
 
-  ?><?php
- 
+  ?>
+
+<script type="text/javascript">
+
+  $('#sampleTable').DataTable();
+
+</script>

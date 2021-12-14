@@ -4,7 +4,8 @@
         {
 
         $complaintID = $_POST['complain_ID'];
-        $date = $_POST['date'];
+        $date = date('Y-m-d',strtotime($_POST['date']));
+
         $time = $_POST['time'];
         $meet_type = $_POST['meet_type'];
         $meet_link = $_POST['meet_link'];

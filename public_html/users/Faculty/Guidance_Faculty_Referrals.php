@@ -20,7 +20,7 @@
 
 
       $sql1 = "SELECT staff.*, office.office_name FROM staff 
-              JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
+              JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.dept_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
       $result1 = $conn->query($sql1);
       if ($result1->num_rows > 0) {
         while($row = $result1->fetch_assoc()) {
@@ -350,7 +350,7 @@ function timeago($datetime, $full = false) {
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
                       <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -362,7 +362,7 @@ function timeago($datetime, $full = false) {
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
                       <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -376,14 +376,15 @@ function timeago($datetime, $full = false) {
 
               </a></li>
               </div>
-              <li class="app-notification__footer"><a href="see_all_notif_faculty.php">See all notifications.</a></li>
+              <li class="app-notification__footer"><a href="facultySeeAllNotif.php">See all notifications.</a></li>
             </ul>
           </li>
               
                  <li class="dropdown">
-                  <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
+                
                 
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
               <li><a class="dropdown-item" href="Guidance_FacultyUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -468,7 +469,7 @@ function timeago($datetime, $full = false) {
 
                         $author = $author_fname. ' '. $author_mname. ' '. $author_lname;        //submittted new referral form notif
     $msg = $author . " Submitted a new referral form.";
-    $sql3 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL,'$admin_id', '$msg', now(), 'Guidance_Referrals.php', 'Delivered')";
+    $sql3 = "insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$admin_id', 'A new referral form has been submitted.',now(),'Guidance_Referrals.php', 'Delivered')";
 
       if ($conn->query($sql3) === TRUE) {}
   }
@@ -487,15 +488,18 @@ function timeago($datetime, $full = false) {
                     <div class="col-auto">
                   <div class="inline-block">
                     Status of Referral
-                    <select class="bootstrap-select" name="filterstatusFR" id="filterstatusFR">
-                      <option class="select-item" value="all" selected="selected">All</option>
-                       <?php
-                          $result=mysqli_query($conn, "SELECT * FROM _status");               
-                          while($res = mysqli_fetch_array($result)) {         
-                              $value= $res['status_id']; ?>
-                              <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
-                        <?php } ?>
-                    </select>
+                    <select class="bootstrap-select" id="filterstatusFR" name="filterstatusFR">
+                        <option class="select-item" value="all" selected="selected">All</option>
+                        <?php
+                                            $sql="SELECT * FROM _status where status_id='1' or status_id='3' or status_id='2'";
+                                            $result = mysqli_query($conn, $sql);
+                                           if($result = mysqli_query($conn,$sql)){               
+                                                while($res = mysqli_fetch_array($result)) {         
+                                                    $value= $res['status_id']; ?>
+                                                    <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
+                                              <?php }
+                                              } ?>
+                      </select>
                     </div>
                       </div>
                       <div class="col-sm">
@@ -567,7 +571,8 @@ function timeago($datetime, $full = false) {
                             <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
-                                  <label class="control-label">Date Filed:</label><input class="form-control" type="date" placeholder="" name="date_filed" id="date_filed" required="">
+                                <?php $date=date('Y-m-d');?>
+                                  <label class="control-label">Date Filed:</label><input class="form-control" type="date" placeholder="" name="date_filed" id="date_filed" value="<?php echo $date;?>" readonly>
                                   <input class="form-control" type="hidden" placeholder="" name="fac_id" id="fac_id" value="<?php echo $stf_id_acc_owner;?>" required="">
                                 </div>
                             </div>
@@ -575,12 +580,12 @@ function timeago($datetime, $full = false) {
                           <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
-                                  <label class="control-label">To:</label><input class="form-control" type="text" value="<?php echo $f_name;?>&nbsp;<?php echo $m_name;?>&nbsp;<?php echo $l_name;?>" disabled="">
+                                  <label class="control-label">To:</label><input class="form-control" type="text" value="<?php echo $f_name;?>&nbsp;<?php echo $m_name;?>&nbsp;<?php echo $l_name;?>" readonly="">
                                 </div>
                             </div>
                             <div class="col-sm">
                               <div class="form-group">
-                                  <label class="control-label"><br></label><input class="form-control" type="text" value="<?php echo $position;?>" disabled="">
+                                  <label class="control-label"><br></label><input class="form-control" type="text" value="<?php echo $position;?>" readonly="">
                                 </div>
                             </div>
                           </div>

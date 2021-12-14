@@ -1,29 +1,25 @@
-  <?php
-session_start();
-include('../../conn.php');
-
+<?php 
+  include('../../conn.php');
   include '../../php/notification-timeago.php'; 
-//validating session
-
-
- if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
+  session_start();
+  if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';
   }
-  $id = $_SESSION['id'];
+  $id=$_SESSION['id'];
   $count = 0;
-  $job_count = 0;
   $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$id' and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+  
+  $job_count = 0;
 
-$query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement");
+  $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement");
   while($row=mysqli_fetch_array($query2)){ $job_count = ($row['cnt']==0) ? '' : $row['cnt'] ;}
-
-
-
 ?>
-  <!DOCTYPE html>
+
+
+<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
@@ -43,37 +39,90 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="../../css/main_main.css">
-          <link rel="stylesheet" type="text/css" href="../../css/upstyle_main.css">
-      <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
-      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-      <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="css/main1home.css">
-      
-      <link rel="stylesheet" type="text/css" href="css/upstyle2.css">
+            <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="cssm/main.css">
+      <link rel="stylesheet" type="text/css" href="cssm/home.css">
+      <link rel="stylesheet" type="text/css" href="cssm/upstyle.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+          <link rel="stylesheet" type="text/css" href="cssm/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     </head>
-      <body class="app sidebar-mini rtl" onload="initClock()">
+ <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
+<script type="text/javascript">
+  //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+</script>
+  <link rel="stylesheet" href="../../css/owl.carousel.min.css">
+<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+  <style type="text/css">
+    .img{
+      width: 130px;
+      height: 130px;
+    }
+  </style>
         
       <header class="app-header">
     
    
       </header>
    
-
       <!-- Sidebar menu-->
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+      <aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
@@ -84,155 +133,149 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         <hr>
 
         <ul class="app-menu font-sec">
-          <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
-          <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-bullhorn"></i><span class="app-menu__label">Announcements</span></a></li>
-            <li>
-              <a class="app-menu__item" href="Job-Announcements.php">
-                <i class="app-menu__icon fa fa-bullhorn"></i>
-                <span class="app-menu__label">Job Hirings</span>
-                <span class="text-right"><?php 
-                if($job_count==0){
-                echo '<b style="background-color:#FF0000; padding:4px 6px;font-size:8px; margin-left:10px; border-radius:100%;">0</b>';
-                }else{
-                echo '<b style="background-color:#FF0000; padding:4px 6px;font-size:8px; margin-left:10px; border-radius:100%;">'.$job_count.'</b>';
-                }
-                 ?></span>
-              </a>
-          </li>
-          <li class="p-2 sidebar-label"><span class="app-menu__label">STUDENT'S AFFAIRS AND SERVICES</span></li>
-          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Discipline Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item active" href="Home-Discipline.php">Home</a></li>
-              <li><a class="treeview-item" href="Discipline-Complaints.php">Complaints</a></li>
-              <li><a class="treeview-item" href="Discipline-HistoryComplaints.php">Complaint Records</a></li>
-              <li><a class="treeview-item" href="Discipline-Response.php">Response</a></li>
+         <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
+         <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-bullhorn"></i><span class="app-menu__label">Announcements</span></a></li>
+         <li>
+          <a class="app-menu__item" href="Job-Announcements.php">
+            <i class="app-menu__icon fa fa-bullhorn"></i>
+            <span class="app-menu__label">Job Hirings</span>
+            <span class="text-right"><?php 
+            if($job_count==0){
+              echo '<b style="background-color:#FF0000; padding:4px 6px;font-size:8px; margin-left:10px; border-radius:100%;">0</b>';
+            }else{
+              echo '<b style="background-color:#FF0000; padding:4px 6px;font-size:8px; margin-left:10px; border-radius:100%;">'.$job_count.'</b>';
+            }
+          ?></span>
+        </a>
+      </li>
+      <li class="p-2 sidebar-label"><span class="app-menu__label">STUDENT'S AFFAIRS AND SERVICES</span></li>
+      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Discipline Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          <li><a class="treeview-item" href="index.php" hidden="">Home</a></li>
+          <li><a class="treeview-item active" href="Discipline-Complaints.php">Complaints</a></li>
+          <li><a class="treeview-item" href="Discipline-HistoryComplaints.php">Complaint Records</a></li>
+          <li><a class="treeview-item" href="Discipline-Response.php">Response</a></li>
 
-            </ul>
-          </li>
-
-                <?php 
-                $org_select=mysqli_query($conn,"SELECT * from approve_funded where org_pres_gov like '$id%'");
-                $org= mysqli_fetch_array($org_select);
-
-                  if (!empty($org)){
-                    if($org['type']=='Govt. Funded'){
-                      echo '
-                        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
-                        <ul class="treeview-menu">
-                          <li><a class="treeview-item" href="../M-StudentGov/Home-Orgs.php">Home</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov/Org-files.php">Organization Files</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov/Accre-files.php">Re-Accreditation Files</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov/Oath-files.php">Oath of Office</a></li>
-                        </ul>
-                      </li>
-            
-                    ';
-
-                    }else{
-                      echo '
-                        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
-                        <ul class="treeview-menu">
-                          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Home-Orgs.php">Home</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Org-files.php">Organization Files</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Accre-files.php">Re-Accreditation Files</a></li>
-                          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Oath-files.php">Oath of Office</a></li>
-                        </ul>
-                      </li>
-            
-                    ';
-                    }
-                    
-            
-            
-                  } else {
-                    echo '
-                         <li><a class="app-menu__item" href="Home-Orgs.php"><i class="app-menu__icon fa fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services</span></a></li>
-                    ';
-                  }
-            
-            ?>
-
-            <?php 
-                  if ($_SESSION['sl_status']=='Hired'){
-                    echo '
-                        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Labor Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-                                <ul class="treeview-menu">
-                                  <li><a class="treeview-item" href="Home-Labor.php">Home</a></li>
-                                  <li><a class="treeview-item" href="Labor-DTR.php">DTR</a></li>
-                                  <li><a class="treeview-item" href="Labor-Accomplishments.php">Accomplishment Reports</a></li>
-            
-            
-                                </ul>
-                        </li>
-            
-                    ';
-            
-            
-                  } else {
-                    echo '
-                          <li><a class="app-menu__item" href="Home-Labor.php"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Student Labor Services</span></a></li>
-                    ';
-                  }
-            
-            ?>
-
-          <li><a class="app-menu__item" href="ReqGoodMoral_Student.php"><i class="app-menu__icon fa fa-envelope-o"></i><span class="app-menu__label">Request for Good Moral</span></a></li>
-
-
-          <li class="p-2 sidebar-label"><span class="app-menu__label">GUIDANCE OFFICE SERVICES</span></li>
-          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-handshake-o"></i><span class="app-menu__label">Guidance Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Guidance_StudentUI.php">Home</a></li>
-              <li><a class="treeview-item" href="Guidance_Student_Counselling.php">Counselling</a></li>
-              <li><a class="treeview-item" href="Guidance_Student_GroupGuidance.php">Group Guidance Activities</a></li>
-              <li><a class="treeview-item" href="Guidance_Student_Evaluation.php">Evaluation</a></li>
-            </ul>
-          </li>
-
-
-            <li class="p-2 sidebar-label"><span class="app-menu__label">SCHOLARSHIP OFFICE SERVICES</span></li>
-
-            <li class="treeview">
-                <a class="app-menu__item" href="#" data-toggle="treeview">
-                    <i class="app-menu__icon fas fa-handshake-o"></i>
-                    <span class="app-menu__label">Scholarship Services  </span>
-                    <i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="student-scholarship-dashboard.php">Home</a></li>
-              <li><a class="treeview-item" href="student-scholarship-data-form.php">Scholarship Data Form</a></li>
-
-            </ul>
-            </li>
-
-
-
-            <li class="p-2 sidebar-label"><span class="app-menu__label">CLINIC OFFICE SERVICES</span></li>
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-medkit"></i><span class="app-menu__label">Health Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Clinic_Home.php">Home</a></li>
-              <li><a class="treeview-item" href="Clinic_Privacy-Policy.php">Consultation</a></li>
-              <li><a class="treeview-item" href="StudentConsultationHistory.php">Consultation History</a></li>
-              <li><a class="treeview-item" href="Prescription.php">Prescription</a></li>
-              <li><a class="treeview-item" href="RequestMedCert.php">Request for Medical Certificate</a></li>
-              <li><a class="treeview-item" href="RequestMedRecsCert.php">Request for Medical Records Certification</a></li>
-
-            </ul>
-          </li>
-
-
-     
-
-          
         </ul>
+      </li>
+
+      <?php 
+      $org_select=mysqli_query($conn,"SELECT * from approve_funded where org_pres_gov like '$id%'");
+      $org= mysqli_fetch_array($org_select);
+
+      if (!empty($org)){
+        if($org['type']=='Govt. Funded'){
+          echo '
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+          <li><a class="treeview-item" href="../M-StudentGov/Home-Orgs.php">Home</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov/Org-files.php">Organization Files</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov/Accre-files.php">Re-Accreditation Files</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov/Oath-files.php">Oath of Office</a></li>
+          </ul>
+          </li>
+
+          ';
+
+        }else{
+          echo '
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Home-Orgs.php">Home</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Org-files.php">Organization Files</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Accre-files.php">Re-Accreditation Files</a></li>
+          <li><a class="treeview-item" href="../M-StudentGov-NonFunded/Oath-files.php">Oath of Office</a></li>
+          </ul>
+          </li>
+
+          ';
+        }
+
+
+
+      } else {
+        echo '
+        <li><a class="app-menu__item" href="Home-Orgs.php"><i class="app-menu__icon fa fa-sitemap"></i><span class="app-menu__label">Student Orgs. Services</span></a></li>
+        ';
+      }
+
+      ?>
+
+      <?php 
+      if ($_SESSION['sl_status']=='Hired'){
+        echo '
+        <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Labor Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+        <li><a class="treeview-item active" href="Home-Labor.php">Home</a></li>
+        <li><a class="treeview-item" href="Labor-DTR.php">DTR</a></li>
+        <li><a class="treeview-item" href="Labor-Accomplishments.php">Accomplishment Reports</a></li>
+
+
+        </ul>
+        </li>
+
+        ';
+
+
+      } else {
+        echo '
+        <li><a class="app-menu__item active" href="Home-Labor.php"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Student Labor Services</span></a></li>
+        ';
+      }
+
+      ?>
+
+
+
+      <li><a class="app-menu__item" href="ReqGoodMoral_Student.php"><i class="app-menu__icon fa fa-envelope-o"></i><span class="app-menu__label">Request for Good Moral</span></a></li>
+
+      <li class="p-2 sidebar-label"><span class="app-menu__label">GUIDANCE OFFICE SERVICES</span></li>
+      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-handshake-o"></i><span class="app-menu__label">Guidance Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          <li><a class="treeview-item active" href="Guidance_StudentUI.php">Home</a></li>
+          <li><a class="treeview-item" href="Guidance_Student_Counselling.php">Counselling</a></li>
+          <li><a class="treeview-item" href="Guidance_Student_GroupGuidance.php">Group Guidance Activities</a></li>
+          <li><a class="treeview-item" href="Guidance_Student_Evaluation.php">Evaluation</a></li>
+        </ul>
+      </li>
+
+
+      <li class="p-2 sidebar-label"><span class="app-menu__label">SCHOLARSHIP OFFICE SERVICES</span></li>
+
+      <li class="treeview">
+        <a class="app-menu__item" href="#" data-toggle="treeview">
+          <i class="app-menu__icon fas fa-handshake-o"></i>
+          <span class="app-menu__label">Scholarship Services  </span>
+          <i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="student-scholarship-dashboard.php">Home</a></li>
+            <li><a class="treeview-item" href="student-scholarship-data-form.php">Scholarship Data Form</a></li>
+
+          </ul>
+        </li>
+
+
+
+        <li class="p-2 sidebar-label"><span class="app-menu__label">CLINIC OFFICE SERVICES</span></li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-medkit"></i><span class="app-menu__label">Health Services  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="Clinic_Home.php">Home</a></li>
+            <li><a class="treeview-item" href="Clinic_Privacy_Policy.php">Consultation</a></li>
+            <li><a class="treeview-item" href="StudentConsultationHistory.php">Consultation History</a></li>
+            <li><a class="treeview-item" href="Prescription.php">Prescription</a></li>
+            <li><a class="treeview-item" href="RequestMedCert.php">Request for Medical Certificate</a></li>
+            <li><a class="treeview-item" href="RequestMedRecsCert.php">Request for Medical Records Certification</a></li>
+
+          </ul>
+        </li>
+      </ul>
       </aside>
 
 
        <!--navbar-->
 
-
-    <main class="app-content">
             
-        <div class="app-title">
+    <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -358,61 +401,8 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           </div>
         </div>
       </div>
-<script type="text/javascript">
-  //CLOCK
-      function updateClock(){
-        var now = new Date();
-        var dname = now.getDay(),
-            mo = now.getMonth(),
-            dnum = now.getDate(),
-            yr = now.getFullYear(),
-            hou = now.getHours(),
-            min = now.getMinutes(),
-            sec = now.getSeconds(),
-            pe = "AM";
-        
-            if(hou >= 12){
-              pe = "PM";
-            }
-            if(hou == 0){
-              hou = 12;
-            }
-            if(hou > 12){
-              hou = hou - 12;
-            }
 
-            Number.prototype.pad = function(digits){
-              for(var n = this.toString(); n.length < digits; n = 0 + n);
-              return n;
-            }
-
-            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
-            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
-            for(var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-      }
-
-      function initClock(){
-        updateClock();
-        window.setInterval("updateClock()", 1);
-      }
-      var myInput = document.getElementById("newPass");
-      var letter = document.getElementById("letter");
-      var capital = document.getElementById("capital");
-      var number = document.getElementById("number");
-      var length = document.getElementById("length");
-      var special = document.getElementById("special");
-
-      var loadFile = function (event,imgname) {
-        console.log("userPic");
-        var image = document.getElementById(imgname);
-        image.src = URL.createObjectURL(event.target.files[0]);
-      };
-</script>
-
-
+    <div class="red"></div>
  
   <div class="landingpage">
 
@@ -758,7 +748,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      events:'calendarLoad.php',
+      events:'calendarLoad1.php',
       selectable: true,
       editable: true,
     });

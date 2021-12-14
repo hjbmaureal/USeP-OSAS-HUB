@@ -1,7 +1,13 @@
+<script type="text/javascript" src="jsg/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="jsg/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+      $('#student-table').DataTable();
+    </script>
+
 <?php 
 sleep(1);
+session_start();
 include('conn.php');
- include('session_student.php');
     $id=$_SESSION['id'];
 
 
@@ -10,16 +16,27 @@ include('conn.php');
   $to=$_POST['to'];
   $status=$_POST['status'];
   if ($from=='from' || $to=='to') {
-      $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and guidance_appointments.status_id BETWEEN '4' and '5'";
+      $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
     
+  }if ($from=='from' && $to!='to' && $status!='all') {
+        $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
+  }if ($from!='from' && $to=='to' && $status!='all') {
+          $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
+
+  }if ($from=='from' && $to!='to' && $status='all') {
+          $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
+
+  }if ($from!='from' && $to=='to' && $status='all') {
+          $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id'";
+
   }
   if ($from=='from' && $to=='to' && $status!='all') {
-    $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and guidance_appointments.status_id='$status'";
+    $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and guidance_appointments.status_id='$status'";
     
   }if ($from!='from' && $to!='to' && $status=='all') {
-     $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and guidance_appointments.status_id BETWEEN '4' and '5' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to'";
+     $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to'";
   }if ($from!='from' && $to!='to' && $status!='all') {
-    $sql="SELECT group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to' and guidance_appointments.status_id='$status'";
+    $sql="SELECT participants.attendance, group_guidance.*, guidance_appointments.*, mode_of_communication.communication_mode as mode, _status.status from group_guidance join guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id join mode_of_communication on mode_of_communication.mode_id=guidance_appointments.mode_id join _status on _status.status_id=guidance_appointments.status_id WHERE participants.Student_id='$id' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to' and guidance_appointments.status_id='$status'";
   }
 
    
@@ -37,6 +54,7 @@ include('conn.php');
                       <th class="max">Purpose/Topic</th>                      
                       <th class="max">Mode of Communication</th>
                       <th >Status</th>
+                      <th >Attendance</th>
                     </tr>
 <?php }else{ echo "SORRY! NO RECORD FOUND!";} ?>
                   </thead>
@@ -51,6 +69,7 @@ include('conn.php');
                                   <td>'. $row2['topic'].'</td>
                                   <td>'. $row2['mode'].'</td> 
                                   <td>'. $row2['status'].'</td>
+                                  <td>'. $row2['attendance'].'</td>
                                  
                                   
 
@@ -58,8 +77,14 @@ include('conn.php');
                               }
 
         ?> </tbody> </table>
-                      <?php
+<?php
   }?>
+
+<script type="text/javascript">
+  
+$('#student-table').DataTable();
+  
+</script>
 
   <!-- End of Filter Status -->
 

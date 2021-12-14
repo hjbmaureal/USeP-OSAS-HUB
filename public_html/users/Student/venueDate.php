@@ -1,7 +1,18 @@
 <?php 
-include('conn.php');
-include('session_student.php');
-$id=$_SESSION['id'];
+session_start();
+include('../../conn.php');
+
+  include '../../php/notification-timeago.php'; 
+//validating session
+
+
+ if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id = $_SESSION['id'];
+  
 if (isset($_POST['id'])) {
   $appointment_id=$_POST['id'];
    $sql="SELECT group_guidance.topic, guidance_appointments.appointment_date, guidance_appointments.appointment_time, mode_of_communication.communication_mode FROM `group_guidance` JOIN guidance_appointments on group_guidance.appointment_id=guidance_appointments.appointment_id JOIN mode_of_communication on mode_of_communication.mode_id= guidance_appointments.mode_id WHERE guidance_appointments.date_completed is not null and group_guidance.appointment_id='$appointment_id' ";

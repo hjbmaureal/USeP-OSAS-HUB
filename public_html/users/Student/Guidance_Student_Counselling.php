@@ -327,12 +327,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <li class="dropdown">      
                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['pic'] ?>" style="max-width:100%;">
                 </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                 <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
                 </ul>
             </li>
       
@@ -660,7 +660,7 @@ $(".datepicker").datetimepicker({
               <script type="text/javascript">
                 $(document).ready(function(){
                   $("#filterstatus").on('change', function(){
-                    var status = $(this).val();
+                    var status = $("#filterstatus").val();
                     var mode = $("#filtermode").val();
                     // alert(value);
                     $.ajax({
@@ -678,13 +678,13 @@ $(".datepicker").datetimepicker({
                   });
 
                   $("#filtermode").on('change', function(){
-                    var mode = $(this).val();
-                    var Status =$("#filterstatus").val();
+                    var mode = $("#filtermode").val();
+                    var status =$("#filterstatus").val();
                     /*alert(value);*/
                     $.ajax({
                           url:"filterphp.php",
                           type:"POST",
-                          data:{status: status, mode: mode},
+                          data:{mode: mode, status: status},
                           beforeSend:function(){
                             $(".calldiv").html("Working.....");
                           },
@@ -701,10 +701,7 @@ $(".datepicker").datetimepicker({
                     $.ajax({
                           url:"filter_fblink.php",
                           type:"POST",
-                          data:{mode: mode},
-                          beforeSend:function(){
-                            $(".calldivlink").html("Working.....");
-                          },
+                          data:{mode: mode},  
                           success:function(data){
                             $(".calldivlink").html(data);
                           },

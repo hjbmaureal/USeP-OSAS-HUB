@@ -152,6 +152,7 @@ function timeago($datetime, $full = false) {
           </div>
         </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="Guidance_Admin.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -336,11 +337,14 @@ function timeago($datetime, $full = false) {
                     </tr>
                   </thead>
                   <tbody>
-       <?php 
+       <?php  
           
           $sql2 = mysqli_query($conn,"SELECT group_guidance.grp_guidance_id,group_guidance.appointment_id, seminar_evaluation.appointment_id, seminar_evaluation.seminar_eval_id, participants.participant_id, student.Student_id, student.first_name, student.middle_name, student.last_name, course.title, student.year_level, student.section FROM group_guidance join participants ON participants.grp_guidance_id = group_guidance.grp_guidance_id JOIN seminar_evaluation ON seminar_evaluation.appointment_id = group_guidance.appointment_id JOIN student ON student.Student_id = participants.Student_id JOIN course ON course.course_id = student.course_id WHERE participants.Student_id=seminar_evaluation.Student_id and group_guidance.grp_guidance_id = '$guidance_id'");
-
-           while($row1 = mysqli_fetch_array($sql2)) { ?>
+           $count=mysqli_num_rows($sql2);
+             while($row1 = mysqli_fetch_array($sql2)) {
+           
+            ?>
+            
                                   <tr>
                                   <td><?php echo $row1['Student_id']; ?></td>
                                   <td><?php echo $row1['first_name'].'  
@@ -351,10 +355,7 @@ function timeago($datetime, $full = false) {
                                   <td>
                                   <center><a href="#details<?php echo $row1['seminar_eval_id']; ?>" class="btn btn-info btn-sm viewbutton" class="text mr-2" data-toggle="modal" ><i class="fas fa-eye" style="color:white;"></i></a><?php include('SeminarEval_modal.php'); ?>
                                   </center>
-                                </tr> <?php }
-                                
-
-       ?>
+                                </tr> <?php } ?>
                      
                     </tbody>
                   </table>
@@ -734,6 +735,9 @@ function timeago($datetime, $full = false) {
       </script>
       
       <script type="text/javascript"></script>
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#counselling-table').DataTable();</script>
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {

@@ -13,7 +13,6 @@
 
         $sql1 = "UPDATE complaint SET Status = 'Done' WHERE Complaint_ID = '$complaint_id' ";
         
-        //$addord_query = "Insert into order_logs (productid, action, productname, price, quantity, subtotal, custid, customername) values ('$prodid', '$status', '$prodname', '$ordprice', '$ordqty', '$ordsub', '$custid', '$custname')";
 	if($conn->query($sql1)){
 			$_conn['success'] = 'Updated successfully';
             $conn->query($sql);

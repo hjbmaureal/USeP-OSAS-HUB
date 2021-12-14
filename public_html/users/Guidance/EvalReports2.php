@@ -2,15 +2,7 @@
 
 header('Content-Type: application/json');
 
-$databaseHost = 'localhost';
-$databaseName = 'guidance_db'; 
-$databaseUsername = 'root'; 
-$databasePassword = ''; 
-$conn= mysqli_connect ($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
-
-  if($conn->connect_error){
-    die("Connection Failed: " . $conn->connect_error);
-  }
+include('conn.php');
 
 $query = "SELECT radio_q2,count(radio_q2) AS count2 from counselling_evaluation where radio_q1 IN ('Excellent','Very Satisfactory', 'Satisfactory', 'Fair','Poor') GROUP BY radio_q2";
 

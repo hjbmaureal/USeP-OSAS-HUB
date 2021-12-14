@@ -53,7 +53,7 @@ include('conn.php');
       $result = mysqli_query($conn, $sql1);
     while($row2 = mysqli_fetch_assoc($result)){
                   $admin_id = $row2['staff_id'];
-                  $fname = $row2['first_name'].' '.$row2['last_name'];
+                  $fname = $row2['first_name'].' '.$row2['last_name'].' '.$row2['middle_name'];
                   $position = $row2['position'];
                   $image_data=$row['e_signature'];
          }

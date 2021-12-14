@@ -1,10 +1,11 @@
-<?php 
+ <!-- Data table plugin-->
+      <?php 
 sleep(1);
 include('conn.php');
-	if (isset($_POST['requestmonth']) && isset($_POST['requestmode'])) {
+  if (isset($_POST['requestmonth']) && isset($_POST['requestmode'])) {
   $requestmonth=$_POST['requestmonth'];
   $requestmode=$_POST['requestmode'];
-
+  $counthold=0;
   if ($requestmonth=="all") {
       # code...
       $sql1="SELECT appointment_id FROM guidance_appointments WHERE guidance_appointments.status_id='3'";
@@ -22,9 +23,11 @@ include('conn.php');
        $sql1="SELECT appointment_id FROM guidance_appointments WHERE guidance_appointments.status_id='3' and mode_id='$requestmode' and DATE_FORMAT(appointment_date,'%m') like '$requestmonth'";
     }
    
-	 ?>
-
-		<table class="table table-hover table-bordered printdata" id="tableprint">
+   ?>
+   <div class="table-bd">
+                <div class="table-responsive">
+                  <br>
+    <table class="table table-hover table-bordered printdata" id="tableprint">
       
                     <thead>
                       <tr>
@@ -48,7 +51,7 @@ include('conn.php');
                                         if ($count) {
                                            if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments join indv_counselling ON indv_counselling.appointment_id= guidance_appointments.appointment_id LEFT JOIN intake_form on indv_counselling.intake_id= intake_form.intake_id left join student on intake_form.Student_id=student.Student_id LEFT join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.status_id = 3 and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
                                              while($row = mysqli_fetch_array($sql)) {     
-                                              $id=$row['id'];?>
+                                              $id=$row['id']; $counthold++;?>
                                               <tr>
                                                 <td><?php echo $row['appointment_date'];?></td>
                                                 <td><?php echo $row['appointment_time'];?></td>
@@ -77,7 +80,7 @@ include('conn.php');
                                           # code...
                                           if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments JOIN group_guidance on group_guidance.appointment_id=guidance_appointments.appointment_id JOIN mode_of_communication ON guidance_appointments.mode_id=mode_of_communication.mode_id JOIN course on course.course_id= group_guidance.course_id WHERE guidance_appointments.status_id='3' and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
                                             while($row = mysqli_fetch_array($sql)) {     
-                                              $id=$row['id']; ?>
+                                              $id=$row['id'];$counthold++; ?>
                                               <tr>
                                                 <td><?php echo $row['appointment_date'];?></td>
                                                 <td><?php echo $row['appointment_time'];?></td>
@@ -102,9 +105,17 @@ include('conn.php');
                                         }
                                     }
                             }
+
                          ?>
                     </tbody>
-                  </table>
-	<?php }?>
+                  </table><center><h6><?php if ($counthold==0) {
+                               echo "No Record Found!";
+                            }
+                           ?></h6></center></div></div>
+  <?php }?>
 
 
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#tableprint').DataTable();</script>
+      <script type="text/javascript">$('#tableprint').DataTable();</script>

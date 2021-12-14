@@ -1,15 +1,15 @@
 <?php 
 include('conn.php');
 if (isset($_POST['id'])) {
-	$id=$_POST['id'];
-	$search="SELECT Student_id, last_name, first_name, middle_name, year_level,course.name, section FROM student JOIN course ON course.course_id=student.course_id WHERE Student_id='$id'";
-	$result = mysqli_query($conn, $search);
+  $id=$_POST['id'];
+  $search="SELECT Student_id, last_name, first_name, middle_name, year_level,course.name, section FROM student JOIN course ON course.course_id=student.course_id WHERE Student_id='$id'";
+  $result = mysqli_query($conn, $search);
     $count=mysqli_num_rows($result);
 
 
     if(!$count){ ?>
 
-    	                  <div class="row">
+                        <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
                                   <label class="control-label">Student's ID Number</label><input class="form-control" type="text"  placeholder="Tyoe Student ID number" name="search_text" id="search_text" value="<?php echo $id;?>">
@@ -42,8 +42,8 @@ if (isset($_POST['id'])) {
                           </div>
     <?php }
 
-	while ($row = mysqli_fetch_assoc($result)) { ?>
-						  <div class="row">
+  while ($row = mysqli_fetch_assoc($result)) { ?>
+              <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
                                   <label class="control-label">Student's ID Number</label><input class="form-control" type="text"  placeholder="Tyoe Student ID number" name="search_text" id="search_text" value="<?php echo $id;?>">
@@ -74,7 +74,7 @@ if (isset($_POST['id'])) {
                                 </div>
                             </div>
                           </div>
-	<?php }
+  <?php }
 }
 
 

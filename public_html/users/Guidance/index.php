@@ -2,7 +2,7 @@
   /*include 'conn.php';*/
   include '../../php/notification-timeago.php'; 
   session_start();
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Coordinator' || isset($_SESSION['office']) != 'Guidance'){
+  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';
@@ -11,13 +11,14 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
 
    ?>
-   
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -68,6 +69,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -203,7 +205,7 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="  width: 30px; height: 30px;">
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -290,6 +292,7 @@
           
         </div>
 
+ 
   <!-- Announcements -->
   
       <div class="row">
@@ -347,7 +350,7 @@
                                     if($indv_result = mysqli_query($conn, $indv_sql)){
                                         $count=mysqli_num_rows($indv_result);
                                         if ($count) {
-                                           if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments join indv_counselling ON indv_counselling.appointment_id= guidance_appointments.appointment_id LEFT JOIN intake_form on indv_counselling.intake_id= intake_form.intake_id left join student on intake_form.Student_id=student.Student_id LEFT join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.status_id = 3 and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
+                                           if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments join indv_counselling ON indv_counselling.appointment_id= guidance_appointments.appointment_id LEFT JOIN intake_form on indv_counselling.intake_id= intake_form.intake_id left join student on intake_form.Student_id=student.Student_id LEFT join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.status_id = '3' and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
                                              while($row = mysqli_fetch_array($sql)) {     
                                               $id=$row['id'];?>
                                               <div class="fc-event">
@@ -362,7 +365,7 @@
                                         }
                               
                               /*COMPER GROUP_GUIDANCE*/
-                              $grp_sql="SELECT appointment_id FROM group_guidance WHERE appointment_id='".$app_row['appointment_id']."'";
+                              $grp_sql="SELECT guidance_appointments.appointment_id FROM group_guidance JOIN guidance_appointments ON guidance_appointments.appointment_id=group_guidance.appointment_id WHERE guidance_appointments.appointment_id='".$app_row['appointment_id']."' and guidance_appointments.status_id='3'";
                                     if($grp_result = mysqli_query($conn, $grp_sql)){
                                         $count=mysqli_num_rows($grp_result);
                                         if ($count) {

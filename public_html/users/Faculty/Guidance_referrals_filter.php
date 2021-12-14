@@ -1,3 +1,6 @@
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+
 <?php 
 sleep(1);
 include('conn.php');
@@ -15,7 +18,10 @@ if (isset($_POST['requeststatus'])) {
           $count=mysqli_num_rows($result);
   }
 ?>
-<table class="table table-hover table-bordered" id="sampleTable2">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable2">
     <?php 
       if ($count) {
             ?>
@@ -61,7 +67,10 @@ if (isset($_POST['requeststatus'])) {
           $count=mysqli_num_rows($result);
   }
 ?>
-<table class="table table-hover table-bordered" id="sampleTable">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable">
      <?php 
       if ($count) {
             ?>
@@ -111,7 +120,10 @@ if (isset($_POST['requeststatus'])) {
           $count=mysqli_num_rows($result);
   }
 ?>
-<table class="table table-hover table-bordered" id="sampleTable">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable">
      <?php 
       if ($count) {
             ?>
@@ -156,6 +168,9 @@ if (isset($_POST['requeststatus'])) {
   }
           $count=mysqli_num_rows($sql)
 ?>
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
  <table class="table table-hover table-bordered" id="sampleTable2">
   <?php 
       if ($count) {?>
@@ -210,7 +225,10 @@ if (isset($_POST['requeststatus'])) {
           $count=mysqli_num_rows($result);
   }
 ?>
-<table class="table table-hover table-bordered" id="sampleTable2">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable2">
   <?php 
       if ($count) {
             ?>
@@ -255,7 +273,10 @@ if (isset($_POST['requeststatus'])) {
           $count=mysqli_num_rows($result);
   }
 ?>
-<table class="table table-hover table-bordered" id="sampleTable2">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable2">
   <?php 
       if ($count) {
             ?>
@@ -284,3 +305,10 @@ if (isset($_POST['requeststatus'])) {
   
                                 <!-- requestsemester FILTER REFERRAL REPORT SEMESTER -->
   <?php }?>
+
+  <script type="text/javascript">
+  
+$('#sampleTable2').DataTable();
+$('#sampleTable').DataTable();
+  
+</script>

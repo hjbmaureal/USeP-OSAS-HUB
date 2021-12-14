@@ -615,14 +615,14 @@
                             <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
-                                  <label class="control-label">Title:</label><input class="form-control" type="text" id="title2" name="title2">
+                                  <label class="control-label">Title:</label><input class="form-control" type="text" id="title2" name="title2" value="<?php echo $row['title']?>">
                                 </div>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
-                                  <label class="control-label">Content:</label><textarea class="form-control" id="content2" name="content2" rows="6" cols="100" style="text-align: justify;"></textarea>
+                                  <label class="control-label">Content:</label><textarea class="form-control" id="content2" name="content2" rows="6" cols="100" style="text-align: justify;"><?php echo $row['content']?></textarea>
                                 </div>
                             </div>
                           </div>

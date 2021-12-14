@@ -199,11 +199,11 @@
                         <td align="center" width="40%">
                       <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c1" type="radio" name="content1" value="5" <?php if ($content1=='5 - Excellent') { echo 'checked'; } ?> >5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c2" type="radio" name="content1" value="4" <?php if ($content1=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c3" type="radio" name="content1" value="3" <?php if ($content1=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c4" type="radio" name="content1" value="2" <?php if ($content1=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c5" type="radio" name="content1" value="1" <?php if ($content1=='1 - Poor') { echo 'checked'; } ?>>1
+                        <input class="form-check-input" id="c1" type="radio" name="content1" value="5" <?php if ($content1=='5') { echo 'checked'; } ?> >5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c2" type="radio" name="content1" value="4" <?php if ($content1=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c3" type="radio" name="content1" value="3" <?php if ($content1=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c4" type="radio" name="content1" value="2" <?php if ($content1=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c5" type="radio" name="content1" value="1" <?php if ($content1=='1') { echo 'checked'; } ?>>1
                       </label>
                       </div>
                         </td>
@@ -213,11 +213,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c12" type="radio" name="content2" value="5" <?php if ($content2=='5 - Excellent') { echo 'checked'; } ?> required="">5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c22" type="radio" name="content2" value="4" <?php if ($content2=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c32" type="radio" name="content2" value="3" <?php if ($content2=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c42" type="radio" name="content2" value="2" <?php if ($content2=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c52" type="radio" name="content2" value="1" <?php if ($content2=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c12" type="radio" name="content2" value="5" <?php if ($content2=='5') { echo 'checked'; } ?> required="">5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c22" type="radio" name="content2" value="4" <?php if ($content2=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c32" type="radio" name="content2" value="3" <?php if ($content2=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c42" type="radio" name="content2" value="2" <?php if ($content2=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c52" type="radio" name="content2" value="1" <?php if ($content2=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -227,11 +227,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c13" type="radio" name="content3" value="5" <?php if ($content3=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c23" type="radio" name="content3" value="4" <?php if ($content3=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c33" type="radio" name="content3" value="3" <?php if ($content3=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c43" type="radio" name="content3" value="2" <?php if ($content3=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c53" type="radio" name="content3" value="1" <?php if ($content3=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c13" type="radio" name="content3" value="5" <?php if ($content3=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c23" type="radio" name="content3" value="4" <?php if ($content3=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c33" type="radio" name="content3" value="3" <?php if ($content3=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c43" type="radio" name="content3" value="2" <?php if ($content3=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c53" type="radio" name="content3" value="1" <?php if ($content3=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -241,11 +241,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c14" type="radio" name="content4" value="5" <?php if ($content4=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c24" type="radio" name="content4" value="4" <?php if ($content4=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c34" type="radio" name="content4" value="3" <?php if ($content4=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c44" type="radio" name="content4" value="2" <?php if ($content4=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c54" type="radio" name="content4" value="1" <?php if ($content4=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c14" type="radio" name="content4" value="5" <?php if ($content4=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c24" type="radio" name="content4" value="4" <?php if ($content4=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c34" type="radio" name="content4" value="3" <?php if ($content4=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c44" type="radio" name="content4" value="2" <?php if ($content4=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c54" type="radio" name="content4" value="1" <?php if ($content4=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -255,11 +255,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c15" type="radio" name="content5" value="5" <?php if ($content5=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c25" type="radio" name="content5" value="4" <?php if ($content5=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c35" type="radio" name="content5" value="3" <?php if ($content5=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c45" type="radio" name="content5" value="2" <?php if ($content5=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c55" type="radio" name="content5" value="1" <?php if ($content5=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c15" type="radio" name="content5" value="5" <?php if ($content5=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c25" type="radio" name="content5" value="4" <?php if ($content5=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c35" type="radio" name="content5" value="3" <?php if ($content5=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c45" type="radio" name="content5" value="2" <?php if ($content5=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c55" type="radio" name="content5" value="1" <?php if ($content5=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -270,11 +270,11 @@
                         <td width="40%">
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c16" type="radio" name="content6" value="5" <?php if ($content6=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c26" type="radio" name="content6" value="4" <?php if ($content6=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c36" type="radio" name="content6" value="3" <?php if ($content6=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c46" type="radio" name="content6" value="2" <?php if ($content6=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c56" type="radio" name="content6" value="1" <?php if ($content6=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c16" type="radio" name="content6" value="5" <?php if ($content6=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c26" type="radio" name="content6" value="4" <?php if ($content6=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c36" type="radio" name="content6" value="3" <?php if ($content6=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c46" type="radio" name="content6" value="2" <?php if ($content6=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c56" type="radio" name="content6" value="1" <?php if ($content6=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -284,11 +284,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="c17" type="radio" name="content7" value="5" <?php if ($content7=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c27" type="radio" name="content7" value="4" <?php if ($content7=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c37" type="radio" name="content7" value="3" <?php if ($content7=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c47" type="radio" name="content7" value="2" <?php if ($content7=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="c57" type="radio" name="content7" value="1" <?php if ($content7=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="c17" type="radio" name="content7" value="5" <?php if ($content7=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c27" type="radio" name="content7" value="4" <?php if ($content7=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c37" type="radio" name="content7" value="3" <?php if ($content7=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c47" type="radio" name="content7" value="2" <?php if ($content7=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="c57" type="radio" name="content7" value="1" <?php if ($content7=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -300,26 +300,26 @@
                       <tr>
                         <td width="50%">What activity process, session or topic needs further clarification? *
                         </td>
-                        <td width="50%"><input type="text" name="content8" id="content8" value="<?php echo $content8;?>" style="width: 500px; height: 35px; border-style: hidden;" required=""></td>
+                        <td width="50%"><input type="text" name="content8" id="content8" value="<?php echo $content8;?>" style="width: 500px; height: 35px; border-style: hidden;" readonly></td>
                       </tr>
                       <tr>
                         <td>What are the factors / things that helped me understand the topic s discussed? *
                         </td>
-                        <td width="50%"><input type="text" name="content9" id="content9" value="<?php echo $content9;?>" style="width: 500px; height: 35px; border-style: hidden;" required=""></td>
+                        <td width="50%"><input type="text" name="content9" id="content9" value="<?php echo $content9;?>" style="width: 500px; height: 35px; border-style: hidden;" readonly></td>
                       </tr>
                       <tr>
                         <td>What are the factors / things that hindered me from participating in the activity? *</td>
-                        <td width="50%"><input type="text" name="content10" id="content10" value="<?php echo $content10;?>" style="width: 500px; height: 35px; border-style: hidden;" required=""></td>
+                        <td width="50%"><input type="text" name="content10" id="content10" value="<?php echo $content10;?>" style="width: 500px; height: 35px; border-style: hidden;" readonly></td>
                       </tr>
                     </table>
                   </div><br>
                   <h6>III. RESOURSE PERSON/SESSION PRESENTER</h6>
                     <div>On a scale of 1 to 5, 5 being the highest, please rate the session based on the following questions.</div><br>
                     <div class="form-group">
-                      Speaker:&nbsp; <input type="text" id="speaker" name="speaker" value="<?php echo $speaker;?>" style=" text-align: center; width:300px; border-style:solid; border-left: none; border-top: none; border-right: none;" required=""><br>
+                      Speaker:&nbsp; <input type="text" id="speaker" name="speaker" value="<?php echo $speaker;?>" style=" text-align: center; width:300px; border-style:solid; border-left: none; border-top: none; border-right: none;" readonly><br>
                     </div>
                     <div class="form-group">
-                      Topic:&nbsp; <input type="text" id="topic" name="topic" value="<?php echo $topic;?>" style=" text-align: center; width:500px; border-style:solid; border-left: none; border-top: none; border-right: none;" required=""><br>
+                      Topic:&nbsp; <input type="text" id="topic" name="topic" value="<?php echo $topic;?>" style=" text-align: center; width:500px; border-style:solid; border-left: none; border-top: none; border-right: none;" readonly><br>
                     </div>
                     <div class="info">
                     <table width="100%" border="2px" cellpadding="8px" >
@@ -328,11 +328,11 @@
                         <td align="center" width="40%">
                       <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R1" type="radio" name="resource1" value="5" <?php if ($resource1=='5 - Excellent') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R2" type="radio" name="resource1" value="4" <?php if ($resource1=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R3" type="radio" name="resource1" value="3" <?php if ($resource1=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R4" type="radio" name="resource1" value="2" <?php if ($resource1=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R5" type="radio" name="resource1" value="1" <?php if ($resource1=='1 - Poor') { echo 'checked'; } ?>>1
+                        <input class="form-check-input" id="R1" type="radio" name="resource1" value="5" <?php if ($resource1=='5') { echo 'checked'; } ?>>5 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R2" type="radio" name="resource1" value="4" <?php if ($resource1=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R3" type="radio" name="resource1" value="3" <?php if ($resource1=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R4" type="radio" name="resource1" value="2" <?php if ($resource1=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R5" type="radio" name="resource1" value="1" <?php if ($resource1=='1') { echo 'checked'; } ?>>1
                       </label>
                       </div>
                         </td>
@@ -342,11 +342,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R12" type="radio" name="resource2" value="5" <?php if ($resource2=='5 - Excellent') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R22" type="radio" name="resource2" value="4" <?php if ($resource2=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R32" type="radio" name="resource2" value="3" <?php if ($resource2=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R42" type="radio" name="resource2" value="2" <?php if ($resource2=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R52" type="radio" name="resource2" value="1" <?php if ($resource2=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="R12" type="radio" name="resource2" value="5" <?php if ($resource2=='5') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R22" type="radio" name="resource2" value="4" <?php if ($resource2=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R32" type="radio" name="resource2" value="3" <?php if ($resource2=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R42" type="radio" name="resource2" value="2" <?php if ($resource2=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R52" type="radio" name="resource2" value="1" <?php if ($resource2=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -356,11 +356,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R13" type="radio" name="resource3" value="5" <?php if ($resource3=='5 - Excellent') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R23" type="radio" name="resource3" value="4" <?php if ($resource3=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R33" type="radio" name="resource3" value="3" <?php if ($resource3=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R43" type="radio" name="resource3" value="2" <?php if ($resource3=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R53" type="radio" name="resource3" value="1" <?php if ($resource3=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="R13" type="radio" name="resource3" value="5" <?php if ($resource3=='5') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R23" type="radio" name="resource3" value="4" <?php if ($resource3=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R33" type="radio" name="resource3" value="3" <?php if ($resource3=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R43" type="radio" name="resource3" value="2" <?php if ($resource3=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R53" type="radio" name="resource3" value="1" <?php if ($resource3=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -370,11 +370,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R14" type="radio" name="resource4" value="5" <?php if ($resource4=='5 - Excellent') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R24" type="radio" name="resource4" value="4" <?php if ($resource4=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R34" type="radio" name="resource4" value="3" <?php if ($resource4=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R44" type="radio" name="resource4" value="2" <?php if ($resource4=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R54" type="radio" name="resource4" value="1" <?php if ($resource4=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="R14" type="radio" name="resource4" value="5" <?php if ($resource4=='5') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R24" type="radio" name="resource4" value="4" <?php if ($resource4=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R34" type="radio" name="resource4" value="3" <?php if ($resource4=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R44" type="radio" name="resource4" value="2" <?php if ($resource4=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R54" type="radio" name="resource4" value="1" <?php if ($resource4=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -384,11 +384,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R15" type="radio" name="resource5" value="5" <?php if ($resource5=='5 - Excellent') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R25" type="radio" name="resource5" value="4" <?php if ($resource5=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R35" type="radio" name="resource5" value="3" <?php if ($resource5=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R45" type="radio" name="resource5" value="2" <?php if ($resource5=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R55" type="radio" name="resource5" value="1" <?php if ($resource5=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="R15" type="radio" name="resource5" value="5" <?php if ($resource5=='5') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R25" type="radio" name="resource5" value="4" <?php if ($resource5=='4') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R35" type="radio" name="resource5" value="3" <?php if ($resource5=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R45" type="radio" name="resource5" value="2" <?php if ($resource5=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R55" type="radio" name="resource5" value="1" <?php if ($resource5=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -398,11 +398,11 @@
                         <td>
                           <div class="form-check" style="text-align:center;">
                       <label class="form-check-label">
-                        <input class="form-check-input" id="R16" type="radio" name="resource6" value="5" <?php if ($resource6=='5 - Excellent') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R26" type="radio" name="resource6" value="4" <?php if ($resource6=='4 - Highly Satisfactory') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R36" type="radio" name="resource6" value="3" <?php if ($resource6=='3 - Satisfactory') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R46" type="radio" name="resource6" value="2" <?php if ($resource6=='2 - Fair') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
-                        <input class="form-check-input" id="R56" type="radio" name="resource6" value="1" <?php if ($resource6=='1 - Poor') { echo 'checked'; } ?>>1 
+                        <input class="form-check-input" id="R16" type="radio" name="resource6" value="5" <?php if ($resource6=='5') { echo 'checked'; } ?>>5&emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R26" type="radio" name="resource6" value="4" <?php if ($resource6=='4 ') { echo 'checked'; } ?>>4 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R36" type="radio" name="resource6" value="3" <?php if ($resource6=='3') { echo 'checked'; } ?>>3 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R46" type="radio" name="resource6" value="2" <?php if ($resource6=='2') { echo 'checked'; } ?>>2 &emsp;&emsp;&emsp;
+                        <input class="form-check-input" id="R56" type="radio" name="resource6" value="1" <?php if ($resource6=='1') { echo 'checked'; } ?>>1 
                       </label>
                       </div>
                         </td>
@@ -413,7 +413,7 @@
                       No printed attendance sheet, no one to buy miscellaneous materials for the activity needed by the resource speaker.   
                     </div><br>
                     <div class="form-group">
-                      Comment:&nbsp; <input type="text" id="comment" name="comment" value="<?php echo $comments;?>" style=" text-align: center; width:800px; border-style:solid; height: 80px; grid-row: inherit;" required=""><br>
+                      Comment:&nbsp; <input type="text" id="comment" name="comment" value="<?php echo $comments;?>" style=" text-align: center; width:800px; border-style:solid; height: 80px; grid-row: inherit;" readonly><br>
                     </div><br>  
         </div>
       </div>

@@ -1,4 +1,4 @@
-
+        
  <div class="modal fade" id="details<?php echo $row['referral_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <?php $referral_id = $row['referral_id'];?>
     <div class="modal-dialog modal-lg" role="document">
@@ -95,13 +95,22 @@
                               &emsp;&emsp;<input type="text" name="vdate_filed" id="vdate_filed" value="<?php echo $row['date_filed'];?>" readonly="" style="width:250px; border-left: hidden; border-top: hidden; border-right: hidden; text-align: center;" ><br><input type="hidden" name="referral_id" id="referral_id" value="<?php echo $row['referral_id'];?>">
                               Date&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             </div>
-                
+              <?php
+include('conn.php');
+
+$sql1 = "SELECT staff.*, office.office_name FROM staff 
+              JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.dept_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
+      if($result2 = mysqli_query($conn, $sql1)){
+          while ($row2 = mysqli_fetch_assoc($result2)) {
+
+ ?>
                             <div class="text" style="margin-top: 20px; margin-left: 20px; font-family: arial; font-size: 16px;">
-                              To:&emsp;&emsp;<input type="text" value="Mary Rose Chavez" id="admin" name="admin" readonly="" style="width:250px; border-left: hidden; border-top: hidden; border-right: hidden; text-align: center;"><br>
+                              To:&emsp;&emsp;<input type="text" value="<?php echo $row2['first_name'].' '. $row2['middle_name'].' '. $row2['last_name'];?>" id="admin" name="admin" readonly="" style="width:250px; border-left: hidden; border-top: hidden; border-right: hidden; text-align: center;"><br>
                               &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Name)<br><br>
-                              &emsp;&emsp;&emsp; <input type="text" value="Guidance Counsellor" id="posadmin" name="posadmin" readonly="" style="width:250px; border-left: none; border-top: none; border-right: none; text-align: center;"><br>
+                              &emsp;&emsp;&emsp; <input type="text" value="<?php echo $row2['position']; ?>" id="posadmin" name="posadmin" readonly="" style="width:250px; border-left: none; border-top: none; border-right: none; text-align: center;"><br>
                               &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Position)<br><br>
                             </div>
+                          <?php  }} ?>
                             <div class="text" style="margin-top: 30px; margin-left: 20px; margin-right: 20px; font-family: arial; font-size: 16px;">
                               This is to refer <input type="text"  id="vname_stud" name="vname_stud" value="<?php echo $row['first_name'].' '.$row['last_name'];?>" placeholder="(Name of Student)" readonly="" style=" text-align: center; width:220px; border-style:solid; border-left: none; border-top: none; border-right: none;">, <input type="text" id="vcourse" name="vcourse" value="<?php echo $row['title'];?>" placeholder="(Course)" readonly="" style="width:220px; text-align: center; border-style:solid; border-left: none; border-top: none; border-right: none;">, <input type="text" id="vyear_level" name="vyear_level" value="<?php echo $row['year_level'];?>" placeholder="(Year level)" readonly="" style="width:100px; text-align: center; border-style:solid; border-left: none; border-top: none; border-right: none;">, <input type="text" id="vsection" name="vsection" value="<?php echo $row['section'];?>" placeholder="(Section)" readonly="" style="width:100px; text-align: center; border-style:solid; border-left: none; border-top: none; border-right: none;"> for counselling or guidance assistance.
 
@@ -240,6 +249,8 @@
       </div>
     </div>
   </div>
+
+
 <!-- EDIT REFERRAL FORM MODAL -->
 
     <div class="modal fade" id="accept-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
@@ -500,29 +511,8 @@
     </div>
   </div>
 
-<!--   <script type="text/javascript">
 
-//print acknowledge
-document.getElementById("btnPrint").onclick = function () {
-printElement(document.getElementById("printThis"));
-  }
 
-function printElement(elem) {
-    var domClone = elem.cloneNode(true);
-    
-    var $printSection = document.getElementById("printSection");
-    
-    if (!$printSection) {
-        var $printSection = document.createElement("div");
-        $printSection.id = "printSection";
-        document.body.appendChild($printSection);
-    }
-    
-    $printSection.innerHTML = "";
-    $printSection.appendChild(domClone);
-    window.print();
-} 
-  </script> -->
 <style>
 
 @media screen {

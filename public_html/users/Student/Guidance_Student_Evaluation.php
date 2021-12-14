@@ -319,7 +319,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <li class="dropdown">      
                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['pic'] ?>" style="max-width:100%;">
                 </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
@@ -451,7 +451,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
               <div class="btn-group">
                 <?php 
                           $i=0;$deduction=0;
-                         $sql="SELECT participants.Student_id, group_guidance.appointment_id,group_guidance.topic, group_guidance.appointment_id FROM group_guidance JOIN guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id where guidance_appointments.status_id='1' and LOWER(participants.attendance) like LOWER('present') and participants.Student_id='$id'";
+                         $sql="SELECT participants.Student_id, group_guidance.appointment_id,group_guidance.topic, group_guidance.appointment_id FROM group_guidance JOIN guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id where guidance_appointments.status_id='1' and LOWER(participants.attendance) like LOWER('ATTENDED') and participants.Student_id='$id'";
                           $result = $conn->query( $sql); 
                           if(!$result ) { 
                               die('Could not get data: ' . $conn->connect_error); 
@@ -459,22 +459,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                           
                           while($row = $result->fetch_assoc()){
                             $i++;
-                              $sql2="SELECT seminar_evaluation.appointment_id from seminar_evaluation JOIN group_guidance on group_guidance.appointment_id= seminar_evaluation.appointment_id WHERE seminar_evaluation.Student_id='$id'";
+                              $sql2="SELECT seminar_evaluation.appointment_id from seminar_evaluation JOIN group_guidance on group_guidance.appointment_id= seminar_evaluation.appointment_id WHERE seminar_evaluation.Student_id='$id' GROUP BY seminar_evaluation.appointment_id";
                                       $result2 = $conn->query( $sql2); 
                                       if(!$result2 )
                                       { 
                                       die('Could not get data: ' . $conn->connect_error); 
-                                      }
+                                      }else{
                                       while($row2 = $result2->fetch_assoc())
                                       {
-                                          if ($row['appointment_id'] != $row2['appointment_id']) {
+                                          if ($row['appointment_id'] == $row2['appointment_id']) {
                                             $deduction++;
                                           }
-                                      } 
+                                      }
+                                    } 
                           }  
               if (($i-$deduction) >0) {
                 ?>
-                <a class="btn btn-primary" href="Guidance_Student_SeminarEvaluation.php">Start Evaluation</a></div>
+                <a class="btn btn-primary" href="Guidance_Student_SeminarEvaluation.php">Start Evaluation <?php $deduction; ?></a></div>
               <?php }else{ ?>
                 <button disabled="disabled" class="btn btn-primary" a href="Guidance_Student_SeminarEvaluation.php">Start Evaluation</button></div>
               <?php } ?>

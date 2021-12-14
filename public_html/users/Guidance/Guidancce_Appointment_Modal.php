@@ -214,7 +214,7 @@
                                           while($res = mysqli_fetch_array($result2)) { 
                                             $value= $res['mode_id'];
                                               if($result['mode_id']==$res['mode_id']){ ?>
-                                                  <option class="select-item" selected="selected" value="<?php echo $value; ?>"><?php echo $res['communication_mode'];?></option>
+                                                  <option class="select-item" selected="selected" value="<?php echo $value; ?>" disabled><?php echo $res['communication_mode'];?></option>
                                               <?php }else{?>      
                                               <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['communication_mode'];?></option>
                                               <?php }} ?>
@@ -222,8 +222,9 @@
                                   </div>
                             </div>
                           </div>
+                         
                           <div class="calldivlinkI<?php echo $id;?>">
-                          <?php if ($result['link']!='') { ?>
+                             <?php if ($result['link']!='') { ?>
                             <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
@@ -257,7 +258,7 @@
                                 </div> -->
                             </div>
                           </div>
-                           </form>
+                          
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -265,7 +266,7 @@
                         <button type="submit" name="updatebut" class="btn btn-success">SAVE CHANGES</button>
                       </div>
                       <?php }?>
-           
+            </form>
                     </div>
                   </div>
                 </div>
@@ -412,13 +413,13 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="exampleSelect1">Mode of Communication</label>
-                                    <select class="form-control" id="mode_com" name="mode" required="">
+                                    <select class="form-control" id="modecomg<?php echo $id;?>" name="mode" required="">
                                       <?php
                                            $result2=mysqli_query($conn, "SELECT * FROM mode_of_communication");               
                                           while($res = mysqli_fetch_array($result2)) { 
                                             $value= $res['mode_id'];
                                               if($result['mode_id']==$res['mode_id']){ ?>
-                                                  <option class="select-item" selected="selected" value="<?php echo $value; ?>"><?php echo $res['communication_mode'];?></option>
+                                                  <option class="select-item" selected="selected" value="<?php echo $value; ?>" disabled><?php echo $res['communication_mode'];?></option>
                                               <?php }else{?>      
                                               <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['communication_mode'];?></option>
                                               <?php }} ?>
@@ -426,7 +427,7 @@
                                   </div>
                             </div>
                           </div>
-                         <div class="calldivlinkg<?php echo $id;?>">
+                          <div class="calldivlinkg<?php echo $id;?>">
                               <?php if ($result['link']!='') { ?>
                             <div class="row">
                             <div class="col-sm">
@@ -478,7 +479,7 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">ADD COUNSELLING APPOINTMENT</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">EDIT COUNSELLING APPOINTMENT</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -487,7 +488,7 @@
                         <div class="container">
                   <form method="POST">  
                     
-                            <div class="row">
+                                                         <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Search Student ID: </label>
@@ -598,10 +599,23 @@
                     });
                     
                   });
-                $("#modecomIndiv<?php echo $id;?>").on('change', function(){
+                $("#modecomg<?php echo $id;?>").on('change', function(){
                     var mode = $(this).val();
                     /*alert(mode);*/
                     
+                    $.ajax({
+                          url:"filter_fblink.php",
+                          type:"POST",
+                          data:{mode: mode},
+                          success:function(data){
+                            $(".calldivlinkg<?php echo $id;?>").html(data);
+                          },
+                    });
+                    
+                  });
+                $("#modecomIndiv<?php echo $id;?>").on('change', function(){
+                    var mode = $(this).val();
+                   
                     $.ajax({
                           url:"filter_fblink.php",
                           type:"POST",

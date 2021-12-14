@@ -12,9 +12,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
   if (isset($_POST['create_pdf'])) {
@@ -342,6 +343,7 @@ $obj_pdf->IncludeJS($js);
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -477,7 +479,7 @@ $obj_pdf->IncludeJS($js);
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -580,7 +582,7 @@ $obj_pdf->IncludeJS($js);
                   <div class="row">
                       <div class="col-sm">
                           <div class="inline-block float ml-2 mt-1">
-                            <button class="btn btn-danger btn-sm verify" name="create_pdf"><i class="fas fa-download"></i> Export</button>
+                            <!-- <button class="btn btn-danger btn-sm verify" name="create_pdf"><i class="fas fa-download"></i> Export</button> -->
                             &nbsp;<button class="btn btn-warning btn-sm verify" id="print-button"><i class="fas fa-print"></i> Print</button>
                             </div>
                       </div>
@@ -970,10 +972,14 @@ $("#print-button").on("click", function () {
                 $(document).ready(function(){
                   /*STATUS*/
                   $("#filtermonth").on('change', function(){
+
                     var filtermonth = $("#filtermonth").val();
                     var filtermonth2 = $("#filtermonth2").val();
                     var filteryear = $("#filteryear").val();
                     var filteryear2 = $("#filteryear2").val();
+                    if (filtermonth=='from') {
+                      filtermonth2='to';
+                    }
 
                     /*alert(filtermonth2);*/
                     $("#filtermonth2").prop("disabled", false);
@@ -999,7 +1005,9 @@ $("#print-button").on("click", function () {
                     var filtermonth2 = $("#filtermonth2").val();
                     var filteryear = $("#filteryear").val();
                     var filteryear2 = $("#filteryear2").val();
-
+                    if (filtermonth2=='to') {
+                      filtermonth='from';
+                    }
                     /*alert(filtermonth);*/
                     if (filtermonth!='from') {
                     $.ajax({
@@ -1089,3 +1097,4 @@ $("#print-button").on("click", function () {
       </script>
     </body>
   </html>
+  

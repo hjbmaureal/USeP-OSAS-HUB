@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -27,13 +28,23 @@
        $to = $_POST['filtermonth2'];
        $fromyear = $_POST['filteryear'];
        $toyear = $_POST['filteryear2'];
-      if ($from == 'from' && $to=='$to' && $fromyear=='' && $toyear=='') {
+       if ($from=='from') {
+         $to='to';
+       }if ($to=='to') {
+         $from='from';
+       }if ($fromYear=='') {
+         $toyear='';
+       }if ($toyear=='') {
+         $fromyear='';
+       }
+
+      if ($from == 'from' && $to=='to' && $fromyear=='' && $toyear=='') {
            $sql="SELECT referral_form.referral_id, referral_form.staff_id,staff.first_name as f_name,staff.last_name as l_name, referral_form.date_filed, referral_form.refdate_completed, student.first_name, student.last_name, _status.status from referral_form join student USING (Student_id) join staff USING(staff_id) join _status USING(status_id) where _status.status_id = '1'";
-      }if($from != 'from' && $to!='$to' && $fromyear=='' && $toyear==''){
+      }if($from != 'from' && $to!='to' && $fromyear=='' && $toyear==''){
            $sql="SELECT referral_form.referral_id, referral_form.staff_id,staff.first_name as f_name,staff.last_name as l_name, referral_form.date_filed, referral_form.refdate_completed, student.first_name, student.last_name, _status.status from referral_form join student USING (Student_id) join staff USING(staff_id) join _status USING(status_id) where _status.status_id = '1' AND DATE_FORMAT(referral_form.refdate_completed,'%m') BETWEEN '$from' and '$to'";
-      }if($from != 'from' && $to!='$to' && $fromyear!='' && $toyear!=''){
+      }if($from != 'from' && $to!='to' && $fromyear!='' && $toyear!=''){
            $sql="SELECT referral_form.referral_id, referral_form.staff_id,staff.first_name as f_name,staff.last_name as l_name, referral_form.date_filed, referral_form.refdate_completed, student.first_name, student.last_name, _status.status from referral_form join student USING (Student_id) join staff USING(staff_id) join _status USING(status_id) where _status.status_id = '1' AND DATE_FORMAT(referral_form.refdate_completed,'%m') BETWEEN '$from' and '$to' and DATE_FORMAT(referral_form.refdate_completed,'%Y') BETWEEN '$fromyear' and '$toyear'";
-      }if($from == 'from' && $to=='$to' && $fromyear!='' && $toyear!=''){
+      }if($from == 'from' && $to=='to' && $fromyear!='' && $toyear!=''){
            $sql="SELECT referral_form.referral_id, referral_form.staff_id,staff.first_name as f_name,staff.last_name as l_name, referral_form.date_filed, referral_form.refdate_completed, student.first_name, student.last_name, _status.status from referral_form join student USING (Student_id) join staff USING(staff_id) join _status USING(status_id) where _status.status_id = '1' AND DATE_FORMAT(referral_form.refdate_completed,'%Y') BETWEEN '$fromyear' and '$toyear'";
       }
 
@@ -179,6 +190,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -314,7 +326,8 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>

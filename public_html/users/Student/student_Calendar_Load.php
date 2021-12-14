@@ -2,7 +2,7 @@
 
 include('conn.php');
 include('session_student.php');
-$id=$_SESSION['id'];
+$id=$_SESSION['username'];
 $data = array();/*GROUP BY day(appointment_date)*/
 $querry = mysqli_query($conn,"SELECT * FROM guidance_appointments LEFT JOIN indv_counselling ON guidance_appointments.appointment_id=indv_counselling.appointment_id LEFT JOIN intake_form ON indv_counselling.intake_id=intake_form.intake_id LEFT JOIN student on intake_form.Student_id=student.Student_id WHERE intake_form.Student_id='$id' ORDER BY appointment_date, appointment_time ASC");
  while($row = mysqli_fetch_array($querry)) {

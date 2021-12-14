@@ -1,3 +1,6 @@
+ <!-- Data table plugin-->
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
 <?php 
 sleep(1);
 include('conn.php');
@@ -34,6 +37,9 @@ if (isset($_POST['status']) && isset($_POST['month']) && isset($_POST['position'
           $count=mysqli_num_rows($sql);
   
 ?>
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
  <table class="table table-hover table-bordered" id="reports-table">
   <?php 
       if ($count) {
@@ -67,17 +73,19 @@ if (isset($_POST['status']) && isset($_POST['month']) && isset($_POST['position'
                                       if ($row['statID']=='1') {
                                     ?>
                                   <button  class="btn btn-info btn-sm viewbutton" class="text mr-2" data-toggle="modal" a href="#details<?php echo $row['referral_id']; ?>"><i class="fas fa-eye" style="color:white;width:13px"></i></button>
-                                  <button type="button" disabled="disabled" class="btn btn-warning btn-sm editbutton" a id="<?php echo $row['referral_id']; ?>"  data-id="<?php echo $row['referral_id']; ?>" ><i class="fas fa-pencil-square-o" style="color:white;width:13px"></i></button>
-                                  &nbsp;
                                   <?php include('Guidance_Referral_View_Modal.php'); ?>
+                                  <button class="btn btn-warning btn-sm editbutton" disabled ="disabled" class="text mr-2" data-toggle="modal" a href="#acknowledgement<?php echo $row['referral_id']; ?>"><i class="fas fa-pencil-square-o" style="color:white;width:13px"></i></button>&nbsp;
+                                  <?php include('Guidance_Acknowledgement_Modal.php'); ?>
                                 <?php }else{?>
                                   <button  class="btn btn-info btn-sm viewbutton" class="text mr-2" data-toggle="modal" a href="#details<?php echo $row['referral_id']; ?>"><i class="fas fa-eye" style="color:white;width:13px"></i></button>
-                                  <a id="<?php echo $row['referral_id']; ?>" type="button" class="btn btn-warning btn-sm editbutton" data-id="<?php echo $row['referral_id']; ?>" ><i class="fas fa-pencil-square-o" style="color:white;width:13px"></i></a>&nbsp;
                                   <?php include('Guidance_Referral_View_Modal.php'); ?>
+                                  <button class="btn btn-warning btn-sm editbutton" class="text mr-2" data-toggle="modal" a href="#acknowledgement<?php echo $row['referral_id']; ?>"><i class="fas fa-pencil-square-o" style="color:white;width:13px"></i></button>&nbsp;
+                                  <?php include('Guidance_Acknowledgement_Modal.php'); ?>
                                 <?php } ?>
                                 </td>
                                 </tr>
-                            <?php }
+                            <?php } ?></div>
+              </div><?php
   } 
 
 //Month and Year Filter 

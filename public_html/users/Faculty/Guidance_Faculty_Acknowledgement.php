@@ -321,7 +321,7 @@ function timeago($datetime, $full = false) {
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
                       <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -333,7 +333,7 @@ function timeago($datetime, $full = false) {
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
                       <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -347,14 +347,15 @@ function timeago($datetime, $full = false) {
 
               </a></li>
               </div>
-              <li class="app-notification__footer"><a href="see_all_notif_faculty.php">See all notifications.</a></li>
+              <li class="app-notification__footer"><a href="facultySeeAllNotif.php">See all notifications.</a></li>
             </ul>
           </li>
               
                  <li class="dropdown">
-                  <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
+                
                 
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
               <li><a class="dropdown-item" href="Guidance_FacultyUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>

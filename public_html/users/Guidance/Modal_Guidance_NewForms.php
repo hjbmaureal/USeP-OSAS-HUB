@@ -239,8 +239,14 @@ $intake_id=$row['intake_id'];
                     <td colspan="2">7. Gender<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input type="text" name="gender" id="gender" style="border:transparent;" value="<?php  echo $prorow['sex'];?>" readonly>
                     </td>
+                    <?php 
+                    $date=date('Y-m-d');
+                    $date1 = new DateTime($date);
+                    $date2 = new DateTime($prorow['birth_date']);
+                    $interval = $date1->diff($date2);
+?>
                     <td>8. Age<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="age" id="age" style="border:transparent;" value="<?php  echo $prorow['last_name'];?>" readonly>
+                            <input type="text" name="age" id="age" style="border:transparent;" value="<?php  echo $interval->y;?>" readonly>
                     </td>
                     <td>9. Birthdate<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input type="text" name="bdate" id="bdate" style="border:transparent;"  value="<?php  echo $prorow['birth_date'];?>" readonly>
@@ -283,7 +289,7 @@ $intake_id=$row['intake_id'];
                             <input type="text" name="father_occupation" id="father_occupation" style="border:transparent;"  value="<?php  echo $prorow['father_occupation'];?>" readonly>
                     </td>
                     <td>19. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="father_contact" id="father_contact" style="border:transparent;" value="<?php  echo $prorow['father_contact'];?>" readonly>
+                            <input type="text" name="father_contact" id="father_contact" style="border:transparent;" value="<?php  echo $prorow['father_con_number'];?>" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -294,7 +300,7 @@ $intake_id=$row['intake_id'];
                             <input type="text" name="mother_occupation" id="mother_occupation" style="border:transparent;" value="<?php  echo $prorow['mother_occupation'];?>" readonly>
                     </td>
                     <td>22. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input type="text" name="mother_contact" id="mother_contact" style="border:transparent;" value="<?php  echo $prorow['mother_contact'];?>" readonly>
+                            <input type="text" name="mother_contact" id="mother_contact" style="border:transparent;" value="<?php  echo $prorow['mother_con_number'];?>" readonly>
                     </td>
                   </tr>
                    <tr>
@@ -441,7 +447,7 @@ $intake_id=$row['intake_id'];
                     </td>
                     <td colspan="2">35. Date Accomplished <br><i class="fa fa-caret-left" aria-hidden="true"></i>
 
-                             <input type="text" name="date_accomplished" class="intake datepicker" value="<?php echo $prorow['date_filed']; ?>" id="date_accomplished" placeholder="YYYY/MM/DD" autocomplete="off" readonly><br>
+                             <input type="text" name="date_accomplished" value="<?php echo $prorow['date_filed']; ?>" id="date_accomplished" placeholder="YYYY/MM/DD" autocomplete="off" readonly="readonly">
                     </td>
                   </tr>
                 </table>

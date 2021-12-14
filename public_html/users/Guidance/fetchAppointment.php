@@ -6,7 +6,7 @@ $username= "root";
 
 $password="";
 
-$dbname="osasdb1";
+$dbname="backupdb-3";
 
 
 

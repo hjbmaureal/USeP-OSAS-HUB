@@ -210,7 +210,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                             <input class="intake"type="text" name="bplace" id="bplace" value="<?php  echo $prorow['birth_place'];?>" readonly>
                     </td>
                     <td>12. Birth Order<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="birth_order" id="birth_order" value="" readonly>
+                            <input class="intake"type="text" name="birth_order" id="birth_order" value="">
                     </td>
                   </tr>
                   <tr>
@@ -233,24 +233,24 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                   </tr>
                   <tr>
                     <td colspan="2">17. Name of Father<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="fathername" id="fathername" value="<?php  echo $prorow['father_name'];?>" readonly>
+                            <input class="intake"type="text" name="father_name" id="father_name" >
                     </td>
                     <td>18. Occupation<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="father_occupation" id="father_occupation" value="<?php  echo $prorow['father_occupation'];?>" readonly>
+                            <input class="intake"type="text" name="father_occupation" id="father_occupation"  >
                     </td>
                     <td>19. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="father_contact" id="father_contact" value="<?php  echo $prorow['father_contact'];?>" readonly>
+                            <input class="intake"type="text" name="father_con_number" id="father_con_number"  >
                     </td>
                   </tr>
                   <tr>
                     <td colspan="2">20. Name of Mother<br>
-                            <input class="intake"type="text" name="mothername" id="mothername" value="<?php  echo $prorow['mother_name'];?>" readonly>
+                            <input class="intake"type="text" name="mother_name" id="mother_name">
                     </td>
                     <td>21. Occupation<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="mother_occupation" id="mother_occupation" value="<?php  echo $prorow['mother_occupation'];?>" readonly>
+                            <input class="intake"type="text" name="mother_occupation" id="mother_occupation" >
                     </td>
                     <td>22. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="mother_contact" id="mother_contact" value="<?php  echo $prorow['mother_contact'];?>" readonly>
+                            <input class="intake"type="text" name="mother_con_number" id="mother_con_number" >
                     </td>
                   </tr>
                    <tr>
@@ -470,11 +470,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                           if (empty($query['sig'])) { ?>
                            <input class="intake"type="file" name="signature" id="signature" required>
                           <?php }else{?>
-                            <input class="intake"type="file" name="signature" id="signature" disabled>
+                            <input class="intake"type="file" name="signature" id="signature" readonly>
                           <?php }?>
                     </td> 
+                    <?php $date=date('Y-m-d');?>
                     <td colspan="2">35. Date Accomplished (DD/MM/YYYY)<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                             <input type="date" name="date_accomplished" id="date_accomplished" placeholder="DD/MM/YYYY" required>
+                             <input type="date" name="date_accomplished" id="date_accomplished" placeholder="DD/MM/YYYY" value="<?php echo $date;?>" readonly>
                     </td>
                   </tr>
                 </table>

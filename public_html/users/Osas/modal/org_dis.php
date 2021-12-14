@@ -35,15 +35,15 @@
 <?php 
 include('../conn.php');
 if (isset($_POST['pass'])){
-
+  $coor_id = $_POST['coor_id'];
   $pass= $_POST['pass'];
-  $stmt = $conn->prepare("SELECT * FROM staff WHERE password = ?");  
-  $stmt->bind_param("i", $pass);
+  $stmt = $conn->prepare("SELECT * FROM staff WHERE staff_id = ?");  
+  $stmt->bind_param("i", $coor_id);
   $stmt->execute();
   $user = $stmt->get_result()->fetch_assoc();
 
 
-  if ($user && $pass==$user['password']){
+  if ($user && password_verify($pass, $user['password'])){
         $User_id= $_POST['eid'];
                                           
        

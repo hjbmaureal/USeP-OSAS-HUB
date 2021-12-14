@@ -1,5 +1,4 @@
  <?php include('../../conn.php');
-  /*include 'conn.php';*/
   include '../../php/notification-timeago.php'; 
   session_start();
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
@@ -11,12 +10,14 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 //Add group counselling
-  if(isset($_POST['add_gc'])){
+  if(isset($_POST['add_gc']))
+  {
     $gc_date = date('Y-m-d',strtotime($_POST['gguidance_date']));
     $gc_time = date('H:i',strtotime($_POST['gguidance_date']));
     $gc_purpose = $_POST['gguidance_topic'];
@@ -76,7 +77,7 @@
                 $sql2 = "INSERT INTO participants VALUES(NULL,'$gg_id','$studid',NULL)";
 
                if ($conn->query($sql2) === TRUE) {
-                    $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'$studid', 'You have been added to a group guidance activity.',now(),'Guidance_Student_GroupGuidance.php', 'Delivered')");
+                    $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$studid', 'You have been added to a group guidance activity.',now(),'Guidance_Student_GroupGuidance.php', 'Delivered')");
 
                               if($result){
                                 echo '<script>
@@ -456,6 +457,7 @@ echo "ERROR";}}
                                 closeOnEsc: false,
                           })
                         </script>';
+                        echo "<meta http-equiv='refresh' content='2'>";
                       }else{
                         echo '<script>
                           swal({
@@ -499,9 +501,71 @@ if ($conn->query($sql12) === TRUE) {
 
     if ($conn->query($sql14) === TRUE) {
 
-  echo '<script>
+ echo '<script>
                           swal({
-                              title: "Changes Saved!",
+                              title: "Group Guidance Status Updated!",
+                              text: "Server Request Successful!",
+                              icon: "success",
+                              buttons: false,
+                              timer: 1800,
+                              closeOnClickOutside: false,
+                                closeOnEsc: false,
+                          })
+                        </script>';
+                        echo "<meta http-equiv='refresh' content='2'>";
+                      }else{
+                        echo '<script>
+                          swal({
+                            title: "Something went wrong...",
+                            text: "Server Request Failed!",
+                            icon: "error",
+                            buttons: false,
+                            timer: 1800,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                          })
+                        </script>';
+                      }
+                        echo "<meta http-equiv='refresh' content='2'>";
+  }
+  }
+}
+
+
+
+  if(isset($_POST['up_stat'])){
+  
+     $ggidd=$_POST['ggidd'];
+  $selectname = "SELECT * FROM `group_guidance` WHERE grp_guidance_id= '$ggidd'";
+     $query = $conn->query($selectname);
+     $count=mysqli_num_rows($query);
+     $id= $count['appointment_id'];
+     $update = "UPDATE `guidance_appointments` SET `status_id`='1' WHERE appointment_id= '$id'";
+     $query = $conn->query($update);
+     if(!isset($_POST['checks']))
+  {
+       /* echo '<script> alert("At least one checkbox Must be Selected !!!");</script>';*/
+  }
+  else {
+    $chk = $_POST['checks'];
+    $gid = $_POST['ggid'];
+    $chkcount = count($chk);
+  
+  
+    echo $chkcount;
+    for($i=0; $i<$chkcount; $i++){
+      
+      $del = $chk[$i];
+      $stat="ATTENDED";
+      $sql10="UPDATE participants set attendance='$stat' WHERE Student_id='$del' AND grp_guidance_id=$gid";
+      $res = $conn->query($sql10);
+    } 
+    
+    if($sql10){
+    
+     echo '<script>
+                          swal({
+                              title: "Group Guidance Status Updated!",
                               text: "Server Request Successful!",
                               icon: "success",
                               buttons: false,
@@ -524,7 +588,7 @@ if ($conn->query($sql12) === TRUE) {
                         </script>';
                       }
                         echo "<meta http-equiv='refresh' content='2'>";
-  }
+    
   }
 }
 
@@ -555,6 +619,7 @@ if ($conn->query($sql12) === TRUE) {
       <link rel="stylesheet" type="text/css" href="css/main.css">
           <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
       <!-- Font-icon css-->
       <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
@@ -594,6 +659,7 @@ if ($conn->query($sql12) === TRUE) {
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -729,7 +795,8 @@ if ($conn->query($sql12) === TRUE) {
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -834,6 +901,7 @@ if ($conn->query($sql12) === TRUE) {
                      
                   <div class="inline-block">
                     Month 
+                    <br>
                   <select class="bootstrap-select" id="filter_month">
                       <option class="select-item" value="all" selected="selected">All</option>
                       <option class="select-item" value="01" >January</option>
@@ -849,7 +917,10 @@ if ($conn->query($sql12) === TRUE) {
                       <option class="select-item" value="11">November</option>
                       <option class="select-item" value="12">December</option>
                     </select>
-                   Status
+                </div>
+<div class="inline-block">
+                    Status 
+                    <br>
                     <select class="bootstrap-select" name="filterstatus" id="filterstatus">
                         <option class="select-item" value="all" selected="selected">All</option>
                        <?php
@@ -860,7 +931,10 @@ if ($conn->query($sql12) === TRUE) {
                               <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
                         <?php } ?>
                       </select>
-                  Course
+                  </div>
+                  <div class="inline-block">
+                    Course 
+                    <br>
                   <select class="bootstrap-select" id="filtcourse">
                     <option class="select-item" value="all" selected="selected">All</option>
                        <?php
@@ -1189,7 +1263,6 @@ $(".datepicker").datetimepicker({
       <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
 
 
 
@@ -1364,16 +1437,7 @@ $( "frm" ).submit(function( event ) {
 });
 
 </script>
-<?php  
-      if ($count2!=0) { ?>
-        <script type="text/javascript">
-    $(document).ready(function(){
-        $("#myModal").modal('show');
-    });
-</script>
-      <?php
-    }
-      ?>
+<!--  -->
 <!-- 
 <div id="myModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

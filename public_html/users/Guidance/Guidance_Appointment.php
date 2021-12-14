@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -196,6 +197,7 @@
           </div>
       </div>
 
+      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -342,7 +344,8 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
+
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -634,14 +637,14 @@
                 if ($conn->query($sqlCencel_Guidance) === TRUE) {
   
 
-                $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'$stud_id', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
+                $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$stud_id', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
 
                               if($result){
                               
 
                                 echo '<script>
                                       swal({
-                                          title: "Counselling Appointmrnt Deleted Successfully!",
+                                          title: "Appointment Deleted Successfully!",
                                           text: "Server Request Successful!",
                                           icon: "success",
                                           buttons: false,
@@ -656,7 +659,7 @@
                                      echo '<script>
                                             swal({
                                               title: "Something went wrong...",
-                                              text: "Server Request Failed!",
+                                              text: "3333333333333333333333333333333!",
                                               icon: "error",
                                               buttons: false,
                                               timer: 1800,
@@ -669,7 +672,7 @@
                    echo '<script>
                           swal({
                             title: "Something went wrong...",
-                            text: "Server Request Failed!",
+                            text: "2222222222222222222222222!",
                             icon: "error",
                             buttons: false,
                             timer: 1800,
@@ -682,7 +685,7 @@
              echo '<script>
                     swal({
                       title: "Something went wrong...",
-                      text: "Server Request Failed!",
+                      text: "111111111111111!",
                       icon: "error",
                       buttons: false,
                       timer: 1800,
@@ -709,7 +712,6 @@
        $code=$_POST['code'];
     }
     $sql="INSERT INTO `guidance_appointments`(`appointment_id`, `status_id`, `mode_id`, `date_filed`, `appointment_date`, `appointment_time`, `date_completed`, `link`, `meeting_code`) VALUES (null,3,'$mode',now(),'$date','$time',null,'$link','$code')";
-    echo $time;
     if ($conn->query($sql) === TRUE) {
         /*echo 'hey1';*/
       $apt_id = $conn->insert_id;
@@ -717,18 +719,16 @@
       $sqlitem=mysqli_query($conn,"SELECT intake_id FROM `intake_form` WHERE Student_id='$studID'");
           while($resultitem=mysqli_fetch_array($sqlitem)){
             $itemID=$resultitem['intake_id'];
-            /*echo 'hey2';
-            echo "and ".$itemID;*/
           }
       $sqlIndv="INSERT INTO `indv_counselling`(`counselling_id`, `appointment_id`, `intake_id`) VALUES (null,'$apt_id','$itemID')";
       if ($conn->query($sqlIndv) === TRUE) {
         /*echo 'hey3';*/
       
-         $result="insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'$studID', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')";
+         $result="insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$studID', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')";
          if ($conn->query($result) === TRUE) {
                               echo '<script>
                                       swal({
-                                          title: "Counselling Appointmrnt Added Successfully!",
+                                          title: "Appointment Added Successfully!",
                                           text: "Server Request Successful!",
                                           icon: "success",
                                           buttons: false,
@@ -736,14 +736,11 @@
                                           closeOnClickOutside: false,
                                             closeOnEsc: false,
                                       })
-                                       setTimeout(myFunction, 3000);
+                                       setTimeout(myFunction, 6000);
                                     </script>'; 
+
+                                    echo "<meta http-equiv='refresh' content='2'>";
                                     ?> 
-                                    <script>
-                                      function myFunction() {
-                                        window.location="Guidance_Appointment.php";
-                                      }
-                                    </script>
                                     <?php
      }else{
                       echo '<script>
@@ -763,7 +760,7 @@
      echo '<script>
                               swal({
                                 title: "Something went wrong...",
-                                text: "Server Request Failed!",
+                                text: "Server Request Failed!!",
                                 icon: "error",
                                 buttons: false,
                                 timer: 1800,
@@ -773,7 +770,18 @@
                             </script>';
    }
 
-    }else{echo "error";}
+    }else{
+    echo '<script>
+                              swal({
+                                title: "Something went wrong...",
+                                text: "Server Request Failed!!",
+                                icon: "error",
+                                buttons: false,
+                                timer: 1800,
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                              })
+                            </script>';}
 }
 
           if (isset($_POST['CancelAppointment_gg'])) {
@@ -824,7 +832,7 @@
                                           closeOnClickOutside: false,
                                             closeOnEsc: false,
                                       })
-                                       setTimeout(myFunction, 1800);
+                                       setTimeout(myFunction, 4000);
                                     </script>'; 
                                     ?> 
                                     <script>
@@ -842,7 +850,7 @@
                                 text: "Server Request Failed!",
                                 icon: "error",
                                 buttons: false,
-                                timer: 1800,
+                                timer: 4000,
                                 closeOnClickOutside: false,
                                 closeOnEsc: false,
                               })
@@ -855,7 +863,7 @@
                             text: "Server Request Failed!",
                             icon: "error",
                             buttons: false,
-                            timer: 1800,
+                            timer: 4000,
                             closeOnClickOutside: false,
                             closeOnEsc: false,
                           })
@@ -868,7 +876,7 @@
                             text: "Server Request Failed!",
                             icon: "error",
                             buttons: false,
-                            timer: 1800,
+                            timer: 4000,
                             closeOnClickOutside: false,
                             closeOnEsc: false,
                           })
@@ -1067,8 +1075,8 @@ $(".datepicker").datetimepicker({
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-      <script type="text/javascript">$('#sampleTable').DataTable();</script>
-      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
+      <script type="text/javascript">$('#tableprint').DataTable();</script>
+      
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {

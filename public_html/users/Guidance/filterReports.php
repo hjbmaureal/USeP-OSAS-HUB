@@ -1,4 +1,6 @@
-<?php 
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#reports-table').DataTable();</script><?php 
 sleep(1);
 include('conn.php');
 if (isset($_POST['mode']) && isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) && isset($_POST['toyear'])) {
@@ -21,17 +23,9 @@ if (isset($_POST['mode']) && isset($_POST['from']) && isset($_POST['to']) && iss
                         left join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id
                         where guidance_appointments.status_id='1' and guidance_appointments.mode_id = '$mode' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to'";
 } if ($mode!='all' && $from=='all' && $to=='all' && $fromyr == '' && $toyr=='') {
-      $sql="SELECT intake_form.*, guidance_appointments.*, student.*, indv_counselling.remarks, student.Student_id as stud_id, course.name as course, mode_of_communication.communication_mode from intake_form join indv_counselling on indv_counselling.intake_id=intake_form.intake_id JOIN guidance_appointments on guidance_appointments.appointment_id=indv_counselling.appointment_id
-              take_id JOIN guidance_appointments on guidance_appointments.appointment_id=indv_counselling.appointment_id
-                         left join student on student.Student_id=intake_form.Student_id
-                        left join course on course.course_id=student.course_id
-                        left join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id
-                        where guidance_appointments.status_id='1' and guidance_appointments.mode_id = '$mode'";
+      $sql="SELECT intake_form.*, guidance_appointments.*, student.*, indv_counselling.remarks, student.Student_id as stud_id, course.name as course, mode_of_communication.communication_mode from intake_form join indv_counselling on indv_counselling.intake_id=intake_form.intake_id JOIN guidance_appointments on guidance_appointments.appointment_id=indv_counselling.appointment_id left join student on student.Student_id=intake_form.Student_id left join course on course.course_id=student.course_id left join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id where guidance_appointments.status_id='1' and guidance_appointments.mode_id ='$mode'";
 } if ($mode!='all' && $from!='all' && $to!='all' && $fromyr != '' && $toyr!='') {
-      $sql="SELECT intake_form.*, guidance_appointments.*, student.*, indv_counselling.remarks, student.Student_id as stud_id, course.name as course, mode_of_communication.communication_mode from intake_form join indv_counselling on indv_counselling.intake_id=intake_form.in         left join student on student.Student_id=intake_form.Student_id
-                        left join course on course.course_id=student.course_id
-                        left join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id
-                        where guidance_appointments.status_id='1' and guidance_appointments.mode_id = '$mode' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to' AND DATE_FORMAT(guidance_appointments.appointment_date,'%Y') BETWEEN '$fromyr' and '$toyr'";
+      $sql="SELECT intake_form.*, guidance_appointments.*, student.*, indv_counselling.remarks, student.Student_id as stud_id, course.name as course, mode_of_communication.communication_mode from intake_form join indv_counselling on indv_counselling.intake_id=intake_form.intake_id JOIN guidance_appointments on guidance_appointments.appointment_id=indv_counselling.appointment_id left join student on student.Student_id=intake_form.Student_id left join course on course.course_id=student.course_id left join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id where guidance_appointments.status_id='1' and guidance_appointments.mode_id = '$mode' and DATE_FORMAT(guidance_appointments.appointment_date, '%m') BETWEEN '$from' and '$to' AND DATE_FORMAT(guidance_appointments.appointment_date,'%Y') BETWEEN '$fromyr' and '$toyr'";
 } if ($mode=='all' && $from!='all' && $to!='all' && $fromyr != '' && $toyr!='') {
       $sql="SELECT intake_form.*, guidance_appointments.*, student.*, indv_counselling.remarks, student.Student_id as stud_id, course.name as course, mode_of_communication.communication_mode from intake_form join indv_counselling on indv_counselling.intake_id=intake_form.intake_id JOIN guidance_appointments on guidance_appointments.appointment_id=indv_counselling.appointment_id
                         left join student on student.Student_id=intake_form.Student_id

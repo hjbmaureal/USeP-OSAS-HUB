@@ -11,15 +11,26 @@ if (isset($_POST['ggidd'])) {
      $update = "UPDATE `guidance_appointments` SET `status_id`='1' WHERE appointment_id= '$id'";
      $query = $conn->query($update);
 
-    $chk = $_POST['checks'];
-    $gid = $_POST['ggid'];
-    $chkcount = count($chk);
+   
   
-  if(!isset($chk))
+  if(!isset($_POST['checks']))
   {
-        echo '<script> alert("At least one checkbox Must be Selected !!!");</script>';
+        echo '<script>
+                          swal({
+                              title: "Group Guidance Status Updated!",
+                              text: "Server Request Successful!",
+                              icon: "success",
+                              buttons: false,
+                              timer: 1800,
+                              closeOnClickOutside: false,
+                                closeOnEsc: false,
+                          })
+                        </script>';
   }
   else {
+     $chk = $_POST['checks'];
+    $gid = $_POST['ggid'];
+    $chkcount = count($chk);
     echo $chkcount;
     for($i=0; $i<$chkcount; $i++){
       

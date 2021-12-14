@@ -1,9 +1,9 @@
 <?php 
 if (isset($_POST['mode'])) { 
-	$mode=$_POST['mode']; 
-	if ($mode=='1') {
-	?>
-						<div class="row">
+  $mode=$_POST['mode']; 
+  if ($mode=='1') {
+  ?>
+            <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Facebook Link</label>

@@ -1,29 +1,28 @@
-
           <?php 
 include('conn.php');
 if (isset($_POST['year']) && isset($_POST['course']) && isset($_POST['section'])) { 
   $year=$_POST['year'];
   $course=$_POST['course'];
   $section=$_POST['section'];
-  		if ($course=='all') {
-  			$sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id";
-  		}
-  	if ($course !='all' && $year=='all' && $section=='all')  {
-  		$sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course'";
+      if ($course=='all') {
+        $sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id";
+      }
+    if ($course !='all' && $year=='all' && $section=='all')  {
+      $sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course'";
 
-  	}if ($course !='all' && $year!='all' && $section=='all') {
-  		$sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course' and student.year_level like '$year'";
+    }if ($course !='all' && $year!='all' && $section=='all') {
+      $sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course' and student.year_level like '$year'";
 
-  	}if ($course !='all' && $year!='all' && $section !='all') {
-  		$sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course' and student.year_level like '$year' and student.section like '$section'";
+    }if ($course !='all' && $year!='all' && $section !='all') {
+      $sql="SELECT Student_id, last_name, first_name, middle_name, course.title, student.year_level, student.section FROM `student` JOIN course on course.course_id=student.course_id WHERE student.course_id='$course' and student.year_level like '$year' and student.section like '$section'";
                
-  	}
-  	 			$result = mysqli_query($conn, $sql);
+    }
+          $result = mysqli_query($conn, $sql);
                 $count=mysqli_num_rows($result);
     
 ?>
  <table class="table table-hover table-bordered" id="sampleTable">
-	 <?php 
+   <?php 
       if($count){
             ?>
                     <thead>

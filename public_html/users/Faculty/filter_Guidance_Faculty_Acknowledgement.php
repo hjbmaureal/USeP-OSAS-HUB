@@ -1,3 +1,6 @@
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+
  <?php 
 include('conn.php');
 include('session_faculty.php');
@@ -15,8 +18,10 @@ $faculty_id=$_SESSION['id'];
                 $result = mysqli_query($conn, $sql);
                 $count=mysqli_num_rows($result);
 ?>
-   
-   <table class="table table-hover table-bordered" id="sampleTable2">
+<div class="table-bd">
+<div class="table-responsive">
+                  <br>
+ <table class="table table-hover table-bordered" id="sampleTable2">
     <?php 
       if($count){
             ?>
@@ -41,10 +46,22 @@ $faculty_id=$_SESSION['id'];
                                   '. $row['last_name'].'</td> 
                                   <td>'. $row['status'].'</td>
                                   <td>'. $row['refdate_completed'].'</td>
-                                  <td>
-                                  <center><a id='.$row['referral_id'].' type="button" class="btn btn-info btn-sm viewbutton" data-id='.$row['referral_id'].' ><i class="fas fa-eye" style="color:white;"></i></a>&nbsp;</center>
-                                </tr>';}}
+                                  <td>'; ?>
+
+                                  <button  class="btn btn-info btn-sm viewbutton" class="text mr-2" data-toggle="modal" a href="#acknowledgement<?php echo $row['referral_id']; ?>"><i class="fas fa-eye" style="color:white;width:13px"></i></button>
+                                  <?php include('fetch_referralform.php'); ?>
+                                </td>
+                                </tr>
+
+                               <?php }}
 
         ?> </tbody> </table>
                       <?php
   }?>
+
+
+<script type="text/javascript">
+  
+$('#sampleTable2').DataTable();
+  
+</script>

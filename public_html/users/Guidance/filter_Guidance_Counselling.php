@@ -1,3 +1,8 @@
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#show-table').DataTable();</script>
+
+
 <?php 
 sleep(1);
 include('conn.php');
@@ -81,5 +86,11 @@ if (isset($_POST['course']) && isset($_POST['month']) && isset($_POST['status'])
 
   <?php }
 
-  ?><?php
+  ?>
+
+  <script type="text/javascript">
+
+  $('#show-table').DataTable();
+
+</script>
  

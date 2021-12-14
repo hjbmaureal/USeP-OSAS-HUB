@@ -12,6 +12,15 @@ if (isset($_POST['from']) && isset($_POST['to']) && isset($_POST['fromyear']) &&
        }
         $fromyear=$_POST['fromyear'];
         $toyear=$_POST['toyear'];
+        if ($from=='from') {
+                $to='to';
+        }if ($to=='to') {
+                $from='from';
+        }if ($fromyear=='') {
+            $toyear='';
+        }if ($toyear=='') {
+            $fromyear='';
+        }
         
       if ($from!='from' && $to!='to' && $fromyear=='' && $toyear=='') {
           // code...
@@ -295,11 +304,20 @@ var myBarChart = new Chart(ctx, {
         var filtermonth2 = $("#filtermonth2").val();
         var fromyear = $("#fromyear").val();
         var toyear = $("#toyear").val();
+        if (filtermonth=='from') {
+                filtermonth2='to';
+        }if (filteryear2=='to') {
+                filtermonth='from';
+        }if (fromyear=='') {
+            toyear='';
+        }if (toyear=='') {
+            fromyear='';
+        }
                   /*  alert(fromyear);
                     alert(toyear);
                     alert(filtermonth);
                     alert(filtermonth2);*/
-                    if (filtermonth2!='to' || fromyear!='' || toyear!='') {
+                    
                     $.ajax({
                           url:"EvalReportsfilter.php",
                           type:"POST",
@@ -345,11 +363,11 @@ var myBarChart = new Chart(ctx, {
 });
                           },
                     });
-                }
+                
                 /*end if=====================================*/
 
                       /*alert("2");*/
-                    if (filtermonth2!='to' || fromyear!='' || toyear!='') {
+                    
                     $.ajax({
                           url:"EvalReports2filter.php",
                           type:"POST",
@@ -395,10 +413,10 @@ var myBarChart = new Chart(ctx, {
 });
                           },
                     });
-                }
+                
                 /*end if==================================================*/
         /*alert("3");*/
-                    if (filtermonth2!='to' || fromyear!='' || toyear!='') {
+                    
                     $.ajax({
                           url:"EvalReports3filter.php",
                           type:"POST",
@@ -444,7 +462,7 @@ var myBarChart = new Chart(ctx, {
 });
                           },
                     });
-                }
+                
 
     });
  </script>

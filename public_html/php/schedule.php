@@ -33,14 +33,14 @@
   </head>
   <body>
 <?php
-	include("../conn.php");
-	if(isset($_POST['submit']))
+    include("../conn.php");
+    if(isset($_POST['submit']))
         {
 
         $complaintID = $_POST['complain_ID'];
         $responseID = $_POST['response_id'];
-        $date = $_POST['appdate'];
-        $time = $_POST['appdate'];
+        $date =  date('Y-m-d',strtotime($_POST['appdate']));
+        $time =date('Y-m-d',strtotime($_POST['appdate']));
         $meet_type = $_POST['meet_type'];
         $meet_link = $_POST['meet_link'];
         $meet_id = $_POST['meet_id'] ?? null;
@@ -78,16 +78,18 @@
                 $gmail1 = $row2['email_add'];
                 $gmail2 = $row3['email_add'];
 
-$notification1=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$id1', 'Your meeting with the Student Discipline regarding to your complaint to a student has been scheduled. Please check your email for the meeting link.',now(),'../users/Student/Discipline-Response.php', 'Delivered')");
-
-$notification2=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$id2', 'Your meeting with the Student Discipline regarding to your response in a complaint has been scheduled. Please check your email for the meeting link.',now(),'../users/Student/Discipline-Response.php', 'Delivered')");
 
         $sql = "UPDATE response SET date_schedule= '$date', time_from = '$time', meeting_type = '$meet_type', meeting_link = '$meet_link', meeting_id = '$meet_id', passcode = '$passcode', status = '$status' WHERE Complaint_ID = '$complaintID' ";
 
         $sql1 = "UPDATE complaint SET Status = '$status' WHERE Complaint_ID = '$complaintID' ";
+        $sql2 = "INSERT into notif (user_id, message_body, time, link, message_status) values('$id1',  'You have a Schedule', now(), '../users/Student/Home-Discipline.php', 'Delivered')";
+        $sql3 = "INSERT into notif (user_id, message_body, time, link, message_status) values('$id2',  'You have a Schedule', now(), '../users/Student/Home-Discipline.php', 'Delivered')";
 
         $sql_run = mysqli_query($conn , $sql);
         $sql_run1 = mysqli_query($conn , $sql1);
+        $sql_run2 = mysqli_query($conn , $sql2);
+        $sql_run3 = mysqli_query($conn , $sql3);
+        
        
         // echo $statuscom;
         // echo $complaintID;
@@ -98,7 +100,7 @@ $notification2=mysqli_query($conn,"insert into `notif` (user_id, message_body, t
 
         $time1 = strtotime($time);      
 
-        $from_name = "OSAS TAGUM - MABINI";        
+        $from_name = "OSAS TAGUM";        
         $from_address = "edwinpams1@gmail.com";        
         $to_name = $name1;        
         $to_address = $gmail1; 
@@ -256,7 +258,7 @@ $notification2=mysqli_query($conn,"insert into `notif` (user_id, message_body, t
     $message2 .= $ical2;
 
         if(mail($to_address, $subject, $message, $headers) && mail($to_address2, $subject2, $message2, $headers2)){
-            if($sql_run && $sql_run1){
+            if($sql_run && $sql_run1 && $sql_run2 && $sql_run3){
             echo '<script>
                swal({
               title: "Schedule Created Successfully!",

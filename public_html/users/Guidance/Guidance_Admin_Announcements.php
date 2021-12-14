@@ -11,9 +11,10 @@
 
 
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$admin_id' AND office_id = 4) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){
+    $count = $row['cnt'];
+}
 
 
    ?>
@@ -336,7 +337,7 @@
 
   if (isset($_POST['add'])) {
     $staff_id = ($_POST['staff_id']);
-    $date = date('Y-m-d',strtotime($_POST['date']));
+    $date = date('Y-m-d',strtotime($_POST['date_accomplished']));
     $title = ($_POST['title']);
     $content = ($_POST['content']);
 
@@ -500,14 +501,15 @@
                       <div class="modal-body">
 
                         <div class="container">
-                         <input type="text" name="staff_id" id="staff_id" value="10002" hidden> 
+                         <input type="text" name="staff_id" id="staff_id" value="<?php echo $admin_id ?>" hidden> 
                          <input type="text" name="announcement_id" id="announcement_id" hidden> 
 
 
                             <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
-                                  <label class="control-label">Date:&nbsp;</label> <input type="text" id="date" name="date" class="form-control datepicker" placeholder="YY/MM/DD" autocomplete="off" required="">
+                                <?php $date=date('Y-m-d');?>
+                                  <label class="control-label">Date:&nbsp;</label><input class="form-control" type="date" name="date_accomplished" id="date_accomplished" placeholder="DD/MM/YYYY" value="<?php echo $date;?>" readonly>
                                 </div>
                             </div>
                           </div>
@@ -557,7 +559,7 @@
        
                         <div class="container">
                           <input class="form-control" type="text" id="announcement_id2" name="announcement_id2" hidden>
-                          <input type="text" name="staff_id2" id="staff_id2" value="10001" hidden> 
+                          <input type="text" name="staff_id2" id="staff_id2" value="<?php echo $admin_id ?>" hidden> 
                             <div class="row">
                             <div class="col-sm">
                               <div class="form-group">

@@ -1,10 +1,22 @@
-   <?php
+<?php
 session_start();
 include('../../conn.php');
 
   include '../../php/notification-timeago.php'; 
 //validating session
-
+   $sql1 = "SELECT staff.*, office.office_name FROM staff 
+              JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND dept_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
+      $result1 = $conn->query($sql1);
+      if ($result1->num_rows > 0) {
+        while($row = $result1->fetch_assoc()) {
+                  $admin_id = $row['staff_id'];
+                  $f_name = $row['first_name'];
+                  $m_name = $row['middle_name'];
+                  $l_name = $row['last_name'];
+                  $position = $row['position'];
+                  $off = $row['office_name'];
+         }
+       }
 
  if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
     echo '<script type="text/javascript">'; 
@@ -320,7 +332,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <li class="dropdown">      
                 <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
@@ -331,7 +343,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       
       </ul>
     </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -446,7 +458,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
     if(mysqli_multi_query($conn,$sql)){
 
-      $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'$admin_id', 'A new group guidance evaluation has been submitted.',now(),'Guidance_Counselling.php', 'Delivered')");
+      $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$admin_id', 'A new group guidance evaluation has been submitted.',now(),'Guidance_GroupGuidance_Reports.php', 'Delivered')");
 
   if($result){
 
@@ -572,7 +584,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                           <option class="select-item">Select Topic</option>
                         <?php 
                           
-                         $sql="SELECT participants.Student_id, group_guidance.appointment_id,group_guidance.topic, group_guidance.appointment_id FROM group_guidance JOIN guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id where guidance_appointments.status_id='1' and LOWER(participants.attendance) like LOWER('present') and participants.Student_id='$id'";
+                         $sql="SELECT participants.Student_id, group_guidance.appointment_id,group_guidance.topic, group_guidance.appointment_id FROM group_guidance JOIN guidance_appointments on guidance_appointments.appointment_id=group_guidance.appointment_id JOIN participants on participants.grp_guidance_id=group_guidance.grp_guidance_id where guidance_appointments.status_id='1' and LOWER(participants.attendance) like LOWER('attended') and participants.Student_id='$id'";
                           $result = $conn->query( $sql); 
                           if(!$result ) { 
                               die('Could not get data: ' . $conn->connect_error); 
