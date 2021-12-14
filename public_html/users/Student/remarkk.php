@@ -29,12 +29,24 @@
                                            <div>
                                                 <label style="font-size: 2px; color: white;"><?php echo $res['image']; ?></label>
                                             </div>
-                                        <div style="margin-left: 20px; margin-top: -35px;">
-                                                <a href="Apply-Org.php?file_id=<?php echo $res['Submitted_by'];?>&image=<?php echo $res['image'];?>"><button type="button"  style="margin-top:0px; border-style:none;"> <img name="image" src="../Osas/Remarks/<?php echo $res['image']; ?>" style="width:90px; border-radius: 5px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: -15px;"/></button></a>
+                                        <div style="margin-left: 0px; margin-top: -35px;">
+                                                <button type="button" id="<?php echo $res['image']; ?>"  style="margin-top:0px; border-style:none;" > 
+                                                    <img id="image" name="image" src="../Osas/Remarks/<?php echo $res['image']; ?>" style="width:90px; height: 100px; border-radius: 5px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: -15px; 
+                                                cursor: zoom-in;" onclick="document.getElementById('modal1').style.display='block'"/></button>
+
                                         </div>    
                                              
                                           </div>
+                                          <div id="modal1" class="modal" onclick="this.style.display='none'">
+                                              <div class="modal-content -webkit-animate-zoom">
+                                                <img id="image" name="image" src="../Osas/Remarks/<?php echo $res['image']; ?>" style="width: 100%;"/>
+                                                  
+                                              </div>
+
+                                          </div>
                                       </div>
+
+                                      <input type="hidden" name="submitted_by" value="<?php echo $res['Submitted_by']; ?>">
 
                                    </div>
                                     <div style="top: 0px;">
