@@ -17,19 +17,28 @@ $btn = $_POST['btn'];
 
                               echo '
                   
+                    <div class="modal-header">
+
+                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
+
+                          <h5 class="modal-title" id="exampleModalLongTitle">Verify password</h5>
+                          
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></button></div>
+                              <div class="modal-body c">
                                 <div class="container">
                                   <h6>Coordinator Password:</h6>
                                   <input class="form-control" type="password" id="pass" name="pass" placeholder="Input your password" required>  
                     
 
-                                  <input type="hidden" name="coor_id" value="'.$coor_id.'">
                                   <input type="hidden" name="eid" value="'.$id.'">
+                                  <input type="hidden" name="coor_id" value="'.$coor_id.'">
                                  
                                   
-                                  </div>
-
+                                 
                                 </div>
 
+                              </div>
                     
                     
                   

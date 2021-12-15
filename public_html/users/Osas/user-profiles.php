@@ -401,6 +401,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       </div>
                              
                     </div></center>
+                     <br><i style="color:red;"> Please remove the background image of the uploaded signature. You can go this link to remove the backgorund: &emsp; <a href="https://www.remove.bg/">https://www.remove.bg/ </a> </i>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 1) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 ?>
 
@@ -28,7 +28,8 @@
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <title>Dashboard</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -234,9 +235,9 @@
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
-                <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 1)  order by time desc";
-                  $result = mysqli_query($conn, $count_sql);
+  <?php 
+                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
                       if ($row['message_status']=='Delivered') {
@@ -554,7 +555,12 @@
       }
 
     </script>
-
+<?php  
+      if ($count!=0) 
+        { 
+          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
+        }
+      ?>
     <!-- Google analytics script-->
 
    

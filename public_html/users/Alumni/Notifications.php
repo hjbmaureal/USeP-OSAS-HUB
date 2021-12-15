@@ -1,4 +1,4 @@
-  <?php
+<?php
     session_start();
     include('../../conn.php');
   include '../../php/notification-timeago.php'; 
@@ -27,8 +27,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
   ?>
-
-
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -50,21 +48,14 @@ while ($row = mysqli_fetch_assoc($result)) {
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="../../css/main.css">
-          <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
-          
+      <link rel="stylesheet" type="text/css" href="../../css/main_main.css">
+          <link rel="stylesheet" type="text/css" href="../../css/upstyle_main.css">
       <!-- Font-icon css-->
-      <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+          <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
       <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-      <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
-      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    
     </head>
-      <body class="app sidebar-mini rtl" onload="initClock()">
+      <body class="app sidebar-mini rtl"onload="initClock()">
       <!-- Navbar-->
 
         
@@ -86,7 +77,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <hr>
 
         <ul class="app-menu font-sec">
-          <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-handshake-o
+          <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-handshake-o
 "></i><span class="app-menu__label">Request Good Moral</span></a></li>
 
 
@@ -97,12 +88,11 @@ while ($row = mysqli_fetch_assoc($result)) {
         </ul>
       </aside>
 
-
        <!--navbar-->
 
-     <main class="app-content">
-      <!-- navbar -->
-      <div class="app-title">
+          <main class="app-content">
+            
+       <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -227,281 +217,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
           </div>
         </div>
-      </div><!-- END OF NAVBAR -->
-        <div class="red"> 
-          
-        </div>
-
-
-       <?php 
-              $id = $_SESSION['id']; 
-              $sql = "SELECT  alumni.last_name,alumni.first_name,alumni.middle_name,alumni.Suffix,course.name,course.major
-                        FROM alumni
-                        JOIN course 
-                        ON alumni.course_id=course.course_id
-                        WHERE id = '$id'";
-
-
-              if ($result = mysqli_query($conn, $sql)) {
-                // Fetch one and one row
-                while ($row = mysqli_fetch_row($result)) {
-                  $LName = $row[0];
-                  $FName = $row[1];
-                  $MName = $row[2];
-                  $Suffix = $row[3];
-                  $degree = $row[4];
-                  $major = $row[5];
-                }
-                mysqli_free_result($result);
-              }
-
-             
-    
-  ?>
-
-  <script type="text/javascript">
-function validate()
-{
- var error="";
- var or = document.getElementById( "or_no" );
- if( or.value == "" )
- {
-  alert(" You Have To Write OR Number. ");
-  return false;
- }
-
- var date = document.getElementById( "date_requested" );
-if( date.value == "" )
- {
-  alert(" You Have To input date. ");
-  return false;
- }
-
- var purpose = document.getElementById( "purpose" );
-if( purpose.value == "")
- {
-   alert(" You Have To A valid purpose. ");
-  return false;
- }
-
-  else
- {
-  return true;
- }
-}
-  </script>
-
-  <?php
-if( isset( $_POST['submit'] ) )
-{
- 
-
-
-$lastsyattendedto = $_POST['to'];
-$lastsyattendedfrom = $_POST['from'];
-$reqby = $_SESSION['id'];
-$datereq = date('Y-m-d H:i:s');
-$orno = $_POST['or_no'];
-$purpose = $_POST['purpose'];
-$orpic =$_POST['or_pic'] ;
-
-$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
-$result2=mysqli_query($conn,$admin_check_query);
-$request=mysqli_fetch_assoc($result2);
-
-$admin_id= $request['staff_id'];
-
-$notif_body = "An alumni requests for a Good Moral Certificate.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/ReqGoodMoral.php', 'Delivered')");
-
- $sql = mysqli_query($conn,"INSERT INTO good_moral_requests (request_id, last_sy_attended, requested_by, date_requested, or_no, purpose, or_pic)
- VALUES ('','$lastsyattendedfrom-$lastsyattendedto','$reqby','$datereq','$orno','$purpose','$orpic')");
-
-if ($sql && $notification) {
-    echo '<script>
-                 swal({
-                  title: "Request Submitted Succesfully",
-                  text: "Server Request Success",
-                  type: "success"
-                });
-                </script>';
-} else {
-    echo '<script>
-                 swal({
-                  title: "Request Submit Failed",
-                  text: "Server Request Failed",
-                  type: "warning"
-                });
-                </script>';
-}
- mysqli_close($conn);
-
-
-}
- ?>
-           
-        <div class="row">
-       
-        <div class="col-md">
-          <form method="POST" action="index.php" onsubmit="return validate();">
-          <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
-          <div class="tile">
-              
-            <h3 class="tile-title">Fill this form</h3>
-                        <div class="tile-footer"></div>
-          
-            <div class="row">
-                <div class="form-group col-sm-3">
-                  <p style="font-weight: bolder;">Student ID
-                  <input class="form-control" type="text" id="Student_id" name="Student_id" onkeyup="GetDetail(this.value)" value="<?php echo "$id"; ?>" disabled >
-                </div>
-                
-                <div class="form-group col-sm-3">
-                  <p style="font-weight: bolder;">OR Number
-                  <input class="form-control" type="text" id="or_no" name="or_no" >
-                </div>
-
-                <div class="form-group col-sm-3">
-                  
-                </div>
-                
-                <div class="form-group col-sm-3">
-                  <p style="font-weight: bolder;">Date
-                 <!-- <input class="input-add addtext" type="text" id="date_requested"  placeholder="Select Date" required=""> -->
-                  <input class="form-control"  id="date_requested"  name="date_requested" type="text" value="<?php echo date("m/d/Y");?>" disabled>
-                </div>
-            </div>
-
-            <div class="tile-body" >
-                <h5 class="font-weight-bold">Personal Information</h5> 
-                
-                <p class="font-weight-bold">Name &nbsp;<i style="color: red;">(Last Name, First Name, Middle Name, Suffix) </i>
-                </p>
-                <div class="row">
-                <div class="form-group col-sm-3">
-                <input class="form-control" type="text" id="last_name" name="last_name" placeholder="Last Name" value="<?php echo "$LName"; ?>" disabled>
-                </div>
-                  <div class="form-group col-sm-3">
-                <input class="form-control" type="text" id="first_name" name="first_name" placeholder="First Name" value="<?php echo "$FName"; ?>" disabled>
-                </div>
-                <div class="form-group col-sm-3">
-                <input class="form-control" type="text" id="middle_name" name="mname" placeholder="Middle Name" value="<?php echo "$MName"; ?>" disabled>
-                </div> 
-                <div class="form-group col-sm-3">
-                <input class="form-control" type="text" id="suffix" name="suffix" placeholder="Suffix" value="<?php echo "$Suffix"; ?>" disabled>
-                </div>
-                </div>
-
-                <h5 class="font-weight-bold">School Information</h5>
-
-                <div class="row">
-                  <div class="form-group col-sm-4">
-                    <p style="font-weight: bolder;">Degree
-                    <input class="form-control" type="text" id="coursename" name="coursename" value="<?php echo "$degree"; ?>" disabled>
-                  </div>
-                  <div class="form-group col-sm-4">
-                    <p style="font-weight: bolder;">Major
-                    <input class="form-control" type="text" id="major" name="major" value="<?php echo "$major"; ?>" disabled></p>
-                  </div>
-                  
-                </div>
-
-
-                <p class="font-weight-bold">Last School Year Attended</p>
-                <div class="row">
-                <div class="form-group col-sm-3">
-                <p style="font-weight: bolder;">
-                <input class="form-control" type="from" id="from" name="from" placeholder="e.g 2012" required="">
-                </div>-
-                <div class="form-group col-sm-3">
-                <input class="form-control" type="to" id="to" name="to" placeholder="e.g 2013" required="">
-                </div>
-                </div>
-
-                <div class="row">
-                  <div class="form-group col-sm">
-                    <p style="font-weight: bolder;">Purpose in Requesting Good Moral
-                    <textarea class="form-control" id="purpose" name="purpose" rows="6" ></textarea></p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-sm">
-                    <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. Please upload your Official Reciept. 
-                    <input class="form-control-file" type="file" id="or_pic" name="or_pic" aria-describedby="fileHelp" required=""> 
-                    
-                  </div>
-                </div>
-
-              <div class="tile-footer"></div>
-              <button class="btn btn-success" type="submit" name="submit" id="submit" >Submit</button>
-              <button class="btn btn-primary" type="submit">Cancel</button>
-
-          </div>
-          </form>
-
-          <p id="error_para" ></p>
-        </div>
       </div>
-     
-
-    </main>
-    <!-- Essential javascripts for application to work-->
-    <script src="../../js/jquery-3.3.1.min.js"></script>
-      <script src="../../js/popper.min.js"></script>
-      <script src="../../js/bootstrap.min.js"></script>
-      <script src="../../js/main.js"></script>
-      <!-- The javascript plugin to display page loading on top-->
-      <script src="../../js/plugins/pace.min.js"></script>
-      <!-- Page specific javascripts-->
-      <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
-      <script type="text/javascript">
-        $('#demoNotify').click(function(){
-          $.notify({
-            title: "Update Complete : ",
-            message: "Disable Successfuly!",
-            icon: 'fa fa-check' 
-          },{
-            type: "info"
-          });
-        });
-      </script>
-      <script>
-        <!-- table selection -->
-          $('#selectAll').click(function (e) {
-    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
-});
-      </script>
-      <!-- Data table plugin-->
-      <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
-      <script type="text/javascript">$('#sampleTable').DataTable();</script>
-      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
-      <!-- Google analytics script-->
-      <script type="text/javascript">
-        if(document.location.hostname == 'pratikborsadiya.in') {
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-72504830-1', 'auto');
-          ga('send', 'pageview');
-        }
-      </script>
-      <script type="text/javascript">
-           function openForm() {
-          document.body.classList.add("myForm");
-
-      }
-
-        function closeForm() {
-          document.body.classList.remove("myForm");
-
-      }
-
-      </script>
-
-          <script type="text/javascript">
+<script type="text/javascript">
   //CLOCK
       function updateClock(){
         var now = new Date();
@@ -554,30 +271,175 @@ if ($sql && $notification) {
         image.src = URL.createObjectURL(event.target.files[0]);
       };
 </script>
-
-      <?php  
-      if ($count!=0) 
-        { 
-          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
-        }
-      ?>
-
-  <div id="notifModal" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Notifications</h5>
-            </div>
-            <div class="modal-body">
-                <p>You have <?php echo $count;  ?> unread notifications</p><br>
-                
-                   
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                
-            </div>
+        <div class="red"> 
+          
         </div>
+              
+          <!-- Content -->
+     <div class="row">
+          <div class="col-md-12">
+            <div class="tile">
+              <div class="tile-body">
+                 <div class="row">
+                  <div class="col">
+                      <div class="float-left"><h4>Notifications</h4></div>
+                  </div>
+                </div>
+                
+                  <!-- Table -->
+
+                  <div class="table-bd">
+                <div class="table-responsive">
+                  <br>
+                  <table class="table table-hover table-bordered" id="sampleTable2">
+                    <thead>
+                      <tr>
+                      <th>Message Body</th>
+                      <th class="max">Time</th>
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+    $sql="SELECT * from notif where user_id='$id' ORDER BY `notif`.`time` DESC";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['message_status']=='Delivered') {
+                          echo'<tr>
+                            <td><font class="display"><b><u>'. $row['message_body']. '</u></b></font></td>
+                            <td><font class="display"><b>'. timeago($row['time']).' ago</b></font></td>
+                            
+                          </tr>';}
+                          else{
+                            echo'<tr>
+                            <td><font class="display">'. $row['message_body']. '</font></td>
+                            <td><font class="display">'. timeago($row['time']).' ago</font></td>
+                            
+                          </tr>';
+                          }
+                        }
+
+ ?>
+                    </tbody>
+                  </table>
+
+                  
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+<form method="POST">
+<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
+        <div class="modal-body">
+          <center><input type="text" name="student_id" id="student_id" readonly style="background-color: transparent;border-color: transparent;"></center><br>
+          Last Name:<input type="text" class="form-control" id ="last_name" ><br>
+          First Name:<input type="text" class="form-control" id ="first_name" ><br>
+          Middle Name:<input type="text" class="form-control" id ="middle_name" ><br>
+          New Password:<input type="text" class="form-control" name="new_password" placeholder="Enter new Password"><br>
+        </div>
+         <div class="modal-footer">
+          <input type="submit" name="update" class="btn btn-secondary" style="background-color:green;" value="Send New Password Via Email">
+          <button type="button" class="btn btn-secondary" style="background-color:maroon;" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
 </div>
+</form>
+    </main>
+    <!-- Essential javascripts for application to work-->
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+      <script src="../../js/popper.min.js"></script>
+      <script src="../../js/bootstrap.min.js"></script>
+      <script src="../../js/main.js"></script>
+      <!-- The javascript plugin to display page loading on top-->
+      <script src="../../js/plugins/pace.min.js"></script>
+      <!-- Page specific javascripts-->
+      <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript">
+
+        $(document).on('click', '.show_modal', function(){
+      $('#action-modal').modal('show');
+      $('#new_Student_id').val($(this).attr('data-id'));
+      var id = $(this).attr('data-id');
+
+      $.ajax({
+        url: 'FetchDataForNewPass.php',
+        type: 'POST',
+        dataType: 'JSON',
+        data:{
+        id: id,
+        },
+        success: function(data){
+        //alert(data[0]);
+
+         $('#student_id').val(data[0]);
+         $('#last_name').val(data[1]);
+         $('#first_name').val(data[2]);
+         $('#middle_name').val(data[3]);
+        // $('#ln').val(data[1]);
+
+        },
+
+        })
+    });
+
+        $('#demoNotify').click(function(){
+          $.notify({
+            title: "Update Complete : ",
+            message: "Disable Successfuly!",
+            icon: 'fa fa-check' 
+          },{
+            type: "info"
+          });
+        });
+      </script>
+      </script>
+      <script>
+        <!-- table selection -->
+          $('#selectAll').click(function (e) {
+    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+});
+      </script>
+      <!-- Data table plugin-->
+      <script type="text/javascript" src="../../js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="../../js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#sampleTable').DataTable();</script>
+     <!--  <script type="text/javascript">$('#sampleTable2').DataTable();</script> -->
+      <!-- Google analytics script-->
+      <script type="text/javascript">
+        if(document.location.hostname == 'pratikborsadiya.in') {
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-72504830-1', 'auto');
+          ga('send', 'pageview');
+        }
+      </script>
+      <script type="text/javascript">
+           function openForm() {
+          document.body.classList.add("myForm");
+
+      }
+
+        function closeForm() {
+          document.body.classList.remove("myForm");
+
+      }
+
+      </script>
      
   </body>
 </html>

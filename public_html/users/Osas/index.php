@@ -526,7 +526,13 @@
 
       }
 
-      </script>    
+      </script> 
+      <?php  
+      if ($count!=0) 
+        { 
+          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
+        }
+      ?>   
 
 <script type="text/javascript">
       $(document).ready(function() {

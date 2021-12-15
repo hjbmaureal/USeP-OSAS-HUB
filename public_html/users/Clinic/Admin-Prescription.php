@@ -1,17 +1,15 @@
    <!DOCTYPE html>
   <?php include('connect.php');
-$user_id = '11111';
-   $count_sql="SELECT * from notif where message_status='Delivered' AND user_id='$user_id' ";
-
-          $result = mysqli_query($db, $count_sql);
-
-          $count = 0;
-
-          while ($row = mysqli_fetch_assoc($result)) {                             
-
-            $count++;
-
-                              }
+session_start();
+  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id=$_SESSION['id'];
+  $count = 0;
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 
 function timeago($datetime, $full = false) {
@@ -62,7 +60,8 @@ function timeago($datetime, $full = false) {
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <title>Prescription</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,8 +74,62 @@ function timeago($datetime, $full = false) {
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-      <body class="app sidebar-mini rtl">
+      <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
+
+             <script type="text/javascript">
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
 
          <header class="app-header">
     
@@ -108,9 +161,14 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
- 
-          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
-          <li><a class="app-menu__item active" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
+           <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
+              <li><a class="treeview-item active" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
+            </ul>
+          </li>
+     
+          <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
@@ -160,71 +218,131 @@ function timeago($datetime, $full = false) {
           <main class="app-content">
             
         <div class="app-title">
-           <div><!-- Sidebar toggle button--><a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
-          <ul class="app-nav">
-            <li>
-                <a class="appnavlevel">Hi, Jet</a>
-              </li>
-             <!-- <li class="app-search">
-                   <input class="app-search__input" type="search" placeholder="Search">
-                  <button class="app-search__button"><i class="fa fa-search"></i></button>
-              </li>-->  
-   <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
-            <ul class="app-notification dropdown-menu dropdown-menu-right">
-              <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>
-              <div class="app-notification__content">
-
+      <div><!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      </div>
+      <ul class="app-nav">
+        <li>
+          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+        </li>
+        <!-- SEMESTER, TIME, USER DROPDOWN -->
+          <?php
+            if($result = mysqli_query($db, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+              while($row = mysqli_fetch_array($result)){
+                $currSemesterYear = $row['semester'] .' '. $row['year'];
+                echo '
+                  <li>
+                    <div class="appnavlevel" style="color:black;">
+                      <span class="semesterYear">'.$row['semester'].'</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="appnavlevel"style="color:black;">
+                      <span class="semesterYear">'.$row['year'].'</span>
+                    </div>
+                  </li>
+                ';
+              }
+            }
+          ?>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="date">
+                <span id="dayname">Day</span>,
+                <span id="month">Month</span>
+                <span id="daynum">00</span>,
+                <span id="year">Year</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="time">
+                <span id="hour">00</span>:
+                <span id="minutes">00</span>:
+                <span id="seconds">00</span>
+                <span id="period">AM</span>
+              </div>
+            </div>
+          </li>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
+            <b style="color: red;"><?php echo $count;  ?></b>
+            <i class=" fas fa-bell fa-lg mt-2"></i>
+          </a>
+          <ul class="app-notification dropdown-menu dropdown-menu-right">
+            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
+              <div class="app-notification__content">                   
                 <?php 
-                $count_sql="SELECT * from notif where message_status='Delivered'AND user_id='$user_id'  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $result = mysqli_query($db, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'
+                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message">
+                                <form method="POST" action="../../php/change_notif_status.php">
+                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                  <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li></b>
+                              ';
+                      }else{
+                              echo'
+                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li>
+                              ';
+                       }                 
 
-                $result = mysqli_query($db, $count_sql);
-
-                while ($row = mysqli_fetch_assoc($result)) { 
-                  $intval = intval(trim($row['time']));
-                  if ($row['message_status']=='Delivered' && $row['user_id']=='$user_id') {
-
-                    
-                    echo'
-                  <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="notif_stat.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li></b>
-                    ';
-                  }else{
-                    echo'
-                  <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="notif_stat.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li>
-                    ';
                   }
-                  
-
-                                    }
-                ?>
-            </ul>
-          </li>
-              
-                 <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
-            <ul class="dropdown-menu settings-menu dropdown-menu-right">
-              <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
-              <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-              <li><a class="dropdown-item" href="page-login.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-            </ul>
-          </li>
-      
+                ?> 
+              </div>
+            <li class="app-notification__footer">
+              <a href="Notifications.php">See all notifications.</a>
+            </li>
           </ul>
+        </li>
+        <li class="dropdown">      
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
+                
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+            </li>
+      
+      </ul>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <form action="../../logout.php"><button class="btn btn-primary" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
+            </div>
+          </div>
         </div>
+      </div>
         <div class="red"> 
           
         </div>
@@ -288,9 +406,9 @@ function timeago($datetime, $full = false) {
 
                      
                   <div class="inline-block">
-                    Type
+                    <b>Consultation type</b>
                     <br>
-                    <select class="bootstrap-select" style="width: 100%;" data-table="reports-list">
+                    <select class="bootstrap-select" style="height: 35px;width: 160px" data-table="reports-list">
                         <option class="select-item" value="1" selected="selected">All</option>
                         <option class="select-item" value="Medical Consultation">Medical Consultation</option>
                         <option class="select-item" value="Dental Consultation">Dental Consultation</option>
@@ -303,7 +421,7 @@ function timeago($datetime, $full = false) {
                       <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" onClick="Export()"><i class="fas fa-download"></i> Export</button></div> 
+                       
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModalLong1"><i class="fas fa-plus"></i> Add Prescription</button></div> 
 
@@ -314,30 +432,21 @@ function timeago($datetime, $full = false) {
 
                   </div>
                 </div>
-                  <div class="table-bd">
-            <div class="table-responsive">
-            <br>
-                            
-            <div id="table_clone" style="display: compact">
-              <table  class="head">
-                <thead>
+                   <div class="table-bd">
+          <div class="table-responsive">
+            <div id="table_clone" style="display: compact; border-color:#000000;">
+              <div class="head101" style="line-height: normal;">
 
-                  <tr>
-                  <th><img src="image/logo.png" width="100"></th>
-                  <th width="100"></th>
-                  <th><center><p>Republic of the Philippines</p>
-                  <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
-                  <p> Tagum-Mabini Campus</p>
-                  <p> Apokon, Tagum City</p>
-                  <br>
-                  <p style="font-size: 20px"> Prescription List</p></center></th>
-                  <th width="100"></th>
-                  <th width="100"></th>
-                  </th>
-                  </tr>
-
+        <p><img src="image/logo.png" width="100"> </p><center>
+                        <p style="margin-top:-12%; font-family:Calibri;">Republic of the Philippines</p>
+                        <p style="font-family: Old English Text MT;"> University of Southeastern Philippines</p>
+                        <p style="font-family:Calibri;"> Tagum - Mabini Campus</p>
+                        <p style="font-family:Calibri;"> Apokon, Tagum City</p>
+                      <br>
+                  <p style="font-family:Calibri; margin-top:2%;">Prescription List</p></center></th>
+       </div>
                   <table class="table table-hover table-bordered reports-list" id="sampleTable2">
-                    <thead>
+                    <thead style="font-family: Calibri; ">
                       <tr>
                       <th>Prescription ID</th>
                       <th>Patient ID</th>
@@ -360,7 +469,7 @@ function timeago($datetime, $full = false) {
                     while($row = $res->fetch_assoc()) {
                       ?>
 
-                    <tr> 
+                    <tr style="font-family: Calibri"> 
 
                     <td><?php echo htmlentities($row['prescription_id']);?></td> 
                     <td><?php echo htmlentities($row['patient_id']);?></td>
@@ -562,7 +671,7 @@ function myFunction() {
 
 <?php
 
-$db = mysqli_connect("localhost","root","","osasdb_latest4");
+$db = mysqli_connect("localhost","root","","backupdb-3");
 
   if(isset($_POST['Submit'])){   
     $name = $_POST['sname'];
@@ -740,6 +849,8 @@ function getDay(val) {
 display:none;}
 .heads{
 display:none;}
+.head101{
+display:none;}   
   
 .tit{
 display:none;}
@@ -773,21 +884,35 @@ margin-bottom:1.5cm;
 }
 </style>
 <noscript>
-    <table style="margin-top:8%;">
+<table align="right" style="margin-top:8%; margin-right: 25%;">
 <tr>
-<td><b> &emsp;Prepared By: </b></td>
+<td align="right" style="font-family: Calibri"><b> &emsp;Prepared By: </b></td>
 </tr>
 </table>
-<table align="center" style="margin-top:3%;">
-<td align="center" style="margin-top:10%;"><p>Admin</p></td>
+
+<table align="right" style="margin-top:18%; margin-right: -35%">
+
 <tr>
-<td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
+<?php $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
+     if($row=mysqli_fetch_array($res)) {
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+   }
+   ?>
+<td style="font-family: Calibri"><b><?php echo $title1 ;?>  <?php echo $name1 ;?>, <?php echo $extension1 ;?></b></td>
+</tr>
+<tr>
+<td>Asst. <?php echo $position1;?>/Instructor I</td>
 </tr>
 </table>
       <style>
     .heads{
     margin-top:5%;
-    margin-left:6%;
     font-size:20px;
     font-weight:bold; 
     }
@@ -800,9 +925,7 @@ margin-bottom:1.5cm;
       border:1px solid;
     
     }
-    table.reports-list th{
-    padding:1%;
-    }
+   
     .text-center{
       text-align:center
     }
@@ -993,13 +1116,16 @@ margin-bottom:1.5cm;
                           data:{med:med, quan:quan, unit:unit, count:count, check:check, consultID:consultID, patientID:patientID, type:type, addMedication:addMedication, doctor:doctor, updated_med:updated_med, date:date},
                           success:function(data){
                             swal({
-                                          title: "Counselling Appointmrnt Deleted Successfully!",
+                                          title: "Prescription Added Successfuly!",
                                           text: "Server Request Successful!",
+                                          type:"success",
                                           icon: "success",
-                                          buttons: false,
-                                          timer: 1800,
+                                          button: false,
                                           closeOnClickOutside: false,
-                                            closeOnEsc: false,
+                                          closeOnEsc: false,                                                                                             
+                                          },function() {
+                                          window.location = "Admin-Prescription.php";
+
                                       })
 
                           },

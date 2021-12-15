@@ -39,7 +39,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Student Hub</title>
+      <title>USeP Alumni Hub</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,8 +55,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           <link rel="stylesheet" type="text/css" href="css/upstyle_main.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+         <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
@@ -77,7 +78,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         <hr>
 
         <ul class="app-menu font-sec">
-          <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-handshake-o
+          <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-handshake-o
 "></i><span class="app-menu__label">Request Good Moral</span></a></li>
 
 
@@ -160,7 +161,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                 <p class="app-notification__message">
                                 <form method="POST" action="../../php/change_notif_status.php">
                                   <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                  <input type="submit" name="open_notif" value="Open Message">
+                                  
                                 </form></p>
                               </div></a></li></b>
                               ';
@@ -172,7 +173,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                 <p class="app-notification__meta">'.timeago($row['time']).'</p>
                                 <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
                                 <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                                <input type="submit" name="open_notif" value="Open Message">
+                               
                                 </form></p>
                               </div></a></li>
                               ';

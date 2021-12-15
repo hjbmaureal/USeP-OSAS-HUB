@@ -305,11 +305,7 @@ if (isset($_GET['Logo'])) {
 
     $file = mysqli_fetch_assoc($result);
     $filepath = '../Student/Org_Applications/'. $file['Logo'];
-
     if (file_exists($filepath)) {
-      /*echo '<script type="text/javascript">';
-echo ' alert("JavaScript Alert Box by PHP")';  //not showing an alert box.
-echo '</script>';*/
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . basename($filepath));
@@ -931,55 +927,34 @@ if (isset($_GET['AFS'])) {
                 <div class="modal-dialog" role="document">
                   <div class="modal-content" >
                     
-            
-                    <div class="modal-header">
-
-                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
-
-                          <h5 class="modal-title" id="exampleModalLongTitle">Verify password</h5>
-                          
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button></div>
-                             
-                                 <div class="modal-body c" id="org-verify"> 
+                   <div class="modal-body" id="org-verify"> 
                    </div>
+                  
                   <div class="modal-footer">
-                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <input type="submit" class="btn btn-success" name="verify" value="Verify">                     
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       
                     </div>
                 </div>
             </div>
     </div>
-</div>
 </form>
 <form method="POST" action="modal/org_dis.php">    
     <div class="modal fade " id="org_verifydis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content" >
                     
-
-                    <div class="modal-header">
-
-                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
-
-                          <h5 class="modal-title" id="exampleModalLongTitle">Verify password</h5>
-                          
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button></div>
-                             
-                                 <div class="modal-body c" id="org-verifydis"> 
-
-                 </div>
+                   <div class="modal-body" id="org-verifydis"> 
+                   </div>
+                  
                   <div class="modal-footer">
-                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <input type="submit" class="btn btn-success" name="verify"  value="Verify">                     
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       
                     </div>
                 </div>
             </div>
     </div>
-</div>
 </form>
 
                   <!-- end modal -->
@@ -1217,7 +1192,6 @@ $query = "INSERT INTO remarks_apply(org_name,gov,Submitted_by,file,message,date_
    if($run){ 
 $notif_body = "You have a remarks regarding to you sent files in Student Organization.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/Student/Apply-Org.php', 'Delivered')");
-    
 echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({

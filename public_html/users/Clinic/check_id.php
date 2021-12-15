@@ -1,6 +1,6 @@
 <?php  
 //check.php  
-$connect = mysqli_connect("localhost", "root", "", "osasdb_latest"); 
+$connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
 if(isset($_POST["username"]))
 {
  $username = mysqli_real_escape_string($connect, $_POST["username"]);

@@ -502,6 +502,7 @@
 
         <!--</div>-->
       </main>
+
       <!-- Essential javascripts for application to work-->
       
       <!-- Essential javascripts for application to work-->
@@ -517,8 +518,12 @@
     <script type="text/javascript" src="js/plugins/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+      <script type="text/javascript" src="../../js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
+
     <script type="text/javascript">
       $(document).ready(function() {
+
 
       
      var calendar = $('#calendar').fullCalendar({
@@ -537,7 +542,26 @@
       function onload(){
 
       }
+
     </script>
+      <script type="text/javascript">
+           function openForm() {
+          document.body.classList.add("myForm");
+
+      }
+
+        function closeForm() {
+          document.body.classList.remove("myForm");
+
+      }
+
+      </script> 
+      <?php  
+      if ($count!=0) 
+        { 
+          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
+        }
+      ?>   
     <!-- Google analytics script-->
     <script type="text/javascript">
       if(document.location.hostname == 'pratikborsadiya.in') {
@@ -549,5 +573,9 @@
         ga('send', 'pageview');
       }
     </script>
+ </script> 
+
+
+    
     </body>
   </html>

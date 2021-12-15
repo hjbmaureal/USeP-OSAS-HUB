@@ -57,6 +57,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <!-- Font-icon css-->
           <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
@@ -458,6 +459,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       </div>
                              
                     </div></center>
+                     <br><i style="color:red;"> Please remove the background image of the uploaded signature. You can go this link to remove the backgorund: &emsp; <a href="https://www.remove.bg/">https://www.remove.bg/ </a> </i>
                   </div>
                 </div>
               </div>

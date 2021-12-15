@@ -2,8 +2,8 @@
  
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <div class="modal-header"  style="background-color: #2B4550">
-                        <h5 class="modal-title" id="exampleModalLongTitle"  style="color: #FFFFFF">APPOINTMENT SUMMARY</h5>
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">APPOINTMENT SUMMARY</h5>
                       </div>
                       <div class="modal-body c">
                         <div class="container" style="border: 2px solid black; border-radius: 10px;">
@@ -52,11 +52,18 @@
                                         <th>Time </th>
                                         <td><?php echo htmlentities($row['time']);?></td>
                                     </tr>
+
+                                    <tr>
+                                        <th>Active Facebook account (if any)</th>
+                                        <td><?php echo htmlentities($row['messenger'] ?? null);?></td>
+                                    </tr>
                                     <tr>
                                         <th>Meeting link
                                         </th>
                                         <td><?php echo htmlentities($row['appointment_meetinglink']);?></td>
                                     </tr>
+
+                                     
                             </tbody>
                           </table>
                           <br>

@@ -63,25 +63,37 @@
         $oldPass = validate($_POST['currPass']);
         $newPass = validate($_POST['newPass']);
         $confirmNewPass = validate($_POST['confirmNewPass']);
+
+        $check_query="SELECT * from login_credentials where username='$alumni'";
+        $resultPass= mysqli_query($conn,$check_query);
+        $row=mysqli_fetch_assoc($resultPass);
+        $data = array();
+
+        $hash= $row['password'];
+
+        if (password_verify($oldPass,$hash)){
+
           
-        if(empty($oldPass)){  
-          $passState = "current-password-required";
-        }else if(empty($newPass)){
-          $passState = "new-pass-required";
-        }else if($newPass != $confirmNewPass){
-          $passState = "password-dont-match";
-        }else {
-          // hashing the password
-          $oldPass = $oldPass;
-          $newPass =$newPass;
-          $sql = "SELECT * FROM alumni WHERE id='$id' AND password='$oldPass'";
-            $result = mysqli_query($conn, $sql);
-            if(mysqli_num_rows($result) === 1){
-              $query = "UPDATE alumni SET password='$newPass' WHERE id='$alumni';";
-              mysqli_query($conn, $query);
-            }else{
-              $passState = "incorrect-password";
-            }
+          if(empty($oldPass)){  
+            $passState = "current-password-required";
+          }else if(empty($newPass)){
+            $passState = "new-pass-required";
+          }else if($newPass != $confirmNewPass){
+            $passState = "password-dont-match";
+          }else {
+            // hashing the password
+            $oldPass = $oldPass;
+            $newPass =$newPass;
+            $sql = "SELECT * FROM alumni WHERE id='$alumni'";
+              $result = mysqli_query($conn, $sql);
+              if(mysqli_num_rows($result) === 1){
+                $hashed_pass = password_hash($newPass, PASSWORD_DEFAULT);
+                $query = "UPDATE alumni SET password='$hashed_pass' WHERE id='$alumni';";
+                mysqli_query($conn, $query);
+              }else{
+                $passState = "incorrect-password";
+              }
+          }
         }
       }
     //$query

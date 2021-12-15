@@ -1,9 +1,9 @@
 <?php
-   define('DB_SERVER', 'localhost');
-   define('DB_USERNAME', 'root');
-   define('DB_PASSWORD', '');
-   define('DB_DATABASE', 'osasdb_latest4');
-   $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+
+$db = new mysqli('localhost', 'root', '', 'backupdb-3');
+
+if ($db->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
 
 ?>
-

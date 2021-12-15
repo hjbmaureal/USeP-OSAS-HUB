@@ -26,7 +26,7 @@
                                       <div class="col-md-3">
                                           <p style="font-weight: bolder; margin-bottom:0px;">Attachments:</p>             
                                           <div class="tile" style="height:160px;">
-                                          <?php 
+                                            <?php 
                                               if($res['image']!=NULL){
                                             ?>
                                            <div>

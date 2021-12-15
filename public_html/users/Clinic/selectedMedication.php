@@ -75,7 +75,7 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
                                               text: "Out of stock!",
                                               icon: "error",
                                               buttons: false,
-                                              timer: 1800,
+                                              timer: 2000,
                                               closeOnClickOutside: false,
                                               closeOnEsc: false,
                                             });

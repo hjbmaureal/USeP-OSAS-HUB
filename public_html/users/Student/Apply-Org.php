@@ -68,7 +68,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <link rel="icon" href="../image/logo.png" type="image/gif" sizes="16x16">
       <title>USeP Student Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -139,10 +139,25 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
   <link rel="stylesheet" href="../../css/owl.carousel.min.css">
 <link rel="stylesheet" href="../../css/owl.theme.default.min.css">
   <style type="text/css">
-    .img{
+    .modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+} .img{
       width: 200px;
       height: 200px;
     }
+    
   </style>
         
       <header class="app-header">
@@ -321,7 +336,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
+            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
@@ -540,7 +555,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                <div class="item image-upload" >
                                       <label for="file-input1" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input1" id="file-input1" type="file" name="App_letter" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" / required> 
+                                      <input class="file-input1" id="file-input1" type="file" name="App_letter" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" /> 
                                       <input type="text" name="" id="input1" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue1() {
@@ -568,7 +583,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                    <?php }
                                    else{ ?>
                                        
-                                       <button type="button"   class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                       <button type="button"   class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                    <?php }
                                    ?>
                                   </div>
@@ -577,7 +592,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input2" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input2"  id="file-input2" type="file" name="MVS" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;"  required />
+                                      <input class="file-input2"  id="file-input2" type="file" name="MVS" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input2" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue2() {
@@ -604,7 +619,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <?php }
                                     else{ ?>
                                       
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                    <?php }
                                    ?>
                                   </div>
@@ -613,7 +628,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input3" >
                                     <div class="img card text-center btn btn-light orgbox" >
-                                      <input class="file-input3"  id="file-input3" type="file" name="Aff_Lead" onchange="ssvalue3()" style="margin-top: -100px; margin-bottom: 80px;"required />
+                                      <input class="file-input3"  id="file-input3" type="file" name="Aff_Lead" onchange="ssvalue3()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input3" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue3() {
@@ -640,7 +655,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <?php  }
                                    else{ ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                  <?php   }
                                    ?>
                                   </div>
@@ -649,7 +664,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                     <div class="item image-upload" >
                                       <label for="file-input4">
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input4"  id="file-input4" type="file" name="Resolution" onchange="ssvalue4()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input4"  id="file-input4" type="file" name="Resolution" onchange="ssvalue4()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input4" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue4() {
@@ -676,7 +691,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <?php  }
                                    else{ ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                   <?php  }
                                    ?>
                                   </div>
@@ -685,7 +700,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <div class="item image-upload" >
                                       <label for="file-input5" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input5"  id="file-input5" type="file" name="Letter_Permission" onchange="ssvalue5()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input5"  id="file-input5" type="file" name="Letter_Permission" onchange="ssvalue5()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input5" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue5() {
@@ -710,7 +725,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                         <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery4['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                    <?php }
                                     else{ ?>
-                                       <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                       <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                   <?php  }
                                    ?>
                                   </div>   
@@ -718,7 +733,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <div class="item image-upload" >
                                       <label for="file-input6" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input6"  id="file-input6" type="file" name="Letter_content" onchange="ssvalue6()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input6"  id="file-input6" type="file" name="Letter_content" onchange="ssvalue6()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input6" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue6() {
@@ -744,14 +759,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <?php  }
                                     else{ ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
                                   <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload" >
                                       <label for="file-input7" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input7"  id="file-input7" type="file" name="Lists" onchange="ssvalue7()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input7"  id="file-input7" type="file" name="Lists" onchange="ssvalue7()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input7" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue7() {
@@ -777,14 +792,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                    <?php }
                                     else{  ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
                                   <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload" >
                                       <label for="file-input8" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input8"  id="file-input8" type="file" name="ConsLaw" onchange="ssvalue8()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input8"  id="file-input8" type="file" name="ConsLaw" onchange="ssvalue8()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input8" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue8() {
@@ -810,14 +825,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                    <?php }
                                     else{ ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
                                   <?php  }
                                    ?>
                                   </div>   
                                   <div class="item image-upload">
                                       <label for="file-input9" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input9"  id="file-input9" type="file" name="Logo" onchange="ssvalue9()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input9"  id="file-input9" type="file" name="Logo" onchange="ssvalue9()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input9" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue9() {
@@ -843,14 +858,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                    <?php }
                                     else{ ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                   <?php  }
                                    ?>
                                   </div>
                                   <div class="item image-upload" >
                                       <label for="file-input0" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input0"  id="file-input0" type="file" name="Letter_intent" onchange="ssvalue0()" style="margin-top: -100px; margin-bottom: 80px;" required />
+                                      <input class="file-input0"  id="file-input0" type="file" name="Letter_intent" onchange="ssvalue0()" style="margin-top: -100px; margin-bottom: 80px;" />
                                       <input type="text" name="" id="input0" value="" style='border-style: none;background: transparent;' disabled >
                                        <script>
                                         function ssvalue0() {
@@ -877,7 +892,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                   <?php  }
                                     else{  ?>
                                        
-                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
+                                        <button type="button"  class="btn btn-dark btn-sm blocking w-100 mt-3 demoNotify" href="#"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
                                    <?php }
                                    ?>
                                   </div>             
@@ -897,13 +912,13 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 </form>
 
           <!-- View Remarks -->
-          <form method="POST" >
+          <form method="POST" action="remarkkSubmit.php" enctype="multipart/form-data">
               <div class="modal fade" id="remarkk-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     
                     <div class="modal-body" id="remarkk">
-                      
+                     
                       
                             </div> 
                             <div class="modal-footer">
@@ -928,7 +943,23 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                                      
                       </div>   
                    </div>     
-                </div>   
+                </div>  
+
+                <!-- <form method="POST">    
+                     <div class="modal-modal " id="viewImage" >
+                
+                  
+                    <span class="close"> &times;</span>
+                   <div class="modal-body"> 
+                    <img class="modal-content" id="img">
+                    
+                   </div>
+                  
+                  
+                
+            </div>
+   
+            </form> -->
             
         
 </main>
@@ -944,11 +975,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <script type="text/javascript" src="../../js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript" src="../../js/plugins/dropzone.js"></script>
       <script type="text/javascript">
-       $('.modal-auto-clear').on('shown.bs.modal', function () {
-    $(this).delay(500).fadeOut(200, function () {
-        $(this).modal('hide');
-    });
-})
+        $('.demoNotify').click(function(){
+          $.notify("No remarks for this file", "error");
+        });
       </script>
       
       
@@ -985,6 +1014,19 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
       }
 
+
+      </script>
+
+      
+      <script type="">
+        $('.modal').on('shown.bs.modal', function (e){
+          $('.modal.show').each(function (index) {
+            $(this).css('z-index', 1101 + index*2);
+          });
+          $('.modal-backdrop').each(function (index) {
+            $(this).css('z-index', 1101 + index*2-1);
+          });
+        });
       </script>
       <script type="text/javascript">
                       $(document).ready(function()
@@ -1027,6 +1069,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
      
   <script src="../../js/jquery.min.js"></script> 
 <script src="../../js/owl.carousel.min.js"></script>
+<script src="../../js/notify.js"></script>
   <script type="text/javascript">
 $('.owl-carousel').owlCarousel({
     loop:false  ,
@@ -1063,14 +1106,25 @@ $('.owl-carousel').owlCarousel({
 
 
       });
-  </script>
-  <script type="text/javascript">
-        $('.demoNotify').click(function(){
-          $.notify("No remarks for this file", "error");
-        });
-      </script>
+  </script> 
+   <script type="text/javascript">
+      $(document).on('click','[data-role="viewImage"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'Apply-Org.php',  
+          method:'POST',  
+          data:{id:id},  
+          success: function(data){
+            $('#viewImage').html(data);
+          }
+      })
 
-<script src="../../js/notify.js"></script> 
+        jQuery.noConflict();
+        $('#remarkk-modal').modal("show");
+
+
+      });
+  </script> 
 
   </body>
 </html>
@@ -1181,16 +1235,7 @@ if(isset($_FILES['Letter_intent'])){
   $movepdf = move_uploaded_file($pdf_tmp,$path);
    $query = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Org_Name = '$fileName1'";
 $run = mysqli_query($conn,$query);
-}
-
-$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
-$result2=mysqli_query($conn,$admin_check_query);
-$request=mysqli_fetch_assoc($result2);
-
-$admin_id= $request['staff_id'];
-
-$notif_body = "A student has applied for New Organization.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')"); 
+} 
      echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({
@@ -1399,14 +1444,7 @@ if(isset($_POST['postbtn'])){
 }
 
        }
-$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
-$result2=mysqli_query($conn,$admin_check_query);
-$request=mysqli_fetch_assoc($result2);
-
-$admin_id= $request['staff_id'];
-
-$notif_body = "A student responded to a remarks in Student Organization.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+    
        echo '<script> 
                                                   $(document).ready(function(){
                                                     swal({
