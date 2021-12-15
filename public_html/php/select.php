@@ -168,9 +168,8 @@ if(isset($_POST["grantee_id"])) {
     if(isset($_POST["grantee_id"])) {
 
 
-      $output = '';
-
-      $query=mysqli_query($conn,"SELECT subcode, subdesc, units, grade FROM student_grades WHERE id = '".$_POST["grantee_id"]."'");
+      $output .= '';
+      $query=mysqli_query($conn,"SELECT * FROM promotional_report WHERE grantee_id LIKE '%".$_POST["grantee_id"]."%'");
       $output .= '
       <div class="table-responsive">
         <table class="table table-bordered">';
@@ -189,23 +188,32 @@ if(isset($_POST["grantee_id"])) {
               ';
 
               while($row = mysqli_fetch_array($query))
-                  {         $subcode = $row['subcode'];
-                            $subdesc = $row['subdesc'];
-                            $units = $row['units'];
-                            $grade = $row['grade'];
+              {
+                for ($x = 1; $x <= 9; $x++) {
+                  $subcode = "subject_code" ;
+                  $subdesc = "sub_desc" ;
+                  $units = "units" ;
+                  $grade = "grade" ;
+                  $subcode .=$x;
+                  $subdesc .=$x;
+                  $units .=$x;
+                  $grade .=$x;
+                  
+                  if(empty($row["$subcode"])){
 
-                $output .= '
-                          <tr>
-                            <td>'.$row["subcode"].'</td>
-                            <td>'.$row["subdesc"].'</td>
-                            <td>'.$row["units"].'</td>
-                            <td>'.$row["grade"].'</td>
-                          </tr>
-
-                      ';
+                  }else{
+                    $output .= '
+                      <tr>
+                        <td>'.$row["$subcode"].'</td>
+                        <td>'.$row["$subdesc"].'</td>
+                        <td>'.$row["$units"].'</td>
+                        <td>'.$row["$grade"].'</td>
+                      </tr>
+                    ';
                   }
+                }
+              }
 
             $output .= "</table></div>";
             echo $output;
-
           }

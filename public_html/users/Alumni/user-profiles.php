@@ -275,11 +275,11 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="emailAddress">Email Address</label>
-                      <input type="email" name="newEmail" class="form-control" value="" placeholder="Enter your email address...">
+                      <input type="email" name="newEmail" class="form-control"  value="<?php echo $row['email_add'] ?>">
                     </div>
                     <div class="form-group">
                       <label for="contactNumber">Contact Number</label>
-                      <input type="text" name="newNum" class="form-control" value="" placeholder="Enter your contact number...">
+                      <input type="text" name="newNum" class="form-control" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="<?php echo $row['contact'] ?>">
                     </div>
                   </div>
                   <div class="col-sm-6">
@@ -509,6 +509,37 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           special.classList.add("invalid");
         }
       }
+
+
+      
+    </script>
+         <style type="text/css">
+.control--checkbox input:disabled:checked ~ .control__indicator {
+    background-color: green;
+    opacity: 1;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative; 
+  content: "✖";
+}
+
+</style>
+<script type="text/javascript">
       //JQUERY SCRIPTS
       $(document).ready(function(){
         //logout

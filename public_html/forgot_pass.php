@@ -24,6 +24,7 @@
    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
+      <link rel="icon" href="images/logo.png" type="image/gif" sizes="16x16">
     <title>Log In - Forgot Password</title>
   </head>
   <body>
@@ -36,13 +37,20 @@ include("conn.php");
   $student_id= mysqli_real_escape_string($conn, $_POST['uname'] );
 
 
-      $student_check_query="SELECT * FROM student WHERE student_id='$student_id'";
+      $student_check_query="SELECT * FROM login_credentials WHERE username='$student_id'";
       $result1=mysqli_query($conn,$student_check_query);
       $student_check= mysqli_fetch_assoc($result1);
 
       if(!$student_check){
           array_push($errors, "Student ID doesnt exists");
-          echo '<script>alert("Student ID does not exists")</script>';
+        //  echo '<script>alert("Student ID does not exists")</script>';
+          echo '<script>
+                 swal({
+                  title: "Request Submit Failed",
+                  text: "Student ID does not exists",
+                  type: "warning"
+                });
+                </script>';
       }
 
       $request_check_query="SELECT * from forgot_pass_requests where student_id='$student_id' and remarks='Request Delivered' LIMIT 1";
@@ -52,7 +60,14 @@ include("conn.php");
       if($request){
         if($request['student_id']==$student_id){
           array_push($errors, "Request already exits");
-          echo '<script>alert("Request already exits")</script>';
+         // echo '<script>alert("Request already exits")</script>';
+          echo '<script>
+                 swal({
+                  title: "Request Submit Failed",
+                  text: "Request already exits",
+                  type: "warning"
+                });
+                </script>';
         }
       }
       $user_id= 1;

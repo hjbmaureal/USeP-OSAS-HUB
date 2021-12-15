@@ -346,34 +346,68 @@
                   </thead>
                   <tbody>
                     <?php 
-                      $sql="SELECT * from notif where user_id is null AND office_id = 2 ORDER BY `notif`.`time` DESC";
-                      $result = mysqli_query($conn, $sql);
-                      while ($row = mysqli_fetch_assoc($result)){
-                        if($row['message_status']=='Delivered'){
-                          echo'<tr>
+                      // $sql="SELECT * from notif where user_id is null AND office_id = 2 ORDER BY `notif`.`time` DESC";
+                      // $result = mysqli_query($conn, $sql);
+                      // while ($row = mysqli_fetch_assoc($result)){
+                      //   if($row['message_status']=='Delivered'){
+                      //     echo'<tr>
+                      //       <td><font class="display"><b><u>'. $row['message_body']. '</u></b></font></td>
+                      //       <td><font class="display"><b>'. timeago($row['time']).' ago</b></font></td>
+                      //       <td><font class="display"><b>
+                      //       <form method="POST" action="../../php/change_notif_status.php">
+                      //       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      //       <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
+                      //       </form>
+                      //       </font></b></td></li>
+                      //     </tr>';
+                      //   }else{
+                      //     echo'<tr>
+                      //       <td><font class="display">'. $row['message_body']. '</font></td>
+                      //       <td><font class="display">'. timeago($row['time']).' ago</font></td>
+                      //       <td><font class="display">
+                      //       <form method="POST" action="../../php/change_notif_status.php">
+                      //       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                      //       <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
+                      //       </form>
+                      //       </font></td>
+                      //     </tr>';
+                      //   }
+                      // }
+                    ?>
+
+                <?php 
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 2)  order by time desc";
+                  $result = mysqli_query($conn, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'<tr>
                             <td><font class="display"><b><u>'. $row['message_body']. '</u></b></font></td>
                             <td><font class="display"><b>'. timeago($row['time']).' ago</b></font></td>
                             <td><font class="display"><b>
-                            <form method="POST" action="change_notif_status.php">
+                            <form method="POST" action="../../php/change_notif_status.php">
                             <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                            <input type="submit" name="open_notif" value="Open Message">
+                            <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                             </form>
                             </font></b></td></li>
-                          </tr>';
-                        }else{
-                          echo'<tr>
+                          </tr>
+                              ';
+                      }else{
+                              echo'<tr>
                             <td><font class="display">'. $row['message_body']. '</font></td>
                             <td><font class="display">'. timeago($row['time']).' ago</font></td>
                             <td><font class="display">
-                            <form method="POST" action="change_notif_status.php">
+                            <form method="POST" action="../../php/change_notif_status.php">
                             <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                            <input type="submit" name="open_notif" value="Open Message">
+                            <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                             </form>
                             </font></td>
-                          </tr>';
-                        }
-                      }
-                    ?>
+                          </tr>
+                              ';
+                       }                 
+
+                  }
+                ?>
                   </tbody>
                 </table>
               </div>

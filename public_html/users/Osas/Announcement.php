@@ -354,12 +354,12 @@
           <div class="tile">
             <div class="tile-title-w-btn">
               <h3 class="title">Office of Student Affairs & Services Announcements</h3>
-              <div class="btn-group"><a class="btn btn-danger" id="new-button" href="#new-announcement-modal" data-toggle="modal"><i class="fa fa-lg fa-plus"></i></a></div>
+     <div class="btn-group"><a class="btn btn-danger" id="new-button" href="#new-announcement-modal" data-toggle="modal"><i class="fas fa-sm fa-plus"></i></a></div>
             </div>
 
             <table class="announcements-table" id="announcements-table" cellpadding="10px" width="100%">
              <?php 
-         $result = mysqli_query($conn , "SELECT * FROM announcements");
+         $result = mysqli_query($conn , "select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=1");
                               while  ($row=mysqli_fetch_array($result)){
              
                                 echo'<tr class="tile">

@@ -20,6 +20,7 @@
                         <hr width=”75%″ size="10">
                       </div>
                       <form method="POST" action="admin_required_submit.php">
+                        <input type="text" name="staff_name" value="<?php echo $name ?>" hidden ></input>
                         <input type="text" name="id" value="<?php echo $res['request_id']; ?>" hidden></input>
                         <input type="text" name="p_id" value="<?php echo $res['patient_id']; ?>" hidden></input>
                         <input type="checkbox" id="CBC" name="cbc" value="1">
@@ -63,6 +64,13 @@
                         <input type="checkbox" id="others" name="others" value="1" onclick="showOthers()">
                         <label for=""> Others</label><br> 
                         <textarea placeholder="Enter Laboratory Request" id="other_text" name="other_text" style="width: 100%; height: auto;display: none "></textarea>
+
+                        <br>
+                          <br>
+                          <div id="requested">
+                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" name="requested_by"  value=""  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;background-color: #F5F5F5;"></h6> 
+                        </div>
+                          <br>
                         </div>
 
                       <div class="modal-footer">

@@ -2,10 +2,12 @@
   <html lang="en">
     <?php 
   include("conn.php");
+  require_once('tcpdf/tcpdf.php');
   $user_id = '11111';
-$sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' order by request_id DESC");
+
 
 $count_sql="SELECT * from notif where message_status='Delivered' AND user_id='$user_id'";
+
 
           $result = mysqli_query($conn, $count_sql);
 
@@ -49,6 +51,200 @@ function timeago($datetime, $full = false) {
   return $string ? implode(', ', $string) . '' : 'just now';
 }
 
+
+//-------------------------------------fetch-content
+ function fetch_data()  
+ {
+ $output = '';  
+      $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+ $sql = "SELECT * from request_list where request_type='Medical Certificate' order by request_id DESC";
+  $result = mysqli_query($connect, $sql);  
+      while($row = mysqli_fetch_array($result))  
+      {  
+        $date =date_create($row['date_requested']);
+        $date1 = date_format($date,"F d, Y"); ;  
+      
+        $output .= '<tr>  
+                          <td>'.$row["date_requested"].'</td>  
+                          <td>'.$row["fullname"].'</td>  
+                          <td>'.$row["course_department"].'</td>  
+                          <td>'.$row["request_type"].'</td>  
+                          <td>'.$row["purpose"].'</td> 
+   
+                     </tr>   
+                          ';  
+      }  
+      return $output;  
+ }  
+
+//------------------------------------PDF
+
+if(isset($_POST["crt_pdf"])){ 
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
+
+    //Page header
+    public function Header() {
+        // Logo
+        $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Republic of the Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    $this->SetFont('Old English', '', 12);
+    $this->Cell(0, 15, 'University of Southeastern Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Tagum- Mabini Campus', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Apokon, Tagum City', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    $this->Ln(16);
+    // Set font
+        $this->SetFont('Calibri', 'B', 12);
+        // Title
+        $this->Cell(0, 15, 'LIST OF REQUESTS FOR MEDICAL CERTIFICATE as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    
+    
+    }
+
+    // Page footer
+    public function Footer() {
+  session_start();
+     $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+  $id=$_SESSION['id'];
+  $sql1="Select * from staffdetails where staff_id='$id' AND type='Staff'";
+    $res = $connect->query($sql1);
+     if($row=mysqli_fetch_array($res)) {
+   $title= $row['title'];
+   $name= $row['fullname'];
+   $extension= $row['extension'];
+   $position= $row['position'];
+   
+        // Position at 15 mm from bottom
+        $this->SetY(-50);
+        // Set font
+        $this->SetFont('calibri', 'B', 12);
+    $this->Ln(2);
+    $this->Cell(0, 0, 'Prepared By:', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(40);
+     $this->SetFont('Calibri', '', 12);
+    $this->Cell(0,0, ''.$title.' '. $name.' '.$extension.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(50);
+    $this->Cell(0,0,''.$position.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    }
+         $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+    $sql2="Select * from staffdetails where office_name='Clinic' AND type='Staff'";
+    $res = $connect->query($sql2);
+     if($row=mysqli_fetch_array($res)) {
+   $title1= $row['title'];
+   $name1= $row['fullname'];
+   $extension1= $row['extension'];
+   $position1= $row['position'];
+     $this->SetY(-48);
+     $this->SetX(210);
+      $this->SetFont('Calibri', 'B', 12);
+    $this->Cell(0, 0, 'Noted By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(230);
+     $this->SetFont('Calibri', '', 12);
+    $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(244);
+    $this->Cell(0,0,''.$position1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+     $this->SetY(-15);
+     
+     $this->SetFont('calibri', 'I', 10);
+        // Page number
+        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
+    }
+  }
+
+}
+// create new PDF document
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('List of Request for Medical Certificate '.date("F d, Y").'');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('Helvetica', '', 12);
+
+// add a page
+$pdf->AddPage('L','Legal');
+$pdf->Ln(36);
+    $content = '<table border="1" cellspacing="0" cellpadding="5">  
+         
+                  <tr>
+                    <th width="10%" align="center"><b>Date Requested</b></th>
+                    <th width="20%" align="center"><b>Patient Name</b></th>
+                    <th width="20%" align="center"><b>Course/Dept.</b></th>
+                    <th width="30%" align="center"><b>Request type</b></th>
+                    <th width="20%" align="center"><b>Purpose</b></th>
+          
+                  </tr>
+          ';   
+      $content .= fetch_data();  
+      $content .= '</table>'; 
+     $pdf->writeHTML($content); 
+     ob_end_clean(); 
+      $pdf->Output('List_of_Requests_for_Medical_Certificate'.date("F d, y").'.pdf', 'I');  
+
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('example_003.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+
+}
+
   ?>
     <head>
       <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
@@ -87,7 +283,7 @@ function timeago($datetime, $full = false) {
 
       <!-- Sidebar menu-->
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+       <aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -129,7 +325,6 @@ function timeago($datetime, $full = false) {
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
               <li><a class="treeview-item" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
-              
             </ul>
           </li>
 
@@ -149,15 +344,14 @@ function timeago($datetime, $full = false) {
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
           
         </ul>
       </aside>
-
-
 
        <!--navbar-->
 
@@ -250,7 +444,8 @@ function timeago($datetime, $full = false) {
                      
                   <div class="inline-block">
                     Request Type
-                    <select class="bootstrap-select" style="width: 70%;">
+                    <br>
+                    <select class="bootstrap-select" style="width: 100%;">
                         <option class="select-item" value="1" selected="selected">All</option>
                         <option class="select-item" value="2">Medical Certificate</option>
                         <option class="select-item" value="3">Medical Records Certification</option>
@@ -260,8 +455,10 @@ function timeago($datetime, $full = false) {
                    
                       </div>
                       <div class="col-sm">
-                         
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify"><i class="fas fa-download"></i> Export</button></div>
+                         <br>
+                        <form method="post">
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="crt_pdf" type="submit" ><i class="fas fa-download"></i> Export</button></div>
+                        </form>
 
      <!--   <button class="btn btn-danger btn-sm verify" id="demoNotify" href="#" >Verify</button>-->
        
@@ -273,10 +470,10 @@ function timeago($datetime, $full = false) {
               <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <table class="table table-hover table-bordered" id="sampleTable">
+                  <table class="table table-hover table-bordered reports-list" id="sampleTable">
                     <thead>
                       <tr>
-                      <th>Request Number</th>
+                      <th>Date Requested</th>
                       <th class="max">Patient Name</th>
                       <th>Course/Dept.</th>
                       <th>Request type</th>
@@ -288,7 +485,12 @@ function timeago($datetime, $full = false) {
                   </thead>
                   <tbody>
                     <tr>
+
+
+
+
                       <?php 
+                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' order by request_id DESC");
 
         while($res = mysqli_fetch_array($sql)) {  
           $id=$res['request_id'];
@@ -296,7 +498,7 @@ function timeago($datetime, $full = false) {
           $patient_id = $res['patient_id'];
 
 ?>
-                      <td><?php echo $res['request_id']; ?></td>
+                      <td><?php echo $res['date_requested']; ?></td>
                       <td><?php echo $res['fullname']; ?></td>
                       <td><?php echo $res['course_department']; ?></td>
                       <td><?php echo $res['request_type']; ?></td>
@@ -307,6 +509,7 @@ function timeago($datetime, $full = false) {
 
                           echo '<a class="btn btn-success btn-sm" data-toggle="modal" href=#required_docu'.$res['request_id'].'>Add</a>';
                           include("admin_request_required_modal.php");
+                          // include("admin_request_required_modal.php");
                         }else{
                           echo '<a class="btn btn-success btn-sm disabled" href="#">Add</a>';
 
@@ -326,13 +529,21 @@ function timeago($datetime, $full = false) {
                       <td>
                         <?php
                         if(($res['status']) == 'pending'){
-                          echo '<a class="btn btn-danger btn-sm disabled" href="#" >Released</a>';
-                        }else{
-                          echo '<a class="btn btn-danger btn-sm"  data-toggle="modal" href=#released'.$res['request_id'].' >Release</a>';
+                          echo '<a class="btn btn-danger btn-sm disabled" href="#" >Release</a>';
+                        }if(($res['status']) == 'completed'){
+                          if ($res['purpose'] == 'Employment') {
+                            echo '<a class="btn btn-danger btn-sm"  data-toggle="modal" href=#released'.$res['request_id'].' >Release</a>';
+                          include("employment_modal.php");
+                            # code...
+                          }else{
+                            echo '<a class="btn btn-danger btn-sm"  data-toggle="modal" href=#released'.$res['request_id'].' >Release</a>';
                           include("released_cert_modal.php");
+                          }
+                          
 
 
-                        }?>
+                        }
+                        ?>
                       </td>
                     </tr>
                     <?php
@@ -390,6 +601,24 @@ function timeago($datetime, $full = false) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('sampleTable'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("New Consultation <?php echo date("Y");?>.pdf");
+                }
+            });
+        }
+    </script>
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>

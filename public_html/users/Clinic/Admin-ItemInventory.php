@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
   <?php
   session_start();
@@ -190,11 +190,10 @@ function timeago($datetime, $full = false) {
       <link rel="stylesheet" href="/resources/demos/style.css">
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
   <!--Jquery -->
-  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+   <!--    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 
 
 
@@ -211,7 +210,7 @@ function timeago($datetime, $full = false) {
 
       <!-- Sidebar menu-->
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+      <aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -238,7 +237,7 @@ function timeago($datetime, $full = false) {
           <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
@@ -246,31 +245,34 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
+
+          <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
 
            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-tools"></i><span class="app-menu__label">Equipment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Equipment List</a></li>
+              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
               <li><a class="treeview-item" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
             </ul>
           </li>
 
-          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-clipboard-list"></i><span class="app-menu__label">Item</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-clipboard-list"></i><span class="app-menu__label">Item</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ItemUnit.php">Item Unit</a></li>
               <li><a class="treeview-item" href="Admin-ItemList.php">Item List</a></li>
-              <li><a class="treeview-item" href="Admin-ItemInventory.php">Item Inventory</a></li>
+              <li><a class="treeview-item active" href="Admin-ItemInventory.php">Item Inventory</a></li>
               <li><a class="treeview-item" href="Admin-ItemStock.php">Overall Stock</a></li>
             </ul>
           </li>
 
           <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
+          <li><a class="app-menu__item" href="Admin-MedicalPersonnel.php"><i class="app-menu__icon  fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
           <li><a class="app-menu__item" href="Clinic_Admin_Announcements.php"><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
-          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-notes-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="ConsultationReports.php">Consultation Reports</a></li>
-              <li><a class="treeview-item" href="Prescription_reports.php">Prescription Reports</a></li>
-              <li><a class="treeview-item" href="request_Reports.php">Request Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
+              <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
@@ -398,9 +400,12 @@ function timeago($datetime, $full = false) {
                       <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
+                          
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button2" ><i class="fas fa-download"></i> Export</button></div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
+                         <!--   <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div> -->
+                           
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att2"><i class="fas fa-print"></i> Print </button></div>
 
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#AddNewStock" style="width: 100%;"><i class="fas fa-plus" data-toggle="modal" data-target="#AddNewStock"></i> New Stock </button></div>
 
@@ -411,8 +416,24 @@ function timeago($datetime, $full = false) {
               <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <div class="calldiv" id="calldiv">
-                   <table class="table table-hover table-bordered reports-list" id="sampleTable">
+                  <div class="calldiv" id="calldiv" style="display: compact">
+                   <table class="head">
+                     <thead>
+                      <tr>
+                      <th><img src="image/logo.png" width="100"></th>
+                      <th width="100"></th>
+                      <th><center><p>Republic of the Philippines</p>
+                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
+                      <p> Tagum-Mabini Campus</p>
+                      <p> Apokon, Tagum City</p>
+                      <br>
+                      <p style="font-size: 20px"> Item Inventory </p></center></th>
+                      <th width="100"></th>
+                      <th width="100"></th>
+                      </tr>                       
+                     </thead>
+                   </table>
+                   <table class="table table-hover table-bordered reports-list" id="table2excel2">
                     <thead>
                       <tr>
                       
@@ -424,7 +445,7 @@ function timeago($datetime, $full = false) {
                       <th>Issuance (Mabini Clinic)</th>
                       <th>Issuance (Apokon)</th>
                       <th>Balance</th>
-                      <th class="max" width="100px">Action</th>
+                      <th class="max action-column" width="100px">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -435,10 +456,15 @@ function timeago($datetime, $full = false) {
                 if($result1 = mysqli_query($db, $sql)){
                  while ($row = mysqli_fetch_assoc($result1)) {
                             $stock_id = $row['id'];
+                            $date_from =date_create($row['datefrom']);
+                            $date_to =date_create($row['dateto']);
+                            $date1 = date_format($date_from,"F d, Y");
+                            $date2 = date_format($date_to,"F d, Y");
 
                   ?>
                               <tr>
-                    <td><?php echo $row['datefrom'].' - '.$row['dateto'];?></td>
+                  
+                    <td><?php echo $date1.' - '.$date2 ;?></td>
                     <td><?php echo $row['item_code'];?></td>
                     <td><?php echo $row['unit_name'];?></td>
                     <td><?php echo $row['item_name'];?></td>
@@ -446,10 +472,10 @@ function timeago($datetime, $full = false) {
                     <td><?php echo $row['issuance_mabini'];?></td>
                     <td><?php echo $row['issuance_apokon'];?></td>
                     <td><?php echo $row['balance'];?></td>
-                    <td>
+                    <td class="action-column">
 
                         <a class="btn btn-warning btn-sm" data-toggle="modal" href="#UpdateStock<?php echo $stock_id; ?>"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger btn-sm" data-toggle="modal" href="#DistributeItem<?php echo $stock_id; ?>">Distribute</a>
+                        <a class="btn btn-danger btn-sm" data-toggle="modal" href="#DistributeItem<?php echo $stock_id; ?>">Release</a>
                         <?php include ('fetch_inventory.php') ?>
                         
 
@@ -514,9 +540,11 @@ function timeago($datetime, $full = false) {
                        <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
+                        
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf2" type="submit" id="export-button"><i class="fas fa-download"></i> Export</button></div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
+                           
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
 
                       </div>
       
@@ -526,8 +554,24 @@ function timeago($datetime, $full = false) {
                 <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <div class="calldiv2" id="calldiv2">
-                   <table class="table table-hover table-bordered" id="sampleTable2">
+                  <div class="calldiv2" id="calldiv2" style="display: compact">
+                   <table class="head">
+                     <thead>
+                      <tr>
+                      <th><img src="image/logo.png" width="100"></th>
+                      <th width="100"></th>
+                      <th><center><p>Republic of the Philippines</p>
+                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
+                      <p> Tagum-Mabini Campus</p>
+                      <p> Apokon, Tagum City</p>
+                      <br>
+                      <p style="font-size: 20px"> Item Issuance </p></center></th>
+                      <th width="100"></th>
+                      <th width="100"></th>
+                      </tr>                       
+                     </thead>
+                   </table>
+                   <table class="table table-hover table-bordered reports-list" id="table2excel">
                     <thead>
                       <tr>
                 
@@ -549,9 +593,13 @@ function timeago($datetime, $full = false) {
 
                 if ($res->num_rows > 0) {
                 while($row = $res->fetch_assoc()) {
+                            $date_from =date_create($row['datefrom']);
+                            $date_to =date_create($row['dateto']);
+                            $date1 = date_format($date_from,"F d, Y");
+                            $date2 = date_format($date_to,"F d, Y");
                   ?>
                               <tr>
-                    <td><?php echo htmlentities($row['datefrom'].' - '.$row['dateto']);?></td>
+                    <td><?php echo $date1.' - '.$date2;?></td>
                     <td><?php echo htmlentities($row['item_code']);?></td>
                     <td><?php echo htmlentities($row['unit_name']);?></td>
                     <td><?php echo htmlentities($row['item_name']);?></td>
@@ -660,13 +708,29 @@ function timeago($datetime, $full = false) {
       <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
       <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
       <!-- The javascript plugin to display page loading on top-->
       <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+    
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#sampleTable').DataTable();</script>
+      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
+    <script type="text/javascript" src="../js/plugins/jquery.table2excel.js"></script>
+      <!-- Google analytics script-->
+      <script type="text/javascript">
+        if(document.location.hostname == 'pratikborsadiya.in') {
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-72504830-1', 'auto');
+          ga('send', 'pageview');
+        }
+      </script>
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -686,7 +750,160 @@ function timeago($datetime, $full = false) {
       </script>
       <!-- Data table plugin-->
 
+ <script>
+    $('#print_att').click(function(){
+    var _c = $('#calldiv2').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  });
+    $('#print_att2').click(function(){
+    var _c = $('#calldiv').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  })
+</script>
+<style>
+
+@media screen{
+.head{
+display:none;}
+.heads{
+display:none;}
+  
+.tit{
+display:none;}
+h2{
+display:none;}
+tfoot{
+display:none;}
+}
+@media print{
+.head{
+margin-top:-100%;
+display:table-header-group;
+margin-bottom:5px;}
+
+
+}
+ 
+}
+
+@page{
+margin-top:-1cm; 
+margin-left:1cm;
+margin-right:1cm;
+margin-bottom:1.5cm;
+}
+}
+
+.dropdown-menu {
+    max-height: 280px;
+    overflow-y: auto;
+}
+</style>
+<noscript>
+    <table style="margin-top:8%;">
+<tr>
+<td><b> &emsp;Prepared By: </b></td>
+</tr>
+</table>
+<table align="center" style="margin-top:3%;">
+<td align="center" style="margin-top:10%;"><p>Admin</p></td>
+<tr>
+<td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
+</tr>
+</table>
+      <style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:1%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:0.2%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    .action-column{
+      display: none;
+    }
+    </style>
+
+</noscript>
+
+
+
+
       <script type="text/javascript">
+
+        
+$("#export-button").click(function(){
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    exclude:".noExl",
+    name:"Worksheet Name",
+    filename:"Item-Issuance",//do not include extension
+    fileext:".xls" // file extension
+  });
+
+});
+        
+$("#export-button2").click(function(){
+  $("#table2excel2").table2excel({
+    // exclude CSS class
+    exclude:".noExl",
+    name:"Worksheet Name",
+    filename:"Item-Inventory",//do not include extension
+    fileext:".xls" // file extension
+  });
+
+});
+
 
       $(document).ready(function(){
                   /*STATUS*/
@@ -769,23 +986,6 @@ function timeago($datetime, $full = false) {
       } );
 
     </script>
-    
-      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-      <script type="text/javascript">$('#sampleTable').DataTable();</script>
-      <script type="text/javascript">$('#sampleTable2').DataTable();</script>
-      <!-- Google analytics script-->
-      <script type="text/javascript">
-        if(document.location.hostname == 'pratikborsadiya.in') {
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-72504830-1', 'auto');
-          ga('send', 'pageview');
-        }
-      </script>
 
 
     </body>

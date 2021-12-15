@@ -120,7 +120,7 @@
     $new_sem_sy = $new_semester.' '.$new_school_year;
     //add new uni and college scholar for the next semester
     if($gwa <= $uni && $complete){
-      $result = mysqli_query($conn, "SELECT program_id FROM `scholarship_program` WHERE program_name = 'University Scholar'");
+      $result = mysqli_query($conn, "SELECT program_id FROM `scholarship_program` WHERE program_name = 'University Scholars'");
       $row = mysqli_fetch_assoc($result);
       $sp = $row['program_id'];
       echo "sp".''. $sp;
@@ -143,7 +143,7 @@
     }
     
     if($gwa <= $clg && $complete ){
-      $result = mysqli_query($conn, "SELECT program_id FROM `scholarship_program` WHERE program_name = 'College Scholar'");
+      $result = mysqli_query($conn, "SELECT program_id FROM `scholarship_program` WHERE program_name = 'College Scholars'");
       $row = mysqli_fetch_assoc($result);
       $sp = $row['program_id'];
       $stmt = $conn->prepare("call ScholarshipAddScholarThruDataForm(?,?,?)");

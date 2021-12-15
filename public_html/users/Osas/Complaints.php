@@ -312,19 +312,7 @@
                                    </div>
                                  </div>
                                </div>
-                               <div class="row">
-                                <div class="col mt-1 ">
-                                  <div class="inline-block">
-                                    Course<br>
-                                    <select class="bootstrap-select">
-                                      <option class="select-item" value="1" selected="selected">All</option>
-                                      <option class="select-item" value="2">BSIT</option>
-                                      <option class="select-item" value="3">BEED</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-
+                       <br>
                               <div class="table-bd">
                                 <p class="font-weight-bold"> Action Taken By: </p>
                                 <select id="action_taken" name="action_taken"  class="form-control" required>

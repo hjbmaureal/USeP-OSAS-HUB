@@ -10,7 +10,7 @@
     $row = mysqli_fetch_assoc($result);
     $scholarCoor = strtoupper($row['fullname']);
     foreach($_POST['select'] AS $value){
-      $result = mysqli_query($conn,"SELECT g.id, g.Student_id, concat(s.last_name,', ',s.first_name,' ',left(s.middle_name,1)) as fullname, c.name as course, s.year_level, sp.program_name as program, semester,year, card_signed, (SELECT count(*) FROM grantee_history WHERE card_signed is not null AND student_id = g.Student_id) as check_if_card_exists, (SELECT card_years FROM grantee_history WHERE student_id = g.Student_id and card_years is not null limit 1) as card_years FROM grantee_history as g JOIN student as s on s.Student_id = g.Student_id JOIN scholarship_program as sp on sp.program_id = g.program_id JOIN course as c on c.course_id = s.course_id WHERE g.id = ".$value);
+      $result = mysqli_query($conn,"SELECT g.id, g.Student_id, concat(s.last_name,', ',s.first_name,' ',left(s.middle_name,1)) as fullname, c.name as course, s.year_level, sp.program_name as program, g.semester,g.year, g.card_signed, (SELECT count(*) FROM grantee_history WHERE card_signed is not null AND student_id = g.Student_id) as check_if_card_exists, (SELECT card_years FROM grantee_history WHERE student_id = g.Student_id and card_years is not null limit 1) as card_years FROM grantee_history as g JOIN student as s on s.Student_id = g.Student_id JOIN scholarship_program as sp on sp.program_id = g.program_id JOIN course as c on c.course_id = s.course_id WHERE g.id = ".$value);
 
       if($row = mysqli_fetch_array($result)){
 

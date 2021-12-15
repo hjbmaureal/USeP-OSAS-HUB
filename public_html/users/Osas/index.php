@@ -283,9 +283,6 @@
         </div>
       </div>
       <script type="text/javascript">
-        
-
-
         //CLOCK
       function updateClock(){
         var now = new Date();

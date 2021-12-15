@@ -22,13 +22,16 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/main.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">  
     </head>
+
       <body class="app sidebar-mini rtl">
       <!-- Navbar-->
 
@@ -40,7 +43,7 @@
 
       <!-- Sidebar menu-->
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+       <aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -67,7 +70,7 @@
           <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
@@ -75,11 +78,12 @@
             </ul>
           </li>
 
-           <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
+
+          <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
 
            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-tools"></i><span class="app-menu__label">Equipment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Equipment List</a></li>
+              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
               <li><a class="treeview-item" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
             </ul>
           </li>
@@ -96,11 +100,12 @@
           <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
           <li><a class="app-menu__item" href="Admin-MedicalPersonnel.php"><i class="app-menu__icon  fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
           <li><a class="app-menu__item" href="Clinic_Admin_Announcements.php"><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
-          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-notes-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item active" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
@@ -217,7 +222,7 @@
             });
 
         })(document);
-    </script>  
+    </script> 
 
          <!--<div class="page-error tile">-->
 
@@ -225,7 +230,7 @@
           <div class="col-md-12">
             <div class="tile">
               <div class="tile-body">
-                <div>
+               
                 <div>
                 <div class="float-left"><h4>Consultation Reports</h4></div>
                   </div>
@@ -235,38 +240,89 @@
 
                      
                     <div class="inline-block">
-                    Course/Department
+                     <form enctype="multipart/form-data" id="fm" method="post" novalidate>
+
+                    <b>Date From</b>
+
+                    <input  type="text"  name="From" id="From" value="" class="bootstrap-select" placeholder="Select Date">
+
+                    <b>Date End</b>
+                    <input  type="text" name="To" id="To" value="" class="bootstrap-select" placeholder="Select Date" >
+
+                    <input type="submit" name="range" id="range" value="Filter" class="btn btn-danger btn-sm verify">
+
+                    <b>Course/Department</b>
                     <select class="bootstrap-select" data-table="reports-list">
                         <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="BSIT">BSIT</option>
-                        <option class="select-item" value="BSNED">BSNED</option>
-                        <option class="select-item" value="BEED">BEED</option>
-                        <option class="select-item" value="BTVTE">BTVTE</option>
-					</select>
 
+                         <?php
+                                                 
+                                                  $sql=mysqli_query($db,"select * from course where status='Active'");
+                                                  while($result=mysqli_fetch_array($sql))
+                                                  {    
+                                                  ?>
+                                                  <option class="select-item" value="<?php echo htmlentities($result['title']);?>"><?php echo htmlentities($result['title']);?></option>
+                                                  <?php }
+                                                  
+                                                  ?>
+                    </select>
+                    
 
                   <div class="inline-block">
-                    Semester
-                    <select class="bootstrap-select" data-table="reports-list">
+                    <div class="">
+                      <b>Consultation type</b>
+                                            <select class="bootstrap-select" data-table="reports-list">
+                                                <option value="">All</option>
+                                                <option value="Medical Consultation">Medical Consultation</option>
+                                                <option value="Dental Consultation">Dental Consultation</option>
+                                            </select>
+                                        </div>
+                   
+                    <select class="bootstrap-select" data-table="reports-list" hidden="">
                         <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="1st Semester">1st Semester</option>
-                        <option class="select-item" value="2nd Semester">2nd Semester</option>
-						 <option class="select-item" value="Off Semester">Off Semester</option>
+                         <?php
+                                                
+                                                  $sql=mysqli_query($db,"select * from semester where status='Active'");
+                                                  while($result=mysqli_fetch_array($sql))
+                                                  {    
+                                                  ?>
+                                                  <option class="select-item" value="<?php echo htmlentities($result['semester_name']);?>"><?php echo htmlentities($result['semester_name']);?></option>
+                                                  <?php }
+                                                  
+                                                  ?>
+                      </select>
+                    </div>
+                    </form>
+
+
+                    <select class="bootstrap-select" data-table="reports-list" hidden="">
+                        <option class="select-item" value="1" selected="selected">All</option>
+                        <?php
+                                                  // Feching active mode of communication
+                                                  $sql=mysqli_query($db,"select * from school_year where status='Active'");
+                                                  while($result=mysqli_fetch_array($sql))
+                                                  {    
+                                                  ?>
+                                                  <option class="select-item" value="<?php echo htmlentities($result['schoolyear']);?>"><?php echo htmlentities($result['schoolyear']);?></option>
+                                                  <?php }
+                                                  
+                                                  ?>
                       </select>
                     </div>
 
-                  <div class="inline-block">
-                    School Year
-                    <select class="bootstrap-select" data-table="reports-list">
-                        <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="2020-2021">2020-2021</option>
-                        <option class="select-item" value="2019-2020">2019-2020</option>
-                      </select>
-                    </div>
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
 
-                    </div>
-              </div>
+                    
                       <div class="col-sm">
+                        <input type="text" name="dateSelected" id="dateSelected" value="" disabled style='border-style: none;background: transparent;letter-spacing: 1px; width: 500px; font-weight: bolder; font-size: 17px; margin-left: -15px;'>
+
                          
                           
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify"  onClick="Export()" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#RequestModal"></i> Export </button></div>
@@ -284,76 +340,134 @@
             <div class="table-responsive">
             <br>
 				  									
-            <div id="table_clone" style="display: compact">
-               <table  class="head">
+    <div id="table_clone" style="display: compact">
+          
+    <table  class="head">
 		<thead>
-
+      <tr>
+        <th rowspan="5"><img src="image/logo.png" width="100"></th>
+      </tr>
+        <th colspan="7"><h4 style="font-family: Arial;"><center>Republic of the Philippines</center></h4></th>
+      </tr>
+      <tr>
+        <th colspan="7"><h4 style="font-family: Old English Text MT;"><center>University of Southeastern Philippines</center></h4></th>
+      </tr>
+      <tr>
+        <th colspan="7"><h4 style="font-family: Arial;"><center>Tagum-Mabini Campus</center></h4></th>
+      </tr>
+      <tr>
+        <th colspan="7"><h4 style="font-family: Arial;"><center>Apokon, Tagum City</center></h4></th>
+      </tr>
+      <tr>
+        <th rowspan="5"><img src="image/logo.png" width="100" hidden=""></th>
+      </tr>
 			<tr>
-			<th><img src="image/logo.png" width="100"></th>
+	
 			<th width="100"></th>
-			<th><center><p>Republic of the Philippines</p>
-			<p> UNIVERITY OF SOUTHEASTERN PHILIPPINES</p>
-			<p> Tagum-Mabini Campus</p>
-			<p> Apokon, Tagum City</p></center></th>
+      <th width="100"></th>
+      <th width="100"></th>
+      <th width="100"></th>
 			<th width="100"></th>
 			<th width="100"></th>
-			</th>
+      <th width="100"></th>
+      <th width="100"></th>
 			</tr>
+      
 			</thead>
 			</table>
-			<table class="heads">
-			<tr>
-			<th width="100"></th>
-			<th width="100"></th>
-			<th><h4><center> Prescription Reports</center></h4></th>
-			
-			</tr>
-			</table>
-
+			<table class="heads" style="border-collapse: collapse;">
+      <tr>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      <th width="120"></th>
+      </tr>
+      <tr>
+        <th colspan="8" style="font-family: Arial; color: red;"><h4 style="font-size: 16px;"><center>Medical-Dental Consultation Reports</center></h4></th>
+      </tr>
+      </table>
+      <br>
       
                   <table class="table table-hover table-bordered reports-list" id="myTable">
-				
-					         <thead>
+        
+                   <thead>
 
 
 
-                      <tr>
+                      <tr style="text-align: center;">
+                      <th>Patient ID</th>
                       <th>Patient Name</th>
                       <th class="max">Course/Department</th>
+                      <th>Complaint</th>
                       <th>Type of Consultation</th>
-                      <th>Mode of Communication(1st Option)</th>
-					  <th>Mode of Communication(2nd Option)</th>
+                      <th>Mode of Communication <br>(1st Option)</th>
+                      <th>Mode of Communication <br>(2nd Option)</th>
+                      <th class="max">Treatment</th>
                       <th>Date of Consultation</th>
+                      
                     </tr>
                   </thead>
-                  <tbody>				   <?php 
+                  <tbody id="Table">  
+  
 
-                   
+
+                    <?php 
+                      $db = mysqli_connect("localhost","root","","osasdb_latest4");
                       $stat = "Completed";
 
-                        $sql = "SELECT consultation.id,CONCAT(student.first_name,' ',student.last_name) as name,course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date
-                          from consultation inner join student  on consultation.patient_id=student.Student_id join consultation_type on consultation.consultation_type=consultation_type.type_id inner join course on student.course_id=course.course_id WHERE consultation.status='$stat'  order by appointment_date";
+                      $cou = 0;
+                        if(isset($_REQUEST['From'])){
+                          $from=$_POST['From'];
+                          $to=$_POST['To'];
+                            if($from!=""&&$to!=""){
+                              echo "<script> document.getElementById('dateSelected').value ='Date Selected: ".$_POST['From']." to ".$_POST['To']."';</script>";
+                               $sql = "SELECT consultation.id,consultation.patient_id,CONCAT(student.first_name,' ',student.last_name) as fullname,course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date, consultation.semester, consultation.school_year, consultation.problems, consultation.treatment
+                                from consultation join consultation_type on consultation.consultation_type=consultation_type.type_id inner join student  on consultation.patient_id=student.Student_id inner join course on student.course_id=course.course_id  WHERE appointment_date between '".$_POST['From']."' and '".$_POST['To']."' and consultation.status='$stat' order by appointment_date";
+                            }else{
+                            echo "<script>alert('Please Select The Dates')</script>";
+
+
+                          $sql = "SELECT consultation.id,consultation.patient_id,CONCAT(student.first_name,' ',student.last_name) as fullname,course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date, consultation.semester, consultation.school_year, consultation.problems, consultation.treatment
+                          from consultation join consultation_type on consultation.consultation_type=consultation_type.type_id inner join student  on consultation.patient_id=student.Student_id inner join course on student.course_id=course.course_id  WHERE consultation.status='$stat' order by appointment_date";
+
+                            }
+                         }else{
+                          $sql = "SELECT consultation.id,consultation.patient_id,CONCAT(student.first_name,' ',student.last_name) as fullname,course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date, consultation.semester, consultation.school_year, consultation.problems, consultation.treatment
+                          from consultation join consultation_type on consultation.consultation_type=consultation_type.type_id inner join student  on consultation.patient_id=student.Student_id inner join course on student.course_id=course.course_id  WHERE consultation.status='$stat' order by appointment_date";
+
+                            
+                         }
+
+                          
+
+                        
+
+
                     $res = $db->query($sql);
-			$cnt=1;
-			if ($res->num_rows > 0) {
-			while($row = $res->fetch_assoc()) {
-			$date =date_create($row['appointment_date']);
-			$date1 = date_format($date,"F d, Y");
+                    $cnt=1;
+                    while($row = $res->fetch_assoc()) {
                       ?>
 
- <tr>
-                      
-                    <td> <?php echo htmlentities($row['name']);?></td>
+                    <tr>
+                    <td> <?php echo htmlentities($row['patient_id']);?></td>
+                    <td> <?php echo htmlentities($row['fullname']);?></td>
                     <td><?php echo htmlentities($row['title']);?></td>
+                    <td> <?php echo htmlentities($row['problems']);?></td>
                     <td><?php echo htmlentities($row['consultation_type']);?></td>
                     <td> <?php echo htmlentities($row['communication_mode_first_option']);?></td>
-					<td> <?php echo htmlentities($row['communication_mode_second_option']);?></td>
-                    <td><?php echo $date1 ;?></td>
-                  
+                    <td> <?php echo htmlentities($row['communication_mode_second_option']);?></td>     
+                    <td> <?php echo htmlentities($row['treatment']);?></td>
+                    <td><?php echo htmlentities($row['appointment_date']);?></td>
+                    
+                     
+
                     </tr>
             <?php
   
-  }
   }?>
                    
                   </table>				  </div>
@@ -387,7 +501,24 @@
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-      <script type="text/javascript">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+      <script>
+
+        $(document).ready(function(){
+            $.datepicker.setDefaults({
+                dateFormat: 'yy-mm-dd'
+            });
+            $(function(){
+                $("#From").datepicker();
+                $("#To").datepicker();
+
+            });
+
+        });
+
+    </script>
+    <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
             title: "Update Complete : ",
@@ -404,6 +535,8 @@
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+
+
 	  
 	
 
@@ -443,8 +576,10 @@ display:none;}
 margin-top:-100%;
 display:table-header-group;
 margin-bottom:5px;}
+
 table{
  font-size: 10px;
+ font-family: Arial;
  
 }
  
@@ -459,7 +594,7 @@ margin-bottom:1.5cm;
 }
 </style>
 <noscript>
-    <table style="margin-top:8%;">
+<table style="margin-top:8%;">
 <tr>
 <td><b> &emsp;Prepared By: </b></td>
 </tr>
@@ -470,56 +605,69 @@ margin-bottom:1.5cm;
 <td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
 </tr>
 </table>
-      <style>
-	  .heads{
-	  margin-top:5%;
-	  margin-left:6%;
-	  font-size:20px;
-	  font-weight:bold; 
-	  }
-	table.reports-list{
-				border-collapse:collapse;
+
+<style>
+
+	  .heads {
+  	  margin-top:5%;
+  	  font-size:12px;
+      font-family: Arial;
+  	  }
+
+	   table.reports-list {
+			border-collapse:collapse;
 			margin-top:-3%;
-			
-		}
-		table.reports-list td,table.reports-list th{
-			border:1px solid;
-			 font-size: 14px;
-			
-		}
-		table.reports-list th{
-		padding:1%;
-		 width:100%;
-		
-		}
-		.text-center{
-			text-align:center
-		}
-		td{
-		text-align:center;
-		}
-		h3{
-		display:none;
-		}	
-	.dataTables_info{
-		display:none;
-		}
-		.dataTables_filter{
-		display:none;
-		}
-		.dataTables_paginate{
-		display:none;
-		}
-		.dataTables_length{
-		display:none;
-		}
-		</style>
+		  }
+
+      table.reports-list td,table.reports-list th {
+			 border:1px solid;
+			 font-size: 12px;
+       font-family: Arial;
+		  }
+
+	   table.reports-list th {
+		  width:100%;
+		  }
+
+  		.text-center {
+  			text-align:center
+  		}
+
+  		td {
+  		text-align:center;
+  		}
+
+  		h3 {
+  		display:none;
+  		}	
+
+      th {
+        font-size: 12px;
+      }
+
+  	 .dataTables_info {
+  		display:none;
+  		}
+
+  	 .dataTables_filter {
+  		display:none;
+  		}
+
+  	 .dataTables_paginate {
+  		display:none;
+  		}
+
+  	 .dataTables_length {
+  		display:none;
+  		}
+
+</style>
 
 </noscript>
 
 
 
-            </script>
+</script>
 			 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
             <script type="text/javascript">
@@ -530,7 +678,7 @@ margin-bottom:1.5cm;
                     var docDefinition = {
                         content: [{
                             image: data,
-                            width: 500
+                            width: 800
                         }]
                     };
                     pdfMake.createPdf(docDefinition).download("ConsultationReports.pdf");

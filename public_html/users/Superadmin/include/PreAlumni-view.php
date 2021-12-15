@@ -24,7 +24,7 @@ while($row=mysqli_fetch_array($query)){
                     $result = mysqli_query($conn, "SELECT * FROM alumni JOIN student_alumni ON alumni.id = student_alumni.userid  where  id='$id2'");
                      $row = mysqli_fetch_assoc($result);
                       if($row['profile_pic']== NULL){
-                       echo '<img src="../../../images/logo.png" class="pix"/>'; 
+                       echo '<img src="../../images/logo.png" class="pix"/>'; 
                       }else{
                         echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['profile_pic'] ).'" class="pix"/>';
                       }

@@ -534,7 +534,7 @@
                             }
                       }
                     
-                      $query .= " AND sgi.record_status = 0 AND sgi.student_status = 1 ORDER BY sgi.semester_year DESC";
+                      $query .= " AND sgi.student_status = 1 ORDER BY sgi.semester_year DESC";
 
                       if($result = mysqli_query($conn, $query)){
                         while($row = mysqli_fetch_array($result)){

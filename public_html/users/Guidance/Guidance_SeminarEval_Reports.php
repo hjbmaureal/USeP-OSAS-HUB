@@ -208,52 +208,49 @@ function timeago($datetime, $full = false) {
               <li class="app-notification__title">You have <?php echo $count2;  ?> new notifications.</li>
               <div class="app-notification__content">
 
-                <?php
+                <?php 
+                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 4)  order by time desc";
+                  $result = mysqli_query($conn, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'
+                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message">
+                                <form method="POST" action="../../php/change_notif_status.php">
+                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                  <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li></b>
+                              ';
+                      }else{
+                              echo'
+                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li>
+                              ';
+                       }                 
 
-                $count_sql="SELECT * from notif where user_id='$admin_id'  order by _time desc";
-
-                $result2 = mysqli_query($conn, $count_sql);
-
-                while ($row = mysqli_fetch_assoc($result2)) { 
-                  $intval = intval(trim($row['_time']));
-                  if ($row['message_status']=='Delivered') {
-
-                    
-                    echo'
-                  <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li></b>
-                    ';
-                  }else{
-                    echo'
-                  <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li>
-                    ';
                   }
-                  
-
-                                    }
-                ?>
-                
+                ?> 
               </div>
-              <li class="app-notification__footer"><a href="adminSeeAllNotif.php?link=Guidance_SeminarEval_Reports.php">See all notifications.</a></li>
-            </ul>
-          </li>
+            <li class="app-notification__footer">
+              <a href="Notifications.php">See all notifications.</a>
+            </li>
+          </ul>
+        </li>
               
-                 <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                 <li class="dropdown">
+                  <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
               <li><a class="dropdown-item" href="Guidance_AdminUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
               <li><a class="dropdown-item" href="../index.php"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>

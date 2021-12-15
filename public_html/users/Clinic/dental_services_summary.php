@@ -1,5 +1,5 @@
 <?php
-	 session_start();
+   session_start();
  include('connect.php');
  ?>
 <!DOCTYPE html>
@@ -247,7 +247,7 @@
                   </tr>
                   <tbody>
                     <?php include_once "dental_summary_counts.php";
-				  ?>
+          ?>
                     <tr>
                       <td>JANUARY</td>
                       <td><center>
@@ -870,16 +870,16 @@
                      <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total003);?>
                       </center></td>
-					   <td  bgcolor="#5b9bd5"><center>
+             <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total004);?>
                       </center></td>
-					   <td  bgcolor="#5b9bd5"><center>
+             <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total005);?>
                       </center></td>
-					   <td  bgcolor="#5b9bd5" ><center>
+             <td  bgcolor="#5b9bd5" ><center>
                         <?php echo htmlentities($total006);?>
                       </center></td>
-					   <td  bgcolor="#5b9bd5"><center>
+             <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total007);?>
                       </center></td>
                      <td  bgcolor="#5b9bd5"><center>
@@ -891,7 +891,7 @@
                      <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total010);?>
                       </center></td>
-					   <td  bgcolor="#5b9bd5"><center>
+             <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total011);?>
                       </center></td>
                     <td  bgcolor="#5b9bd5"><center>
@@ -903,7 +903,7 @@
                     <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total014);?>
                       </center></td>
-					  <td  bgcolor="#5b9bd5"><center>
+            <td  bgcolor="#5b9bd5"><center>
                         <?php echo htmlentities($total015);?>
                       </center></td>
                     <td  bgcolor="#5b9bd5"><center>
@@ -961,19 +961,19 @@
 });
       </script>
 <script>
-		$('#print_att').click(function(){
-		var _c = $('#table_clone').html();
-		var ns = $('noscript').clone();
-		var nw = window.open('','_blank','width=900,height=600')
-		nw.document.write(_c)
-		nw.document.write(ns.html())
-		nw.document.close()
-		nw.print()
-		setTimeout(() => {
-			nw.close()
-		}, 500);
-		
-	})
+    $('#print_att').click(function(){
+    var _c = $('#table_clone').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  })
 </script>
 <style>
 th {
@@ -987,7 +987,7 @@ text-align:center;
 display:none;}
 .heads{
 display:none;}
-	
+  
 .tit{
 display:none;}
 h2{
@@ -1028,46 +1028,46 @@ margin-bottom:1.5cm;
   </tr>
 </table>
 <style>
-	  .heads{
-	  margin-top:5%;
-	  margin-left:6%;
-	  font-size:20px;
-	  font-weight:bold; 
-	  }
-	table.reports-list{
-			width:100%;
-			border-collapse:collapse;
-			margin-top:-3%;
-		}
-		table.reports-list td,table.reports-list th{
-			border:1px solid;
-		
-		}
-		table.reports-list th{
-		padding:1%;
-		}
-		.text-center{
-			text-align:center
-		}
-		td{
-		text-align:center;
-		}
-		h3{
-		display:none;
-		}	
-	.dataTables_info{
-		display:none;
-		}
-		.dataTables_filter{
-		display:none;
-		}
-		.dataTables_paginate{
-		display:none;
-		}
-		.dataTables_length{
-		display:none;
-		}
-		</style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:-3%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:1%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    </style>
 </noscript>
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
@@ -1088,7 +1088,7 @@ margin-bottom:1.5cm;
             });
         }
     </script>
-	<script>
+  <script>
 function downloadCSV(csv, filename) {
     var csvFile;
     var downloadLink;

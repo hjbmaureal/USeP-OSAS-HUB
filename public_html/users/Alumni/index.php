@@ -3,7 +3,7 @@
     include('../../conn.php');
   include '../../php/notification-timeago.php'; 
   
-  if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Alumni'){
+ if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Alumni'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';

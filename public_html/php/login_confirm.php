@@ -46,22 +46,25 @@ if(isset($_POST['submit'])){
                 $activity = 'Successfully Logged in.';
                 $page = 'public_html/index.php';   
                 log_activity($activity,$page);
+                if ($_SESSION['usertype']=='Alumni'){
+                     echo '<script type="text/javascript">'; 
+                     echo 'window.location= "../users/Alumni/";';
+                     echo '</script>';
+                }
                 if($_SESSION['id']=='superadmin'){         
                     echo '<script type="text/javascript">'; 
                      echo 'location.href= "../users/Superadmin/";';
                      echo '</script>';
                 }
+                
+               
                 if ($_SESSION['usertype']=='Student'){
                     $_SESSION['sl_status'] = $row['sl_status'];
                      echo '<script type="text/javascript">'; 
                      echo 'window.location= "../users/Student/";';
                      echo '</script>';
                 }
-                if ($_SESSION['usertype']=='Alumni'){
-                     echo '<script type="text/javascript">'; 
-                     echo 'window.location= "../users/Alumni/";';
-                     echo '</script>';
-                }
+               
                 if ($_SESSION['usertype']=='Coordinator'){
                     $access_level = $row['access_level'];
                     if ($_SESSION['office'] == 'OSAS' && $access_level == 1){
@@ -122,11 +125,7 @@ if(isset($_POST['submit'])){
                      echo 'window.location= "../users/Faculty/";';
                      echo '</script>';
                 }
-                if ($_SESSION['usertype']=='Medical Personnel' && $access_level = 2){
-                     echo '<script type="text/javascript">'; 
-                     echo 'window.location= "../users/Faculty/";';
-                     echo '</script>';
-                }
+            
         
     } else {
          $_SESSION['id'] = $row['username'];

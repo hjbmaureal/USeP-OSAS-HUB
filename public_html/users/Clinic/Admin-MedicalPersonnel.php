@@ -94,7 +94,7 @@ function timeago($datetime, $full = false) {
 
       <!-- Sidebar menu-->
       <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+      <aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -121,7 +121,7 @@ function timeago($datetime, $full = false) {
           <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
@@ -129,11 +129,12 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
+
+          <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
 
            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-tools"></i><span class="app-menu__label">Equipment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Equipment List</a></li>
+              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
               <li><a class="treeview-item" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
             </ul>
           </li>
@@ -150,11 +151,12 @@ function timeago($datetime, $full = false) {
           <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
           <li><a class="app-menu__item active" href="Admin-MedicalPersonnel.php"><i class="app-menu__icon  fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
           <li><a class="app-menu__item" href="Clinic_Admin_Announcements.php"><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
-          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-notes-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
@@ -250,39 +252,19 @@ function timeago($datetime, $full = false) {
         <div>
           <h3 class="mb-3 line-head">Medical Personnel</h3>
         </div>
-        <br>
                   
       <div class="row">
         <div class="col-auto">
         <form method="POST" action="">
           <div class="row">
-
-
-            <div class="col">
-              <div class="form-group">
-                <label for="sortSex">Sex</label>
-                <select name="sortSex" id="sortSex" class="form-control">
-                  <option value="0">ALL</option>
-                  <option <?php if(isset($_POST['sortSex']) && $_POST['sortSex'] == "Male" ) echo 'selected'?> value="Male">Male</option>
-                  <option <?php if(isset($_POST['sortSex']) && $_POST['sortSex'] == "Female" ) echo 'selected'?> value="Female">Female</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col">
-              <label for="sortSubmit">Filter by</label>
-              <input type="submit" value="Filter" class="btn btn-primary form-control">
-            </div>     
+  
             </div>
             </form>
   </div>
-           
-                    
 
                       <div class="col-sm">
                         <br>
-                           <div class="inline-block float ml-2 mt-1"><a class="btn btn-danger btn-sm verify fas fa-download" style="width: 100%;" href="exportMedicalData.php">Export</a></div>
-
+                           <div class="inline-block float ml-2 mt-1"><a class="btn btn-danger btn-sm verify" style="width: 100%;" href="exportMedicalData.php"><i class="fas fa-download"></i> Export</a></div>
 
                        </div>  
 
@@ -310,19 +292,8 @@ function timeago($datetime, $full = false) {
                   <tbody>
           <?php 
 
-                $sql = "SELECT *, sex FROM staffdetails ";
-                
+                $sql = "SELECT * from staffdetails where position='Doctor'";
 
-                      if(isset($_POST['sortSex'])){
-                        $sortSex = $_POST['sortSex'];
-                        
-
-
-                            if(!empty($sortSex)){
-                          $sql .= "sex = $sortSex";
-                        }
-
-          }
 
                 if($result = mysqli_query($db,$sql)){
                             while($row = mysqli_fetch_array($result)){
@@ -338,7 +309,7 @@ function timeago($datetime, $full = false) {
                     <td><?php echo htmlentities($row['license_number']);?></td>
                     <td><?php echo htmlentities($row['ptr_no']);?></td>
                     <td><?php echo htmlentities($row['s2']);?></td>
-                    <td><button class="fas fa-edit btn btn-warning btn-sm editbtn"></button></td>
+                    <td><button class="btn btn-warning btn-sm editbtn"><i class="fas fa-edit"></i></button></td>
                     </tr>
                              
                   <?php }}

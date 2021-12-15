@@ -74,7 +74,7 @@
             <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
       </div>
-
+  <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -167,8 +167,8 @@
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
-                <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id AND office_id = 4)  order by time desc";
+              <?php 
+                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 4)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -210,7 +210,7 @@
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -309,7 +309,7 @@
 
             <table class="announcements-table" id="announcements-table" cellpadding="10px" width="100%">
               <?php 
-          $sql2="SELECT * from announcements";
+          $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=4";
           $result = mysqli_query($conn, $sql2);
           while ($row2 = mysqli_fetch_assoc($result)) {
 

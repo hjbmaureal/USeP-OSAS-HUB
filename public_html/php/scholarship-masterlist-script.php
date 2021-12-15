@@ -264,6 +264,7 @@
     $extRefRetentionArch = date('Y-m-d', strtotime($_POST['addExtRefRetentionArch']));
     $fileName = PATHINFO($_FILES['ExtReftSoftCopy']['name']);
     $fileTmpName = $_FILES['ExtReftSoftCopy']['tmp_name'];
+    echo $date.' '.$extRefTitle.' '.$extRefRevNumber.' '.$extRefModeoFFiling.' '.$extRefCustodian.' '.$extRefLocation.' '.$extRefRetentionAct.' '.$extRefRetentionArch;
     $ext = $fileName['extension'];
     //array for allowed file type
     $allowed = array('pdf', 'docx', 'xls', 'xlsx', 'doc');
@@ -279,9 +280,16 @@
     }
   
     $stmt = $conn->prepare("call addMasterlistExternalReference(?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("sssssssss", $date, $extRefTitle, $extRefRevNumber, $extRefModeoFFiling, $extRefCustodian, $extRefLocation, $extRefRetentionAct, $extRefRetentionArch, $fileLocation);
+    if(false===$stmt){
+      die('prepare() failed: '.htmlspecialchars($conn->error));
+    }
+
+    $check = $stmt->bind_param("sssssssss", $date, $extRefTitle, $extRefRevNumber, $extRefModeoFFiling, $extRefCustodian, $extRefLocation, $extRefRetentionAct, $extRefRetentionArch, $fileLocation);
+    if(false === $check){
+      die('bind_param() failed: '.htmlspecialchars($conn->error));
+    }
     $stmt->execute();
-    die(header("Location: ../users/Scholarship/masterlist-external-reference.php?operation=success"));
+    // die(header("Location: ../users/Scholarship/masterlist-external-reference.php?operation=success"));
   }
   //read
   if(isset($_POST['fetch_external_reference'])){
@@ -308,10 +316,9 @@
     $ExtRefModeOfFiling = $_POST['updateExtRefModeOfFiling'];
     $ExtRefCustodian = $_POST['updateExtRefCustodian'];
     $ExtRefLocation = $_POST['updateExtRefLocation'];
-    $ExtRefRetentionAct = $_POST['updateExtRefRetentionAct'];
-    $ExtRefRetentionArch = $_POST['updateExtRefRetentionArch'];
+    $ExtRefRetentionAct = date('Y-m-d', strtotime($_POST['updateExtRefRetentionAct']));
+    $ExtRefRetentionArch = date('Y-m-d', strtotime($_POST['updateExtRefRetentionArch']));
     $record_no = $_POST['record-no'];
-    
     
     $fileName = PATHINFO($_FILES['ExtReftSoftCopy']['name']);
     $fileTmpName = $_FILES['ExtReftSoftCopy']['tmp_name'];
@@ -337,7 +344,10 @@
       }else{
         die(header("Location: ../users/Scholarship/masterlist-external-reference.php?type=invalid"));
       }
-      mysqli_query($conn, "UPDATE scholarship_masterlist_external_reference set date = '$date', no = '$record_no', external_reference_title = '$ExtRefTitle', revision_number= '$ExtRefRevNum', mode_of_filing= '$ExtRefModeOfFiling', custodian= '$$ExtRefCustodian', location = 'ExtRefLocation', retention_active= '$ExtRefRetentionAct', retention_archive= '$ExtRefRetentionArch', file_location = '$newFileLocation' WHERE no = $record_no") or die(mysqli_error($conn));
+      mysqli_query($conn, "UPDATE scholarship_masterlist_external_reference set date = '$date', external_reference_title = '$ExtRefTitle', revision_number= '$ExtRefRevNum', mode_of_filing= '$ExtRefModeOfFiling', custodian= '$ExtRefCustodian', location = '$ExtRefLocation', retention_active= '$ExtRefRetentionAct', retention_archive= '$ExtRefRetentionArch', file_location = '$newFileLocation' WHERE no = $record_no") or die(mysqli_error($conn));
+      die(header("Location: ../users/Scholarship/masterlist-external-reference.php?update=success"));
+    }else{
+      mysqli_query($conn, "UPDATE scholarship_masterlist_external_reference set date = '$date', external_reference_title = '$ExtRefTitle', revision_number= '$ExtRefRevNum', mode_of_filing= '$ExtRefModeOfFiling', custodian= '$ExtRefCustodian', location = '$ExtRefLocation', retention_active= '$ExtRefRetentionAct', retention_archive= '$ExtRefRetentionArch' WHERE no = $record_no") or die(mysqli_error($conn));
       die(header("Location: ../users/Scholarship/masterlist-external-reference.php?update=success"));
     }
   }
@@ -403,7 +413,9 @@
 
     $result = mysqli_query($conn, "SELECT * FROM scholarship_masterlist_transmittal WHERE no = $record_no");
     while($row = mysqli_fetch_array($result)){
-      $results[0] = $row['date_time_received'];
+      $date_time_r = date('Y-m-d\TH:i', strtotime($row['date_time_received']));
+      $date_time_d = date('Y-m-d\TH:i', strtotime($row['date_time_dispatch']));
+      $results[0] = $date_time_r;
       $results[1] = $row['received_by'];
       $results[2] = $row['reference_number'];
       $results[3] = $row['source_origin_office'];
@@ -411,7 +423,7 @@
       $results[5] = $row['subject_matter'];
       $results[6] = $row['date_2'];
       $results[7] = $row['action_taken'];
-      $results[8] = $row['date_time_dispatch'];
+      $results[8] = $date_time_d;
       $results[9] = $row['dispatched_by'];
       $results[10] = $row['remarks'];
       $results[11] = $row['no'];

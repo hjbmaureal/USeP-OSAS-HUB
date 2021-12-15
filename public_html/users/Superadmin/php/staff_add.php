@@ -83,8 +83,9 @@ if(isset($_POST['submit'])) {
 
   
   
-    $password = $_POST['password'];
+    // $password = $_POST['password'];
 
+  $hashed_pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
  
 
@@ -111,11 +112,11 @@ if(isset($_POST['submit'])) {
 
 
     if ($type == "Faculty" || $type == "Faculty Head") {
-    $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES (NULL, '$department', '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$password', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+    $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES (NULL, '$department', '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }else if($type == "Staff" || $type == "Coordinator"){
-        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ($office, NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$password', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ($office, NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }else{
-        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ('$office', NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position2', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$password', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ('$office', NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position2', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }
           if (!$query) {
                  echo '<script>

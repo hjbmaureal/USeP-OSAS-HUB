@@ -1,7 +1,7 @@
 <?php
 
 $dbhost = 'localhost';
-$dbname = 'backupdb-3';
+$dbname = 'osasdb_latest4';
 $dbusername ='root';
 $dbpassword = '';
 

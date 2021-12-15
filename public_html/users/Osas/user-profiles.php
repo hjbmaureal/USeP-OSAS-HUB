@@ -51,12 +51,13 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <link rel="stylesheet" type="text/css" href="css/main.css">
 
       <link rel="stylesheet" type="text/css" href="css/announcements.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle_main.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle_main.css">
 
       <!-- Font-icon css-->
           <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="app sidebar-mini rtl" onload="initClock()">
     <!-- Navbar-->
@@ -352,11 +353,11 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="emailAddress">Email Address</label>
-                      <input type="email" name="newEmail" class="form-control" value="" placeholder="Enter your email address...">
+                      <input type="email" name="newEmail" class="form-control" value="<?php echo $row['email_add'] ?>" >
                     </div>
                     <div class="form-group">
                       <label for="contactNumber">Contact Number</label>
-                      <input type="text" name="newNum" class="form-control" value="" placeholder="Enter your contact number...">
+                      <input type="text" name="newNum" class="form-control" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="<?php echo $row['phone_num'] ?>" >
                     </div>
                   </div>
                   <div class="col-sm-6">
@@ -624,6 +625,37 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           special.classList.add("invalid");
         }
       }
+
+    </script>
+
+      <style type="text/css">
+.control--checkbox input:disabled:checked ~ .control__indicator {
+    background-color: green;
+    opacity: 1;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative; 
+  content: "✖";
+}
+
+</style>
+<script type="text/javascript">
+
       //JQUERY SCRIPTS
       $(document).ready(function(){
         //logout
@@ -652,6 +684,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           });
         });
       })
+      </script>
 
     </script>
   </body>

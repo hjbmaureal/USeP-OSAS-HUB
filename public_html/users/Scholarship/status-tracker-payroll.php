@@ -369,9 +369,9 @@
                   <div class="clearfix"></div>
                   <!-- SECOND ROW FOR SORT OPTIONS -->
                   <div class="row">
-                    <div class="col-2">
+                    <div class="col">
                       <div class="form-group">
-                        <label for="sortScholarshipProgram">Scholarship Program</label>
+                        <label for="sortScholarshipProgram">Program</label>
                         <select name="sortScholarshipProgram" id="sortScholarshipProgram" class="form-control">
                           <option value="0">ALL</option>
                           <?php
@@ -393,7 +393,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                       <div class="form-group">
                         <label for="sortSemester">Semester</label>
                         <select name="sortSemester" id="sortSemester" class="form-control">
@@ -404,7 +404,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-1">
+                    <div class="col">
                       <div class="form-group">
                         <label for="toYear">To</label>
                         <?php
@@ -417,7 +417,7 @@
                         ?>
                       </div>
                     </div>
-                    <div class="col-1">
+                    <div class="col">
                       <div class="form-group">
                         <label for="toYear">From</label>
                         <?php
@@ -430,7 +430,7 @@
                         ?>
                       </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                       <div class="form-group">
                         <label for="sortCourse">Course</label>
                         <select name="sortCourse" id="sortCourse" class="form-control">
@@ -454,7 +454,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                       <div class="form-group">
                         <label for="scholarship-type">Type</label>
                         <select name="status" id="status" class="form-control">
@@ -464,11 +464,22 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-1">
+                    <div class="col">
+                      <div class="form-group">
+                        <label for="sortRecordStats">Record Status</label>
+                        <select name="record-status" id="record-status" class="form-control">
+                          <option value="0">ALL</option>
+                          <option <?php if(isset($_POST['record-status']) && $_POST['record-status'] == 1 ) echo 'selected'?> value="1">Active</option>
+                          <option <?php if(isset($_POST['record-status']) && $_POST['record-status'] == 2 ) echo 'selected'?> value="2">Backlogged</option>
+                          <option <?php if(isset($_POST['record-status']) && $_POST['record-status'] == 3 ) echo 'selected'?> value="3">Archived</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
                       <label for="sortSubmit">Filter by</label>
                       <input type="submit" value="Filter" class="btn btn-primary form-control">
                     </div>
-                    <div class="col-1">
+                    <div class="col">
                       <label for="clearSelection">Clear Filter</label>
                       <input type="submit" id="clearSelection" value="Clear" class="btn btn-dark form-control">
                     </div>
@@ -498,6 +509,7 @@
                             $sortProgram = $_POST['sortScholarshipProgram'];
                             $sortCourse = $_POST['sortCourse'];
                             $sortStatus = $_POST['status'];
+                            $recordStatus = $_POST['record-status'];
   
                             $fromYear = trim($_POST['semesterFromYear']);
                             $toYear = trim($_POST['semesterToYear']);

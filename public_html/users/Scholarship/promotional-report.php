@@ -936,7 +936,14 @@
           filename: "Promotional Report.xls" //do not include extension
           })
         });
-        $('#pr-table > tbody').on('click','td:not(:first-child)',function(e){
+        $('#pr-table').on('click', 'tbody .bg-secondary', function(e){
+          Swal.fire(
+              "This record is archived!",
+              "",
+              "info"
+            )
+        })
+        $('#pr-table').on('click','tbody tr:not(.bg-secondary)',function(e){
           e.preventDefault();
 
           var currentRow = $(this).closest("tr"); //SELECT ROW

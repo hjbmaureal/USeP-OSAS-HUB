@@ -1,39 +1,33 @@
     <!DOCTYPE html>
   <html lang="en">
-     <?php 
+  <?php
+   session_start();
+  include('conn.php');
   
-   include('conn.php');
-   include('session_faculty.php');
+  
+  if(!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Faculty Head'){
+    if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Faculty'){
+      if(!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Staff'){
+            echo '<script type="text/javascript">'; 
+            echo 'window.location= "../../index.php";';
+            echo '</script>';
+      }
+    } 
+  }
+  // include('../../php/session_faculty.php');
    $faculty_id= $_SESSION['id'];
 
+$count_sql="SELECT * from notif where message_status='Delivered' AND user_id='$faculty_id'";
 
-      $sql1 = "SELECT staff.*, office.office_name FROM staff 
-              JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
-      $result1 = $conn->query($sql1);
-      if ($result1->num_rows > 0) {
-        while($row = $result1->fetch_assoc()) {
-                  $admin_id = $row['staff_id'];
-                  $f_name = $row['first_name'];
-                  $m_name = $row['middle_name'];
-                  $l_name = $row['last_name'];
-                  $position = $row['position'];
-                  $off = $row['office_name'];
-         }
-       }
+          $result = mysqli_query($conn, $count_sql);
 
+          $count = 0;
 
-          $count_sql="SELECT * from notif where user_id='$faculty_id' and message_status='Delivered'";
+          while ($row = mysqli_fetch_assoc($result)) {                             
 
-          $result1 = mysqli_query($conn, $count_sql);
-
-          $count2 = 0;
-
-          while ($row = mysqli_fetch_assoc($result1)) {                             
-
-            $count2++;
+            $count++;
 
                               }
-
 
 function timeago($datetime, $full = false) {
   date_default_timezone_set('Asia/Manila');
@@ -80,7 +74,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Faculty Hub</title>
+      <title>USeP Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -147,7 +141,7 @@ function timeago($datetime, $full = false) {
               ';
             }else{
               echo '                
-                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">FACULTY HUB</p>
+                <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">EMPLOYEE HUB</p>
               ';
             }
           ?>
@@ -177,9 +171,9 @@ function timeago($datetime, $full = false) {
             }
           ?>
 
-         <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-handshake-o"></i><span class="app-menu__label">Guidance Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-handshake-o"></i><span class="app-menu__label">Guidance Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item active" href="Guidance_Faculty.php">Home</a></li>  
+              <li><a class="treeview-item " href="Guidance_Faculty.php">Home</a></li>  
               <li><a class="treeview-item" href="Guidance_Faculty_Referrals.php">Referral Forms</a></li>
               <li><a class="treeview-item" href="Guidance_Faculty_Acknowledgement.php">Acknowledgement Slip</a></li>
             </ul>
@@ -307,19 +301,19 @@ function timeago($datetime, $full = false) {
       };
 </script>
 
-   <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count2;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
+   <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
             <ul class="app-notification dropdown-menu dropdown-menu-right">
-              <li class="app-notification__title">You have <?php echo $count2;  ?> new notifications.</li>
+              <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>
 
               <div class="app-notification__content">
                   <?php
 
-                $count_sql="SELECT * from notif where user_id='$faculty_id'  order by time desc";
+                $count_sql="SELECT * from notif where user_id=$faculty_id  order by time desc";
 
                 $result2 = mysqli_query($conn, $count_sql);
 
                 while ($row = mysqli_fetch_assoc($result2)) { 
-                  $intval = intval(trim($row['_time']));
+                  $intval = intval(trim($row['time']));
                   if ($row['message_status']=='Delivered') {
 
                     
@@ -327,8 +321,8 @@ function timeago($datetime, $full = false) {
                   <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
+                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -339,8 +333,8 @@ function timeago($datetime, $full = false) {
                   <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
                     <div>
                       <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['_time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="change_notif_status.php">
+                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message">
                       </form></p>
@@ -360,12 +354,11 @@ function timeago($datetime, $full = false) {
               
                  <li class="dropdown">
                   <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['pic'] ?>" style="max-width:100%;">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
                 </a>
                 
-                
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
-              <li><a class="dropdown-item" href="Guidance_FacultyUser.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="User_Profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
               <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
             </ul>
           </li>
@@ -395,9 +388,7 @@ function timeago($datetime, $full = false) {
 
       <!-- Navbar-->
     <!--- NOTIF  -->
-              <div class="red"> 
-          
-        </div>
+         
               
           <!-- Content -->
      <div class="row">
@@ -436,7 +427,7 @@ function timeago($datetime, $full = false) {
                             <td><font class="display"><b>
                             <form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
+                      <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>
                             </font></b></td></li>
                           </tr>';}
@@ -447,7 +438,7 @@ function timeago($datetime, $full = false) {
                             <td><font class="display">
                             <form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
+                      <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>
                             </font></td>
                           </tr>';

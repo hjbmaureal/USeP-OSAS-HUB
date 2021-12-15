@@ -141,7 +141,13 @@
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-      
+      <div class="app-sidebar__user">
+        <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
+          <div>
+            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
+          </div>
+      </div>
     <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
     <title>USeP Scholarship Admin Hub</title>
       <hr>

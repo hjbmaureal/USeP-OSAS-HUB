@@ -10,7 +10,7 @@
    $admin_id=$_SESSION['id'];
 
 
-  $count = 0;
+   $count = 0;
   $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$admin_id' and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){
     $count = $row['cnt'];
@@ -163,7 +163,7 @@
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id AND office_id = 4)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 4)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -305,7 +305,7 @@
             </div>
             <table class="announcements-table" id="announcements-table" cellpadding="10px" width="100%">
               <?php 
-          $sql2="SELECT * from announcements";
+          $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=4";
           $result = mysqli_query($conn, $sql2);
           while ($row2 = mysqli_fetch_assoc($result)) {
 

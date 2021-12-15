@@ -247,6 +247,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <ul class="app-nav">
         <li>
           <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <input type="text" id="session_id" value="<?php echo $session_id ?>" hidden>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -745,10 +746,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-      <script type="text/javascript">
-    <!-- The javascript plugin to display page loading on top-->
+    // <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
+    // <!-- Page specific javascripts-->
     <script type="text/javascript" src="js/plugins/jquery.vmap.min.js"></script>
     <script type="text/javascript" src="js/plugins/jquery.vmap.world.js"></script>
     <script type="text/javascript" src="js/plugins/jquery.vmap.sampledata.js"></script>
@@ -758,6 +758,56 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
+        var isScholar;
+        var forValidation;
+        var search_id = $('#session_id').val();
+        console.log(search_id);
+        $.ajax({
+          url: '../../php/fetchScholarById.php',
+          method: 'POST',
+          data: {search_id:search_id},
+          dataType: 'JSON',
+          success:function(data){
+            console.log("succces");
+            console.log(data);
+            forValidation = data[22];
+            console.log(forValidation);
+            if(data[21] != null){
+              isScholar = true;
+            }else{
+              isScholar = false;
+            }
+
+            if (isScholar && !forValidation ) {
+              console.log("Scholar");
+              document.getElementById('scholarsOnly').setAttribute("style", "display:block");
+              $('.msg-box').toggle();
+            } else if (!isScholar && forValidation) {
+              console.log("For Validation");
+              document.getElementById('scholarsOnly').setAttribute("style", "display:none");
+            }else{
+              console.log("Not Scholar");
+              document.getElementById('scholarsOnly').setAttribute("style", "display:none");
+              $('.msg-box').toggle();
+            }
+            
+          }
+        });
+        $('#logout-button').on('click', function(){
+          Swal.fire({
+            title: 'Do you want to logout?',
+            showDenyButton: true,
+            denyButtonText: `Cancel`,
+            confirmButtonText: `Logout`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              window.location = "../../php_scholarship/user-session.php?logout";
+            } else if (result.isDenied) {
+              Swal.fire('Cancelled', '', 'info')
+            }
+          })
+        })
           /*$('#external-events .fc-event').each(function() {
       
           // store data so the calendar knows to render an event upon drop

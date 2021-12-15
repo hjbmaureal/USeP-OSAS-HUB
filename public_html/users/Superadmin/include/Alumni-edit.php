@@ -5,7 +5,7 @@
                 <div class="modal-dialog modal-dialog modal-xl" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Update Alumni Acoount</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Update Alumni Account</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -13,7 +13,7 @@
                     <div class="modal-body">
                       <div class="container">
                     <div class="row">
-                  <div class="id-picture"><img src='image/logo.png' class= 'pix'></div>  
+                  <div class="id-picture"><img src='../../images/logo.png' class= 'pix'></div>  
                    <div class="col-sm">
 
                     <h3 class="font-weight-bold">ALUMNI ID NUMBER: <?php echo $res['id']?></h3> 

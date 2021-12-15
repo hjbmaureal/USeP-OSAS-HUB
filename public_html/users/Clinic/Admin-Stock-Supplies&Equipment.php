@@ -120,6 +120,8 @@ function timeago($datetime, $full = false) {
         <body class="app sidebar-mini rtl">
         <!-- Navbar-->
 
+
+
         
      <header class="app-header">
     
@@ -301,9 +303,10 @@ function timeago($datetime, $full = false) {
                       <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button" ><i class="fas fa-download"></i> Export</button></div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
+
 
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#NewArrival" style="width: 100%;"><i class="fas fa-plus" data-toggle="modal" data-target="#NewArrival"></i> New Arrival </button></div>
 
@@ -311,11 +314,28 @@ function timeago($datetime, $full = false) {
 
                   </div>
                 </div>
-                  <div class="table-bd">
+                 
+                 <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <div class="calldiv5" id="calldiv5">
-                   <table class="table table-hover table-bordered reports-list" id="sampleTable2">
+                  <div class="calldiv" id="calldiv" style="display: compact">
+                   <table class="head">
+                     <thead>
+                      <tr>
+                      <th><img src="image/logo.png" width="100"></th>
+                      <th width="100"></th>
+                      <th><center><p>Republic of the Philippines</p>
+                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
+                      <p> Tagum-Mabini Campus</p>
+                      <p> Apokon, Tagum City</p>
+                      <br>
+                      <p style="font-size: 20px"> Medical-Dental Equipment Inventory </p></center></th>
+                      <th width="100"></th>
+                      <th width="100"></th>
+                      </tr>                       
+                     </thead>
+                   </table>
+                   <table class="table table-hover table-bordered reports-list" id="sampleTable">
                     <thead>
                       <tr>
                 
@@ -327,7 +347,7 @@ function timeago($datetime, $full = false) {
                       <th>Functional</th>
                       <th>Semi-functional</th>
                       <th>Non-functional</th>
-                      <th class="max";>Action</th>
+                      <th class="max action-column noEx1" width="100px">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -352,7 +372,7 @@ function timeago($datetime, $full = false) {
                     <td><?php echo $row['functional'];?></td>
                     <td><?php echo $row['semi_functional'];?></td>
                     <td><?php echo $row['non_functional'];?></td>
-                    <td>
+                    <td class="action-column">
                         <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#UpdateSE"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#EquipmentCondition" style="color: white;">Condition</a>
                         
@@ -392,7 +412,7 @@ function timeago($datetime, $full = false) {
 
                     <div class="inline-block">
                     Date <br>
-                    <input type="date" id="datepicker" placeholder="From" class="bootstrap-select " style="width: 100%;">
+                    <input type="date"  id="filterdateS" placeholder="From" class="bootstrap-select " style="width: 100%;">
 
                       </div>
 
@@ -402,19 +422,37 @@ function timeago($datetime, $full = false) {
                        <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
+                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button2" ><i class="fas fa-download"></i> Export</button></div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att2"><i class="fas fa-print"></i> Print </button></div>
+
 
                       </div>
       
 
                   </div>
                 </div>
+                
                 <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <div class="calldiv5" id="calldiv5">
+                  <div class="calldiv2" id="calldiv2" style="display: compact">
+                   <table class="head">
+                     <thead>
+                      <tr>
+                      <th><img src="image/logo.png" width="100"></th>
+                      <th width="100"></th>
+                      <th><center><p>Republic of the Philippines</p>
+                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
+                      <p> Tagum-Mabini Campus</p>
+                      <p> Apokon, Tagum City</p>
+                      <br>
+                      <p style="font-size: 20px"> Medical-Dental Supply Inventory </p></center></th>
+                      <th width="100"></th>
+                      <th width="100"></th>
+                      </tr>                       
+                     </thead>
+                   </table>
                    <table class="table table-hover table-bordered reports-list" id="sampleTable2">
                     <thead>
                       <tr>
@@ -426,7 +464,7 @@ function timeago($datetime, $full = false) {
                       <th>Quantity Received</th>
                       <th>Available</th>
                       <th>Consumed</th>
-                      <th class="max";>Action</th>
+                      <th class="max action-column noEx2" width="100px">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -448,7 +486,8 @@ function timeago($datetime, $full = false) {
                     <td><?php echo $row['qty'];?></td>
                     <td><?php echo $row['available'];?></td>
                     <td><?php echo $row['consumed'];?></td>
-                    <td>
+                    <td class="action-column">
+                    
                         <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#UpdateSE"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#SupplyCondition" style="color: white;">Condition</a>
                         
@@ -747,10 +786,15 @@ function timeago($datetime, $full = false) {
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
+      <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
       <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+
+      <script type="text/javascript" src="../js/plugins/jquery.table2excel.js"></script>
+       
+
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -768,11 +812,147 @@ function timeago($datetime, $full = false) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+
+<script>
+    $('#print_att').click(function(){
+    var _c = $('#calldiv').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  });
+    $('#print_att2').click(function(){
+    var _c = $('#calldiv2').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  })
+</script>
+<style>
+
+@media screen{
+.head{
+display:none;}
+.heads{
+display:none;}
+  
+.tit{
+display:none;}
+h2{
+display:none;}
+tfoot{
+display:none;}
+}
+@media print{
+.head{
+margin-top:-100%;
+display:table-header-group;
+margin-bottom:5px;}
+
+
+}
+ 
+}
+
+@page{
+margin-top:-1cm; 
+margin-left:1cm;
+margin-right:1cm;
+margin-bottom:1.5cm;
+}
+}
+
+.dropdown-menu {
+    max-height: 280px;
+    overflow-y: auto;
+}
+</style>
+<noscript>
+    <table style="margin-top:8%;">
+<tr>
+<td><b> &emsp;Prepared By: </b></td>
+</tr>
+</table>
+<table align="center" style="margin-top:3%;">
+<td align="center" style="margin-top:10%;"><p>Admin</p></td>
+<tr>
+<td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
+</tr>
+</table>
+      <style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:1%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:0.2%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    .action-column{
+      display: none;
+    }
+    </style>
+
+</noscript>
+
+  <script type="text/javascript">
+
+      $( function() {
+        $( "#datepicker" ).datepicker();
+      } );
+
+    </script>
+
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
+      <script type="text/javascript">$('#myTable').DataTable();</script>
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {
@@ -784,5 +964,78 @@ function timeago($datetime, $full = false) {
           ga('send', 'pageview');
         }
       </script>
+
+      <script type="text/javascript">
+        $("#export-button").click(function(){
+        $("#sampleTable").table2excel({
+          // exclude CSS class
+          exclude:".noEx1",
+          name:"Worksheet Name",
+          filename:"Medical-Dental Equipment Inventory",//do not include extension
+          fileext:".xls" // file extension
+        });
+
+      });
+              
+      $("#export-button2").click(function(){
+        $("#sampleTable2").table2excel({
+          // exclude CSS class
+          exclude:".noEx2",
+          name:"Worksheet Name",
+          filename:"Medical-Dental Supply Inventory",//do not include extension
+          fileext:".xls" // file extension
+        });
+
+      });
+
+
+
+    </script>
+                 <script type="text/javascript">
+
+      $(document).ready(function(){
+                  /*STATUS*/
+                  $("#filterdate").on('change', function(){
+                    var filterdate = $("#filterdate").val();
+
+                    $.ajax({
+                          url:"filterSEDate.php",
+                          type:"POST",
+                          data:{fdate : filterdate},
+                          beforeSend:function(){
+                            $(".calldiv").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".calldiv").html(data);
+                          },
+                    });
+               
+                  });
+
+             });
+
+            $(document).ready(function(){
+                  /*STATUS*/
+                  $("#filterdateS").on('change', function(){
+                    var filterdateS = $("#filterdateS").val();
+
+                    $.ajax({
+                          url:"filterSDate.php",
+                          type:"POST",
+                          data:{fdate : filterdateS},
+                          beforeSend:function(){
+                            $(".calldiv2").html("Working.....");
+                          },
+                          success:function(data){
+                            $(".calldiv2").html(data);
+                          },
+                    });
+               
+                  });
+
+             });
+      </script>
+
+
     </body>
   </html>

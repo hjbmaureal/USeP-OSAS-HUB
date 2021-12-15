@@ -327,7 +327,7 @@
                             <td><font class="display"><b>
                             <form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
+                      <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>
                             </font></b></td></li>
                           </tr>';}
@@ -338,7 +338,7 @@
                             <td><font class="display">
                             <form method="POST" action="change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
+                      <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>
                             </font></td>
                           </tr>';

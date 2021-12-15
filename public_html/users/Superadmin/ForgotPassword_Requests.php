@@ -51,7 +51,7 @@ if(isset($_POST['update'])){
   $student_id= $_POST['student_id'];
   $new_pass= $_POST['new_password'];
 
-  $student_check_query="SELECT * FROM student WHERE student_id='$student_id'";
+  $student_check_query="SELECT * FROM login_credentials WHERE username='$student_id'";
   $result1=mysqli_query($conn,$student_check_query);
   $student_check= mysqli_fetch_assoc($result1);
 
@@ -70,9 +70,37 @@ $message = "Your new password is ".$new_pass.". Remember it well and don't forge
 
 
  $new_pass = password_hash($new_pass,PASSWORD_DEFAULT);
- $change_pass_query = $conn->prepare("call spUpdatePass(?,?)");
- $change_pass_query->bind_param("ss", $new_pass, $student_id);
- $result2 = $change_pass_query->execute();
+ if($student_check['usertype']=='Student'){
+      $change_pass_query = $conn->prepare("call spUpdatePass(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ if($student_check['usertype']=='Alumni'){
+      $change_pass_query = $conn->prepare("call spUpdatePass_Alumni(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ if($student_check['usertype']=='Staff'){
+      $change_pass_query = $conn->prepare("call spUpdatePass_Staff(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ if($student_check['usertype']=='Faculty'){
+      $change_pass_query = $conn->prepare("call spUpdatePass_Staff(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ if($student_check['usertype']=='Faculty Head'){
+      $change_pass_query = $conn->prepare("call spUpdatePass_Staff(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ if($student_check['usertype']=='Coordinator'){
+      $change_pass_query = $conn->prepare("call spUpdatePass_Staff(?,?)");
+      $change_pass_query->bind_param("ss", $new_pass, $student_id);
+      $result2 = $change_pass_query->execute();
+ }
+ 
 
  $change_remarks_query = $conn->prepare("call spUpdateRemarks(?)");
  $change_remarks_query->bind_param("s", $student_id);
@@ -397,16 +425,16 @@ function timeago($datetime, $full = false) {
                   </thead>
                   <tbody>
                     <?php 
-    $sql="SELECT * FROM student JOIN forgot_pass_requests ON student.student_id = forgot_pass_requests.student_id WHERE remarks='Request Delivered';";
+    $sql="SELECT * FROM login_credentials JOIN forgot_pass_requests ON login_credentials.username = forgot_pass_requests.student_id WHERE remarks='Request Delivered';";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
 
                           echo'<tr>
-                            <td><font class="display">'. $row['Student_id']. '</font></td>
-                            <td><font class="display">'. $row['last_name'].', '. $row['first_name'].' '. $row['middle_name'].'</font></td>
+                            <td><font class="display">'. $row['username']. '</font></td>
+                            <td><font class="display">'. $row['name'].'</font></td>
                             <td><font class="display">'. $row['email_add'].'</font></td>
                             <td align="center"><font class="display">
-                            <button type="button" data-id='.$row['Student_id'].' id='.$row['Student_id'].' class="show_modal btn btn-danger btn-sm verify">Edit Password</button>
+                            <button type="button" data-id='.$row['username'].' id='.$row['username'].' class="show_modal btn btn-danger btn-sm verify">Edit Password</button>
                             </font></td>
                           </tr>';}
 

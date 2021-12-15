@@ -140,33 +140,50 @@ session_start();
 		      </div>
 		      </div>
 
-		<?php
-		$query = "SELECT subcode, subdesc, units, grade FROM student_grades WHERE id='$grantee_id'";
-			$result = $conn->query($query);
-			while($row=$result->fetch_assoc()){
-
-		?>
-		<div class="table-responsive">
-       	<table class="table table-bordered">
-       		<thead>
-       			<tr>
-       				<th>Subject Code</th>
+          <?php
+		      $query=mysqli_query($conn,"SELECT * FROM promotional_report WHERE grantee_id LIKE '%".$grantee_id."%'");
+          echo '
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                    <th>Subject Code</th>
                     <th>Description</th>
                     <th>Units</th>
                     <th>Grade</th>
-       			</tr>
+                </tr>
+              </thead>
+              <tbody>
+              ';
+    
+              while($row = mysqli_fetch_array($query))
+              {
+                for ($x = 1; $x <= 9; $x++) {
+                  $subcode = "subject_code" ;
+                  $subdesc = "sub_desc" ;
+                  $units = "units" ;
+                  $grade = "grade" ;
+                  $subcode .=$x;
+                  $subdesc .=$x;
+                  $units .=$x;
+                  $grade .=$x;
+                  
+                  if(empty($row["$subcode"])){
 
-       			<tr>
-       				<th><?php echo $row['subcode'] ?></th>
-       				<th><?php echo $row['subdesc'] ?></th>
-       				<th><?php echo $row['units'] ?></th>
-       				<th><?php echo $row['grade'] ?></th>
-       			</tr>
-       		</thead>
-
-    	</table>
-    	</div>
-
+                  }else{
+                    echo '
+                      <tr>
+                        <td>'.$row["$subcode"].'</td>
+                        <td>'.$row["$subdesc"].'</td>
+                        <td>'.$row["$units"].'</td>
+                        <td>'.$row["$grade"].'</td>
+                      </tr>
+                    ';
+                  }
+                }
+		    ?>
+            </tbody>
+            </table>
 
 		<?php } }?> 
 		

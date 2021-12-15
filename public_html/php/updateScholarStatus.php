@@ -4,6 +4,8 @@
 
   if(isset($_POST['update-scholar-status'])){
     //STATUS VARIABLE FROM FORM
+    $scholarship = $_POST['scholarship'];
+    $curr_year = $_POST['curr_year'];
     $student_id = $_POST['student_id'];
     $status = $_POST['setStatus'];
     //FOR EACH FOR MULTIPLE SELECTIONS
@@ -11,14 +13,15 @@
       foreach($_POST['select'] as $grantee_id){
           $result = mysqli_query($conn, "SELECT * FROM scholarship_general_info WHERE grantee_id = '$grantee_id'");
           $row = mysqli_fetch_assoc($result);
-          
+          var_dump($grantee_id);
+          var_dump($row['semester_year']);
           // echo $status;
           if($status == 1){
             echo "enrolled";
             //PREPARE STATEMENT
             $stmt = $conn->prepare("call ScholarshipInsertEnrollmentList(?,?)");
             //BIND THE VARIABLES
-            $stmt->bind_param("ss", $grantee_id, $status);
+            $stmt->bind_param("is", $grantee_id, $status);
             //EXECUTE
             $test = $stmt->execute();
             if(false === $test){

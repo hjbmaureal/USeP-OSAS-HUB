@@ -45,7 +45,6 @@
     <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/2c16a9550c.js" crossorigin="anonymous"></script>
   </head>
 
 
@@ -413,7 +412,7 @@
             <form action="../../php/scholarship-masterlist-script.php" method="POST" enctype="multipart/form-data">
               <input type="text" name="record-no" id="record-no">
               <div class="modal-header">
-                <h5 class="modal-title">Add Record</h5>
+                <h5 class="modal-title">Update Record</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -697,11 +696,11 @@
       $(document).ready(function(){
         //update record function
         $('.btn-update').on('click', function(){
-          var record_no = $(this).attr('record-no');
+          var fetch_external_reference = $(this).attr('record-no');
           $.ajax({
             url: '../../php/scholarship-masterlist-script.php',
             method: 'POST',
-            data: {record_no:record_no},
+            data: {fetch_external_reference:fetch_external_reference},
             dataType: 'JSON',
             success:function(data){
               console.log(data)
@@ -722,12 +721,11 @@
         }) 
         //delete record function
         $('.btn-remove').on('click', function(){
-          var record_no = $(this).attr('record-no');
-          console.log(record_no)
+          var fetch_external_reference = $(this).attr('record-no');
           $.ajax({
             url: '../../php/scholarship-masterlist-script.php',
             method: 'POST',
-            data: {record_no:record_no},
+            data: {fetch_external_reference:fetch_external_reference},
             dataType: 'JSON',
             success:function(data){
               console.log(data[6])

@@ -83,10 +83,11 @@
           }else if($newPass != $confirmNewPass){
             $passState = "password-dont-match";
           }else {
-          // hashing the password
+
+            // hashing the password
             $oldPass = $oldPass;
             $newPass =$newPass;
-            $sql = "SELECT * FROM student WHERE Student_id='$student_id' AND password='$oldPass'";
+            $sql = "SELECT * FROM student WHERE Student_id='$student_id'";
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
               $hashed_pass = password_hash($newPass, PASSWORD_DEFAULT);
@@ -96,6 +97,9 @@
             }else{
               $passState = "incorrect-password";
             }
+
+          
+          
           }
         }
       }

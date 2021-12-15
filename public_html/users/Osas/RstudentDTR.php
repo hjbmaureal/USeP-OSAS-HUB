@@ -450,10 +450,10 @@
                                     $result = mysqli_query($conn,$sql);
                                     while($row=mysqli_fetch_array($result)){
                                           echo "<option class='select-item'";
-                                          if(isset($_POST['sem_drpdwn']) && $_POST['sem_drpdwn'] == $row['title']){
-                                              echo "selected value=".$row['sem_year']." >".$row['sem_year']."</option>";
+                                          if(isset($_POST['sem_drpdwn']) && $_POST['sem_drpdwn'] == $row['sem_year']){
+                                              echo "selected value='".$row['sem_year']."'>".$row['sem_year']."</option>";
                                           }else{
-                                            echo "value=".$row['sem_year']." >".$row['sem_year']."</option>";
+                                            echo "value='".$row['sem_year']."'>".$row['sem_year']."</option>";
                                           }
                                     }
                                 ?>

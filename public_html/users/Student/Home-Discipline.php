@@ -568,13 +568,14 @@
                     <div id="external-events">
 
                 <?php 
-                         $sql = mysqli_query($conn,"SELECT * FROM viewresponse WHERE response_status = 'On Going' AND (viewresponse.student_id = '$id' OR viewresponse.defendant = '$id') ORDER BY schedule_date, time_from ASC ");
+                 $limit=5;
+                         $sql = mysqli_query($conn,"SELECT * FROM viewresponse WHERE response_status = 'On Going' AND (viewresponse.student_id = '$id' OR viewresponse.defendant = '$id') ORDER BY schedule_date, time_from ASC LIMIT $limit");
                   
                             while($row = mysqli_fetch_array($sql)) {     
                               ?>
 
                 <div class="fc-event">
-                <p class="font-weight-bold" > COMPLAINANT NAME: &emsp; <?php echo $row['fullname'].'<br>'.'DATE: &emsp;' .$row['schedule_date'].'<br>'.'TIME: &emsp;' .$row['time_from'].'<br>'.' TYPE: &emsp;'.$row['meeting_type'].' <br>'.'MEETING LINK: &emsp;'.$row['meeting_link'].' <br>'.'MEETING ID: &emsp;'.$row['meeting_id'].' <br>'.'MEETING PASSCODE: &emsp;'.$row['passcode']; ?>
+                <p class="font-weight-bold" >NAME: &emsp; <?php echo $row['fullname'].'<br>'.'DEFENDANT: &emsp;' .$row['Person_Complained'].'<br>'.'DATE: &emsp;' .$row['schedule_date'].'<br>'.'TIME: &emsp;' .$row['time_from'].'<br>'.' TYPE: &emsp;'.$row['meeting_type'].' <br>'.'MEETING LINK: &emsp;'.$row['meeting_link'].' <br>'.'MEETING ID: &emsp;'.$row['meeting_id'].' <br>'.'MEETING PASSCODE: &emsp;'.$row['passcode']; ?>
                   </div>
 
                 <?php }?> 

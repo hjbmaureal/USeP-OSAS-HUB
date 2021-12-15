@@ -368,25 +368,25 @@
                     <div class="row">
                     <div class="col mt-1">
                     <form method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
-                      <div class="inline-block">
-                   School Year <br>
-                    <select class="bootstrap-select" name="yr_drpdwn" id="yr_drpdwn">
-                          <option class="select-item" value="0">All</option>
-                          <?php
+                    <div class="inline-block">
+                    Semester and Year <br>
+                    <select class="bootstrap-select size-150px" name="sem_drpdwn" id="sem_drpdwn">
+                        <option class="select-item" value="0">All</option>
+                        <?php
                                     
                                     
-                                    $sql="SELECT DISTINCT year(Date_of_incident) as get_yr FROM complaint";
+                                    $sql="SELECT DISTINCT Sem_Year FROM complaint";
                                     $result = mysqli_query($conn,$sql);
                                     while($row=mysqli_fetch_array($result)){
                                           echo "<option class='select-item'";
-                                          if(isset($_POST['yr_drpdwn']) && $_POST['yr_drpdwn'] == $row['get_yr']){
-                                              echo "selected value=".$row['get_yr']." >".$row['get_yr']."</option>";
+                                          if(isset($_POST['sem_drpdwn']) && $_POST['sem_drpdwn'] == $row['Sem_Year']){
+                                              echo "selected value='".$row['Sem_Year']."'>".$row['Sem_Year']."</option>";
                                           }else{
-                                            echo "value=".$row['get_yr']." >".$row['get_yr']."</option>";
+                                            echo "value='".$row['Sem_Year']."'>".$row['Sem_Year']."</option>";
                                           }
                                     }
                                 ?>
-                      </select>
+                            </select>
                     </div>
                     <div class="inline-block">
                     Month of <br>
@@ -519,6 +519,7 @@
                       <th>Name of Person Complained</th>
                       <th>Witness of Incident</th>
                       <th>Action Taken</th>
+                      <th>Semester and Year</th>
 
                     </tr>
                   </thead>
@@ -544,7 +545,8 @@
                       concat( complaint.Witness1,' ',
                       complaint.Witness2, ' ',
                       complaint.Witness3) as witness,
-                      response.action_taken 
+                      response.action_taken,
+                      complaint.Sem_Year
                       FROM complaint 
                       JOIN student ON student.Student_id = complaint.Student_id
                       JOIN course ON  student.course_id = course.course_id 
@@ -555,7 +557,7 @@
                          # code...
                         
 
-                        $yr_comp = $_POST['yr_drpdwn'];
+                       $sem_comp = $_POST['sem_drpdwn'];
                         $mont_comp = $_POST['month_drpdwn'];
                         $yr_lvl_comp = $_POST['yr_lvl'];
                         $course_comp = $_POST['course_dropdwn'];
@@ -564,10 +566,10 @@
 
                         
 
-                        if ($yr_comp != "0") {
+                        if ($sem_comp != "0") {
                           # code...
-                          $sql .= " AND year(complaint.Date_of_incident) = '$yr_comp' ";
-                        }
+                           $sql .= " AND complaint.Sem_Year = '$sem_comp' ";
+                         }  
                         if ($mont_comp != "0") {
                           # code...
                           $sql .= " AND month(complaint.Date_of_incident) = '$mont_comp' ";
@@ -612,6 +614,7 @@
                       echo  "<td>".$row['Person_Complained']."</td>";
                       echo  "<td>".$row['witness']."</td>";
                       echo  "<td>".$row['action_taken']."</td>";
+                      echo  "<td>".$row['Sem_Year']."</td>";
                       echo  "</tr>";
                     }
                     }

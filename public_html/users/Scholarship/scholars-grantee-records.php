@@ -10,14 +10,7 @@
   $user_password = '';
 
   $currSemesterYear = "";
-  $id= $_SESSION['id'];
-
-  $user_id = $_SESSION['id'];
-  if($result = mysqli_query($conn, "SELECT * FROM login_credentials WHERE username = $user_id")){
-    while($row = mysqli_fetch_array($result)){
-      $user_password = $row['password'];
-    }
-  }
+  $id = $_SESSION['id'];
 
   include("../../php/check-semester.php"); //semester change for cronjobs
 
@@ -28,14 +21,13 @@
       $count = $row['cnt'];
     }
   }
-
   if(isset($_POST['archive-records'])){
     //primary operation
     if(isset($_POST['select'])){
       foreach($_POST['select'] as $student_id){
         mysqli_query($conn, "UPDATE grantee_history SET record_status = 1 WHERE id = '$student_id' AND semester_year != '$currSemesterYear'");
       }
-      // header("Location: scholars-grantee-records.php?archive=success");
+      header("Location: scholars-grantee-records.php?archive=success");
     }else{
       header("Location: scholars-grantee-records.php?selection=empty");
     }
@@ -971,7 +963,7 @@
                       <a class="btn btn-danger icon-btn" id="print-button" href="#">
                         <i class="fa fa-list-ul"></i>Print</a>
                       <!-- Archive button -->
-                      <button type="submit" class="btn btn-info" name="archive-records">
+                      <button type="submit" class="btn btn-info" id="button-submit-archive" name="archive-records">
                         <i class="fas fa-archive"></i> Archive
                       </button>
                     </p>
@@ -1199,7 +1191,7 @@
                             }else if(!$sem && $status == 0){ //backlogged records
                               echo '
                                 <tr class="table-danger text-danger clickable">
-                                <td class="check-box"><input type="checkbox" name="select[]" value='.$row['grantee_id'] .'></td>
+                                <td class="check-box"><input type="checkbox" class="check-box-inner" name="select[]" value='.$row['grantee_id'] .'></td>
                               ';
                             }else{ //archived records
                               echo '
@@ -1371,7 +1363,6 @@
         window.setInterval("updateClock()", 1);
       }
 
-
       //ALL JQUERY FUCNTIONS
       $(document).ready(function(){
         //logout
@@ -1393,15 +1384,23 @@
         //MAO NI ANG PARA SA LOGIN BEFORE MAG ARCHIVE
         $('#button-submit-archive').prop('disabled', true);
         var archiveAction = false;
-        var compareValue = <?php echo $user_password ?>;
+        var user_id = "<?php echo $id; ?>";
+        console.log(user_id);
         $('.check-box-inner').change(function(e){
-          var clickedOff = true;
           if(!archiveAction){
             Swal.fire({
-              title: 'Confirm Password',
-              html: `<input type="password" id="passwordConfirm" class="swal2-input" placeholder="Enter password...">
-              <input type="password" id="passwordConfirm2" class="swal2-input" placeholder="Confirm password...">`,
+              title: 'Confirm Password Before Archiving!',
+              text: 'This action cannot be reverssed!',
+              html: `<div class="swal2-html-container" id="swal2-html-container" style="display: block;">This action cannot be reversed!</div>
+                <input type="password" id="passwordConfirm" class="swal2-input" placeholder="Enter password...">
+                <input type="password" id="passwordConfirm2" class="swal2-input" placeholder="Confirm password...">`,
               confirmButtonText: 'Continue',
+              allowOutsideClick: false,
+              showCancelButton: true,
+              focusConfirm: true,
+              // confirmButtonColor: "#DD6B55",
+              cancelButtonText: "Cancel",
+              showCloseButton: true,
               focusConfirm: false,
               preConfirm: () => {
                 const password1 = Swal.getPopup().querySelector('#passwordConfirm').value
@@ -1412,27 +1411,49 @@
                 return { password1: password1, password2: password2}
               }
             }).then((result) => {
-              clickedOff = false;
-              if(result.value.password1 === result.value.password2){
-                console.log(result.value.password1+compareValue);
-                if(result.value.password1 == compareValue){
-                  archiveAction = true;
-                  $('#button-submit-archive').prop('disabled', false);
+              if(result.isConfirmed){
+                if(result.value.password1 === result.value.password2){
+                  var password = result.value.password1;
+                  $.ajax({
+                    url: '../../php/archiveConfirm.php',
+                    method: 'POST',
+                    data: {
+                      password:password,
+                      user_id:user_id
+                    },
+                    dataType: 'JSON',
+                    success:function(data){
+                      // console.log(data.statusCode)
+                      archiveAction = true;
+                      if(data.statusCode == "success"){
+                        $('#button-submit-archive').prop('disabled', false);
+                        Swal.fire(
+                          "Please select records that needed to be archived!",
+                          "This action cannot be undone. Refresh page if you don't want to continue...",
+                          "info"
+                        )
+                      }else if(data.statusCode == "wrong_password"){
+                        archiveAction = false;
+                        $(".check-box-inner").prop('checked', false);
+                        Swal.fire(
+                          "Wrong password for current staff!",
+                          "Please try again.",
+                          "error"
+                        )
+                      }
+                    }
+                  })
                 }else{
                   $(".check-box-inner").prop('checked', false);
                   Swal.fire(
-                    "Password incorrect!",
+                    "Passwords does not match!",
                     "Please try again.",
                     "error"
                   )
                 }
               }else{
+                $('#button-submit-archive').prop('disabled', true);
                 $(".check-box-inner").prop('checked', false);
-                Swal.fire(
-                  "Password does not match!",
-                  "Please try again.",
-                  "error"
-                )
               }
             })
           }

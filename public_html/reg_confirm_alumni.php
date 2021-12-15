@@ -54,8 +54,12 @@ if(isset($_POST['submit'])) {
     $hashed_pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $pass = $_POST['password'];
 
-    $location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
+    //$location = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
     /*$location2 = addslashes(file_get_contents($_FILES["prof_pic"]["tmp_name"]));*/
+    $fileinfo2=PATHINFO($_FILES["id_pic"]["name"]);
+    $newFilename2=$fileinfo2['filename'] ."_". time() . ".".$fileinfo2['extension'];
+    move_uploaded_file($_FILES["id_pic"]["tmp_name"],"registration-files/alumni_idpic/".$newFilename2);
+    $location="../../registration-files/alumni_idpic/".$newFilename2;
 
 
 
@@ -110,7 +114,7 @@ if ($major == "null") {
     '$hashed_pass', 
     '$location',  
     '$datenow', 
-    '$datenow' );";
+    Null );";
 
     /*$result=mysqli_query($conn,$sql) or die (mysqli_error($conn));
 

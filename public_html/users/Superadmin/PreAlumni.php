@@ -353,7 +353,7 @@ function timeago($datetime, $full = false) {
                     </td>   
 
                     <td>
-                      <a class="btn btn-warning btn-sm" href="<?php echo $res['school_id_pic']; ?>"><i class="fas fa-download" ></i></a>
+                      <a class="btn btn-warning btn-sm" href="<?php echo $res['school_id_pic']; ?>" target="_blank"><i class="fas fa-download" ></i></a>
                     </td>
                     <?php   
                     if(empty($res["date_verified"])){?>

@@ -70,7 +70,7 @@
         </li>
         <li>
           <a class="app-menu__item active" href="index.php">
-            <i class="app-menu__icon fas fa-user-check"></i>
+            <i class="app-menu__icon fa fa-home"></i>
             <span class="app-menu__label">Home</span>
           </a>
         </li>
@@ -81,19 +81,19 @@
         <!-- Treeview MENU -->
         <li class="treeview">
           <a class="app-menu__item" href="" data-toggle="treeview">
-            <i class="app-menu__icon fa fa-dashboard"></i>
+            <i class="app-menu__icon fa fa-address-book"></i>
             <span class="app-menu__label">Scholars & Grantee Record</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="scholars-grantee-records.php" class="treeview-item">Scholars and Grantee Record</a></li>
+            <li><a href="scholars-grantee-records.php" class="treeview-item active">Scholars and Grantee Record</a></li>
             <li><a href="provider-list.php" class="treeview-item">Providers List</a></li>
           </ul>
         </li>
         <!-- Treeview MENU -->
         <li class="treeview">
           <a class="app-menu__item" href="" data-toggle="treeview">
-            <i class="app-menu__icon fa fa-laptop"></i>
+            <i class="app-menu__icon fa fa-pie-chart"></i>
             <span class="app-menu__label">Status Tracker</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
@@ -108,7 +108,7 @@
         <!-- NOT Treeview MENU -->
         <li>
           <a class="app-menu__item" href="scholars-validation.php">
-            <i class="app-menu__icon fas fa-user-check"></i>
+            <i class="app-menu__icon fa fa-check-square"></i>
             <span class="app-menu__label">Scholar's Validation</span>
           </a>
         </li>
@@ -132,14 +132,14 @@
         <!-- NOT Treeview MENU -->
         <li>
           <a class="app-menu__item" href="enrollment-list.php">
-            <i class="app-menu__icon fas fa-clipboard-list"></i>
+            <i class="app-menu__icon fa fa-book"></i>
             <span class="app-menu__label">Enrollment List Report</span>
           </a>
         </li>
         <!-- NOT Treeview MENU -->
         <li>
           <a class="app-menu__item" href="promotional-report.php">
-            <i class="app-menu__icon fas fa-file-alt"></i>
+            <i class="app-menu__icon fa fa-graduation-cap"></i>
             <span class="app-menu__label">Promotional Report</span>
           </a>
         </li>
@@ -148,25 +148,25 @@
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-records.php">
-            <i class="app-menu__icon fa fa-file-text"></i>
+            <i class="app-menu__icon fa fa-folder-open"></i>
             <span class="app-menu__label">Records</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-documents.php">
-            <i class="app-menu__icon fas fa-file"></i>
+            <i class="app-menu__icon fa fa-file-text"></i>
             <span class="app-menu__label">Documents</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-external-reference.php">
-            <i class="app-menu__icon fas fa-file-export"></i>
+            <i class="app-menu__icon fa fa-external-link"></i>
             <span class="app-menu__label">External References</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="masterlist-incoming-outgoing.php">
-            <i class="app-menu__icon fa fa-retweet"></i>
+            <i class="app-menu__icon fa fa-exchange"></i>
             <span class="app-menu__label">Incoming/Outgoing/Transmittal</span>
           </a>
         </li>
@@ -176,13 +176,13 @@
         </li>
         <li>
           <a class="app-menu__item" href="monitoring-of-scholars.php">
-            <i class="app-menu__icon fas fa-clipboard-list"></i>
+            <i class="app-menu__icon fa fa-users"></i>
             <span class="app-menu__label">Monitoring of Scholars</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="scholarship-report.php">
-            <i class="app-menu__icon fas fa-users"></i>
+            <i class="app-menu__icon fa fa-file-excel-o"></i>
             <span class="app-menu__label">Scholarship Report</span>
           </a>
         </li>
@@ -191,7 +191,7 @@
         </li>
         <li>
           <a class="app-menu__item" href="curriculum.php">
-            <i class="app-menu__icon fa fa-graduation-cap"></i>
+            <i class="app-menu__icon fa fa-university"></i>
             <span class="app-menu__label">Curriculum</span>
           </a>
         </li>
@@ -378,10 +378,10 @@
               <div class="info">
                 <h4>No. of Internal Scholars</h4>
                 <?php
-                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info WHERE program_type = 'Internal'");
-                  $row = mysqli_fetch_assoc($result);
+                  $result = mysqli_query($conn,"SELECT count(student_id) from scholarship_general_info WHERE program_type = 'Internal' GROUP BY student_id");
+                  $row = mysqli_num_rows($result);
                   echo '
-                    <p><b>'.$row['count(*)'].'</b></p>
+                    <p><b>'.$row.'</b></p>
                   ';
                 ?>
               </div>
@@ -392,10 +392,10 @@
               <div class="info">
                 <h4>No. of External Scholars</h4>
                 <?php
-                  $result = mysqli_query($conn,"SELECT count(*) from scholarship_general_info WHERE program_type = 'External'");
-                  $row = mysqli_fetch_assoc($result);
+                  $result = mysqli_query($conn,"SELECT count(student_id) from scholarship_general_info WHERE program_type = 'External' GROUP BY student_id");
+                  $row = mysqli_num_rows($result);
                   echo '
-                    <p><b>'.$row['count(*)'].'</b></p>
+                    <p><b>'.$row.'</b></p>
                   ';
                 ?>
               </div>

@@ -2,6 +2,8 @@
 include("conn.php"); 
 $id = $_POST['id'];
 $p_id = $_POST['p_id'];
+
+
 if(isset($_POST['submit'])) { 
 
 $cbc = $_POST['cbc']?? null;
@@ -28,6 +30,7 @@ $psychological_test = $_POST['psychological_test']?? null;
 $NPE = $_POST['NPE']?? null;
 
 
+$requested_by = $_POST['requested_by'];
 
 
 
@@ -43,7 +46,7 @@ $user_id = '11111';
 
 
 
-$query = mysqli_query($conn, "UPDATE clinic_certificate_requests SET CBC='$cbc',	PLATELET='$platelet',	HEMOTOCRIT='$hema',	HEMOGLOBIN='$hemo',Urinalysis='$Urinalysis',Fecalysis='$Fecalysis',FBS='$fbs',sua='$sua',Creatinine='$Creatinine', Lipid='$Lipid', SGOT='$SGOT', SGPT='$SGPT', blood_test='$bloodtest', chest_xray='$chest_xray', drug_test='$drugtest', psychological_test='$psychological_test', NPE='$NPE' , others='$others', other_text='$other_text'	 WHERE request_id=$id");
+$query = mysqli_query($conn, "UPDATE clinic_certificate_requests SET requested_by='$requested_by', CBC='$cbc',	PLATELET='$platelet',	HEMOTOCRIT='$hema',	HEMOGLOBIN='$hemo',Urinalysis='$Urinalysis',Fecalysis='$Fecalysis',FBS='$fbs',sua='$sua',Creatinine='$Creatinine', Lipid='$Lipid', SGOT='$SGOT', SGPT='$SGPT', blood_test='$bloodtest', chest_xray='$chest_xray', drug_test='$drugtest', psychological_test='$psychological_test', NPE='$NPE' , others='$others', other_text='$other_text'	 WHERE request_id=$id");
 
 $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$p_id', 'Admin" .' '. "".$message."',now(),'requestmedcert.php', 'Delivered')");
 header("Location: admin-request.php");

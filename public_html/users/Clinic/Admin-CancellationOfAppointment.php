@@ -1,0 +1,708 @@
+<?php
+require_once('tcpdf/tcpdf.php');
+ function fetch_data()  
+ {
+ $output = '';  
+      $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+ $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status, consultation.reason_cancel,consultation.request_cancel_date,consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending Cancel Request'" ;
+  $result = mysqli_query($connect, $sql);  
+      while($row = mysqli_fetch_array($result))  
+      {  
+    $date =date_create($row['request_cancel_date']);
+      $date1 = date_format($date,"F d, Y");  
+      
+        $output .= '<tr>  
+                          <td>'.$row["patient_id"].'</td>  
+                          <td>'.$row["name"].'</td>  
+                          <td>'.$row["email_add"].'</td>  
+                          <td>'.$row["phone_number"].'</td>  
+                          <td>'.$row["consultation_type"].'</td> 
+              <td>'.$row["reason_cancel"].'</td> 
+             <td>'.$date1.'</td> 
+              <td>'.$row["status"].'</td> 
+              
+              
+              
+                     </tr>  
+                          ';  
+      }  
+      return $output;  
+ }  
+       
+
+if(isset($_POST["create_pdf"])) 
+  
+ { 
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
+
+    //Page header
+    public function Header() {
+        // Logo
+        $this->Image('image/logo2.jpg', 10, 10, 25, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Republic of the Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    $this->SetFont('Old English', '', 12);
+    $this->Cell(0, 15, 'University of Southeastern Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Tagum- Mabini Campus', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Apokon, Tagum City', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    $this->Ln(16);
+    // Set font
+        $this->SetFont('helvetica', 'B', 12);
+        // Title
+        $this->Cell(0, 15, 'LIST OF APPOINTMENT CANCELLATION as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    
+    
+    }
+
+    // Page footer
+    public function Footer() {
+  session_start();
+     $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+  $id=$_SESSION['id'];
+  $sql="Select * from staffdetails where staff_id='$id'";
+    $res = $connect->query($sql);
+     if($row=mysqli_fetch_array($res)) {
+   $title= $row['title'];
+   $name= $row['fullname'];
+   $extension= $row['extension'];
+   $position= $row['position'];
+   
+        // Position at 15 mm from bottom
+        $this->SetY(-50);
+        // Set font
+        $this->SetFont('calibri', 'B', 12);
+    $this->Ln(2);
+    $this->Cell(0, 0, 'Prepared By:', 0, false, 'L', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(40);
+    $this->Cell(0,0, ''.$title.''. $name.' '.$extension.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(50);
+    $this->Cell(0,0,''.$position.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    }
+         $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND position='Doctor'";
+    $res = $connect->query($sql);
+     if($row=mysqli_fetch_array($res)) {
+   $title1= $row['title'];
+   $name1= $row['fullname'];
+   $extension1= $row['extension'];
+   $position1= $row['position'];
+     $this->SetY(-48);
+     $this->SetX(210);
+    $this->Cell(0, 0, 'Noted By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(230);
+    $this->Cell(0,0, ''.$title1.''. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(255);
+    $this->Cell(0,0,''.$position1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+     $this->SetY(-15);
+     
+     $this->SetFont('calibri', 'I', 10);
+        // Page number
+        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
+    }
+  }
+
+}
+// create new PDF document
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('List of Appointment Cancellation '.date("F d, Y").'');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('Helvetica', '', 12);
+
+// add a page
+$pdf->AddPage('L','Legal');
+$pdf->Ln(36);
+    $content = '<table border="1" cellspacing="0" cellpadding="5">  
+         
+                  <tr>
+                    <th width="13%" align="center"><b>Patient ID</b></th>
+                    <th width="13%" align="center"><b>Full Name</b></th>
+                    <th width="10%" align="center"><b>Email</b></th>
+                    <th width="12%" align="center"><b>Contact Number</b></th>
+                    <th width="15%" align="center"><b>Type of Consultation</b></th>
+                    <th width="15%" align="center"><b>Reason/s of Cancellation</b></th>
+                    <th width="13%" align="center"><b>Date of Request</b></th>
+                    <th width="10%" align="center"><b>Status</b></th>
+          
+          
+                  </tr>
+          ';   
+      $content .= fetch_data();  
+      $content .= '</table>'; 
+     $pdf->writeHTML($content);  
+      $pdf->Output('List_of_Appointment_Cancellation '.date("F d, y").'.pdf', 'I');  
+
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('example_003.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+
+}
+?>
+ <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+      <!-- Twitter meta-->
+      <meta property="twitter:card" content="summary_large_image">
+      <meta property="twitter:site" content="@pratikborsadiya">
+      <meta property="twitter:creator" content="@pratikborsadiya">
+      <!-- Open Graph Meta-->
+      <meta property="og:type" content="website">
+      <meta property="og:site_name" content="Vali Admin">
+      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+      <title>List of Appointment Cancellation Request</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+
+      <!-- Font-icon css-->
+          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+     <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+    <!-- disable selected option-->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body class="app sidebar-mini rtl">
+<!-- Navbar-->
+<header class="app-header"> </header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
+  <div class="app-sidebar__user"> <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
+    <div>
+      <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">USEP CLINIC</p>
+    </div>
+  </div>
+  <hr>
+  <ul class="app-menu font-sec">
+    <li><a class="app-menu__item" href="Admin-Dashboard.php"><i class="app-menu__icon fa fa-chart-bar"></i><span class="app-menu__label">Dashboard</span></a></li>
+    <li><a class="app-menu__item" href="Admin-PatientList.html"><i class="app-menu__icon fas fa-user-alt"></i><span class="app-menu__label">Patient</span></a></li>
+    <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Consultation</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+        <li><a class="treeview-item" href="Admin-NewConsultation.php">New Consultation</a></li>
+        <li><a class="treeview-item" href="Admin-ListOfConsultation.html">List of Consultation</a></li>
+      </ul>
+    </li>
+    <li><a class="app-menu__item" href="Admin-NewConsultation.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
+    <li><a class="app-menu__item" href="Prescription_reports.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
+    <li><a class="app-menu__item" href=""><i class="app-menu__icon  fas fa-envelope-open-text"></i><span class="app-menu__label">Request</span></a></li>
+    <li><a class="app-menu__item" href=""><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Medical Certificate</span></a></li>
+    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
+    <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
+    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
+    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-poll"></i><span class="app-menu__label">Reports</span></a></li>
+  </ul>
+</aside>
+<!--navbar-->
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <!-- Sidebar toggle button-->
+      <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
+    <ul class="app-nav">
+      <li> <a class="appnavlevel">Hi, Admin</a> </li>
+      <!-- <li class="app-search">
+                   <input class="app-search__input" type="search" placeholder="Search">
+                  <button class="app-search__button"><i class="fa fa-search"></i></button>
+              </li>-->
+      <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class=" fas fa-bell fa-lg mt-2"></i></a>
+        <ul class="app-notification dropdown-menu dropdown-menu-right">
+          <li class="app-notification__title">You have 4 new notifications.</li>
+          <div class="app-notification__content">
+            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+              <div>
+                <p class="app-notification__message">Lisa sent you a mail</p>
+                <p class="app-notification__meta">2 min ago</p>
+              </div>
+              </a></li>
+            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
+              <div>
+                <p class="app-notification__message">Mail server not working</p>
+                <p class="app-notification__meta">5 min ago</p>
+              </div>
+              </a></li>
+            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
+              <div>
+                <p class="app-notification__message">Transaction complete</p>
+                <p class="app-notification__meta">2 days ago</p>
+              </div>
+              </a></li>
+            <div class="app-notification__content">
+              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                <div>
+                  <p class="app-notification__message">Lisa sent you a mail</p>
+                  <p class="app-notification__meta">2 min ago</p>
+                </div>
+                </a></li>
+              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
+                <div>
+                  <p class="app-notification__message">Mail server not working</p>
+                  <p class="app-notification__meta">5 min ago</p>
+                </div>
+                </a></li>
+              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
+                <div>
+                  <p class="app-notification__message">Transaction complete</p>
+                  <p class="app-notification__meta">2 days ago</p>
+                </div>
+                </a></li>
+            </div>
+          </div>
+          <li class="app-notification__footer"><a href="#">See all notifications.</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+        <ul class="dropdown-menu settings-menu dropdown-menu-right">
+          <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
+          <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+          <li><a class="dropdown-item" href="page-login.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="red"> </div>
+  <!-- Navbar-->
+  <script>
+        (function(document) {
+            'use strict';
+
+            var TableFilter = (function(myArray) {
+                var search_input;
+
+                function _onInputSearch(e) {
+                    search_input = e.target;
+                    var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+                    myArray.forEach.call(tables, function(table) {
+                        myArray.forEach.call(table.tBodies, function(tbody) {
+                            myArray.forEach.call(tbody.rows, function(row) {
+                                var text_content = row.textContent.toLowerCase();
+                                var search_val = search_input.value.toLowerCase();
+                                row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+                            });
+                        });
+                    });
+                }
+
+                return {
+                    init: function() {
+                        var inputs = document.getElementsByClassName('bootstrap-select');
+                        myArray.forEach.call(inputs, function(input) {
+                            input.oninput = _onInputSearch;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            document.addEventListener('readystatechange', function() {
+                if (document.readyState === 'complete') {
+                    TableFilter.init();
+                }
+            });
+
+        })(document);
+    </script>
+<?php include('connect.php');
+?>
+  <!--<div class="page-error tile">-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <div class="tile-body">
+          <div>
+            <div>
+              <div class="float-left">
+                <h4>List of Appointment Cancellation Request</h4>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-auto">
+                <div class="inline-block">
+                    Consultation Type
+                   <select  name="type" id="type" class="bootstrap-select" data-table="reports-list">
+            <option value="">All</option>
+                                                 <?php
+                    // Feching active consultation type
+                    $sql=mysqli_query($db,"select * from consultation_type");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
+                    <option class="select-item" value="<?php echo htmlentities($result['consultation_type']);?>"><?php echo htmlentities($result['consultation_type']);?></option>
+                    <?php }
+                    
+                    ?>
+                    </select>  
+                    </div>
+                <div class="inline-block">
+                    Mode of Communication
+                   <select  name="mode" id="mode" class="bootstrap-select" data-table="reports-list">
+           <option value="">All</option>
+                                                 <?php
+                    // Feching active mode of communication
+                    $sql=mysqli_query($db,"select * from mode_of_communication");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
+                    <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
+                    <?php }
+                    
+                    ?>
+                    </select>  
+                    </div>
+                   
+
+           
+                      </div>
+              <div class="col">
+        <form method="post">
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf" type="submit" onClick="Export()"><i class="fas fa-download"></i> Export</button></div>  </form>  
+                      </div>
+
+                  </div>
+                </div>
+                  <div class="table-bd">
+                <div class="table-responsive">
+                   <table class="table table-hover table-bordered reports-list" id="sampleTable2">
+                <thead>
+                  <tr>
+                    <th>Patient ID</th>
+                    <th class="max">Full Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Type of Consultation</th>
+                    <th>Reason/s of Cancellation</th>
+                    <th>Date of Request</th>
+                    <th>Status</th>
+                    <th class="max">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+          
+        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status, consultation.reason_cancel,consultation.request_cancel_date,consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending Cancel Request'" ;
+      $res = $db->query($sql);
+      $cnt=1;
+      if ($res->num_rows > 0) {
+      while($row = $res->fetch_assoc()) {
+      $date =date_create($row['request_cancel_date']);
+      $date1 = date_format($date,"F d, Y");
+        ?>
+                  <tr>
+                    <td><?php echo htmlentities($row['patient_id']);?></td>
+                    <td><?php echo htmlentities($row['name']);?></td>
+                    <td><?php echo htmlentities($row['email_add']);?></td>
+                    <td><?php echo htmlentities($row['phone_number']);?></td>
+                    <td><?php echo htmlentities($row['consultation_type']);?></td>
+                    <td><?php echo htmlentities($row['reason_cancel']);?></td>
+                    <td><?php echo $date1 ;?></td>
+                    <td><?php echo htmlentities($row['status']);?></td>
+                    <td><a class="text-info mr-2" data-toggle="modal" href="#exampleModalLong<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></a>
+                      </td>
+                  </tr>
+                </tbody>
+                <?php
+        include("reviewrequestofcancellation.php");
+  }
+  }?>
+  
+  <!--appointment-->
+  
+
+
+              </table>
+        <?php
+if(isset($_POST['reviewcancelappointment'])){     
+   $patient_id= $_POST['idx'];
+   $comment= $_POST['comments'];
+   $reqstat= $_POST['reqstat'];
+  $sql = "Update consultation set status='$reqstat', cancel_request_remarks='$comment' where id='$patient_id'"; 
+   if ($db->query($sql) === TRUE) {
+  echo '<script>
+      swal({
+      title: "Cancellation request reviewed successfully!",
+      text: "Server Request Successful!",
+      type:"success",
+      icon: "success",
+      button: false,
+      closeOnClickOutside: false,
+      closeOnEsc: false,
+      }).then(function() {
+    window.location = "Admin-CancellationOfAppointment.php";
+  })
+     </script>';
+  }else {
+ echo '<script>
+      swal({
+      title: "Something went wrong...",
+      text: "Server Request Failed!",
+      type:"error",
+      icon: "error",
+      button: false,
+      timer:2000,
+      closeOnClickOutside: false,
+      closeOnEsc: false,
+      })
+     </script>';
+}
+ echo"<meta http-equiv='refresh' content='2'>";
+   } 
+  
+   ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!--</div>-->
+  
+      
+</main>
+<!-- Essential javascripts for application to work-->
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+<!-- The javascript plugin to display page loading on top-->
+<script src="js/plugins/pace.min.js"></script>
+<!-- Page specific javascripts-->
+ <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+<script type="text/javascript">
+        $('#demoNotify').click(function(){
+          $.notify({
+            title: "Update Complete : ",
+            message: "Verified Successfuly!",
+            icon: 'fa fa-check' 
+          },{
+            type: "info"
+          });
+        });
+      </script>
+<script>
+        <!-- table selection -->
+          $('#selectAll').click(function (e) {
+    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+});
+      </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('sampleTable2'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("New Consultation <?php echo date("Y");?>.pdf");
+                }
+            });
+        }
+    </script>
+  <style>
+th {
+text-align:center;
+}
+</style>
+<style>
+
+@media screen{
+.head{
+display:none;}
+.heads{
+display:none;}
+  
+.tit{
+display:none;}
+h2{
+display:none;}
+tfoot{
+display:none;}
+}
+@media print{
+.head{
+margin-top:-100%;
+display:table-header-group;
+margin-bottom:5px; }
+
+
+
+}
+ 
+}
+
+@page{
+margin-top:-1cm; 
+margin-left:1cm;
+margin-right:1cm;
+margin-bottom:1.5cm;
+}
+}
+</style>
+<noscript>
+<table style="margin-top:8%;">
+  <tr>
+    <td><b> &emsp;Prepared By: </b></td>
+  <td>&emsp;&emsp;&emsp; </td>
+  <td> &emsp;&emsp;&emsp; </td>
+  <td> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td><td> &emsp;&emsp;&emsp;&emsp;</td>
+  <td> &emsp;&emsp;&emsp;&emsp;</td>
+  <td>&emsp;&emsp;&emsp; </td>
+  <td> &emsp;</td><td> </td>
+  <td> </td>
+  <td><b>&emsp;Noted By:</b></td>
+  </tr>
+</table>
+<table align="left" style="margin-top:3%;">
+  <td align="left" style="margin-top:10%;"><b><?php $id=$_SESSION['id']; $sql="Select * from staffdetails where staff_id='$id'";
+    $res = $db->query($sql);
+     if($row=mysqli_fetch_array($res)) {
+   
+    echo htmlentities($row['title']); echo htmlentities($row['fullname']);?> &nbsp;<?php     echo htmlentities($row['extension']); }?>&nbsp;</b></td>
+  <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
+   <td align="left" style="margin-top:10%;"><b><?php $sql="Select * from staffdetails where office_name='Clinic' AND position='Nurse'";
+    $res = $db->query($sql);
+     if($row=mysqli_fetch_array($res)) {
+   
+    echo htmlentities($row['title']); echo htmlentities($row['fullname']);?>&nbsp;
+     <?php  echo htmlentities($row['extension']);
+   ?></b></td>
+  <tr>
+    <td align="left" style="margin-top:10%;"><?php echo $_SESSION["staff_office"];?>   <?php echo $_SESSION["staff_position"];?></td>
+   <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
+   <td align="left" style="margin-top:10%;"><?php  echo htmlentities($row['position']); }?> </td>
+  </tr>
+</table>
+<style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:-3%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:1%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    </style>
+</noscript>
+<!-- Data table plugin-->
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">$('#sampleTable').DataTable();</script>
+<script type="text/javascript">$('#sampleTable2').DataTable();</script>
+<!-- Google analytics script-->
+<script type="text/javascript">
+        if(document.location.hostname == 'pratikborsadiya.in') {
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-72504830-1', 'auto');
+          ga('send', 'pageview');
+        }
+      </script>
+</body>
+</html>
