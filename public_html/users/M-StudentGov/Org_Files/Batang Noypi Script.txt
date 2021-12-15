@@ -1,0 +1,16 @@
+Introduction
+-Philippines is rich in traditional games that kids used to play when electronic devices weren't yet common on kids. Back in our childhood days, we used to play games like piko, taguan, tumbang preso, patintero, luksong tinik, and so on. However, because to the new modern kinds of entertainment, these days young children's interest in playing Larong Pinoy has waned. 
+-By developing an android offline mobile game application users/players can enjoy with. The proposed mobile application is two-dimensional multiplayer game that will not require high-end gadgets and complex animations with the features of Philippine tradional games with a systematic approach for creating Philippine traditional toys like turumpo, tirador, saranggola, and many others. 
+
+Need for the study
+-Aguado (2003) stated that traditional Filipino games are being overshadowed by modern games and hi-tech gadgets. Especially in this time of pandemic, where only a few people are aware of indigenous street games in this technology-driven world, where almost everyone – including children – practically lives a virtual lifestyle. 
+-Instead of the usual Patintero, Tumbang Preso, Piko, Tago-Taguan, Siato and the like many children indulge themselves with computer games such as DOTA: Defense of the Ancients, Counter Strike etc. and those children who are above the middle class are expected to own at least a PS2, a PSP , an XBox, or a Nintendo DS. 
+-These shows the urgency of our study, for the concept of this study is to adapt to the latest trend that is the technology at the same time promoting the traditional Filipino game and educate the user at the same time.
+
+Background of the study
+-According to Joseline Santos et al. (2010), Traditional Filipino games have long been seen as delightful pastimes and have been a part of Filipino culture. It is critical for current and future generations to conduct study to discover techniques for preserving these cultural heritages in an era when modern digital games are becoming increasingly popular.
+-Scully (2018), notes that games can be the perfect tool to introduce and teach social emotional learning skills to kids and young adults. These are the skills that help kids become more self-aware, develop positive relationships, show empathy towards others, manage emotions, use self-control, resolve conflicts, and make positive decisions. 
+-With these in mind. The propsed study plan to make us of the combination of social interaction, traditional, and mobile games.
+-To create a mobile application that can help to maintain the essence of traditional Filipino games and socialization among children, the researchers aim to create a multiplayer mobile application that can support one to four players at the time.
+
+

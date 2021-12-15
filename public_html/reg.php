@@ -250,15 +250,15 @@
 
               <div class="col-2">
                 <div class="input-group">
-                    <label class="label">Major <i>*</i></label>
-                    <select class="input--style-5" id="major" name="major" style="width:260px" required>
-                        <option value="" selected="selected" disabled="">Select Course First</option>
+                    <label class="label">Major</label>
+                    <select class="input--style-5" id="major" name="major" style="width:260px">
+                        <option value=" " selected="selected">Select Course First</option>
                         <script type="text/javascript">
 
                             $(document).ready(function(){
                                 $('#course').on('change', function(){
                                     var course_value = $(this).val();
-                                    $('#major').empty().append('<option selected="selected" value="" disabled="">Select Major</option>');
+                                    $('#major').empty().append('<option selected="selected" value=" ">Select Major</option>');
                                     if(course_value){
                                        $.ajax({
                                         url:"php/getMajor.php",
@@ -277,7 +277,7 @@
                                       }
                                   });
                                    }else{
-                                    $('#major').html('<option value="">Select course asdf</option>');
+                                    $('#major').html('<option value="">Select course </option>');
                                 }
                             });
                             });

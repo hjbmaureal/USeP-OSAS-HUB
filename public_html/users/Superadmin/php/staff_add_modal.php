@@ -3,7 +3,7 @@
             <div class="modal-dialog modal-dialog modal-xl" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Add Faculty/Staff Acoount</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Add Faculty/Staff Account</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -35,7 +35,7 @@
                         <div class="uploadpic2 text-center"> 
                           <!--<button class="files">Upload Profile Picture</button>
                           <input class="files form-control" onchange="getImagePreview(event);" type="file" id="myfile" name="id_pic" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG" required></div>-->
-                          <img src="placeholder.jpg" class="prof-border" id="profileDisplay" onclick="triggerClick()" />
+                          <img src="../../images/logo.png" class="prof-border" id="profileDisplay" onclick="triggerClick()" />
                             <label class="text-underline" for="profileImage">Upload Profile</label>
                           <input type="file" name="id_pic" onchange="displayImage(this)" id="profileImage" style="display: none;" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG" required></div>
                         </div>

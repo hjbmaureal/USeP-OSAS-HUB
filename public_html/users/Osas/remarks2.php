@@ -7,7 +7,8 @@
                               while($res = mysqli_fetch_array($tab)) {
                               echo '
                               <p class="text-black">Organization Name: <b><input type="text" name="name" style="border:none;" value="'.$res['Org'].'"></b></p>
-                              <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'"></p>
+                              <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'">
+                              <input type="text" name="by" style="border:none; width:300px; color:white;" value="'.$res['Org_pres_gov'].'"></p>
                                 <div class=" tile remarks-container container p-3 mt-3">
                                  <div class="row">
                                   <div class="col-sm-9"> 
@@ -28,7 +29,7 @@
                                     <div class="row">
                                       <div class="col">
                                        <div class="tile-body blocking w-100">
-                                        <textarea class="remarks-textarea w-100" name="message" placeholder="Write message here..."></textarea>
+                                        <textarea class="remarks-textarea w-100" name="message" placeholder="Write message here..." style="height: 200px;"></textarea>
                                       </div>    
                                     </div>
                                   </div>
@@ -42,7 +43,7 @@
                                   
                                       <input class="file-input2 style"  id="file-input2" type="file" name="image" onchange="ssvalue2()" style="margin-top: -500px; margin-bottom: 10px; font-size:8px; " />
                                       <div class="mx-auto">
-                                       <img src="../image/files.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px;"  alt="..."/></div> 
+                                       <img src="image/vertical.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px;"  alt="..."/></div> 
                                       <input class="file-input2" type="text" name="image" value="No Image Selected" id="input2" style="border-style: none;
                                       background: transparent;" disabled >
                                       

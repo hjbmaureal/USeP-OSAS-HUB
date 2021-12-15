@@ -149,7 +149,7 @@
         </a>
       </li>
       <li class="p-2 sidebar-label"><span class="app-menu__label">STUDENT'S AFFAIRS AND SERVICES</span></li>
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Discipline Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Discipline Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="index.php" hidden="">Home</a></li>
           <li><a class="treeview-item active" href="Discipline-Complaints.php">Complaints</a></li>
@@ -204,9 +204,9 @@
       <?php 
       if ($_SESSION['sl_status']=='Hired'){
         echo '
-        <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Labor Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comments"></i><span class="app-menu__label">Student Labor Services</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-        <li><a class="treeview-item active" href="Home-Labor.php">Home</a></li>
+        <li><a class="treeview-item" href="Home-Labor.php">Home</a></li>
         <li><a class="treeview-item" href="Labor-DTR.php">DTR</a></li>
         <li><a class="treeview-item" href="Labor-Accomplishments.php">Accomplishment Reports</a></li>
 
@@ -219,7 +219,7 @@
 
       } else {
         echo '
-        <li><a class="app-menu__item active" href="Home-Labor.php"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Student Labor Services</span></a></li>
+        <li><a class="app-menu__item" href="Home-Labor.php"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Student Labor Services</span></a></li>
         ';
       }
 
@@ -569,7 +569,7 @@
 
                 <?php 
                  $limit=5;
-                         $sql = mysqli_query($conn,"SELECT * FROM viewresponse WHERE response_status = 'On Going' AND (viewresponse.student_id = '$id' OR viewresponse.defendant = '$id') ORDER BY schedule_date, time_from ASC LIMIT $limit");
+                         $sql= mysqli_query($conn,"SELECT * FROM viewcomplaint WHERE status = 'On Going' AND (defendant = '$id' OR student_id = '$id') ORDER BY schedule_date, time_from ASC");
                   
                             while($row = mysqli_fetch_array($sql)) {     
                               ?>
@@ -604,10 +604,7 @@
           </div>
       </div>
 
-
-
-    <!-- Essential javascripts for application to work-->
-    <script src="../../js/jquery-3.3.1.min.js"></script>
+<script src="../../js/jquery-3.3.1.min.js"></script>
       <script src="../../js/popper.min.js"></script>
       <script src="../../js/bootstrap.min.js"></script>
       <script src="../../js/main.js"></script>

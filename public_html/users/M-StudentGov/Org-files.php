@@ -928,208 +928,7 @@ $('.owl-carousel').owlCarousel({
     include("include/conn.php");
 
 
-    if(isset($_POST['postbtn'])){
-
-    $by = $_SESSION['id'];
-   $date = date('y-m-d');
-   $filee = $_POST['filee'];
-   $filesub = $_POST['by'];
-
-   $quer = "SELECT * FROM org_filess WHERE Org_pres_gov like '$by'";
-   $ress = mysqli_query($conn,$quer);
-   $roww = mysqli_fetch_array($ress);
-
-  if ($roww){  
-    
         
-       if($filesub=="WFP"){
-        if(isset($_FILES['filee'])){
-        $pdf_name = $_FILES['filee']['name'];
-        $pdf_size = $_FILES['filee']['size'];
-       $pdf_tmp = $_FILES['filee']['tmp_name'];
-       $path = "Org_Files/".$pdf_name;
-       $movepdf = move_uploaded_file($pdf_tmp,$path);
-
-       $query = "UPDATE org_filess set WFP='$pdf_name'  where Org_pres_gov like '$by'";
-      $run = mysqli_query($conn,$query);
-     
-      
-                                        }
-       }
-       if($filesub=="PPMP"){
-        if(isset($_FILES['filee'])){
-        $pdf_name1 = $_FILES['filee']['name'];
-        $pdf_size1 = $_FILES['filee']['size'];
-       $pdf_tmp1 = $_FILES['filee']['tmp_name'];
-       $path1 = "Org_Files/".$pdf_name1;
-       $movepdf1 = move_uploaded_file($pdf_tmp1,$path1);
-
-       $query1 = "UPDATE org_filess set PPMP='$pdf_name1'  where Org_pres_gov like '$by'";
-      $run1 = mysqli_query($conn,$query1);
-
-      
-
-          }
-       }
-       if($filesub=="Accomplishment Reports"){
-        if(isset($_FILES['filee'])){
-        $pdf_name2 = $_FILES['filee']['name'];
-        $pdf_size2 = $_FILES['filee']['size'];
-       $pdf_tmp2 = $_FILES['filee']['tmp_name'];
-       $path2 = "Org_Files/".$pdf_name2;
-       $movepdf2 = move_uploaded_file($pdf_tmp2,$path2);
-
-       $query2 = "UPDATE org_filess set AccomRep='$pdf_name2'  where Org_pres_gov like '$by'";
-      $run2 = mysqli_query($conn,$query2);
-    }
-
-       }
-       if($filesub=="Action Plan"){
-        if(isset($_FILES['filee'])){
-        $pdf_name3 = $_FILES['filee']['name'];
-        $pdf_size3 = $_FILES['filee']['size'];
-       $pdf_tmp3 = $_FILES['filee']['tmp_name'];
-       $path3 = "Org_Files/".$pdf_name3;
-       $movepdf3 = move_uploaded_file($pdf_tmp3,$path3);
-
-       $query3 = "UPDATE org_filess set ActionPlan='$pdf_name3'  where Org_pres_gov like '$by'";
-      $run3 = mysqli_query($conn,$query3);
-
-        }
-       }
-       if($filesub=="Audited Financial Stateme"){
-        if(isset($_FILES['filee'])){
-        $pdf_name4 = $_FILES['filee']['name'];
-        $pdf_size4 = $_FILES['filee']['size'];
-       $pdf_tmp4 = $_FILES['filee']['tmp_name'];
-       $path4 = "Org_Files/".$pdf_name4;
-       $movepdf4 = move_uploaded_file($pdf_tmp4,$path4);
-
-       $query4 = "UPDATE org_filess set AFS='$pdf_name4'  where Org_pres_gov like '$by'";
-      $run4 = mysqli_query($conn,$query4);
-
-}
-       }
-       if($filesub=="List of Officers w/Contac"){
-        if(isset($_FILES['filee'])){
-        $pdf_name5 = $_FILES['filee']['name'];
-        $pdf_size5 = $_FILES['filee']['size'];
-       $pdf_tmp5 = $_FILES['filee']['tmp_name'];
-       $path5 = "Accre_Files/".$pdf_name5;
-       $movepdf5 = move_uploaded_file($pdf_tmp5,$path5);
-
-       $query5 = "UPDATE accre_files set Lists_officers='$pdf_name5'  where Org_President_Governor like '$by'";
-      $run5 = mysqli_query($conn,$query5);
-
-}
-       }
-       if($filesub=="List of Members"){
-        if(isset($_FILES['filee'])){
-        $pdf_name6 = $_FILES['filee']['name'];
-        $pdf_size6 = $_FILES['filee']['size'];
-       $pdf_tmp6 = $_FILES['filee']['tmp_name'];
-       $path6 = "Accre_Files/".$pdf_name6;
-       $movepdf6 = move_uploaded_file($pdf_tmp6,$path6);
-
-       $query6 = "UPDATE accre_files set Lists_members='$pdf_name6'  where Org_President_Governor like '$by'";
-      $run6 = mysqli_query($conn,$query6);
-
-}
-       }
-       if($filesub=="Notarized Affidavit of th"){
-        if(isset($_FILES['filee'])){
-        $pdf_name7 = $_FILES['filee']['name'];
-        $pdf_size7 = $_FILES['filee']['size'];
-       $pdf_tmp7 = $_FILES['filee']['tmp_name'];
-       $path7 = "Accre_Files/".$pdf_name7;
-       $movepdf7 = move_uploaded_file($pdf_tmp7,$path7);
-
-       $query7 = "UPDATE accre_files set Aff_adviser='$pdf_name7'  where Org_President_Governor like '$by'";
-      $run7 = mysqli_query($conn,$query7);
-}
-
-       }
-       if($filesub=="Notarized Affidavit of th"){
-        if(isset($_FILES['filee'])){
-        $pdf_name8 = $_FILES['filee']['name'];
-        $pdf_size8 = $_FILES['filee']['size'];
-       $pdf_tmp8 = $_FILES['filee']['tmp_name'];
-       $path8 = "Accre_Files/".$pdf_name8;
-       $movepdf8 = move_uploaded_file($pdf_tmp8,$path8);
-
-       $query8 = "UPDATE accre_files set Aff_high_officer='$pdf_name8'  where Org_President_Governor like '$by'";
-      $run8 = mysqli_query($conn,$query8);
-
-}
-       }
-       if($filesub=="Action & Financial Plan"){
-        if(isset($_FILES['filee'])){
-        $pdf_name9 = $_FILES['filee']['name'];
-        $pdf_size9 = $_FILES['filee']['size'];
-       $pdf_tmp9 = $_FILES['filee']['tmp_name'];
-       $path9 = "Accre_Files/".$pdf_name9;
-       $movepdf9 = move_uploaded_file($pdf_tmp9,$path9);
-
-       $query9 = "UPDATE accre_files set AFP='$pdf_name9'  where Org_President_Governor like '$by'";
-      $run9 = mysqli_query($conn,$query9);
-}
-
-       }
-       if($filesub=="CBL with Official Logo"){
-        if(isset($_FILES['filee'])){
-        $pdf_name9 = $_FILES['filee']['name'];
-        $pdf_size9 = $_FILES['filee']['size'];
-       $pdf_tmp9 = $_FILES['filee']['tmp_name'];
-       $path9 = "Accre_Files/".$pdf_name9;
-       $movepdf9 = move_uploaded_file($pdf_tmp9,$path9);
-
-       $query9 = "UPDATE accre_files set CBL_logo='$pdf_name9'  where Org_President_Governor like '$by'";
-      $run9 = mysqli_query($conn,$query9);
-}
-
-       }
-     else{
-       echo '<script> 
-                                                  $(document).ready(function(){
-                                                    swal({
-                                                      
-                                                      type: "success",
-                                                      title: "File sumbitted successfully",
-                                                      showConfirmButton: true
-                                                      
-                                                    })
-                                                  });
-                                                   </script>';
-                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE Submitted_by like '$by'";
-                                                   $upres = mysqli_query($conn,$updateStat);
-                                                   $query0 = "UPDATE org_filess  set status = 0  where Submitted_by like '$by'";
-                                                    $run0 = mysqli_query($conn,$query0);
-
-      
-    }
-}
- else{
-                                            echo '<script> 
-                                                $(document).ready(function(){
-                                                  swal({
-                                                    
-                                                    type: "success",
-                                                    title: "File submitted successfully.",
-                                                    showConfirmButton: true
-                                                   
-                                                  })
-                                               });
-
-                                                </script>';
-                                                $updateStat = "UPDATE remarks_apply SET status = 1 WHERE Submitted_by like '$by'";
-                                                   $upres = mysqli_query($conn,$updateStat);
-                                                   $query0 = "UPDATE org_filess set status = 0  where Submitted_by like '$by'";
-                                                    $run0 = mysqli_query($conn,$query0);
-                                                
-                                        }
-}
-
-    
                                     
    
 
@@ -1227,6 +1026,24 @@ if(isset($_FILES['AFS'])){
    $query = "UPDATE org_filess set AFS='$pdf_name4' where ID = '$fileName'";
 $run = mysqli_query($conn,$query);
 }
+
+
+$by= $_SESSION['id'];
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." sent a Organization Files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
 echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({

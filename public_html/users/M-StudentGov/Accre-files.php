@@ -324,9 +324,8 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
        <!--navbar-->
 
-    <main class="app-content">
-            
-        <div class="app-title">
+  <main class="app-content">
+    <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -336,17 +335,17 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -383,7 +382,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where user_id='$id'  order by time desc";
+              $count_sql="SELECT * from notif where user_id='$id'  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -418,7 +417,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 ?> 
               </div>
             <li class="app-notification__footer">
-              <a href="../Student/Notifications.php">See all notifications.</a>
+              <a href="Notifications.php">See all notifications.</a>
             </li>
           </ul>
         </li>
@@ -452,9 +451,60 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           </div>
         </div>
       </div>
-        <div class="red"> 
-          
-        </div>
+      <script type="text/javascript">
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
+    <div class="red"></div>
 
       <!-- Navbar-->
         <form action="Accre-files.php" method="POST" id="fileupload" enctype="multipart/form-data">
@@ -806,7 +856,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                             <div class="tile-footer"></div>
                           <button class="btn btn-success" name="submit" id="submit" type="submit">Submit</button>
-                           <a class="btn btn-primary" href="Home-Orgs.html" style="float: right;">Cancel</a>
+                           <a class="btn btn-primary" href="Home-Orgs.php" style="float: right;">Cancel</a>
           
           </div>
       </div>
@@ -1096,6 +1146,24 @@ if(isset($_FILES['CBL_logo'])){
   $query7 = "UPDATE accre_files set CBL_logo='$pdf_name7' where org_id = '$fileName'";
 $run7 = mysqli_query($conn,$query7);
 }
+
+
+$by= $_SESSION['id'];
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." sent a Re-Accreditation Files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
 
 echo '<script> 
                                                 $(document).ready(function(){

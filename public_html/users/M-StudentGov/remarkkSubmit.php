@@ -64,6 +64,25 @@ if(isset($_POST['postbtn'])){
        $query1 = "UPDATE org_filess set WFP='$pdf_name'  where Org_pres_gov like '%$by%'";
       $run1 = mysqli_query($conn,$query1);
 
+
+$by1= $_SESSION['id'];
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where org_pres_gov like '%$by1%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
+
+
      
       echo '<script> 
                                                     swal({
@@ -116,6 +135,24 @@ if(isset($_POST['postbtn'])){
        $query1fun = "UPDATE org_filess set PPMP='$pdf_name1'  where Org_pres_gov like '%$by%'";
       $run1fun = mysqli_query($conn,$query1fun);
 
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['org_name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
+
+
       echo '<script> 
                                         swal({
                                                       
@@ -163,6 +200,23 @@ if(isset($_POST['postbtn'])){
       $run2 = mysqli_query($conn,$query2);
       $query2fun = "UPDATE org_filess set AccomRep='$pdf_name2'  where Org_pres_gov like '%$by%'";
       $run2fun = mysqli_query($conn,$query2fun);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['org_name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
 
 echo '<script> 
                                                     swal({
@@ -214,6 +268,23 @@ echo '<script>
 
        $query3 = "UPDATE org_filess set ActionPlan='$pdf_name3'  where Org_pres_gov like '%$by%'";
       $run3 = mysqli_query($conn,$query3);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['org_name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
         echo '<script> 
                                                     swal({
                                                       
@@ -263,6 +334,23 @@ echo '<script>
        $query4 = "UPDATE org_filess set AFS='$pdf_name4'  where Org_pres_gov like '%$by%'";
       $run4 = mysqli_query($conn,$query4);
 
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
+
       echo '<script> 
                                                     swal({
                                                       
@@ -309,6 +397,23 @@ echo '<script>
       $rundel2 = mysqli_query($conn,$querydel2);
       $query2fun = "UPDATE accre_files set AccomRep='$pdf_name2'  where Org_President_Governor like '%$by%'";
       $run2fun = mysqli_query($conn,$query2fun);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
 
 echo '<script> 
                                                     swal({
@@ -360,6 +465,23 @@ echo '<script>
        $query4 = "UPDATE accre_files set AFS='$pdf_name4'  where Org_President_Governor like '%$by%'";
       $run4 = mysqli_query($conn,$query4);
 
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
+
       echo '<script> 
                                                     swal({
                                                       
@@ -407,6 +529,23 @@ echo '<script>
 
        $query5 = "UPDATE accre_files set Lists_officers='$pdf_name5'  where Org_President_Governor like '%$by%'";
       $run5 = mysqli_query($conn,$query5);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
        echo '<script> 
                                                     swal({
                                                       
@@ -454,6 +593,23 @@ if($filesub==" Lists_members"){
 
        $query6 = "UPDATE accre_files set Lists_members='$pdf_name6'  where Org_President_Governor like '%$by%'";
       $run6 = mysqli_query($conn,$query6);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
        echo '<script> 
                                                     swal({
                                                       
@@ -501,6 +657,23 @@ if($filesub==" Aff_adviser"){
 
        $query7 = "UPDATE accre_files set Aff_adviser='$pdf_name7'  where Org_President_Governor like '%$by%'";
       $run7 = mysqli_query($conn,$query7);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
       echo '<script> 
                                                     swal({
                                                       
@@ -547,6 +720,23 @@ if($filesub==" Aff_high_officer"){
 
        $query8 = "UPDATE accre_files set Aff_high_officer='$pdf_name8'  where Org_President_Governor like '%$by%'";
       $run8 = mysqli_query($conn,$query8);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
        echo '<script> 
                                                     swal({
                                                       
@@ -594,6 +784,23 @@ if($filesub==" AFP"){
 
        $query9 = "UPDATE accre_files set AFP='$pdf_name9'  where Org_President_Governor like '%$by%'";
       $run9 = mysqli_query($conn,$query9);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
       echo '<script> 
                                                     swal({
                                                       
@@ -641,6 +848,23 @@ if($filesub==" CBL_logo"){
 
        $query0 = "UPDATE accre_files set CBL_logo='$pdf_name0'  where Org_President_Governor like '%$by%'";
       $run0 = mysqli_query($conn,$query0);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
       echo '<script> 
                                                     swal({
                                                       

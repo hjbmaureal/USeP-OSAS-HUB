@@ -1,0 +1,9 @@
+<section id="course_page_header">
+<div id="wonderplugin-fullscreen-slideshow">
+<div>[smartslider3 slider=2]</div>
+</div>
+<h1 class="alignfull fade-in-text hvr-grow" style="font-size: 75px;"><strong>Course Development
+&amp; Deliverables</strong></h1>
+<p class="alignfull fade-in-text" style="font-size: 12px;">The design, development and delivery of eLearning is modelled on the ADDIE instructional design model:</p>
+
+</section>

@@ -126,7 +126,7 @@ if(isset($_POST['submit'])) {
                   type: "warning"
                   }, function () {
                     setTimeout(function () {
-                      window.location.href="../Staff.php";
+                      window.location.href="../Faculty_Staff_Accounts.php";
                       }, 500);
                       });
                       </script>'; 
@@ -141,10 +141,11 @@ if(isset($_POST['submit'])) {
                   type: "success"
                   }, function () {
                     setTimeout(function () {
-                      window.location.href="../Staff.php";
+                      window.location.href="../Faculty_Staff_Accounts.php";
                       }, 500);
                       });
                       </script>'; 
-        }}
+        }
+      }
 
  ?>

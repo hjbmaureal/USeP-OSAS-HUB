@@ -905,7 +905,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                     <div class="tile-footer"></div>
                           <button class="btn btn-success" name="submit" id="submit" type="submit" >Submit</button>
-                           <a class="btn btn-primary" href="Home-Orgs.html" style="float: right;">Cancel</a>
+                           <a class="btn btn-primary" href="Home-Orgs.php" style="float: right;">Cancel</a>
                     </div>
 
               
@@ -1236,6 +1236,15 @@ if(isset($_FILES['Letter_intent'])){
    $query = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Org_Name = '$fileName1'";
 $run = mysqli_query($conn,$query);
 } 
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student has applied for New Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')"); 
      echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({
@@ -1444,7 +1453,8 @@ if(isset($_POST['postbtn'])){
 }
 
        }
-    
+
+
        echo '<script> 
                                                   $(document).ready(function(){
                                                     swal({
@@ -1484,3 +1494,4 @@ if(isset($_POST['postbtn'])){
                                         }
 }
   ?>
+
