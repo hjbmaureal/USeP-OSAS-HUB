@@ -263,10 +263,11 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
-                        <button type="submit" name="updatebut" class="btn btn-success">SAVE CHANGES</button>
+                        <button type="submit" name="updatebut" class="btn btn-success" data-hide="modal" data-hide="modal" onclick="fun2();" a href="#loader" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-success">SAVE CHANGES</button>
                       </div>
                       <?php }?>
             </form>
+                      
                     </div>
                   </div>
                 </div>
@@ -368,7 +369,7 @@
                 </div>
 
 
-                <div class="modal fade " id="appointmentEditgroup<?php echo $id;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="hide-modal modal fade" id="appointmentEditgroup<?php echo $id;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <?php $id=$id; ?>
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -467,10 +468,16 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
-                        <button type="submit" name="updatebut" class="btn btn-success">SAVE CHANGES</button>
+                        <button type="submit" name="updatebut" class="btn btn-success" onclick="fun2(); hideModal<?php echo $id;?>()" a href="#loader" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-success">SAVE CHANGES</button>
                       </div>
-                      <?php }?>
+                      <script type="text/javascript">
+                        function hideModal<?php echo $id;?>() {
+                            $("#appointmentEditgroup<?php echo $id;;?>").modal("hide");
+                        }
+                      </script> 
+                      <?php  }?>
             </form>
+                      
                     </div>
                   </div>
                 </div>

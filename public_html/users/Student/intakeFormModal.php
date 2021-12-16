@@ -153,7 +153,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                    <?php 
                         include('conn.php');
 
-                         $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id'");
+                         $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student left join course on student.course_id=course.course_id left join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id'");
                           $prorow=mysqli_fetch_array($sqlselect);
                         
                         ?>
@@ -195,8 +195,14 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                     <td colspan="2">7. Gender<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input class="intake"type="text" name="gender" id="gender" value="<?php  echo $prorow['sex'];?>" readonly>
                     </td>
+                    <?php 
+                    $date=date('Y-m-d');
+                    $date1 = new DateTime($date);
+                    $date2 = new DateTime($prorow['birth_date']);
+                    $interval = $date1->diff($date2);
+?>
                     <td>8. Age<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="age" id="age" value="<?php  echo $prorow['last_name'];?>" readonly>
+                            <input class="intake"type="text" name="age" id="age" value="<?php  echo $interval->y; ?>" readonly>
                     </td>
                     <td>9. Birthdate<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input class="intake"type="text" name="bdate" id="bdate" value="<?php  echo $prorow['birth_date'];?>" readonly>

@@ -19,7 +19,7 @@
 include('conn.php');
 $id=$row['Student_id'];
 $intake_id=$row['intake_id'];
- $sqlselect=mysqli_query($conn,"SELECT guidance_appointments.status_id, guidance_appointments.appointment_id, student.last_name,student.year_level, student.first_name, student.middle_name, mode_of_communication.communication_mode, course.title, guidance_appointments.appointment_date, guidance_appointments.appointment_time from guidance_appointments JOIN indv_counselling on indv_counselling.appointment_id=guidance_appointments.appointment_id JOIN intake_form on indv_counselling.intake_id=intake_form.intake_id JOIN student ON student.Student_id=intake_form.Student_id JOIN course ON student.course_id=course.course_id JOIN mode_of_communication ON mode_of_communication.mode_id=guidance_appointments.mode_id WHERE intake_form.intake_id='$intake_id'");
+ $sqlselect=mysqli_query($conn,"SELECT * from student JOIN intake_form on student.Student_id=intake_form.Student_id left JOIN course ON student.course_id=course.course_id WHERE intake_form.intake_id='$intake_id'");
 
 $sched=mysqli_fetch_array($sqlselect);?>
  
@@ -190,7 +190,7 @@ $intake_id=$row['intake_id'];
                  $q7= ''; 
                  $rd=array();$checked_arr=array();
                  $rd=array("Walk-in","Call-in","Referred");
-                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
+                 $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join intake_form on intake_form.Student_id=student.Student_id left join course on student.course_id=course.course_id left join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id' and intake_form.intake_id='$intake_id'");
                 if($prorow=mysqli_fetch_array($sqlselect)){ $q7=$prorow['Q7'];
                   $checked_arr[]=$prorow['intake_type'];
                   $image_data=$prorow['e_signature'];

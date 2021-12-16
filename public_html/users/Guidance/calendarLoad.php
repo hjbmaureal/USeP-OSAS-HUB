@@ -23,7 +23,7 @@ $querry = mysqli_query($conn,"SELECT * FROM guidance_appointments LEFT JOIN indv
 	$data[]=array(
 			'color' => $color,
 			'id' => $row['appointment_id'],
-			'title' => '',
+			'title' => $row['first_name'].' '.$row['last_name'],
 			'start' => $row['appointment_date'].' '.$row['appointment_time'],
 			'end' => $row['appointment_date'].' '.$time,
 

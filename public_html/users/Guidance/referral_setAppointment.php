@@ -81,13 +81,19 @@ $set=mysqli_fetch_array($sqlselect);?>
                         </div>
                       </div>
                       <div class="modal-footer">
-                    <button type="submit" name="SetAppointment" class="btn btn-success">SET APPOINTMENT</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+                     <button type="submit" name="SetAppointment" id="SetAppointment" onclick="fun2(); hideModal<?php echo $referral_id;;?>();" a href="#loader" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-success" >Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" >CANCEL</button>
                     </div>
+                    <script type="text/javascript">
+                      function hideModal<?php echo $referral_id;;?>() {
+        $("#setAppointment<?php echo $row['referral_id']; ?>").modal("hide");
+    }
+                    </script>
                     </form>
                     </div>
                   </div>
                 </div>
+
                 <div class="modal fade " id="warning<?php echo $row['referral_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <?php $id=$row['referral_id'];?>
                   

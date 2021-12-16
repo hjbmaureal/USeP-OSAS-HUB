@@ -1,4 +1,52 @@
- <?php include('../../conn.php');
+ <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+      <!-- Twitter meta-->
+      <meta property="twitter:card" content="summary_large_image">
+      <meta property="twitter:site" content="@pratikborsadiya">
+      <meta property="twitter:creator" content="@pratikborsadiya">
+      <!-- Open Graph Meta-->
+      <meta property="og:type" content="website">
+      <meta property="og:site_name" content="Vali Admin">
+      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+  <!--  TITLE -->
+    <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Guidance Admin Hub</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <!-- Font-icon css-->
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <!-- DATEPICKER --> 
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <!-- DISABLE DATE AND TIME SCRIPT -->
+      <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
+      <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
+    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+    <!-- LOADER -->
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js"></script>
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <?php include('../../conn.php');
   include '../../php/notification-timeago.php'; 
   session_start();
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Guidance'){
@@ -16,8 +64,7 @@
 }
 
 //Add group counselling
-  if(isset($_POST['add_gc']))
-  {
+  if(isset($_POST['add_gc'])){
     $gc_date = date('Y-m-d',strtotime($_POST['gguidance_date']));
     $gc_time = date('H:i',strtotime($_POST['gguidance_date']));
     $gc_purpose = $_POST['gguidance_topic'];
@@ -79,7 +126,7 @@
                if ($conn->query($sql2) === TRUE) {
                     $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$studid', 'You have been added to a group guidance activity.',now(),'Guidance_Student_GroupGuidance.php', 'Delivered')");
 
-                              if($result){
+                              /*if($result){
                                 echo '<script>
                           swal({
                               title: "New Group Guidance Saved!",
@@ -104,7 +151,7 @@
                           })
                         </script>';
                       }
-                        echo "<meta http-equiv='refresh' content='2'>";
+                        echo "<meta http-equiv='refresh' content='2'>";*/
 
                 }
 
@@ -345,7 +392,7 @@ if(mail($result['email_add'], $subject, $htmlContent, $headers)){
 window.location.href='index.php';
 alert('Email Verification Sent!');
 </script>";*/ 
-    $newTime=date('H:i',strtotime('+4 hours', $result['appointment_date']));
+    $newTime=date('H:i',strtotime('+4 hours', strtotime($result['appointment_date'])));
     $from_name = "Guidance Office";        
     $from_address = "lloydsryan30@gmail.com";        
     $to_name = $result['last_name'].', '.$result['first_name'].' '.$result['middle_name'];        
@@ -455,7 +502,10 @@ echo "ERROR";}}
                               timer: 1800,
                               closeOnClickOutside: false,
                                 closeOnEsc: false,
-                          })
+                          });
+                          setTimeout(function(){
+                                fun();
+                            });
                         </script>';
                         echo "<meta http-equiv='refresh' content='2'>";
                       }else{
@@ -594,51 +644,7 @@ if ($conn->query($sql12) === TRUE) {
 
 
   ?>
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <!-- Twitter meta-->
-      <meta property="twitter:card" content="summary_large_image">
-      <meta property="twitter:site" content="@pratikborsadiya">
-      <meta property="twitter:creator" content="@pratikborsadiya">
-      <!-- Open Graph Meta-->
-      <meta property="og:type" content="website">
-      <meta property="og:site_name" content="Vali Admin">
-      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
-      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
-      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
-      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-  <!--  TITLE -->
-    <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Guidance Admin Hub</title>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="css/main.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
-
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-      <!-- Font-icon css-->
-      <link rel="stylesheet" type="text/css" href="css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
-      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <!-- DATEPICKER --> 
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-    <!-- DISABLE DATE AND TIME SCRIPT -->
-      <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
-      <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-       <link rel="stylesheet" type="text/css" href="../../css/main.css">
-    <link rel="stylesheet" type="text/css" href="../../css/upstyle.css">
-    <link rel="stylesheet" type="text/css" href="../../css/custom.css">
-    <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="../../css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
+  
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
@@ -659,7 +665,6 @@ if ($conn->query($sql12) === TRUE) {
           </div>
       </div>
 
-      <hr>
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
           <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fas fa-home"></i><span class="app-menu__label">Home</span></a></li>
@@ -693,7 +698,13 @@ if ($conn->query($sql12) === TRUE) {
 
 
        <!--navbar-->
-
+            <!-- LOADER MODAL -->
+                <div class="modal fade " id="loader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div  class="modal-dialog" role="document">
+                                    <div class="loader" id="loader"></div>
+                                    <center><h4 style="position: absolute; margin-top: 76%; margin-left: 40%; color: white;">Please Wait!...</h4></center>
+                    </div>
+                </div>
           <main class="app-content">
             
         <div class="app-title">
@@ -752,8 +763,8 @@ if ($conn->query($sql12) === TRUE) {
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
-             <?php 
-                  $count_sql="SELECT * from notif where (user_id=$admin_id or office_id = 4)  order by time desc";
+                <?php 
+                  $count_sql="SELECT * from notif where (user_id=$admin_id AND office_id = 4)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -795,8 +806,7 @@ if ($conn->query($sql12) === TRUE) {
         <li class="dropdown">      
               
                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="width: 30px; height: 30px;">
-
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
                 </a>
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -863,6 +873,7 @@ if ($conn->query($sql12) === TRUE) {
       }
 
       function initClock(){
+        fun2();
         updateClock();
         window.setInterval("updateClock()", 1);
       }
@@ -901,7 +912,6 @@ if ($conn->query($sql12) === TRUE) {
                      
                   <div class="inline-block">
                     Month 
-                    <br>
                   <select class="bootstrap-select" id="filter_month">
                       <option class="select-item" value="all" selected="selected">All</option>
                       <option class="select-item" value="01" >January</option>
@@ -917,10 +927,7 @@ if ($conn->query($sql12) === TRUE) {
                       <option class="select-item" value="11">November</option>
                       <option class="select-item" value="12">December</option>
                     </select>
-                </div>
-<div class="inline-block">
-                    Status 
-                    <br>
+                   Status
                     <select class="bootstrap-select" name="filterstatus" id="filterstatus">
                         <option class="select-item" value="all" selected="selected">All</option>
                        <?php
@@ -931,10 +938,7 @@ if ($conn->query($sql12) === TRUE) {
                               <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['status'];?></option>
                         <?php } ?>
                       </select>
-                  </div>
-                  <div class="inline-block">
-                    Course 
-                    <br>
+                  Course
                   <select class="bootstrap-select" id="filtcourse">
                     <option class="select-item" value="all" selected="selected">All</option>
                        <?php
@@ -956,9 +960,11 @@ if ($conn->query($sql12) === TRUE) {
 
                   </div>
                 </div>
+
                   <div class="table-bd">
                 <div class="table-responsive">
                   <br>
+                  
                   <div class="divFilter">
                   <table class="table table-hover table-bordered" id="sampleTable">
                     <thead>
@@ -1029,6 +1035,7 @@ if ($conn->query($sql12) === TRUE) {
           </button>
         </div>
         <div class="modal-body c">
+
         <div class="tile">
         <form action="" method="post"> 
           <div>
@@ -1052,6 +1059,7 @@ if ($conn->query($sql12) === TRUE) {
                       </select>
                     </div>
                       </div>
+               
         <div class="col-auto">
                   <div class="inline-block">
                      <?php
@@ -1134,7 +1142,7 @@ if ($conn->query($sql12) === TRUE) {
                           <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
-                                  <b>Purpose/Topic:</b><input class="form-control" type="text" name="gguidance_topic" id="gguidance_topic" required="">
+                                  <b>Purpose/Topic:</b><input class="form-control" type="text" name="gguidance_topic" id="gguidance_topic" required="" disabled="">
                                 </div>
                             </div>
                           </div>
@@ -1144,7 +1152,7 @@ if ($conn->query($sql12) === TRUE) {
                                     $sql1="SELECT mode_id, communication_mode FROM mode_of_communication"; 
                                     ?>
                                     <b>Mode of Communication:</b>
-                                    <select type="text" class="form-control" name="gguidance_mode" id="gguidance_mode" required="">
+                                    <select type="text" class="form-control" name="gguidance_mode" id="gguidance_mode" required="" disabled="">
                                     <?php
                                     foreach ($conn->query($sql1) as $row){
                                     ?>
@@ -1161,7 +1169,7 @@ if ($conn->query($sql12) === TRUE) {
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="add_gc" class="btn btn-success">Submit</button>
+                        <button type="submit" name="add_gc" id="add_gc" onclick="fun2(); hideModal();" a href="#loader" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-success" disabled="">Submit</button>
                       </div>
                       </form>
                     </div>
@@ -1188,6 +1196,9 @@ if ($conn->query($sql12) === TRUE) {
                     
                   });
                 });
+    function hideModal() {
+        $("#exampleModalLong").modal("hide");
+    }
 </script>
  <!-- DATEPICKER -->
 <?php 
@@ -1428,6 +1439,15 @@ $(".datepicker").datetimepicker({
                     });
                 
                   });
+                  $("#gguidance_date").on('click', function(){
+                        $("#gguidance_topic").prop('disabled', false);
+                  });
+                  $("#gguidance_topic").on('click', function(){
+                        $("#gguidance_mode").prop('disabled', false);
+                  });
+                  $("#gguidance_mode").on('click', function(){
+                        $("#add_gc").prop('disabled', false);
+                  });
                 });
         </script>
 <script type="text/javascript">
@@ -1435,7 +1455,7 @@ $(".datepicker").datetimepicker({
 $( "frm" ).submit(function( event ) {
   event.preventDefault();
 });
-
+/*HIDE LOADER*/
 </script>
 <!--  -->
 <!-- 

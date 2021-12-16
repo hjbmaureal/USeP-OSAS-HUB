@@ -1,6 +1,32 @@
+<?php
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+include('../../conn.php');
+
+//validating session
+
+
+ if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id = $_SESSION['id'];
+  $count = 0;
+  $job_count = 0;
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$id' and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
+$query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement");
+  while($row=mysqli_fetch_array($query2)){ $job_count = ($row['cnt']==0) ? '' : $row['cnt'] ;}
+
+
+
+?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
+      <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style type="text/css">
    .intake
@@ -116,25 +142,18 @@
 
                 </p>
                     
-                <div align="center">
-                  <input type="checkbox" id="modeOfCommunication" name="modeOfCommunication[]" value="Walk-in" >
-                  <label for="Walk-in"> &emsp;Walk-in </label> &emsp;&emsp;&emsp;
-                  <input type="checkbox" id="modeOfCommunication" name="modeOfCommunication[]" value="Call-in" >
-                  <label for="Call-in"> &emsp;Call-in </label> &emsp;&emsp;&emsp;
-                  <input type="checkbox" id="modeOfCommunication" name="modeOfCommunication[]" value="Referred" >
-                  <label for="Referred"> &emsp;Referred</label>
-                </div>
-                <script type="text/javascript">
-                  $('input[type="checkbox"]').on('change', function() {
-                     $(this).siblings('input[type="checkbox"]').prop('checked', false);
-                      $(this).siblings('input[type="checkbox"]').prop('required', false);
-                  });
-                </script>
-                
+                <div class="form-check" style="text-align:center;">
+                      <label class="form-check-label">
+                    <input class="form-check-input" id="walk" type="radio" name="type" value="Walk-in" required="">Walk-in &emsp;&emsp;&emsp;&emsp;
+                    <input class="form-check-input" id="call" type="radio" name="type" value="Call-in">Call-in &emsp;&emsp;&emsp;&emsp;
+                    <input class="form-check-input" id="ref" type="radio" name="type" value="Referred">Referred &emsp;&emsp;&emsp;&emsp;
+                      </label>
+                      </div>
+               
                    <?php 
                         include('conn.php');
 
-                         $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student join course on student.course_id=course.course_id join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN scholarship_grantee on scholarship_grantee.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=scholarship_grantee.scholar_program_id where student.Student_id='2021-00001'");
+                         $sqlselect=mysqli_query($conn,"SELECT *, course.name as crse FROM student left join course on student.course_id=course.course_id left join emergency_contact on emergency_contact.student_id= student.student_id LEFT JOIN grantee_history on grantee_history.student_id=student.Student_id LEFT JOIN scholarship_program on scholarship_program.program_id=grantee_history.program_id where student.Student_id='$id'");
                           $prorow=mysqli_fetch_array($sqlselect);
                         
                         ?>
@@ -159,7 +178,7 @@
                     </td>
                     <td>4. Middle Initial <br>
                       <i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="middle_name" id="middle_name"value="<?php  echo $prorow['middle_name'];?>" readonly>
+                            <input class="intake"type="text" name="middle_name" id="middle_name"value="<?php  echo $prorow['middle_name'];?>" readonly >
                     </td>
                   </tr>
                   <tr>
@@ -176,8 +195,14 @@
                     <td colspan="2">7. Gender<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input class="intake"type="text" name="gender" id="gender" value="<?php  echo $prorow['sex'];?>" readonly>
                     </td>
+                    <?php 
+                    $date=date('Y-m-d');
+                    $date1 = new DateTime($date);
+                    $date2 = new DateTime($prorow['birth_date']);
+                    $interval = $date1->diff($date2);
+?>
                     <td>8. Age<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="age" id="age" value="<?php  echo $prorow['last_name'];?>" readonly>
+                            <input class="intake"type="text" name="age" id="age" value="<?php  echo $interval->y; ?>" readonly>
                     </td>
                     <td>9. Birthdate<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                             <input class="intake"type="text" name="bdate" id="bdate" value="<?php  echo $prorow['birth_date'];?>" readonly>
@@ -214,29 +239,29 @@
                   </tr>
                   <tr>
                     <td colspan="2">17. Name of Father<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="fathername" id="fathername" value="<?php  echo $prorow['father_name'];?>" readonly>
+                            <input class="intake"type="text" name="father_name" id="father_name" >
                     </td>
                     <td>18. Occupation<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="father_occupation" id="father_occupation" value="<?php  echo $prorow['father_occupation'];?>" readonly>
+                            <input class="intake"type="text" name="father_occupation" id="father_occupation"  >
                     </td>
                     <td>19. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="father_contact" id="father_contact" value="<?php  echo $prorow['father_contact'];?>" readonly>
+                            <input class="intake"type="text" name="father_con_number" id="father_con_number"  >
                     </td>
                   </tr>
                   <tr>
                     <td colspan="2">20. Name of Mother<br>
-                            <input class="intake"type="text" name="mothername" id="mothername" value="<?php  echo $prorow['mother_name'];?>" readonly>
+                            <input class="intake"type="text" name="mother_name" id="mother_name">
                     </td>
                     <td>21. Occupation<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="mother_occupation" id="mother_occupation" value="<?php  echo $prorow['mother_occupation'];?>" readonly>
+                            <input class="intake"type="text" name="mother_occupation" id="mother_occupation" >
                     </td>
                     <td>22. Contact No.<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="mother_contact" id="mother_contact" value="<?php  echo $prorow['mother_contact'];?>"readonly>
+                            <input class="intake"type="text" name="mother_con_number" id="mother_con_number" >
                     </td>
                   </tr>
                    <tr>
                     <td colspan="4">23. Parent's Present Address (Apt/House Number., Street, City/Municipality, Province)<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                            <input class="intake"type="text" name="parent_address" id="parent_address" value="">
+                            <input class="intake"type="text" name="parent_address" id="parent_address" value="" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -327,102 +352,101 @@
             <!--Table for New Submitted Intake Formss Page 1-->
                 <table border="2" id="sampleTable">
                  <tr>
-                    <td colspan="4">26. Health History<br><br>
-                        
-                        &emsp;&emsp;Psychiatric History:
-                        <input style="width:100%;height: 100px;" class="intake" type="text" name="psychiahistory" style="border-bottom: 1px solid #555; width: 73%;"><br>
+                    <td colspan="4">
+                        <br>
+                        &emsp;&emsp;Psychiatric History:<input class="intake" type="text" id="psychiahistory" name="psychiahistory" style="border-bottom: 1px solid #555; width: 70%;"><br><br>
                     </td>   
                   </tr>
                   <tr>
                     <td colspan="4">27. Problems that you are experiencing:<br>
-                      <input style="width:100%;height: 100px;"class="intake"type="text" name="pexperiencing" id="pexperiencing" ><br>
-                
+                      <!-- <input style="width:100%;height: 100px;"class="intake" type="text" name="pexperiencing" id="pexperiencing" ><br> -->
+                      <textarea class="form-control" style="border-color: transparent;" id="pexperiencing" name="pexperiencing" rows="4"></textarea>
                     </td>   
                   </tr>
                   <tr>
                     <td colspan="4">28. What is your goal in seeking help?
-                      <input style="width:100%;height: 100px;"class="intake"type="text" name="goal" id="goal" >
+                      <textarea class="form-control" style="border-color: transparent;" id="goal" name="goal" rows="4"></textarea>
                   </tr>
                   <tr>
                     <td colspan="4">29. Is the use/abuse of drugs and/or alcohol related to this problem in any way?<br>
-                      <input style="width:100%;height: 100px;"class="intake"type="text" name="drugs" id="drugs" >
+                      <textarea class="form-control" style="border-color: transparent;" id="drugs" name="drugs" rows="4"></textarea>
                     </td>   
                   </tr>
                   <tr>
                     <td colspan="4">30. Is there any behavioral problem related?<br>
-                      <input style="width:100%;height: 100px;"class="intake"type="text" name="behavioral_problems" id="behavioral_problems" >
+                      <textarea class="form-control" style="border-color: transparent;" id="behavioral_problems" name="behavioral_problems" rows="4"></textarea>
                     </td>   
                   </tr>
                   <tr>
                     <td colspan="4">31. Have you experienced any significant loss/crisis/life change?
-                      <input style="width:100%;height: 100px;"class="intake"type="text" name="crisis" id="crisis" >
+                      <textarea class="form-control" style="border-color: transparent;" id="crisis" name="crisis" rows="4"></textarea>
                     </td>   
                   </tr>
                   <tr>
-                    <td colspan="4">32. Kindly check what you are currently experiencing? <center>
+                    <td colspan="4">32. Kindly check what you are currently experiencing? <center><br>
                       <div id=“container”>
                         <div style="float: left; padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Anxiousness" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing1" value="Anxiousness" >
                           <label for="vehicle1"> Anxiousness</label><br>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Depression" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing2" value="Depression" >
                           <label for="vehicle1"> Depression</label>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Anger" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing3" value="Anger" >
                           <label for="vehicle1"> Anger</label>
                         </div>
                          <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Confusion" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing4" value="Confusion" >
                           <label for="vehicle1"> Confusion</label>
                         </div>
                          <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Fear" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing5" value="Fear" >
                           <label for="vehicle1"> Fear</label>
                         </div>
                         <!-- ________________________________________________________ -->
                         <div style="float: left; padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Loneliness" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing6" value="Loneliness" >
                           <label for="vehicle1"> Loneliness</label><br>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Despair" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing7" value="Despair" >
                           <label for="vehicle1"> Despair</label>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Thoughts of suicide" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing8" value="Thoughts of suicide" >
                           <label for="vehicle1"> Thoughts of suicide</label>
                         </div>
                          <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Hurt" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing9" value="Hurt" >
                           <label for="vehicle1"> Hurt</label>
                         </div>
                          <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Guilt/shame" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing10" value="Guilt/shame" >
                           <label for="vehicle1"> Guilt/shame</label>
                         </div>
                          <!-- ________________________________________________________ -->
                         <div style="float: left; padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Withdrawing from others" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing11" value="Withdrawing from others" >
                           <label for="vehicle1"> Withdrawing from others</label><br>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Relational stress" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing12" value="Relational stress" >
                           <label for="vehicle1"> Relational stress</label>
                         </div>
                         <div style="float: left;padding-left: 5%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Martial distress" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing13" value="Martial distress" >
                           <label for="vehicle1"> Martial distress</label>
                         </div>
                          <div style="float: left;padding-left: 10%;">
-                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing[]" value="Parenting struggles" >
+                          <input type="checkbox" id="currentluexperiencing" name="currentluexperiencing14" value="Parenting struggles" >
                           <label for="vehicle1"> Parenting struggles</label>
                         </div>
                       </div>
                     </center>
                        <br><br><br><br><br><br>
-                       &emsp;&emsp;33. Other Information you like to share:<input class="intake" type="text" name="Q7" style="border-bottom: 1px solid #555; width: 50%;"><br><br>
+                       33. Other Information you like to share:<input class="intake" type="text" name="Q7" style="border-bottom: 1px solid #555; width: 50%;"><br><br>
                     </td>   
                   </tr>
                   <tr>
@@ -447,16 +471,17 @@
                     
                     <td colspan="2">34. Client/Student's Signature<br><i class="fa fa-caret-left" aria-hidden="true"></i>
                     <?php 
-                         $sql=mysqli_query($conn,"SELECT e_signature as sig from student where Student_id=1209");
+                         $sql=mysqli_query($conn,"SELECT e_signature as sig from student where Student_id='$id'");
                           $query=mysqli_fetch_array($sql);
                           if (empty($query['sig'])) { ?>
                            <input class="intake"type="file" name="signature" id="signature" required>
                           <?php }else{?>
-                            <input class="intake"type="file" name="signature" id="signature" disabled>
+                            <input class="intake"type="file" name="signature" id="signature" readonly>
                           <?php }?>
-                    </td>
-                    <td colspan="2">35. Date Accomplished (MM/DD/YY)<br><i class="fa fa-caret-left" aria-hidden="true"></i>
-                             <input type="text" name="date_accomplished" class="intake datepicker" id="date_accomplished" placeholder="MM/DD/YY" autocomplete="off">
+                    </td> 
+                    <?php $date=date('Y-m-d');?>
+                    <td colspan="2">35. Date Accomplished (DD/MM/YYYY)<br><i class="fa fa-caret-left" aria-hidden="true"></i>
+                             <input type="date" name="date_accomplished" id="date_accomplished" placeholder="DD/MM/YYYY" value="<?php echo $date;?>" readonly>
                     </td>
                   </tr>
                 </table>
@@ -479,9 +504,8 @@
         </div>
 
         <div class="modal-footer">
-          <input type="submit" name="datepicker" class="btn btn-success" value="Set Schedule"> 
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            
+           <input type="submit" name="datepicker" class="btn btn-success" value="Submit">  
 
         </div>
       </div>
@@ -525,39 +549,40 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label for="exampleSelect1">Mode of Communication</label>
-                                    <select class="form-control" id="exampleSelect1" name="mode_of_communication">
-                                      <option disabled="disabled" selected="selected">Choose Option</option>
+                                    <select class="form-control" id="link" name="mode_of_communication" required="">
+                                      <option selected="selected"></option>
                                        <?php
                                            $result=mysqli_query($conn, "SELECT * FROM mode_of_communication");               
-                                          while($res = mysqli_fetch_array($result)) {         
+                                          while($res = mysqli_fetch_array($result)) {        
                                               $value= $res['mode_id']; ?>
-                                              <option value="<?php echo $value; ?>"><?php echo $res['communication_mode'];?></option>
+                                              <option value="<?php echo $value; ?>" required><?php echo $res['communication_mode'];?></option>
                                               <?php } ?>
                                     </select>
                                   </div>
                             </div>
                           </div>
+                          <div class="calldivlink"></div>
                           <div class="row">
                             <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Date</label>
-                                  <input type="text" name="appdate" class="form-control datepicker" placeholder="MM/DD/YY" autocomplete="off">
+                                  <input type="text" name="appdate" id="appdate" class="form-control datepicker" placeholder="MM/DD/YY" autocomplete="off" required="">
                                 </div>
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-sm">
+                           <!--  <div class="col-sm">
                               <div class="form-group">
                                   <label class="control-label">Time</label>
-                                  <input class="form-control" name="apptime" type="time" placeholder="Enter full name">
+                                  <input class="form-control" name="apptime" id="apptime" type="time" placeholder="Enter full name" required="">
                                 </div>
-                            </div>
+                            </div> -->
                           </div>
                           </form>
                         </div>
                       </div>
                       <div class="modal-footer">
-                      <input type="submit" name="schedule" class="btn btn-success" value="Submit">                     
+                      <input type="submit" name="schedule" class="btn btn-success" value="Set">                     
                       <button type="button"  class="btn btn-danger" data-dismiss="modal">Cancel</button>
 
                       
@@ -608,3 +633,5 @@
                       }
                   });
                 </script>
+
+             
