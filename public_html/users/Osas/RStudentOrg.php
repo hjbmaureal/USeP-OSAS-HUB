@@ -419,9 +419,9 @@
                                     while($row=mysqli_fetch_array($result)){
                                           echo "<option class='select-item'";
                                           if(isset($_POST['yr_drpdwn']) && $_POST['yr_drpdwn'] == $row['get_yr']){
-                                              echo "selected value=".$row['get_yr']." >".$row['get_yr']."</option>";
+                                              echo "selected value='".$row['get_yr']."' >".$row['get_yr']."</option>";
                                           }else{
-                                            echo "value=".$row['get_yr']." >".$row['get_yr']."</option>";
+                                            echo "value='".$row['get_yr']."''>".$row['get_yr']."</option>";
                                           }
                                     }
                                 ?>
@@ -457,9 +457,9 @@
                                     while($row=mysqli_fetch_array($result)){
                                      echo "<option class='select-item'";
                                           if(isset($_POST['sortOrgname']) && $_POST['sortOrgname'] == $row['org']){
-                                              echo "selected value=".$row['org']." >".$row['org']."</option>";
+                                              echo "selected value='".$row['org']."' >".$row['org']."</option>";
                                           }else{
-                                            echo "value=".$row['org']." >".$row['org']."</option>";
+                                            echo "value='".$row['org']."'>".$row['org']."</option>";
                                           }
 
                                     }
@@ -479,9 +479,9 @@
                                     while($row=mysqli_fetch_array($result)){
                                           echo "<option class='select-item'";
                                           if(isset($_POST['orgtypeDropdown']) && $_POST['orgtypeDropdown'] == $row['type']){
-                                              echo "selected value=".$row['type']." >".$row['type']."</option>";
+                                              echo "selected value='".$row['type']."'>".$row['type']."</option>";
                                           }else{
-                                            echo "value=".$row['type']." >".$row['type']."</option>";
+                                            echo "value='".$row['type']."'>".$row['type']."</option>";
                                           }
                                     }
                                 ?>
@@ -550,7 +550,7 @@
                           }
                       }
                     
-                    echo '<input type="text" name="sql_val" id="sql_val" hidden value="'.$sql.'">';
+                    echo '<input type="text" name="sql_val" id="sql_val" style="width:500px;" hidden value="'.$sql.'">';
 
                     $result = mysqli_query($conn,$sql);
                     if (!$result) {

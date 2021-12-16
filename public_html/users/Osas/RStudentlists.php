@@ -514,7 +514,7 @@
 
                        }
                     
-                       echo '<input type="text" name="sql_val" id="sql_val" style="width:1000px;" value="'.$sql.'">';
+                       echo '<input type="text" name="sql_val" id="sql_val" style="width:1000px;" value="'.$sql.'" hidden>';
                     
                     $result = mysqli_query($conn,$sql);
                     if (!$result) {

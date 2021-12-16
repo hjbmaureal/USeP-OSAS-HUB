@@ -385,7 +385,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
 }
        }
 
-       if($filesub==" AccomRep"){
+       if($filesub==" AccomRepAccre"){
         if(isset($_FILES['filee'])){
         $pdf_name2 = $_FILES['filee']['name'];
         $pdf_size2 = $_FILES['filee']['size'];
@@ -423,11 +423,11 @@ echo '<script>
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
-                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AccomRep' and Submitted_by like '%$by%'";
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AccomRepAccre' and Submitted_by like '%$by%'";
                                                    $upres = mysqli_query($conn,$updateStat);
                                                    $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
                                                     $run0 = mysqli_query($conn,$query0);
@@ -442,7 +442,7 @@ echo '<script>
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                });
 
@@ -451,7 +451,7 @@ echo '<script>
     }
 
        }
-       if($filesub==" AFS"){
+       if($filesub==" AFSAccre"){
         if(isset($_FILES['filee'])){
         $pdf_name4 = $_FILES['filee']['name'];
         $pdf_size4 = $_FILES['filee']['size'];
@@ -490,11 +490,11 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
-                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AFS' and Submitted_by like '%$by%'";
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AFSAccre' and Submitted_by like '%$by%'";
                                                    $upres = mysqli_query($conn,$updateStat);
                                                    $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
                                                     $run0 = mysqli_query($conn,$query0);
@@ -509,7 +509,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -554,7 +554,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -573,7 +573,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -618,7 +618,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -637,7 +637,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -682,7 +682,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -701,7 +701,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -745,7 +745,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -764,7 +764,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -809,7 +809,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -828,7 +828,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 
@@ -873,7 +873,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                       showConfirmButton: true
                                                      }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                   });
                                                    </script>';
@@ -892,7 +892,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                     showConfirmButton: true
                                                   }, function () {
                                                   setTimeout(function () {
-                                                  window.location.href="Org-files.php";
+                                                  window.location.href="Accre-files.php";
                                                   }, 500);
                                                }); ';
 

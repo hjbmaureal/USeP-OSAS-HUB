@@ -48,6 +48,7 @@
       $nationality= $_POST['nationality'];
       $civil= $_POST['civil'];
       $birthdate= $_POST['birthdate'];
+      $birthplace= $_POST['birthplace'];
       $email= $_POST['email'];
       $contact= $_POST['contact'];
       $password = $_POST['password'];
@@ -67,6 +68,7 @@
         sex = '$sex', 
         civil_status = '$civil', 
         birthdate = '$birthdate', 
+        birthplace = '$birthplace', 
         email_add = '$email', 
         phone_num = '$contact', 
         religion = '$religion', 

@@ -360,7 +360,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 ?> 
               </div>
             <li class="app-notification__footer">
-              <a href="Notifications.php">See all notifications.</a>
+              <a href="../Student/Notifications.php">See all notifications.</a>
             </li>
           </ul>
         </li>

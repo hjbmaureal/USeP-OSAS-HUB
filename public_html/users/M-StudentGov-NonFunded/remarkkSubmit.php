@@ -380,6 +380,520 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
 
 }
        }
+
+ if($filesub==" AccomRepAccre"){
+        if(isset($_FILES['filee'])){
+        $pdf_name2 = $_FILES['filee']['name'];
+        $pdf_size2 = $_FILES['filee']['size'];
+       $pdf_tmp2 = $_FILES['filee']['tmp_name'];
+       $path2 = "Org_Files/".$pdf_name2;
+       $movepdf2 = move_uploaded_file($pdf_tmp2,$path2);
+
+       $querydel2 = "UPDATE accre_files set AccomRep=' '  where Org_President_Governor like '%$by%'";
+      $rundel2 = mysqli_query($conn,$querydel2);
+      $query2fun = "UPDATE accre_files set AccomRep='$pdf_name2'  where Org_President_Governor like '%$by%'";
+      $run2fun = mysqli_query($conn,$query2fun);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+
+echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AccomRepAccre' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               });
+
+                                                </script>';
+
+    }
+
+       }
+       if($filesub==" AFSAccre"){
+        if(isset($_FILES['filee'])){
+        $pdf_name4 = $_FILES['filee']['name'];
+        $pdf_size4 = $_FILES['filee']['size'];
+       $pdf_tmp4 = $_FILES['filee']['tmp_name'];
+       $path4 = "Org_Applications/".$pdf_name4;
+       $movepdf4 = move_uploaded_file($pdf_tmp4,$path4);
+
+       $query4del = "UPDATE accre_files set AFS=' '  where Org_President_Governor like '%$by%'";
+      $run4del = mysqli_query($conn,$query4del);
+
+       $query4 = "UPDATE accre_files set AFS='$pdf_name4'  where Org_President_Governor like '%$by%'";
+      $run4 = mysqli_query($conn,$query4);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+
+      echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AFSAccre' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+       }
+
+        if($filesub==" Lists_officers"){
+        if(isset($_FILES['filee'])){
+        $pdf_name5 = $_FILES['filee']['name'];
+        $pdf_size5 = $_FILES['filee']['size'];
+       $pdf_tmp5 = $_FILES['filee']['tmp_name'];
+       $path5 = "Accre_Files/".$pdf_name5;
+       $movepdf5 = move_uploaded_file($pdf_tmp5,$path5);
+
+       $query5del = "UPDATE accre_files set Lists_officers=' '  where Org_President_Governor like '%$by%'";
+      $run5del = mysqli_query($conn,$query5del);
+
+       $query5 = "UPDATE accre_files set Lists_officers='$pdf_name5'  where Org_President_Governor like '%$by%'";
+      $run5 = mysqli_query($conn,$query5);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+       echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='Lists_officers' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+
+}
+if($filesub==" Lists_members"){
+        if(isset($_FILES['filee'])){
+        $pdf_name6 = $_FILES['filee']['name'];
+        $pdf_size6 = $_FILES['filee']['size'];
+       $pdf_tmp6 = $_FILES['filee']['tmp_name'];
+       $path6 = "Accre_Files/".$pdf_name6;
+       $movepdf6 = move_uploaded_file($pdf_tmp6,$path6);
+
+       $query6del = "UPDATE accre_files set Lists_officers=' '  where Org_President_Governor like '%$by%'";
+      $run6del = mysqli_query($conn,$query6del);
+
+       $query6 = "UPDATE accre_files set Lists_members='$pdf_name6'  where Org_President_Governor like '%$by%'";
+      $run6 = mysqli_query($conn,$query6);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+       echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='Lists_members' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+
+}
+if($filesub==" Aff_adviser"){
+        if(isset($_FILES['filee'])){
+        $pdf_name7 = $_FILES['filee']['name'];
+        $pdf_size7 = $_FILES['filee']['size'];
+       $pdf_tmp7 = $_FILES['filee']['tmp_name'];
+       $path7 = "Accre_Files/".$pdf_name7;
+       $movepdf7 = move_uploaded_file($pdf_tmp7,$path7);
+
+       $query7del = "UPDATE accre_files set Aff_adviser=' '  where Org_President_Governor like '%$by%'";
+      $run7del = mysqli_query($conn,$query7del);
+
+       $query7 = "UPDATE accre_files set Aff_adviser='$pdf_name7'  where Org_President_Governor like '%$by%'";
+      $run7 = mysqli_query($conn,$query7);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+      echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='Aff_adviser' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+}
+if($filesub==" Aff_high_officer"){
+        if(isset($_FILES['filee'])){
+        $pdf_name8 = $_FILES['filee']['name'];
+        $pdf_size8 = $_FILES['filee']['size'];
+       $pdf_tmp8 = $_FILES['filee']['tmp_name'];
+       $path8 = "Accre_Files/".$pdf_name8;
+       $movepdf8 = move_uploaded_file($pdf_tmp8,$path8);
+
+       $query8del = "UPDATE accre_files set Aff_high_officer=' '  where Org_President_Governor like '%$by%'";
+      $run8del = mysqli_query($conn,$query8del);
+
+       $query8 = "UPDATE accre_files set Aff_high_officer='$pdf_name8'  where Org_President_Governor like '%$by%'";
+      $run8 = mysqli_query($conn,$query8);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+       echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='Aff_high_officer' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+
+}
+if($filesub==" AFP"){
+        if(isset($_FILES['filee'])){
+        $pdf_name9 = $_FILES['filee']['name'];
+        $pdf_size9 = $_FILES['filee']['size'];
+       $pdf_tmp9 = $_FILES['filee']['tmp_name'];
+       $path9 = "Accre_Files/".$pdf_name9;
+       $movepdf9 = move_uploaded_file($pdf_tmp9,$path9);
+
+       $query9del = "UPDATE accre_files set AFP=' '  where Org_President_Governor like '%$by%'";
+      $run9del = mysqli_query($conn,$query9del);
+
+       $query9 = "UPDATE accre_files set AFP='$pdf_name9'  where Org_President_Governor like '%$by%'";
+      $run9 = mysqli_query($conn,$query9);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+      echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='AFP' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+
+}      
+if($filesub==" CBL_logo"){
+        if(isset($_FILES['filee'])){
+        $pdf_name0 = $_FILES['filee']['name'];
+        $pdf_size0 = $_FILES['filee']['size'];
+       $pdf_tmp0 = $_FILES['filee']['tmp_name'];
+       $path0 = "Accre_Files/".$pdf_name0;
+       $movepdf0 = move_uploaded_file($pdf_tmp0,$path0);
+
+        $query0del = "UPDATE accre_files set CBL_logo=' '  where Org_President_Governor like '%$by%'";
+      $run0del = mysqli_query($conn,$query0del);
+
+       $query0 = "UPDATE accre_files set CBL_logo='$pdf_name0'  where Org_President_Governor like '%$by%'";
+      $run0 = mysqli_query($conn,$query0);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/UnrecognizedOrg.php', 'Delivered')");
+      echo '<script> 
+                                                    swal({
+                                                      
+                                                      type: "success",
+                                                      title: "File sumbitted successfully",
+                                                      showConfirmButton: true
+                                                     }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                                  });
+                                                   </script>';
+                                                   $updateStat = "UPDATE remarks_apply SET status = 1 WHERE file='CBL_logo' and Submitted_by like '%$by%'";
+                                                   $upres = mysqli_query($conn,$updateStat);
+                                                   $query0 = "UPDATE accre_files set status = 0  where Org_President_Governor like '%$by%'";
+                                                    $run0 = mysqli_query($conn,$query0);
+      
+                                        }
+                                        else{
+                                            echo '<script>
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "File not submitted successfully",
+                                                    showConfirmButton: true
+                                                  }, function () {
+                                                  setTimeout(function () {
+                                                  window.location.href="Accre-files.php";
+                                                  }, 500);
+                                               }); ';
+
+}
+}
       
        
        

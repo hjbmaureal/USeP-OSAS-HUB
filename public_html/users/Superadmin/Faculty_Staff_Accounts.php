@@ -387,8 +387,8 @@ function timeago($datetime, $full = false) {
 
                                 FROM staff as s
                                 LEFT JOIN department as d
-                                ON s.dept_id = d.dept_id
-                                JOIN office as o
+                                ON s.dept_id = d.dept_id 
+                                LEFT JOIN office as o
                                 ON s.office_id = o.office_id where s.staff_id is not null";
                   if (isset($_POST['type_dropdwn'])) {
                          # code...

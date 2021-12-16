@@ -431,7 +431,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                             <td><font class="display"><b><u>'. $row['message_body']. '</u></b></font></td>
                             <td><font class="display"><b>'. timeago($row['time']).' ago</b></font></td>
                             <td><font class="display"><b>
-                            <form method="POST" action="change_notif_status.php">
+                            <form method="POST" action="../../php/change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>
@@ -442,7 +442,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                             <td><font class="display">'. $row['message_body']. '</font></td>
                             <td><font class="display">'. timeago($row['time']).' ago</font></td>
                             <td><font class="display">
-                            <form method="POST" action="change_notif_status.php">
+                            <form method="POST" action="../../php/change_notif_status.php">
                       <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
                       <input type="submit" name="open_notif" value="Open Message" class="btn btn-danger btn-sm delete-button">
                       </form>

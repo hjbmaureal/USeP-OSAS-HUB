@@ -88,16 +88,21 @@
                    <input class="form-control" type="date" id="birthdate" value="<?php echo $res['birthdate'] ?>" name="birthdate" >
                  </div>
                  <div class="form-group col-sm-3">
+                   Birth Place<span style="color:red">*</span>
+                   <input class="form-control" type="text" id="birthplace" value="<?php echo $res['birthplace'] ?>" name="birthplace" >
+                 </div>
+                 <div class="form-group col-sm-3">
                   Religion<span style="color:red">*</span>
                   <input class="form-control" type="text" id="religion" value="<?php echo $res['religion'] ?>" name="religion">
                 </div>
-                <div class="form-group col-sm-3">
-                  Contact Number<span style="color:red">*</span>
-                  <input class="form-control" type="Number" value="<?php echo $res['phone_num'] ?>" id="contact" name="contact" >
-                </div>
+                
               </div>
 
               <div class="row">
+                 <div class="form-group col-sm-3">
+                              Contact Number<span style="color:red">*</span>
+                                  <input class="form-control" type="Number" id="contact" name="contact" required>
+                          </div>
                <div class="form-group col-sm-4">
                 Email Address<span style="color:red">*</span>
                 <input class="form-control" type="email" id="email" name="email" value="<?php echo $res['email_add'] ?>" >
@@ -127,7 +132,7 @@
                 </div>
                 <div class="form-group col-sm-5">
                   Password<span style="color:red">*</span>
-                  <input class="form-control" type="text" id="password" value="<?php echo $res['password'] ?>" name="password" >
+                  <input class="form-control" type="text" id="password" value="" name="password" >
                 </div>
 
 

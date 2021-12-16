@@ -392,26 +392,6 @@
                           <option class="select-item"<?php if(isset($_POST['month_drpdwn']) && $_POST['month_drpdwn'] == 12 ) echo 'selected'?> value="12">December</option>
                       </select>
                     </div>
-                 <div class="inline-block">
-                    Year Level <br>
-                    <select class="bootstrap-select" name="yr_lvl" id="yr_lvl">
-                       <option class="select-item" value="0">All</option>
-                        <?php
-                                    
-                                    
-                                    $sql="SELECT LEFT(year_desc,3) as lvl FROM year";
-                                    $result = mysqli_query($conn,$sql);
-                                    while($row=mysqli_fetch_array($result)){
-                                          echo "<option class='select-item'";
-                                          if(isset($_POST['yr_lvl']) && $_POST['yr_lvl'] == $row['lvl']){
-                                              echo "selected value=".$row['lvl']." >".$row['lvl']."</option>";
-                                          }else{
-                                            echo "value=".$row['lvl']." >".$row['lvl']."</option>";
-                                          }
-                                    }
-                                ?>
-                            </select>
-                    </div>
 
                     <div class="inline-block">
                     Course  <br>
@@ -441,7 +421,18 @@
                         <?php
                                     
                                    
-                                    $sql="SELECT DISTINCT type FROM student";
+                                    $sql="SELECT DISTINCT
+                            student.type as type,
+                            good_moral_requests.date_requested as date_req 
+                            FROM student JOIN course ON  student.course_id = course.course_id 
+                            JOIN good_moral_requests ON student.Student_id = good_moral_requests.requested_by where good_moral_requests.request_id is not Null
+UNION
+SELECT DISTINCT
+                            
+                            'Alumni' as type,
+                            good_moral_requests.date_requested as date_req 
+                            FROM alumni JOIN course ON  alumni.course_id = course.course_id 
+                            JOIN good_moral_requests ON alumni.id = good_moral_requests.requested_by where good_moral_requests.request_id";
                                     $result = mysqli_query($conn,$sql);
                                     while($row=mysqli_fetch_array($result)){
                                           echo "<option class='select-item'";
@@ -477,7 +468,6 @@
                       <th>OR No.</th>
                       <th class="max">Full Name</th>
                       <th>Course/Degree</th>
-                      <th>Year Level</th>
                       <th>School Year</th>
                       <th>Purpose</th>
                       <th>Student Type</th>
@@ -488,49 +478,48 @@
                     <?php
                     
                     $sql = "SELECT
-                            good_moral_requests.request_id as req_id,
-                            good_moral_requests.or_no as or_no,
-                            concat( student.first_name,' ',LEFT(student.middle_name, 1),'.',' ',student.last_name,' ',student.suffix) as name,
+                            gmc_request.request_id as req_id,
+                            gmc_request.or_no as or_no,
+                            concat( gmc_request.first_name,' ',LEFT(gmc_request.middle_name, 1),'.',' ',gmc_request.last_name,' ',gmc_request.suffix) as name,
                             course.title As course,
-                            student.year_level,
-                            good_moral_requests.last_sy_attended as sy_attended,
-                            good_moral_requests.purpose as purpose,
-                            student.type as type,
-                            good_moral_requests.date_requested as date_req 
-                            FROM student JOIN course ON  student.course_id = course.course_id 
-                            JOIN good_moral_requests ON student.Student_id = good_moral_requests.requested_by where good_moral_requests.request_id is not Null";
+                            gmc_request.last_sy_attended as sy_attended,
+                            gmc_request.purpose as purpose,
+                            gmc_request.type as type,
+                            gmc_request.date_requested as date_req 
+                            FROM gmc_request JOIN course ON  gmc_request.course_id = course.course_id where gmc_request.request_id is not Null
+       ";
 
-                    if(!empty($_POST['schl_yr']) || isset($_POST['month_drpdwn']) || isset($_POST['yr_lvl']) || isset($_POST['course_dropdwn']) || isset($_POST['stdnt_typ'])){
+                    if(!empty($_POST['schl_yr']) || isset($_POST['month_drpdwn']) || isset($_POST['course_dropdwn']) || isset($_POST['stdnt_typ'])){
 
                       $schoolyr = $_POST['schl_yr'];
                       $month = $_POST['month_drpdwn'];
-                      $yrlvl = $_POST['yr_lvl'];
+                     /* $yrlvl = $_POST['yr_lvl'];*/
                       $course_gm = $_POST['course_dropdwn'];
                       $studenttype = $_POST['stdnt_typ'];
 
                       if ($schoolyr != "0") {
                         # code...
-                        $sql .= " AND good_moral_requests.last_sy_attended = '$schoolyr' ";
+                        $sql .= " AND gmc_request.last_sy_attended = '$schoolyr' ";
                       }
                       if ($month != "0") {
                         # code...
-                        $sql .= " AND good_moral_requests.date_requested like '%-$month-%' ";
+                        $sql .= " AND gmc_request.date_requested like '%-$month-%' ";
                       }
-                      if ($yrlvl != "0") {
+                     /* if ($yrlvl != "0") {
                         # code...
                         $sql .= " AND LEFT(student.year_level,3) = '$yrlvl' ";
-                      }
+                      }*/
                       if ($course_gm != "0") {
                         # code...
                         $sql .= " AND course.title = '$course_gm' ";
                       }
                       if ($studenttype != "0") {
                         # code...
-                        $sql .= " AND student.type = '$studenttype' ";
+                        $sql .= " AND gmc_request.type COLLATE utf8mb4_general_ci = '$studenttype' ";
                       }
                     }
 
-                     echo '<input type="text" name="sql_val" id="sql_val" hidden value="'.$sql.'">';
+                     echo '<input type="text" name="sql_val" id="sql_val" style="width:1000px;" value="'.$sql.'" hidden>';
                           $result = mysqli_query($conn,$sql);
                           if (!$result) {
                              printf("Error: %s\n", mysqli_error($conn));
@@ -543,7 +532,6 @@
                                   echo  "<td>".$row['or_no']. "</td>";
                                   echo  "<td>".$row['name']."</td>";
                                   echo  "<td>".$row['course']."</td>";
-                                  echo  "<td>".$row['year_level']."</td>";
                                   echo  "<td>".$row['sy_attended']."</td>";
                                   echo  "<td>".$row['purpose']."</td>";
                                   echo  "<td>".$row['type']."</td>";

@@ -33,7 +33,7 @@
                               </button>
                             </div>
                               <label  name="idd"><input type="hidden" name="idd" style="border:none;" value="<?php echo $res['ID'];?>"></label><br>
-                              <label name="gov">Student Org. President/Governor: &emsp; <input type="text" style="border:none;" name="gov" value="<?php echo $res['Org_pres_gov'];?>"></label><br>
+                              <label name="gov">Student Org. President/Governor: &emsp; <input type="text" style="border:none;" name="gov" value="<?php echo $res['Org_pres_gov'];?>" style="width: 500px;" ></label><br>
                               <label name="adviser">Student Org. Adviser: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" style="border:none;" name="adviser" value="<?php echo $res['Org_adviser'];?>"></label><br>
                               <label name="type">Organization Type: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" name="type" style="border:none;" value="<?php echo $res['Type']; ?>"> </label><br>
                               <label class="control-label ml-2 mt-2">File Submitted:</label>

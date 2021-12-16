@@ -123,20 +123,26 @@
                             <input class="form-control" type="date" id="birthdate" name="birthdate" required>
                          </div>
                          <div class="form-group col-sm-3">
+                              Birth Place<span style="color:red">*</span>
+                                  <input class="form-control" type="text" id="birthplace" name="birthplace" required>
+                          </div>
+                         <div class="form-group col-sm-3">
                               Religion<span style="color:red">*</span>
                                   <input class="form-control" type="text" id="religion" name="religion">
                           </div>
-                          <div class="form-group col-sm-3">
-                              Contact Number<span style="color:red">*</span>
-                                  <input class="form-control" type="Number" id="contact" name="contact" required>
-                          </div>
+                         
                       </div>
 
                       <div class="row">
+                         <div class="form-group col-sm-3">
+                              Contact Number<span style="color:red">*</span>
+                                  <input class="form-control" type="Number" id="contact" name="contact" required>
+                          </div>
                          <div class="form-group col-sm-4">
                               Email Address<span style="color:red">*</span>
                                   <input class="form-control" type="email" id="email" name="email" placeholder="@email.com" required>
                           </div>
+
                           <div class="form-group col-sm-8">
                               Full Address<span style="color:red">*</span>
                                   <input class="form-control" type="address" id="address" name="address" placeholder="Block & Lot, St., Purok/Village/Sub., Barangay, City/Municipality, Province, Zip Code" required>

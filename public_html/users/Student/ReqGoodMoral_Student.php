@@ -602,8 +602,9 @@ if ($sql && $notification) {
                 </div>
                 <div class="row">
                   <div class="form-group col-sm">
-                    <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. Please upload your Official Reciept. 
-                    <input type="file" id="or_pic" name="or_pic" required="">                    
+                    <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. &emsp; Please upload your Official Reciept in a PDF File only.
+                      <br>
+                    <input type="file" id="or_pic" name="or_pic" accept=".png, .jpeg, .jpg"  required>                    
                   </div>
                 </div>
 
