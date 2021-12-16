@@ -1241,7 +1241,7 @@ $query = "INSERT INTO remarks_apply(org_name,gov,Submitted_by,file,message,date_
 
 
    if($run){ 
-$notif_body = "You have a remarks regarding to you sent files in Student Organization.";
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/Student/Apply-Org.php', 'Delivered')");
 echo '<script> 
                                                 $(document).ready(function(){

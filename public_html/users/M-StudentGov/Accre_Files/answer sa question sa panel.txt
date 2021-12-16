@@ -1,0 +1,46 @@
+Introduction
+-In this research we collaborated with an Agricultural and Biosystems Engineering Student in USeP named Assumpta Rae Quijal called the Solar Light Trap. 
+-In partner with her study, the Pest Identifier app will help the user identify the kind of pests trapped in the Solar Light using Image Processing, as well as count how many pest were trapped using Object Counting
+
+Objective of the Study
+-This study aims to develop an Insect Pests Identifier mobile application for the Solar Light Trap Study using Image Processing. Specifically, the study intends: 
+
+To identify the Name, Description and Classification of insect pests caught in the Solar Light Trap. Specifically:
+	-leafhoppers
+	-plant hoppers
+	-mole cricket
+	-rice case worm
+	-rice gall midge
+	-stem borers
+To identify the total number of the insect pests trapped and the number of its varieties using Object Counting. Varieties in Insect Family such as:
+
+Cicadellidae
+Fulgoroidea
+Gryllotalpidae
+Crambidae
+Cecidomyiidae
+
+Last meeting, the Research Panel required us to clarify the purpose of the Solar Light Trap Study. In here we present to you the Objective and Significance of Solar Light Trap Study according to Ms. Quijal.
+The general purpose of the study is to assess the performance of solar light trap. 
+	Specifically, the study aims to:
+	1. Adopt a design of existing solar light trap to fit different light intensity.
+	2. Measure the performance of the trap design at varying level of light intensity in terms of:
+	a) Type of pest attracted/ collected 
+	b) Number of pest attracted/ collected
+
+ 	3. Determine the effect level of light intensity on the performance of the trap.
+
+This study is also intended to provide basic information as well as experience in the design, construction and testing of a low-cost solar light trap system and, furthermore, serve as a basis for future research on improving or designing solar light trap systems for other tropical crops.
+
+Significance of the Study
+-The farmers may benefit greatly from the results of this study. Most farmers use Pesticides to kill insect pests because they are effective. However, the benefits are there, but they are for short-term only. In the long run, their use isn’t sustainable because insects quickly become resistant and because their use can cause significant damage to the natural environment as well as the health of farmers and consumers. The results will enable the farmers to utilize the solar light trap. Data gathered will help the farmers what light intensity (100W, 200W and 300W) should be applied. 
+
+ 
+The study of Miss Quijal is to assess the performance of Solar Light Trap and the Solar Light Trap’s purpose is to lessen the use of Pesticides in the fields in order to lessen the destruction it may cause to the soil, farmers and consumers. However, according to the research’s background study there are two types of insects in the field the 
+	-beneficial insects and 
+	-destructive insects 
+and the study wants to know if some insects act differently from different level of light intensity. In the research of Miss Quijal, there are 3 levels of light intensity that will be based on, the 
+	-100W, 
+	-200W and 
+	-300W. 
+The data gathered from the Solar Light Trap will help the researcher to know if the level of light intensity has an effect or has a difference in attracting different types of Insect and its numbers. Therefore, the researchers of I-Pest conclude that eventhough the purpose of Solar Light Trap is to become an alternative to Pesticides the proposed application would still be of use in the Solar Light Study when it comes to gathering of data to help the  researcher asses if the level of light intensity has an affect in attracting a certain type of insects and the numbers of attracted insects. Furthermore, the application can help the researcher of Solar Light Trap to identify and count the insects easily as an alternative to manual identification and counting of insects which can save a lot of precious time.

@@ -537,7 +537,9 @@ if (isset($_GET['CBL_logo'])) {
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                    <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -612,7 +614,7 @@ if (isset($_GET['CBL_logo'])) {
                                     <button type="button" class="btn btn-dark btn-sm blocking w-100 mt-2" data-toggle="modal" data-role="remarkbtn" id="<?php echo $resun['ID']?>"><i class="mr-2 fas fa-comment" ></i> ADD REMARKS</button>
                                     <div class="row">
                                       <div style="padding-right: 2px;" class="col-sm">
-                                        <button type="button"   class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  data-toggle="modal" data-role="org_verify"  id="<?php echo $res['ID']?>"><i class="fas fa-thumbs-down" ></i></button>
+                                        <button type="button"   class="btn btn-success btn-sm blocking float-right mt-2 w-50"  data-toggle="modal" data-role="org_verify"  id="<?php echo $res['ID']?>"><i class="fas fa-thumbs-up" ></i></button>
                                       </div>
                                       <div style="padding-left: 2px;" class="col-sm">
                                        <button type="button"   class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  data-toggle="modal" data-role="org_verifydis"  id="<?php echo $res['ID']?>"><i class="fas fa-thumbs-down" ></i></button>
@@ -789,7 +791,7 @@ if (isset($_GET['CBL_logo'])) {
   </div>
 
                         <div class="modal-footer" style="margin-bottom: 5px; right:50%;">
-                          <button type="submit" name="postbtn" class="btn btn-danger btn-sm blocking mt-2"><i class="mr-1 fas fa-paper-plane"></i> POST</button>
+                          <button type="submit" name="postbtn1" class="btn btn-danger btn-sm blocking mt-2"><i class="mr-1 fas fa-paper-plane"></i> POST</button>
                       </div>
                       </div>
                     </div>
@@ -1308,6 +1310,84 @@ $query = "INSERT INTO remarks_apply(org_name,Submitted_by,file,message,date_appl
 
 
    if($run){ 
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/M-StudentGov-NonFunded/Org-files.php', 'Delivered')");
+    
+echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "success",
+                                                    title: "Your remarks has been saved",
+                                                    showConfirmButton: true
+                                                    
+                                                  })
+                                                });
+                                                 </script>';
+
+}
+else{
+                                            echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "Your remarks has been saved.",
+                                                    showConfirmButton: true
+                                                   
+                                                  })
+                                               });
+
+                                                </script>';
+                                                  //  echo $name, $file,$message, $image;
+                                                   
+                                                
+                                        }
+
+}
+}
+
+if(isset($_POST['postbtn1'])){
+    $name = $_POST['name'];
+    $file =  $_POST['file'];
+    $message = $_POST['message'];
+    $date = date('y-m-d h:i:s');  
+   $by = $_POST['by'];
+
+
+    /*$qr = "SELECT * FROM org_applications where Org_Name='$name'";
+    $res = mysqli_query($conn,$qr); 
+    echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "success",
+                                                    title: "'.$res['Org_President_Governor'].'",
+                                                    showConfirmButton: true
+                                                    
+                                                  })
+                                                });
+                                                 </script>';
+
+    $gov = $res['Org_President_Governor'];  
+    $by = $res['Submitted_by'];
+   */
+$query = "INSERT INTO remarks_apply(org_name,Submitted_by,file,message,date_apply) values('$name','$by','$file','$message','$date')";
+    $run = mysqli_query($conn,$query); 
+  if(isset($_FILES['image'])){
+    $pdf_name2 = $_FILES['image']['name'];
+  $pdf_size = $_FILES['image']['size'];
+  $pdf_tmp = $_FILES['image']['tmp_name'];
+  $path = "Remarks/".$pdf_name2;
+  $movepdf = move_uploaded_file($pdf_tmp,$path);
+
+    $queryy = "UPDATE remarks_apply set image ='$pdf_name2' where org_name ='$name' and file='$file'";
+    $runn = mysqli_query($conn,$queryy); 
+
+
+   if($run){ 
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/M-StudentGov-NonFunded/Accre-files.php', 'Delivered')");
     
 echo '<script> 
                                                 $(document).ready(function(){
