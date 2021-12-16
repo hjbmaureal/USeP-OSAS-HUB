@@ -1,4 +1,4 @@
-<form method="POST" action="php/staff_add.php" enctype="multipart/form-data">    
+<form method="POST" action="php/staff_add.php" enctype="multipart/form-data" id="staff-form">    
           <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog modal-xl" role="document">
               <div class="modal-content">
@@ -37,7 +37,7 @@
                           <input class="files form-control" onchange="getImagePreview(event);" type="file" id="myfile" name="id_pic" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG" required></div>-->
                           <img src="../../images/logo.png" class="prof-border" id="profileDisplay" onclick="triggerClick()" />
                             <label class="text-underline" for="profileImage">Upload Profile</label>
-                          <input type="file" name="id_pic" onchange="displayImage(this)" id="profileImage" style="display: none;" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG" required></div>
+                          <input type="file" name="id_pic" onchange="displayImage(this)" id="profileImage" style="display: none;" accept=".png,.jpeg,.jpg,.PNG,.JPEG,.JPG"></div>
                         </div>
                       </div>
                     </div>
