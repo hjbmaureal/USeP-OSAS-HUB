@@ -598,5 +598,27 @@ function timeago($datetime, $full = false) {
 
                           } );
                         </script>
-    </body>
-  </html>
+    <script type="text/javascript">
+      $(document).ready(function($){
+        $(document).on("submit","#staff-form",function(){
+          let flag = true;
+          let str = "";
+
+          if ($("#profileImage").get(0).files.length === 0){
+            str+="Image must be filled in!";
+            swal({
+                  title: "No image uploaded!",
+                  text: "Image must be filled in!",
+                  type: "warning"
+                  }, function () {
+                    setTimeout(500);
+                      });
+            return false;
+          }
+
+        })
+      });
+    </script>
+
+  </body>
+</html>
