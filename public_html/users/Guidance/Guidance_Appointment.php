@@ -167,7 +167,9 @@
           <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+      <!-- LOADER -->
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js"></script>
         <!-- Filter link -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -177,6 +179,268 @@
       <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       </head>
+      <?php 
+      if (isset($_POST['CancelAppointment_indv'])) {
+        // code...
+      
+          $id=$_POST['id'];
+          $stud_id=$_POST['student_id'];
+          
+          
+
+            $sqlCencel_Indiv="DELETE FROM `indv_counselling` WHERE appointment_id='$id'";
+            if ($conn->query($sqlCencel_Indiv) === TRUE) {
+
+              $sqlCencel_Guidance="DELETE FROM `guidance_appointments` WHERE appointment_id='$id'";
+                if ($conn->query($sqlCencel_Guidance) === TRUE) {
+  
+
+                $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$stud_id', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
+
+                              if($result){
+                              
+
+                                echo '<script>
+                                      swal({
+                                          title: "Appointment Deleted Successfully!",
+                                          text: "Server Request Successful!",
+                                          icon: "success",
+                                          buttons: false,
+                                          timer: 1800,
+                                          closeOnClickOutside: false,
+                                            closeOnEsc: false,
+                                      })
+                                    </script>';
+                                    echo "<meta http-equiv='refresh' content='2'>";
+                              
+                              }else{
+                                     echo '<script>
+                                            swal({
+                                              title: "Something went wrong...",
+                                              text: "3333333333333333333333333333333!",
+                                              icon: "error",
+                                              buttons: false,
+                                              timer: 1800,
+                                              closeOnClickOutside: false,
+                                              closeOnEsc: false,
+                                            })
+                                          </script>';
+                              }
+            }else{
+                   echo '<script>
+                          swal({
+                            title: "Something went wrong...",
+                            text: "2222222222222222222222222!",
+                            icon: "error",
+                            buttons: false,
+                            timer: 1800,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                          })
+                        </script>';
+            }
+          }else{
+             echo '<script>
+                    swal({
+                      title: "Something went wrong...",
+                      text: "111111111111111!",
+                      icon: "error",
+                      buttons: false,
+                      timer: 1800,
+                      closeOnClickOutside: false,
+                      closeOnEsc: false,
+                    })
+                  </script>';
+          }}
+          if (isset($_POST['ADDAPP'])) {
+    $studID=$_POST['studID'];
+    $name=$_POST['name'];
+    $cy=$_POST['cy'];
+    $mode=$_POST['mode'];
+    $date=date('Y-m-d',strtotime($_POST['date']));
+    $time= date('H:i',strtotime($_POST['date']));
+    $link='';
+    $code='';
+    $app_id='';
+    $itemID='';
+    if (isset($_POST['link'])) {
+        $link=$_POST['link'];
+    }
+    if (isset($_POST['code'])) {
+       $code=$_POST['code'];
+    }
+    $sql="INSERT INTO `guidance_appointments`(`appointment_id`, `status_id`, `mode_id`, `date_filed`, `appointment_date`, `appointment_time`, `date_completed`, `link`, `meeting_code`) VALUES (null,3,'$mode',now(),'$date','$time',null,'$link','$code')";
+    if ($conn->query($sql) === TRUE) {
+        /*echo 'hey1';*/
+      $apt_id = $conn->insert_id;
+      /*echo $apt_id;*/
+      $sqlitem=mysqli_query($conn,"SELECT intake_id FROM `intake_form` WHERE Student_id='$studID'");
+          while($resultitem=mysqli_fetch_array($sqlitem)){
+            $itemID=$resultitem['intake_id'];
+          }
+      $sqlIndv="INSERT INTO `indv_counselling`(`counselling_id`, `appointment_id`, `intake_id`) VALUES (null,'$apt_id','$itemID')";
+      if ($conn->query($sqlIndv) === TRUE) {
+        /*echo 'hey3';*/
+      
+         $result="insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$studID', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')";
+         if ($conn->query($result) === TRUE) {
+                              echo '<script>
+                                      swal({
+                                          title: "Appointment Added Successfully!",
+                                          text: "Server Request Successful!",
+                                          icon: "success",
+                                          buttons: false,
+                                          timer: 1800,
+                                          closeOnClickOutside: false,
+                                            closeOnEsc: false,
+                                      })
+                                       setTimeout(myFunction, 6000);
+                                    </script>'; 
+
+                                    echo "<meta http-equiv='refresh' content='2'>";
+                                    ?> 
+                                    <?php
+     }else{
+                      echo '<script>
+                              swal({
+                                title: "Something went wrong...",
+                                text: "Server Request Failed!",
+                                icon: "error",
+                                buttons: false,
+                                timer: 1800,
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                              })
+                            </script>';
+
+     }
+   }else{
+     echo '<script>
+                              swal({
+                                title: "Something went wrong...",
+                                text: "Server Request Failed!!",
+                                icon: "error",
+                                buttons: false,
+                                timer: 1800,
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                              })
+                            </script>';
+   }
+
+    }else{
+    echo '<script>
+                              swal({
+                                title: "Something went wrong...",
+                                text: "Server Request Failed!!",
+                                icon: "error",
+                                buttons: false,
+                                timer: 1800,
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                              })
+                            </script>';}
+}
+
+          if (isset($_POST['CancelAppointment_gg'])) {
+        // code...
+      
+          $id=$_POST['id'];
+          $stud_id=$_POST['student_id'];
+          $gg_ID="";
+                $sqlgroup="SELECT * FROM `group_guidance` WHERE appointment_id='$id'";
+                    if($resultgrp = mysqli_query($conn, $sqlgroup)){
+                            while ($grp = mysqli_fetch_assoc($resultgrp)) {
+                                            $gg_ID=$grp['grp_guidance_id'];
+                                              if ($grp['course_id']!='all' && $grp['year_level']=='all' && $grp['section']=='all') {
+                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."'";
+
+                                              }if ($grp['course_id']!='all' && $grp['year_level']!='all' && $grp['section']=='all') {
+                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."' and year_level='".$grp['year_level']."'";
+
+                                              }if ($grp['course_id']!='all' && $grp['year_level']!='all' && $grp['section']!='all') {
+                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."' and year_level='".$grp['year_level']."' and section='".$grp['section']."'";
+
+                                              }if ($grp['course_id']=='all') {
+                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student`";
+                                              }
+                                    if($resultstd = mysqli_query($conn, $select_std)){
+                                       while ($std = mysqli_fetch_assoc($resultstd)) {
+                                              $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'".$std['Student_id']."', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_GroupGuidance.php', 'Delivered')");
+                                       }
+                                     }
+
+                            }
+                          }
+          $sqlCencel_Guidance="DELETE FROM `participants` WHERE grp_guidance_id='$gg_ID'";
+          if ($conn->query($sqlCencel_Guidance) === TRUE) {
+
+          $sqlCencel_Guidance="DELETE FROM `group_guidance` WHERE appointment_id='$id'";
+          if ($conn->query($sqlCencel_Guidance) === TRUE) {
+
+              $sqlCencel_Indiv="DELETE FROM `guidance_appointments` WHERE appointment_id='$id'";
+                if ($conn->query($sqlCencel_Indiv) === TRUE) {
+                         echo '<script>
+                                      swal({
+                                          title: "Appointment Deleted Successfully!",
+                                          text: "Server Request Successful!",
+                                          icon: "success",
+                                          buttons: false,
+                                          timer: 1800,
+                                          closeOnClickOutside: false,
+                                            closeOnEsc: false,
+                                      })
+                                       setTimeout(myFunction, 4000);
+                                    </script>'; 
+                                    ?> 
+                                    <script>
+                                      function myFunction() {
+                                        window.location="Guidance_Appointment.php";
+                                      }
+                                    </script>
+                                    <?php
+                                    
+              
+                  }else{
+                       echo '<script>
+                              swal({
+                                title: "Something went wrong...",
+                                text: "Server Request Failed!",
+                                icon: "error",
+                                buttons: false,
+                                timer: 4000,
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                              })
+                            </script>';
+          }
+        }else{
+                   echo '<script>
+                          swal({
+                            title: "Something went wrong...",
+                            text: "Server Request Failed!",
+                            icon: "error",
+                            buttons: false,
+                            timer: 4000,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                          })
+                        </script>';
+            }
+          }else{
+                   echo '<script>
+                          swal({
+                            title: "Something went wrong...",
+                            text: "Server Request Failed!",
+                            icon: "error",
+                            buttons: false,
+                            timer: 4000,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                          })
+                        </script>';
+            }}
+        ?>
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
@@ -464,7 +728,12 @@
         </div>
 
       <!-- Navbar-->
-       
+       <div class="modal fade " id="loader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div  class="modal-dialog" role="document">
+                                    <div class="loader" id="loader"></div>
+                                    <center><h4 style="position: absolute; margin-top: 76%; margin-left: 40%; color: white;">Please Wait!...</h4></center>
+                    </div>
+                </div>
 
          <!--<div class="page-error tile">-->
           <form method="post">
@@ -621,268 +890,7 @@
         </div> 
         </form>
  
- <?php 
-      if (isset($_POST['CancelAppointment_indv'])) {
-        // code...
-      
-          $id=$_POST['id'];
-          $stud_id=$_POST['student_id'];
-          
-          
-
-            $sqlCencel_Indiv="DELETE FROM `indv_counselling` WHERE appointment_id='$id'";
-            if ($conn->query($sqlCencel_Indiv) === TRUE) {
-
-              $sqlCencel_Guidance="DELETE FROM `guidance_appointments` WHERE appointment_id='$id'";
-                if ($conn->query($sqlCencel_Guidance) === TRUE) {
-  
-
-                $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$stud_id', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_Counselling.php', 'Delivered')");
-
-                              if($result){
-                              
-
-                                echo '<script>
-                                      swal({
-                                          title: "Appointment Deleted Successfully!",
-                                          text: "Server Request Successful!",
-                                          icon: "success",
-                                          buttons: false,
-                                          timer: 1800,
-                                          closeOnClickOutside: false,
-                                            closeOnEsc: false,
-                                      })
-                                    </script>';
-                                    echo "<meta http-equiv='refresh' content='2'>";
-                              
-                              }else{
-                                     echo '<script>
-                                            swal({
-                                              title: "Something went wrong...",
-                                              text: "3333333333333333333333333333333!",
-                                              icon: "error",
-                                              buttons: false,
-                                              timer: 1800,
-                                              closeOnClickOutside: false,
-                                              closeOnEsc: false,
-                                            })
-                                          </script>';
-                              }
-            }else{
-                   echo '<script>
-                          swal({
-                            title: "Something went wrong...",
-                            text: "2222222222222222222222222!",
-                            icon: "error",
-                            buttons: false,
-                            timer: 1800,
-                            closeOnClickOutside: false,
-                            closeOnEsc: false,
-                          })
-                        </script>';
-            }
-          }else{
-             echo '<script>
-                    swal({
-                      title: "Something went wrong...",
-                      text: "111111111111111!",
-                      icon: "error",
-                      buttons: false,
-                      timer: 1800,
-                      closeOnClickOutside: false,
-                      closeOnEsc: false,
-                    })
-                  </script>';
-          }}
-          if (isset($_POST['ADDAPP'])) {
-    $studID=$_POST['studID'];
-    $name=$_POST['name'];
-    $cy=$_POST['cy'];
-    $mode=$_POST['mode'];
-    $date=date('Y-m-d',strtotime($_POST['date']));
-    $time= date('H:i',strtotime($_POST['date']));
-    $link='';
-    $code='';
-    $app_id='';
-    $itemID='';
-    if (isset($_POST['link'])) {
-        $link=$_POST['link'];
-    }
-    if (isset($_POST['code'])) {
-       $code=$_POST['code'];
-    }
-    $sql="INSERT INTO `guidance_appointments`(`appointment_id`, `status_id`, `mode_id`, `date_filed`, `appointment_date`, `appointment_time`, `date_completed`, `link`, `meeting_code`) VALUES (null,3,'$mode',now(),'$date','$time',null,'$link','$code')";
-    if ($conn->query($sql) === TRUE) {
-        /*echo 'hey1';*/
-      $apt_id = $conn->insert_id;
-      /*echo $apt_id;*/
-      $sqlitem=mysqli_query($conn,"SELECT intake_id FROM `intake_form` WHERE Student_id='$studID'");
-          while($resultitem=mysqli_fetch_array($sqlitem)){
-            $itemID=$resultitem['intake_id'];
-          }
-      $sqlIndv="INSERT INTO `indv_counselling`(`counselling_id`, `appointment_id`, `intake_id`) VALUES (null,'$apt_id','$itemID')";
-      if ($conn->query($sqlIndv) === TRUE) {
-        /*echo 'hey3';*/
-      
-         $result="insert into notif(notif_id,user_id, message_body, time, link, message_status) values (notif_id,'$studID', 'The guidance sets a new appointment schedule with you.',now(),'Guidance_Student_Counselling.php', 'Delivered')";
-         if ($conn->query($result) === TRUE) {
-                              echo '<script>
-                                      swal({
-                                          title: "Appointment Added Successfully!",
-                                          text: "Server Request Successful!",
-                                          icon: "success",
-                                          buttons: false,
-                                          timer: 1800,
-                                          closeOnClickOutside: false,
-                                            closeOnEsc: false,
-                                      })
-                                       setTimeout(myFunction, 6000);
-                                    </script>'; 
-
-                                    echo "<meta http-equiv='refresh' content='2'>";
-                                    ?> 
-                                    <?php
-     }else{
-                      echo '<script>
-                              swal({
-                                title: "Something went wrong...",
-                                text: "Server Request Failed!",
-                                icon: "error",
-                                buttons: false,
-                                timer: 1800,
-                                closeOnClickOutside: false,
-                                closeOnEsc: false,
-                              })
-                            </script>';
-
-     }
-   }else{
-     echo '<script>
-                              swal({
-                                title: "Something went wrong...",
-                                text: "Server Request Failed!!",
-                                icon: "error",
-                                buttons: false,
-                                timer: 1800,
-                                closeOnClickOutside: false,
-                                closeOnEsc: false,
-                              })
-                            </script>';
-   }
-
-    }else{
-    echo '<script>
-                              swal({
-                                title: "Something went wrong...",
-                                text: "Server Request Failed!!",
-                                icon: "error",
-                                buttons: false,
-                                timer: 1800,
-                                closeOnClickOutside: false,
-                                closeOnEsc: false,
-                              })
-                            </script>';}
-}
-
-          if (isset($_POST['CancelAppointment_gg'])) {
-        // code...
-      
-          $id=$_POST['id'];
-          $stud_id=$_POST['student_id'];
-          $gg_ID="";
-                $sqlgroup="SELECT * FROM `group_guidance` WHERE appointment_id='$id'";
-                    if($resultgrp = mysqli_query($conn, $sqlgroup)){
-                            while ($grp = mysqli_fetch_assoc($resultgrp)) {
-                                            $gg_ID=$grp['grp_guidance_id'];
-                                              if ($grp['course_id']!='all' && $grp['year_level']=='all' && $grp['section']=='all') {
-                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."'";
-
-                                              }if ($grp['course_id']!='all' && $grp['year_level']!='all' && $grp['section']=='all') {
-                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."' and year_level='".$grp['year_level']."'";
-
-                                              }if ($grp['course_id']!='all' && $grp['year_level']!='all' && $grp['section']!='all') {
-                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student` WHERE course_id='".$grp['course_id']."' and year_level='".$grp['year_level']."' and section='".$grp['section']."'";
-
-                                              }if ($grp['course_id']=='all') {
-                                                $select_std="SELECT  student.Student_id, student.course_id, student.year_level, student.section FROM `student`";
-                                              }
-                                    if($resultstd = mysqli_query($conn, $select_std)){
-                                       while ($std = mysqli_fetch_assoc($resultstd)) {
-                                              $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, _time, link, message_status) values (notif_id,'".$std['Student_id']."', 'Your counselling schedule has been canceled.',now(),'Guidance_Student_GroupGuidance.php', 'Delivered')");
-                                       }
-                                     }
-
-                            }
-                          }
-          $sqlCencel_Guidance="DELETE FROM `participants` WHERE grp_guidance_id='$gg_ID'";
-          if ($conn->query($sqlCencel_Guidance) === TRUE) {
-
-          $sqlCencel_Guidance="DELETE FROM `group_guidance` WHERE appointment_id='$id'";
-          if ($conn->query($sqlCencel_Guidance) === TRUE) {
-
-              $sqlCencel_Indiv="DELETE FROM `guidance_appointments` WHERE appointment_id='$id'";
-                if ($conn->query($sqlCencel_Indiv) === TRUE) {
-                         echo '<script>
-                                      swal({
-                                          title: "Appointment Deleted Successfully!",
-                                          text: "Server Request Successful!",
-                                          icon: "success",
-                                          buttons: false,
-                                          timer: 1800,
-                                          closeOnClickOutside: false,
-                                            closeOnEsc: false,
-                                      })
-                                       setTimeout(myFunction, 4000);
-                                    </script>'; 
-                                    ?> 
-                                    <script>
-                                      function myFunction() {
-                                        window.location="Guidance_Appointment.php";
-                                      }
-                                    </script>
-                                    <?php
-                                    
-              
-                  }else{
-                       echo '<script>
-                              swal({
-                                title: "Something went wrong...",
-                                text: "Server Request Failed!",
-                                icon: "error",
-                                buttons: false,
-                                timer: 4000,
-                                closeOnClickOutside: false,
-                                closeOnEsc: false,
-                              })
-                            </script>';
-          }
-        }else{
-                   echo '<script>
-                          swal({
-                            title: "Something went wrong...",
-                            text: "Server Request Failed!",
-                            icon: "error",
-                            buttons: false,
-                            timer: 4000,
-                            closeOnClickOutside: false,
-                            closeOnEsc: false,
-                          })
-                        </script>';
-            }
-          }else{
-                   echo '<script>
-                          swal({
-                            title: "Something went wrong...",
-                            text: "Server Request Failed!",
-                            icon: "error",
-                            buttons: false,
-                            timer: 4000,
-                            closeOnClickOutside: false,
-                            closeOnEsc: false,
-                          })
-                        </script>';
-            }}
-        ?>
+ 
 
         <!-- DATEPICKER -->
 <?php 

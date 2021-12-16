@@ -58,7 +58,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  <!-- LOADER -->
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js"></script>
    <!-- DATEPICKER --> 
   <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
   <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
@@ -74,6 +76,311 @@
 
 
     </head>
+    <?php
+if (isset($_POST['SetNotification'])) {
+    $referral_id=$_POST['referral_id'];
+    $stud_refer='';
+  $sqlN6 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$referral_id'";
+      $res6 = $conn->query($sqlN6);
+      if ($res6->num_rows > 0) {
+        while($row = $res6->fetch_assoc()) {
+              $stf_id_to =  $row['staff_id'];
+              $stud_refer = $row['Student_id'];
+                
+         }
+       }
+
+       $msg = "NOTIFICATION from Guidance admin! Please fillup the intake Form";
+    $sql7 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL,'$stud_refer', '$msg', now(), 'Guidance_Student_Counselling.php', 'Delivered')";
+
+      if ($conn->query($sql7) === TRUE) {
+      echo '<script>
+        swal({
+            title: "Notification Has Been Send!",
+            text: "Server Request Successful!",
+            icon: "success",
+            buttons: false,
+            timer: 1800,
+            closeOnClickOutside: false,
+              closeOnEsc: false,
+        })
+      </script>';
+    }else{
+      echo '<script>
+        swal({
+          title: "Something went wrong...",
+          text: "Server Request Failed!",
+          icon: "error",
+          buttons: false,
+          timer: 1800,
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+        })
+      </script>';
+    }
+}
+  if(isset($_POST['SetAppointment'])){
+    $intake_id='';
+    $ref_id = $_POST['ref_id'];
+    $stud_id= $_POST['setID'];
+    $mode = $_POST['mode'];
+    $date_app = date('Y-m-d',strtotime($_POST['date_app']));
+    $time_app = date('H:i',strtotime($_POST['date_app']));
+    $ref_stat = '3';
+
+    
+    /*--------------------GET INTAKE ID----------------------*/
+    $sqlSelect="SELECT student.Student_id, intake_form.intake_id from referral_form join staff USING(staff_id) join student USING(Student_id) join intake_form USING(Student_id) where referral_id='$ref_id'";
+     $result = mysqli_query($conn, $sqlSelect);
+      if($result = mysqli_query($conn,$sqlSelect)){               
+      while($indvId = mysqli_fetch_array($result)) { 
+              $intake_id=$indvId['intake_id'];
+            }
+      }
+      if (isset($_POST['link'])) {
+      $link =$_POST['link'];
+      $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id, link) 
+            values (now(),'$date_app','$time_app','$mode','$ref_stat', '$link')");
+      }if (isset($_POST['link']) && isset($_POST['code'])){
+        $link=$_POST['link'];
+        $code= $_POST['code'];
+        
+        $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id, link, meeting_code) 
+            values (now(),'$date_app','$time_app','$mode','$ref_stat', '$link', '$code')");
+
+      }else{
+      $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id) 
+            values (now(),'$date_app','$time_app','$mode','$ref_stat')");
+    } 
+    
+
+    if ($sql) {
+            $apt_id = $conn->insert_id;
+              /*SAVE DATA TO INDIVIDUAL COUNSELLING*/
+            $indivSql="INSERT INTO `indv_counselling`(`counselling_id`, `appointment_id`, `intake_id`, `remarks`, `eval_status`) VALUES (`counselling_id`,'$apt_id','$intake_id','','')";
+            if ($conn->query($indivSql) === TRUE) {}
+              /*END*/
+                      /*Get Cred from database*/
+
+                            $cred = "SELECT last_name, first_name, middle_name, email_add FROM student WHERE student.Student_id='$stud_id'";
+                            if($cd=mysqli_query($conn,$cred)){
+                              while ($creds = mysqli_fetch_assoc($cd)) {      
+                                         $credEmail = "SELECT appointment_date, appointment_time, mode_of_communication.communication_mode FROM guidance_appointments LEFT JOIN mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.appointment_id=' $apt_id'";
+                                              if($cdEmail=mysqli_query($conn,$credEmail)){
+                                                while ($credE = mysqli_fetch_assoc($cdEmail)) {
+                            /*Send schedule to Google callendar*/
+                            $from_name = "Guidance Office";        
+                            $from_address = "lloydsryan30@gmail.com";        
+                            $to_name = $creds['last_name'].', '.$creds['first_name'].' '.$creds['middle_name'];        
+                            $to_address = $creds['email_add'];          
+                            $startTime = $credE['appointment_date'].' '.$credE['appointment_time'];  
+                            $endTime = "";    
+                            $subject = "Guidance Meeting Schedule";   
+                            $description = "Guidance Meeting Schedule";    
+                            $location = $credE['communication_mode'];    
+                            $domain = 'gmail.com';
+                            
+                            //Create Email Headers
+                            $mime_boundary = "----Meeting Booking----".MD5(TIME());
+
+                            $headers = "From: ".$from_name." <".$from_address.">\n";
+                            $headers .= "Reply-To: ".$from_name." <".$from_address.">\n";
+                            $headers .= "MIME-Version: 1.0\n";
+                            $headers .= "Content-Type: multipart/alternative; boundary=\"$mime_boundary\"\n";
+                            $headers .= "Content-class: urn:content-classes:calendarmessage\n";
+                            
+                            //Create Email Body (HTML)
+                            $message = "--$mime_boundary\r\n";
+                            $message .= "Content-Type: text/html; charset=UTF-8\n";
+                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
+                            $message .= "<html>\n";
+                            $message .= "<body>\n";
+                            
+                            $message .= 'Group Guidance Meeting';
+                            
+                            $message .= "</body>\n";
+                            $message .= "</html>\n";
+                            $message .= "--$mime_boundary\r\n";
+
+                            //Event setting
+                            $ical = 'BEGIN:VCALENDAR' . "\r\n" .
+                            'PRODID:-//Microsoft Corporation//Outlook 10.0 MIMEDIR//EN' . "\r\n" .
+                            'VERSION:2.0' . "\r\n" .
+                            'METHOD:REQUEST' . "\r\n" .
+                            'BEGIN:VTIMEZONE' . "\r\n" .
+                            'TZID:Eastern Time' . "\r\n" .
+                            'BEGIN:STANDARD' . "\r\n" .
+                            'DTSTART:20091101T020000' . "\r\n" .
+                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11' . "\r\n" .
+                            'TZOFFSETFROM:-0400' . "\r\n" .
+                            'TZOFFSETTO:-0500' . "\r\n" .
+                            'TZNAME:EST' . "\r\n" .
+                            'END:STANDARD' . "\r\n" .
+                            'BEGIN:DAYLIGHT' . "\r\n" .
+                            'DTSTART:20090301T020000' . "\r\n" .
+                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3' . "\r\n" .
+                            'TZOFFSETFROM:-0500' . "\r\n" .
+                            'TZOFFSETTO:-0400' . "\r\n" .
+                            'TZNAME:EDST' . "\r\n" .
+                            'END:DAYLIGHT' . "\r\n" .
+                            'END:VTIMEZONE' . "\r\n" .  
+                            'BEGIN:VEVENT' . "\r\n" .
+                            'ORGANIZER;CN="'.$from_name.'":MAILTO:'.$from_address. "\r\n" .
+                            'ATTENDEE;CN="'.$to_name.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$to_address. "\r\n" .
+                            'LAST-MODIFIED:' . date("Ymd\TGis") . "\r\n" .
+                            'UID:'.date("Ymd\TGis", strtotime($startTime)).rand()."@".$domain."\r\n" .
+                            'DTSTAMP:'.date("Ymd\TGis"). "\r\n" .
+                            'DTSTART;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($startTime)). "\r\n" .
+                            'DTEND;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($endTime)). "\r\n" .
+                            'TRANSP:OPAQUE'. "\r\n" .
+                            'SEQUENCE:1'. "\r\n" .
+                            'SUMMARY:' . $subject . "\r\n" .
+                            'LOCATION:' . $location . "\r\n" .
+                            'CLASS:PUBLIC'. "\r\n" .
+                            'PRIORITY:5'. "\r\n" .
+                            'BEGIN:VALARM' . "\r\n" .
+                            'TRIGGER:-PT15M' . "\r\n" .
+                            'ACTION:DISPLAY' . "\r\n" .
+                            'DESCRIPTION:Reminder' . "\r\n" .
+                            'END:VALARM' . "\r\n" .
+                            'END:VEVENT'. "\r\n" .
+                            'END:VCALENDAR'. "\r\n";
+                            $message .= 'Content-Type: text/calendar;name="meeting.ics";method=REQUEST'."\n";
+                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
+                            $message .= $ical;
+
+                            if(mail($to_address, $subject, $message, $headers)){
+                        
+                            }else{
+                         
+                            }}}}}
+    $sql2="UPDATE referral_form set status_id='$ref_stat' where referral_id=$ref_id;";
+
+    if(mysqli_multi_query($conn,$sql2)){
+
+      echo '<script>
+        swal({
+            title: "Appointment Has Been Set!",
+            text: "Server Request Successful!",
+            icon: "success",
+            buttons: false,
+            timer: 1800,
+            closeOnClickOutside: false,
+              closeOnEsc: false,
+        });
+         setTimeout(function(){
+                                fun();
+                            }); 
+      </script>';
+    }else{
+      echo '<script>
+        swal({
+          title: "Something went wrong...",
+          text: "Server Request Failed!",
+          icon: "error",
+          buttons: false,
+          timer: 1800,
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+        })
+      </script>';
+    }
+    
+    }else{
+
+      echo '<script>
+        swal({
+          title: "Something went wrong...",
+          text: "Server Request Failed!",
+          icon: "error",
+          buttons: false,
+          timer: 1800,
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+        })
+      </script>';
+
+    }
+    echo "<meta http-equiv='refresh' content='2'>";
+ 
+       $sql4 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$ref_id'";
+      $result4 = $conn->query($sql4);
+      if ($result4->num_rows > 0) {
+        while($row = $result4->fetch_assoc()) {
+              $stf_id_to =  $row['staff_id'];
+              $stud_refer = $row['Student_id'];
+                
+         }
+       }
+
+                  
+    $msg = "Your referral request for ".$stud_refer." has been approved";
+    $sql5 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL, '$stf_id_to', '$msg', now(), 'Guidance_Faculty_Referrals.php', 'Delivered')";
+    $msg2 = "You have Guidance Counselling Appointmrnt";
+    $sql6 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL, '$stud_refer', '$msg2', now(), 'Guidance_Student_Counselling.php', 'Delivered')";
+
+      if ($conn->query($sql5) === TRUE) {}if ($conn->query($sql6) === TRUE) {}
+
+  }
+
+  if(isset($_POST['returnSlip'])){
+
+    $referral_id= $_POST['referral_id2'];
+    $date_completed = $_POST['date_accomplished'];
+    $notes = $_POST['concerns'];
+    $status = '1';
+
+
+
+    $query="UPDATE referral_form set notes='$notes',status_id='$status' ,refdate_completed='$date_completed' where referral_id=$referral_id";
+
+    if(mysqli_query($conn,$query)){
+
+    echo '<script>
+        swal({
+            title: "Acknowledgement Slip Returned!",
+            text: "Server Request Successful!",
+            icon: "success",
+            buttons: false,
+            timer: 1800,
+            closeOnClickOutside: false,
+              closeOnEsc: false,
+        })
+      </script>';
+    }else{
+      echo '<script>
+        swal({
+          title: "Something went wrong...",
+          text: "Server Request Failed!",
+          icon: "error",
+          buttons: false,
+          timer: 1800,
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+        })
+      </script>';
+    }
+      echo "<meta http-equiv='refresh' content='2'>";
+
+      $sql6 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$referral_id'";
+      $result6 = $conn->query($sql6);
+      if ($result6->num_rows > 0) {
+        while($row = $result6->fetch_assoc()) {
+              $stf_id_to =  $row['staff_id'];
+              $stud_refer = $row['Student_id'];
+                
+         }
+       }
+
+       $msg = "Acknowledgement Slip for ".$stud_refer." is available";
+    $sql7 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL,'$stf_id_to', '$msg', now(), 'Guidance_Faculty_Acknowledgement.php', 'Delivered')";
+
+      if ($conn->query($sql7) === TRUE) {}
+
+  }
+
+?>  
+
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
@@ -319,7 +626,13 @@
 
       <!-- Navbar-->
        
-
+      <!-- LOADER MODAL -->
+                <div class="modal fade " id="loader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div  class="modal-dialog" role="document">
+                                    <div class="loader" id="loader"></div>
+                                    <center><h4 style="position: absolute; margin-top: 76%; margin-left: 40%; color: white;">Please Wait!...</h4></center>
+                    </div>
+                </div>
          <!--<div class="page-error tile">-->
 
       <div class="row">
@@ -513,307 +826,6 @@
           </div>
         </div> 
 
-<?php
-if (isset($_POST['SetNotification'])) {
-    $referral_id=$_POST['referral_id'];
-    $stud_refer='';
-  $sqlN6 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$referral_id'";
-      $res6 = $conn->query($sqlN6);
-      if ($res6->num_rows > 0) {
-        while($row = $res6->fetch_assoc()) {
-              $stf_id_to =  $row['staff_id'];
-              $stud_refer = $row['Student_id'];
-                
-         }
-       }
-
-       $msg = "NOTIFICATION from Guidance admin! Please fillup the intake Form";
-    $sql7 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL,'$stud_refer', '$msg', now(), 'Guidance_Student_Counselling.php', 'Delivered')";
-
-      if ($conn->query($sql7) === TRUE) {
-      echo '<script>
-        swal({
-            title: "Notification Has Been Send!",
-            text: "Server Request Successful!",
-            icon: "success",
-            buttons: false,
-            timer: 1800,
-            closeOnClickOutside: false,
-              closeOnEsc: false,
-        })
-      </script>';
-    }else{
-      echo '<script>
-        swal({
-          title: "Something went wrong...",
-          text: "Server Request Failed!",
-          icon: "error",
-          buttons: false,
-          timer: 1800,
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-        })
-      </script>';
-    }
-}
-  if(isset($_POST['SetAppointment'])){
-    $intake_id='';
-    $ref_id = $_POST['ref_id'];
-    $stud_id= $_POST['setID'];
-    $mode = $_POST['mode'];
-    $date_app = date('Y-m-d',strtotime($_POST['date_app']));
-    $time_app = date('H:i',strtotime($_POST['date_app']));
-    $ref_stat = '3';
-
-    
-    /*--------------------GET INTAKE ID----------------------*/
-    $sqlSelect="SELECT student.Student_id, intake_form.intake_id from referral_form join staff USING(staff_id) join student USING(Student_id) join intake_form USING(Student_id) where referral_id='$ref_id'";
-     $result = mysqli_query($conn, $sqlSelect);
-      if($result = mysqli_query($conn,$sqlSelect)){               
-      while($indvId = mysqli_fetch_array($result)) { 
-              $intake_id=$indvId['intake_id'];
-            }
-      }
-      if (isset($_POST['link'])) {
-      $link =$_POST['link'];
-      $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id, link) 
-            values (now(),'$date_app','$time_app','$mode','$ref_stat', '$link')");
-      }if (isset($_POST['link']) && isset($_POST['code'])){
-        $link=$_POST['link'];
-        $code= $_POST['code'];
-        
-        $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id, link, meeting_code) 
-            values (now(),'$date_app','$time_app','$mode','$ref_stat', '$link', '$code')");
-
-      }else{
-      $sql=mysqli_query($conn,"INSERT into guidance_appointments(date_filed, appointment_date, appointment_time, mode_id, status_id) 
-            values (now(),'$date_app','$time_app','$mode','$ref_stat')");
-    } 
-    
-
-    if ($sql) {
-            $apt_id = $conn->insert_id;
-              /*SAVE DATA TO INDIVIDUAL COUNSELLING*/
-            $indivSql="INSERT INTO `indv_counselling`(`counselling_id`, `appointment_id`, `intake_id`, `remarks`, `eval_status`) VALUES (`counselling_id`,'$apt_id','$intake_id','','')";
-            if ($conn->query($indivSql) === TRUE) {}
-              /*END*/
-                      /*Get Cred from database*/
-
-                            $cred = "SELECT last_name, first_name, middle_name, email_add FROM student WHERE student.Student_id='$stud_id'";
-                            if($cd=mysqli_query($conn,$cred)){
-                              while ($creds = mysqli_fetch_assoc($cd)) {      
-                                         $credEmail = "SELECT appointment_date, appointment_time, mode_of_communication.communication_mode FROM guidance_appointments LEFT JOIN mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.appointment_id=' $apt_id'";
-                                              if($cdEmail=mysqli_query($conn,$credEmail)){
-                                                while ($credE = mysqli_fetch_assoc($cdEmail)) {
-                            /*Send schedule to Google callendar*/
-                            $from_name = "Guidance Office";        
-                            $from_address = "lloydsryan30@gmail.com";        
-                            $to_name = $creds['last_name'].', '.$creds['first_name'].' '.$creds['middle_name'];        
-                            $to_address = $creds['email_add'];          
-                            $startTime = $credE['appointment_date'].' '.$credE['appointment_time'];  
-                            $endTime = "";    
-                            $subject = "Guidance Meeting Schedule";   
-                            $description = "Guidance Meeting Schedule";    
-                            $location = $credE['communication_mode'];    
-                            $domain = 'gmail.com';
-                            
-                            //Create Email Headers
-                            $mime_boundary = "----Meeting Booking----".MD5(TIME());
-
-                            $headers = "From: ".$from_name." <".$from_address.">\n";
-                            $headers .= "Reply-To: ".$from_name." <".$from_address.">\n";
-                            $headers .= "MIME-Version: 1.0\n";
-                            $headers .= "Content-Type: multipart/alternative; boundary=\"$mime_boundary\"\n";
-                            $headers .= "Content-class: urn:content-classes:calendarmessage\n";
-                            
-                            //Create Email Body (HTML)
-                            $message = "--$mime_boundary\r\n";
-                            $message .= "Content-Type: text/html; charset=UTF-8\n";
-                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
-                            $message .= "<html>\n";
-                            $message .= "<body>\n";
-                            
-                            $message .= 'Group Guidance Meeting';
-                            
-                            $message .= "</body>\n";
-                            $message .= "</html>\n";
-                            $message .= "--$mime_boundary\r\n";
-
-                            //Event setting
-                            $ical = 'BEGIN:VCALENDAR' . "\r\n" .
-                            'PRODID:-//Microsoft Corporation//Outlook 10.0 MIMEDIR//EN' . "\r\n" .
-                            'VERSION:2.0' . "\r\n" .
-                            'METHOD:REQUEST' . "\r\n" .
-                            'BEGIN:VTIMEZONE' . "\r\n" .
-                            'TZID:Eastern Time' . "\r\n" .
-                            'BEGIN:STANDARD' . "\r\n" .
-                            'DTSTART:20091101T020000' . "\r\n" .
-                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11' . "\r\n" .
-                            'TZOFFSETFROM:-0400' . "\r\n" .
-                            'TZOFFSETTO:-0500' . "\r\n" .
-                            'TZNAME:EST' . "\r\n" .
-                            'END:STANDARD' . "\r\n" .
-                            'BEGIN:DAYLIGHT' . "\r\n" .
-                            'DTSTART:20090301T020000' . "\r\n" .
-                            'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3' . "\r\n" .
-                            'TZOFFSETFROM:-0500' . "\r\n" .
-                            'TZOFFSETTO:-0400' . "\r\n" .
-                            'TZNAME:EDST' . "\r\n" .
-                            'END:DAYLIGHT' . "\r\n" .
-                            'END:VTIMEZONE' . "\r\n" .  
-                            'BEGIN:VEVENT' . "\r\n" .
-                            'ORGANIZER;CN="'.$from_name.'":MAILTO:'.$from_address. "\r\n" .
-                            'ATTENDEE;CN="'.$to_name.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$to_address. "\r\n" .
-                            'LAST-MODIFIED:' . date("Ymd\TGis") . "\r\n" .
-                            'UID:'.date("Ymd\TGis", strtotime($startTime)).rand()."@".$domain."\r\n" .
-                            'DTSTAMP:'.date("Ymd\TGis"). "\r\n" .
-                            'DTSTART;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($startTime)). "\r\n" .
-                            'DTEND;TZID="Pacific Daylight":'.date("Ymd\THis", strtotime($endTime)). "\r\n" .
-                            'TRANSP:OPAQUE'. "\r\n" .
-                            'SEQUENCE:1'. "\r\n" .
-                            'SUMMARY:' . $subject . "\r\n" .
-                            'LOCATION:' . $location . "\r\n" .
-                            'CLASS:PUBLIC'. "\r\n" .
-                            'PRIORITY:5'. "\r\n" .
-                            'BEGIN:VALARM' . "\r\n" .
-                            'TRIGGER:-PT15M' . "\r\n" .
-                            'ACTION:DISPLAY' . "\r\n" .
-                            'DESCRIPTION:Reminder' . "\r\n" .
-                            'END:VALARM' . "\r\n" .
-                            'END:VEVENT'. "\r\n" .
-                            'END:VCALENDAR'. "\r\n";
-                            $message .= 'Content-Type: text/calendar;name="meeting.ics";method=REQUEST'."\n";
-                            $message .= "Content-Transfer-Encoding: 8bit\n\n";
-                            $message .= $ical;
-
-                            if(mail($to_address, $subject, $message, $headers)){
-                        
-                            }else{
-                         
-                            }}}}}
-    $sql2="UPDATE referral_form set status_id='$ref_stat' where referral_id=$ref_id;";
-
-    if(mysqli_multi_query($conn,$sql2)){
-
-      echo '<script>
-        swal({
-            title: "Appointment Has Been Set!",
-            text: "Server Request Successful!",
-            icon: "success",
-            buttons: false,
-            timer: 1800,
-            closeOnClickOutside: false,
-              closeOnEsc: false,
-        })
-      </script>';
-    }else{
-      echo '<script>
-        swal({
-          title: "Something went wrong...",
-          text: "Server Request Failed!",
-          icon: "error",
-          buttons: false,
-          timer: 1800,
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-        })
-      </script>';
-    }
-    
-    }else{
-
-      echo '<script>
-        swal({
-          title: "Something went wrong...",
-          text: "Server Request Failed!",
-          icon: "error",
-          buttons: false,
-          timer: 1800,
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-        })
-      </script>';
-
-    }
-    echo "<meta http-equiv='refresh' content='2'>";
- 
-       $sql4 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$ref_id'";
-      $result4 = $conn->query($sql4);
-      if ($result4->num_rows > 0) {
-        while($row = $result4->fetch_assoc()) {
-              $stf_id_to =  $row['staff_id'];
-              $stud_refer = $row['Student_id'];
-                
-         }
-       }
-
-                  
-    $msg = "Your referral request for ".$stud_refer." has been approved";
-    $sql5 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL, '$stf_id_to', '$msg', now(), 'Guidance_Faculty_Referrals.php', 'Delivered')";
-    $msg2 = "You have Guidance Counselling Appointmrnt";
-    $sql6 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL, '$stud_refer', '$msg2', now(), 'Guidance_Student_Counselling.php', 'Delivered')";
-
-      if ($conn->query($sql5) === TRUE) {}if ($conn->query($sql6) === TRUE) {}
-
-  }
-
-  if(isset($_POST['returnSlip'])){
-
-    $referral_id= $_POST['referral_id2'];
-    $date_completed = $_POST['date_accomplished'];
-    $notes = $_POST['concerns'];
-    $status = '1';
-
-
-
-    $query="UPDATE referral_form set notes='$notes',status_id='$status' ,refdate_completed='$date_completed' where referral_id=$referral_id";
-
-    if(mysqli_query($conn,$query)){
-
-    echo '<script>
-        swal({
-            title: "Acknowledgement Slip Returned!",
-            text: "Server Request Successful!",
-            icon: "success",
-            buttons: false,
-            timer: 1800,
-            closeOnClickOutside: false,
-              closeOnEsc: false,
-        })
-      </script>';
-    }else{
-      echo '<script>
-        swal({
-          title: "Something went wrong...",
-          text: "Server Request Failed!",
-          icon: "error",
-          buttons: false,
-          timer: 1800,
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-        })
-      </script>';
-    }
-      echo "<meta http-equiv='refresh' content='2'>";
-
-      $sql6 = "SELECT staff.*, referral_form.referral_id, referral_form.Student_id from staff JOIN referral_form ON staff.staff_id= referral_form.staff_id WHERE referral_form.referral_id= '$referral_id'";
-      $result6 = $conn->query($sql6);
-      if ($result6->num_rows > 0) {
-        while($row = $result6->fetch_assoc()) {
-              $stf_id_to =  $row['staff_id'];
-              $stud_refer = $row['Student_id'];
-                
-         }
-       }
-
-       $msg = "Acknowledgement Slip for ".$stud_refer." is available";
-    $sql7 = "INSERT INTO notif(notif_id, user_id, message_body, _time, link, message_status) VALUES(NULL,'$stf_id_to', '$msg', now(), 'Guidance_Faculty_Acknowledgement.php', 'Delivered')";
-
-      if ($conn->query($sql7) === TRUE) {}
-
-  }
-
-?>  
 
 <!-- VIEW REFERRAL FORM MODAL -->
 

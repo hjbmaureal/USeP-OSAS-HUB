@@ -296,6 +296,8 @@ function timeago($datetime, $full = false) {
               <b>Date Completed:</b> <?php echo $row2['date_completed']; ?>
             </div>
                             </div>
+                         <div class="row">
+                            </div>
                          </div>
                         </div>
           </div>
@@ -362,9 +364,45 @@ function timeago($datetime, $full = false) {
             </div>
           </div>
         </div> 
-
-<!-- chart modal -->
-         <div class="modal fade " id="minakyut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        
+<div class="modal fade modal" id="preparedByModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <!-- <h5 class="modal-title">SET APPOINTMENT</h5> -->
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form method="POST">
+                      <div class="modal-body">
+                        <div class="container"> 
+                           
+                      
+                          <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                  <h5>Prepared by</h5>
+                                  <label class="control-label" id="codelabel">Name</label><input class="form-control" type="text" id="assignatory" class="form-control">
+                                  <label class="control-label" id="codelabel">Position</label><input class="form-control" type="text" id="position" class="form-control">
+                                  <label class="control-label" id="codelabel">E-signature</label>
+                                  <input class="form-control" accept="image/*" type='file' id="imgInp" />
+                                
+                                </div>
+                            </div>
+                          </div>
+                         
+                                                  
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="okay">OKAY</button>
+                      </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+         <!-- chart modal -->
+         <div class="modal fade modal" id="minakyut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content" style="width:1050px; margin-left: -250px;">
 
@@ -380,6 +418,7 @@ function timeago($datetime, $full = false) {
             <div class="tile">
         
                <div class="table-bd">
+
           <div id="att-table">
             
             <div id="title" style="margin-top:0px;"><div align="center"><img src="image/logo.png" style="width: 120px;height: 120px;" alt="USeP Logo">
@@ -520,13 +559,34 @@ function timeago($datetime, $full = false) {
           <!-- FOOTER   -->      
 
                     <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" > Prepared by:</div><br><br>
-                     <div  align="left" style="font-size:20px;" style= "font-family: Times New Roman;" ><b> NERISSA D. RCUMBA </b></div>
-                      <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" > Guidance Office Clerk</div><br><br><br>
+                    <img id="blah" src="#" style="margin-left: -280px; margin-top: -4%; position: absolute;" width="80" height="80" />
+                     <div  align="left" style="font-size:20px;" style= "font-family: Times New Roman;" ><b> <div id="preparedBy"><input type="text" id="prep" name="speaker" placeholder="Click to type name" style="height: 50px; width:300px; border-style:solid; border-left: none; border-top: none; border-right: none; font-size: 20px" required="">
+                      <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" ><input type="text" name="studname" id="preptype" style="width: 300px; height: 30px; border-style: hidden;" hidden=""></div></div><br><br><br>
 
-
+                      <?php 
+                      $sql1 = "SELECT staff.*, office.office_name FROM staff JOIN office ON staff.office_id = office.office_id  WHERE staff.office_id='4' AND staff.dept_id='4' AND staff.account_status='Active'"; //admin-staff_id_to
+                      $result1 = $conn->query($sql1);
+                      if ($result1->num_rows > 0) {
+                        while($row = $result1->fetch_assoc()) {
+                                  $admin_id = $row['staff_id'];
+                                  $f_name = $row['first_name'];
+                                  $m_name = $row['middle_name'];
+                                  $l_name = $row['last_name'];
+                                  $position = $row['position'];
+                                  $off = $row['office_name'];
+                                  $image_data = $row['e_signature'];
+                                  $extn= $row['extension'];
+                         }
+                       }
+?>
                       <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" >Noted by:</div><br><br>
-                     <div  align="left" style="font-size:20px;" style= "font-family: Times New Roman;" ><b>MARY ROSE E. ECHAVEZ, RGC </b></div>
-                      <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" > Guidance Counselor</div><br><br>
+                      <?php if ($image_data!='') { ?>
+                         <img style="margin-left: 20px; margin-top: -4%; position: absolute;" width="80" height="80" src="data:image/jpeg;base64,<?php echo base64_encode( $image_data ); ?>" />
+                      <?php }else{ ?>
+                           <img style="margin-left: 20px; margin-top: -4%; position: absolute;" width="100" height="50" src="image/Defalt_Esig.png" />
+                      <?php }?>
+                     <div  align="left" style="font-size:20px;" style= "font-family: Times New Roman;" ><b><div id="notedBy"><input type="text" value="<?php echo $f_name." ".$m_name.". ".$l_name.", ".$extn;?>" id="noted" name="speaker" style="height: 50px; width:300px; border-style:solid; border-left: none; border-top: none; border-right: none; font-size: 20px" required=""></div></b></div>
+                      <div  align="left" style="font-size:18px;" style= "font-family: Times New Roman;" > <input type="text" name="studname" id="notedtype" value="" style="width: 300px; height: 30px; border-style: hidden;"></div><br><br>
             </div>
           </div>
        </div>
@@ -538,7 +598,7 @@ function timeago($datetime, $full = false) {
 
             <div class="modal-footer">
               <button class="btn btn-warning btn-sm verify" id="print-tbl" onclick="print_specific_div_content()"><i class="fas fa-print"></i> Print</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="cancel" data-dismiss="modal">Cancel</button>
             </div>
 
             </div>
@@ -546,7 +606,7 @@ function timeago($datetime, $full = false) {
         </div>
 <?php  
 
- $connect = mysqli_connect("localhost", "root", "", "guidance_db");  
+ $connect = mysqli_connect("localhost", "root", "", "backupdb-3");  
  $query = "SELECT content_q11, count(*) as number FROM seminar_evaluation where seminar_evaluation.appointment_id = '$appointment_no' GROUP BY content_q11";  
  $result = mysqli_query($connect, $query);  
 
@@ -563,7 +623,72 @@ function timeago($datetime, $full = false) {
  $result4 = mysqli_query($connect, $query4);
 
  ?> 
-  
+ 
+
+      </main>
+      <!-- Essential javascripts for application to work-->
+
+      
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
+      <!-- The javascript plugin to display page loading on top-->
+      <script src="js/plugins/pace.min.js"></script>
+      <!-- Page specific javascripts-->
+      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript"></script>
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript">$('#counselling-table').DataTable();</script>
+      <script type="text/javascript">
+        $('#demoNotify').click(function(){
+          $.notify({
+            title: "Update Complete : ",
+            message: "Verified Successfuly!",
+            icon: 'fa fa-check' 
+          },{
+            type: "info"
+          });
+        });
+      </script>
+      <script>
+        <!-- table selection -->
+          $('#selectAll').click(function (e) {
+    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+});
+      </script>
+      
+      <!-- Google analytics script-->
+      <script type="text/javascript">
+        if(document.location.hostname == 'pratikborsadiya.in') {
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-72504830-1', 'auto');
+          ga('send', 'pageview');
+        }
+      </script>
+
+    <script type="text/javascript">
+   $(document).ready(function(){
+    $("input:radio").click(function(){
+        return false;
+    });
+    $("input:checkbox").click(function(){
+        return false;
+    });
+   });
+</script>         <script type="text/javascript">
+          imgInp.onchange = evt => {
+  const [file] = imgInp.files
+  if (file) {
+    blah.src = URL.createObjectURL(file)
+  }
+}
+        </script>
            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>  
            <script type="text/javascript">  
            google.charts.load('current', {'packages':['corechart']});  
@@ -684,6 +809,7 @@ function timeago($datetime, $full = false) {
 
   <script type="text/javascript">
   function print_specific_div_content(){
+    
     var win = window.open('','','left=0,top=0,width=900,height=700,toolbar=0,scrollbars=0,status =0');
 
     var content = "<html>";
@@ -697,65 +823,76 @@ function timeago($datetime, $full = false) {
     </script>
 
  
+    <script type="text/javascript">
+      $(document).ready(function(){
 
+        $(document).on("keyup","#assignatory",function(){
+          let val = $(this).val();
+          var pos = $("#position").val();
+            $.ajax({
+                url:"replaceInput.php",
+                method:"POST",
+                data:{input:val,pos:pos},
+                success:function(response)
+                  {
+                    // var obj = JSON.parse(response);
+                    // console.log(obj[0]);
+                    $("#preparedBy").html(response);
+                  },
+                error: function(response){
+                  $('.fetched-data').text('');
+                  alert("fail" + JSON.stringify(response));
+                }
+            })
 
-
-      </main>
-      <!-- Essential javascripts for application to work-->
-
-      
-      <script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
-      <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
-      <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-      <script type="text/javascript">
-        $('#demoNotify').click(function(){
-          $.notify({
-            title: "Update Complete : ",
-            message: "Verified Successfuly!",
-            icon: 'fa fa-check' 
-          },{
-            type: "info"
-          });
         });
-      </script>
-      <script>
-        <!-- table selection -->
-          $('#selectAll').click(function (e) {
-    $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
-});
-      </script>
-      
-      <script type="text/javascript"></script>
-      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-      <script type="text/javascript">$('#counselling-table').DataTable();</script>
-      <!-- Google analytics script-->
-      <script type="text/javascript">
-        if(document.location.hostname == 'pratikborsadiya.in') {
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-72504830-1', 'auto');
-          ga('send', 'pageview');
-        }
-      </script>
+        $(document).on("keyup","#position",function(){
+          let val = $("#assignatory").val();
+          var pos = $("#position").val();
+            $.ajax({
+                url:"replaceInput.php",
+                method:"POST",
+                data:{input:val,pos:pos},
+                success:function(response)
+                  {
+                    // var obj = JSON.parse(response);
+                    // console.log(obj[0]);
+                    $("#preparedBy").html(response);
+                  },
+                error: function(response){
+                  $('.fetched-data').text('');
+                  alert("fail" + JSON.stringify(response));
+                }
+            })
+
+        });
+
+        $("#cancel").on("click", function(){
+          $('.modal').modal('hide');
+        })
+        ;$("#prep").on("click", function(){
+          $("#minakyut").modal("hide");
+            $("#preparedByModal").modal("show");
+        });
+        $("#okay").on("click", function(){
+          console.log('hilooo');
+            $("#preparedByModal").modal("hide");
+            $("#minakyut").modal("show");
+            $('#minakyut').css('overflow-y','auto');
+        });
+        // $("#noted").keyup(function(){
+        //   var input=$("#noted").val();
+        //     $.ajax({
+        //       url:"replaceInput.php",
+        //       type:"POST",
+        //       data:{note:note},
+        //       success:function(data){
+        //       $("#notedBy").html(data);
+        //     },
+        //   });
+        // });
+      });
+    </script>
+
     </body>
   </html>
-
-    <script type="text/javascript">
-   $(document).ready(function(){
-    $("input:radio").click(function(){
-        return false;
-    });
-    $("input:checkbox").click(function(){
-        return false;
-    });
-   });
-</script>

@@ -341,23 +341,29 @@
               <div class="tile">
               <div id="external-events">
                         
-                                       <?php 
-                  $sql1="SELECT appointment_id FROM guidance_appointments WHERE guidance_appointments.status_id='3' LIMIT 5";
+                                    <?php 
+                                       $countbreak=0;
+                  $sql1="SELECT * FROM guidance_appointments WHERE guidance_appointments.status_id='3' and appointment_date >= '".date("Y-m-d")."' ORDER BY appointment_date ASC";
                         if($result1 = mysqli_query($conn, $sql1)){
                             while ($app_row = mysqli_fetch_assoc($result1)) {
+                              if ($countbreak<5) {
+                                
+
+                              
                                 /*COMPER INDV_APPOINTMENT*/
                                 $indv_sql="SELECT appointment_id FROM indv_counselling WHERE appointment_id='".$app_row['appointment_id']."'";
                                     if($indv_result = mysqli_query($conn, $indv_sql)){
                                         $count=mysqli_num_rows($indv_result);
                                         if ($count) {
                                            if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments join indv_counselling ON indv_counselling.appointment_id= guidance_appointments.appointment_id LEFT JOIN intake_form on indv_counselling.intake_id= intake_form.intake_id left join student on intake_form.Student_id=student.Student_id LEFT join mode_of_communication on guidance_appointments.mode_id=mode_of_communication.mode_id WHERE guidance_appointments.status_id = '3' and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
-                                             while($row = mysqli_fetch_array($sql)) {     
+                                             while($row = mysqli_fetch_array($sql)) { 
+                                             $countbreak++;    
                                               $id=$row['id'];?>
                                               <div class="fc-event">
-                <b>Date:</b> <?php echo $row['appointment_date'];?><br>
-                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
-                  <b>Client:</b> <?php echo $row['first_name'].' '.$row['last_name'];?>
-                </div>
+                                                <b>Date:</b> <?php echo $row['appointment_date'];?><br>
+                                                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
+                                                <b>Client:</b> <?php echo $row['first_name'].' '.$row['last_name'];?>
+                                              </div>
                                               <?php }}
 
                                            }
@@ -365,14 +371,15 @@
                                         }
                               
                               /*COMPER GROUP_GUIDANCE*/
-                              $grp_sql="SELECT guidance_appointments.appointment_id FROM group_guidance JOIN guidance_appointments ON guidance_appointments.appointment_id=group_guidance.appointment_id WHERE guidance_appointments.appointment_id='".$app_row['appointment_id']."' and guidance_appointments.status_id='3'";
+                              $grp_sql="SELECT appointment_id FROM group_guidance WHERE appointment_id='".$app_row['appointment_id']."'";
                                     if($grp_result = mysqli_query($conn, $grp_sql)){
                                         $count=mysqli_num_rows($grp_result);
                                         if ($count) {
                                           # code...
                                           if($sql = mysqli_query($conn,"SELECT *, guidance_appointments.appointment_id as id FROM guidance_appointments JOIN group_guidance on group_guidance.appointment_id=guidance_appointments.appointment_id JOIN mode_of_communication ON guidance_appointments.mode_id=mode_of_communication.mode_id JOIN course on course.course_id= group_guidance.course_id WHERE guidance_appointments.status_id='3' and guidance_appointments.appointment_id='".$app_row['appointment_id']."'")){
-                                            while($row = mysqli_fetch_array($sql)) {     
-                                              $id=$row['id']; ?>
+                                            while($row = mysqli_fetch_array($sql)) {  
+                                            $countbreak++;   
+                                             $id=$row['id']; ?>
                                               <?php $section=$row['section']; $year_level=$row['year_level'];
                                                  if ($row['section']=='all') {
                                                   $section='';
@@ -380,14 +387,15 @@
                                                   $year_level='';
                                                 }?>
                                               <div class="fc-event">
-                <b>Date:</b> <?php echo $row['appointment_date'];?><br>
-                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
-                  <b>Client:</b> <?php echo $row['title'].' '.$year_level." ".$section;?>
-                </div>
+                                                <b>Date:</b> <?php echo $row['appointment_date']." ".$count;?><br>
+                                                <b>Time:</b> <?php echo $row['appointment_time'];?><br>
+                                                <b>Client:</b> <?php echo $row['title'].' '.$year_level." ".$section;?>
+                                              </div>
                                               <?php }} 
                                           }
                                         }
                                     }
+                                  }
                             }
                          ?>
               </div>

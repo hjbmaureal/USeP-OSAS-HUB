@@ -116,6 +116,13 @@ if (isset($_POST['updatebut'])) {
          ?>
          <?php
             newNotif($conn,$stud_id);
+            ?>
+             <script type="text/javascript">
+                setTimeout(function(){
+                    fun();
+                });
+             </script>
+            <?php
            $_SESSION['success'] = 'Appointment updated successfully';
          header('location: Guidance_Appointment.php');
 }
