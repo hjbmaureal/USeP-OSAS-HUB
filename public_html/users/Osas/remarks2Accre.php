@@ -18,8 +18,8 @@
                                         Type of File:
                                         <select class="bootstrap-select bss mb-2 ww" name="file">
                                           <option class="select-item" value="1" selected="selected" disabled="">Select Option</option>
-                                           <option class="select-item" value="AccomRep">Accomplishment Reports</option>
-                                          <option class="select-item" value="AFS">Audited Financial Statement</option>
+                                           <option class="select-item" value="AccomRepAccre">Accomplishment Reports</option>
+                                          <option class="select-item" value="AFSAccre">Audited Financial Statement</option>
                                           <option class="select-item" value="Lists_officers">Lists of Officers</option>
                                           <option class="select-item" value="Lists_members">Lists of Members</option>
                                           <option class="select-item" value="Aff_adviser">Notarized Affidavit of the Adviser</option>

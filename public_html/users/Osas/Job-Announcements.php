@@ -515,12 +515,12 @@ session_start();
 
     $sql="UPDATE job_hiring_announcement SET title='$newtitle', content='$newcontent' where requisition_id='$newannouncement_id'";
     if(mysqli_query($conn,$sql)){
-           /* echo "<script>alert('Announcement Updated Successfully!');</script>";
-            echo "<meta http-equiv='refresh' content='0'>";*/
-            swal("Success", "Announcement Updated Successfully!", "success");
+            echo "<script>swal('Success', 'Announcement Updated Successfully!', 'success');</script>";
+            echo "<meta http-equiv='refresh' content='1'>";
+            
           }else{
-           /* echo "<script>alert(' ERROR Updating Announcement! Please Try again');</script>";*/
-           swal("Failed.", "ERROR Updating Announcement! Please Try again.", "warning");
+            echo "<script>swal('Failed.', 'ERROR Updating Announcement! Please Try again.', 'warning');</script>";
+
           }
   }
 ?>
@@ -596,7 +596,7 @@ session_start();
                  {
                     if (response.length == 0){                      
                         swal("Deleted!", "Job posting has been deleted. Go to the requisition page to add one.", "success");
-                        location.reload();
+                        $('body').append("<meta http-equiv='refresh' content='1'>");
                     } else {
                       swal("Server error!", "An error occurred. Please redo your action or reload the page!", "warning");
                     }                                          

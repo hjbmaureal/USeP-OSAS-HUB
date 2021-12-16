@@ -52,8 +52,8 @@
                                 </div>-->
 
                                 <?php
-                                if ($files[0] == "AccomRep" ||$files[1] == "AccomRep" ||$files[2] == "AccomRep" ||$files[3] == "AccomRep" ||$files[4] == "AccomRep" 
-                                      ||$files[5] == "AccomRep" ||$files[6] == "AccomRep" ||$files[7] == "AccomRep" ){ 
+                                if ($files[0] == "AccomRepAccre" ||$files[1] == "AccomRepAccre" ||$files[2] == "AccomRepAccre" ||$files[3] == "AccomRepAccre" ||$files[4] == "AccomRepAccre" 
+                                      ||$files[5] == "AccomRepAccre" ||$files[6] == "AccomRepAccre" ||$files[7] == "AccomRepAccre" ){ 
                                       ?>
                                 <div class="col-sm">
                                  <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">
@@ -84,8 +84,8 @@
                                <?php } ?>
 
                                <?php 
-                               if ($files[0] == "AFS" ||$files[1] == "AFS" ||$files[2] == "AFS" ||$files[3] == "AFS" ||$files[4] == "AFS" 
-                                      ||$files[5] == "AFS" ||$files[6] == "AFS" ||$files[7] == "AFS" ){ 
+                               if ($files[0] == "AFSAccre" ||$files[1] == "AFSAccre" ||$files[2] == "AFSAccre" ||$files[3] == "AFSAccre" ||$files[4] == "AFSAccre" 
+                                      ||$files[5] == "AFSAccre" ||$files[6] == "AFSAccre" ||$files[7] == "AFSAccre" ){ 
                                       ?>
                               <div class="col-sm">
                                  <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">

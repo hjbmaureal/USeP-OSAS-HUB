@@ -585,7 +585,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                      <div class="item image-upload" >
                                       <label for="file-input" >
                                     <div class="img card text-center btn btn-light orgbox" >
-                                      <input class="file-input" id="file-input" type="file" name="AccomRep" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" /> 
+                                      <input class="file-input" id="file-input" type="file" name="AccomRepAccre" onchange="ssvalue1()" style="margin-top: -100px; margin-bottom: 80px;" /> 
                                       <input type="text" name="" id="input" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue1() {
@@ -601,10 +601,10 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       </div>   
                                     </div>
                                     <?php 
-                                        $tabquery = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='AccomRep' and Submitted_by like '%".$_SESSION['id']."' " );             
+                                        $tabquery = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='AccomRepAccre' and Submitted_by like '%".$_SESSION['id']."' " );             
                                       $resquery = mysqli_fetch_array($tabquery);
-                                    if ($files[0] == "AccomRep" ||$files[1] == "AccomRep" ||$files[2] == "AccomRep" ||$files[3] == "AccomRep" ||$files[4] == "AccomRep" 
-                                      ||$files[5] == "AccomRep" ||$files[6] == "AccomRep" ||$files[7] == "AccomRep" ){ 
+                                    if ($files[0] == "AccomRepAccre" ||$files[1] == "AccomRepAccre" ||$files[2] == "AccomRepAccre" ||$files[3] == "AccomRepAccre" ||$files[4] == "AccomRepAccre" 
+                                      ||$files[5] == "AccomRepAccre" ||$files[6] == "AccomRepAccre" ||$files[7] == "AccomRepAccre" ){ 
                                       ?>
                                         <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button>
                                      <?php }
@@ -619,7 +619,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       <div class="item image-upload" >
                                       <label for="file-input1" >
                                     <div class="img card text-center btn btn-light orgbox"  >
-                                      <input class="file-input1" id="file-input1" type="file" name="AFS" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;" /> 
+                                      <input class="file-input1" id="file-input1" type="file" name="AFSAccre" onchange="ssvalue2()" style="margin-top: -100px; margin-bottom: 80px;" /> 
                                       <input type="text" name="" id="input1" value="" style='border-style: none;background: transparent;' disabled >
                                       <script>
                                         function ssvalue2() {
@@ -635,10 +635,10 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                                       </div>   
                                     </div>
                                      <?php 
-                                        $tabquery1 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='AFS' and Submitted_by like '%".$_SESSION['id']."' " );             
+                                        $tabquery1 = mysqli_query($conn,"SELECT ID from remarks_apply where status=0 and file='AFSAccre' and Submitted_by like '%".$_SESSION['id']."' " );             
                                       $resquery1 = mysqli_fetch_array($tabquery1);
-                                   if ($files[0] == "AFS" ||$files[1] == "AFS" ||$files[2] == "AFS" ||$files[3] == "AFS" ||$files[4] == "AFS" 
-                                      ||$files[5] == "AFS" ||$files[6] == "AFS" ||$files[7] == "AFS" ){ 
+                                   if ($files[0] == "AFSAccre" ||$files[1] == "AFSAccre" ||$files[2] == "AFSAccre" ||$files[3] == "AFSAccre" ||$files[4] == "AFSAccre" 
+                                      ||$files[5] == "AFSAccre" ||$files[6] == "AFSAccre" ||$files[7] == "AFSAccre" ){ 
                                       ?>
                                         <button type="button"  class="btn btn-danger btn-sm blocking w-100 mt-3" data-toggle="modal" data-role="remarkk-modal" id="<?php echo $resquery1['ID']; ?>"><i class="mr-2 fas fa-comment" ></i>REMARKS</button> 
                                     <?php }
@@ -1066,20 +1066,20 @@ $run = mysqli_query($conn,$query);
 
 
   if($run){
-    if(isset($_FILES['AccomRep'])){
-  $pdf_name = $_FILES['AccomRep']['name'];
-  $pdf_size = $_FILES['AccomRep']['size'];
-  $pdf_tmp = $_FILES['AccomRep']['tmp_name'];
+    if(isset($_FILES['AccomRepAccre'])){
+  $pdf_name = $_FILES['AccomRepAccre']['name'];
+  $pdf_size = $_FILES['AccomRepAccre']['size'];
+  $pdf_tmp = $_FILES['AccomRepAccre']['tmp_name'];
   $path = "Accre_Files/".$pdf_name;
   $movepdf = move_uploaded_file($pdf_tmp,$path);
 
   $query0 = "UPDATE accre_files set AccomRep='$pdf_name' where org_id = '$fileName'";
 $run0 = mysqli_query($conn,$query0);
 }
-if(isset($_FILES['AFS'])){
-  $pdf_name1 = $_FILES['AFS']['name'];
-  $pdf_size1 = $_FILES['AFS']['size'];
-  $pdf_tmp1 = $_FILES['AFS']['tmp_name'];
+if(isset($_FILES['AFSAccre'])){
+  $pdf_name1 = $_FILES['AFSAccre']['name'];
+  $pdf_size1 = $_FILES['AFSAccre']['size'];
+  $pdf_tmp1 = $_FILES['AFSAccre']['tmp_name'];
   $path1 = "Accre_Files/".$pdf_name1;
   $movepdf1 = move_uploaded_file($pdf_tmp1,$path1);
 
