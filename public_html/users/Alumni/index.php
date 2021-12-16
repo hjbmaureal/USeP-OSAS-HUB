@@ -44,8 +44,8 @@ while ($row = mysqli_fetch_assoc($result)) {
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <link rel="icon" href="../image/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Student Hub</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Alumni Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -100,27 +100,29 @@ while ($row = mysqli_fetch_assoc($result)) {
 
        <!--navbar-->
 
-          <main class="app-content">
-            
-        <div class="app-title">
-           <div><!-- Sidebar toggle button--><a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
-          <ul class="app-nav">
-            <li>
-              <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
-            </li>
+     <main class="app-content">
+      <!-- navbar -->
+      <div class="app-title">
+      <div><!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      </div>
+      <ul class="app-nav">
+        <li>
+          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+        </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color: black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -148,74 +150,68 @@ while ($row = mysqli_fetch_assoc($result)) {
               </div>
             </div>
           </li>
-              <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><b style="color: red;"><?php echo $count;  ?></b><i class=" fas fa-bell fa-lg mt-2"></i></a>
-            <ul class="app-notification dropdown-menu dropdown-menu-right">
-              <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
+            <b style="color: red;"><?php echo $count;  ?></b>
+            <i class=" fas fa-bell fa-lg mt-2"></i>
+          </a>
+          <ul class="app-notification dropdown-menu dropdown-menu-right">
+            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
+              <div class="app-notification__content">                   
+                <?php 
+                  $count_sql="SELECT * from notif where user_id='$id'  order by time desc";
+                  $result = mysqli_query($conn, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'
+                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message">
+                                <form method="POST" action="../../php/change_notif_status.php">
+                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                  
+                                </form></p>
+                              </div></a></li></b>
+                              ';
+                      }else{
+                              echo'
+                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                
+                                </form></p>
+                              </div></a></li>
+                              ';
+                       }                 
 
-              <div class="app-notification__content">
-                  <?php
-
-                $count_sql="SELECT * from notif where user_id=$id  order by time desc";
-
-                $result2 = mysqli_query($conn, $count_sql);
-
-                while ($row = mysqli_fetch_assoc($result2)) { 
-                  $intval = intval(trim($row['time']));
-                  if ($row['message_status']=='Delivered') {
-
-                    
-                    echo'
-                  <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li></b>
-                    ';
-                  }else{
-                    echo'
-                  <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                    <div>
-                      <p class="app-notification__message">'.$row['message_body'].'</p>
-                      <p class="app-notification__meta">'.timeago($row['time']).'</p>
-                      <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
-                      <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
-                      <input type="submit" name="open_notif" value="Open Message">
-                      </form></p>
-                    </div></a></li>
-                    ';
                   }
-                  
-
-                                    }
-                ?>
-
-              </a></li>
+                ?> 
               </div>
-              <li class="app-notification__footer"><a href="see_all_notif_faculty.php">See all notifications.</a></li>
-            </ul>
-          </li>
-              
-                 <li class="dropdown">
-                  <!--a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"-->
-                    
-                  
-                       <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
-                    <img class="rounded-circle" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">  
+            <li class="app-notification__footer">
+              <a href="Notifications.php">See all notifications.</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">      
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
                 </a>
                 
-            <ul class="dropdown-menu settings-menu dropdown-menu-right">
-              <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-              <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-            </ul>
-          </li>
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+            </li>
       
-          </ul>
-        </div>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      </ul>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -231,7 +227,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- END OF NAVBAR -->
         <div class="red"> 
           
         </div>

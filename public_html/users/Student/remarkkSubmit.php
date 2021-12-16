@@ -63,6 +63,24 @@ if(isset($_POST['postbtn'])){
 
        $query = "UPDATE org_applications set App_letter='$pdf_name'  where Submitted_by like '$by'";
       $run = mysqli_query($conn,$query);
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
      
       echo '<script> 
                                                     swal({
@@ -115,6 +133,24 @@ if(isset($_POST['postbtn'])){
        $query1 = "UPDATE org_applications set MVS='$pdf_name1'  where Submitted_by like '$by'";
       $run1 = mysqli_query($conn,$query1);
 
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+  
+
       echo '<script> 
                                                     swal({
                                                       
@@ -163,6 +199,24 @@ if(isset($_POST['postbtn'])){
 
        $query2 = "UPDATE org_applications set Aff_Lead='$pdf_name2'  where Submitted_by like '$by'";
       $run2 = mysqli_query($conn,$query2);
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
 
 echo '<script> 
                                                     swal({
@@ -214,6 +268,24 @@ echo '<script>
 
        $query3 = "UPDATE org_applications set Resolution='$pdf_name3'  where Submitted_by like '$by'";
       $run3 = mysqli_query($conn,$query3);
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
         echo '<script> 
                                                     swal({
                                                       
@@ -263,6 +335,24 @@ echo '<script>
        $query4 = "UPDATE org_applications set Letter_Permission='$pdf_name4'  where Submitted_by like '$by'";
       $run4 = mysqli_query($conn,$query4);
 
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
+
       echo '<script> 
                                                     swal({
                                                       
@@ -309,6 +399,24 @@ echo '<script>
 
        $query5 = "UPDATE org_applications set Letter_content='$pdf_name5'  where Submitted_by like '$by'";
       $run5 = mysqli_query($conn,$query5);
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
 
       echo '<script> 
                                                     swal({
@@ -359,6 +467,24 @@ echo '<script>
        $query6 = "UPDATE org_applications set Lists='$pdf_name6'  where Submitted_by like '$by'";
       $run6 = mysqli_query($conn,$query6);
 
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
+
       echo '<script> 
                                                     swal({
                                                       
@@ -407,6 +533,24 @@ echo '<script>
 
        $query7 = "UPDATE org_applications set ConsLaw='$pdf_name7'  where Submitted_by like '$by'";
       $run7 = mysqli_query($conn,$query7);
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
 
       echo '<script> 
                                                     swal({
@@ -457,6 +601,24 @@ echo '<script>
        $query8 = "UPDATE org_applications set Logo='$pdf_name8'  where Submitted_by like '$by'";
       $run8 = mysqli_query($conn,$query8);
 
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
+
+
       echo '<script> 
                                                     swal({
                                                       
@@ -505,6 +667,23 @@ echo '<script>
 
        $query9 = "UPDATE org_applications set Letter_intent='$pdf_name9'  where Submitted_by like '$by'";
       $run9 = mysqli_query($conn,$query9);
+
+
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$org_check_query="SELECT * from org_applications where Submitted_by='$by'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['Org_Name'];
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "The organization ".$org_name." responded to a remarks in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/NewOrgApplicants.php', 'Delivered')");
 
       echo '<script> 
                                                     swal({

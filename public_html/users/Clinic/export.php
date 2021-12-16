@@ -2,7 +2,7 @@
       //export.php  
  if(isset($_POST["export"]))  
  {  
-      $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4");  
+      $connect = mysqli_connect("localhost", "root", "", "backupdb-3");  
 
       header('Content-Type: text/csv; charset=utf-8');  
       header('Content-Disposition: attachment; filename=data.csv');  

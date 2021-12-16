@@ -53,14 +53,15 @@ if (isset($_POST['pass'])){
                                           $gov =  $res['Org_President_Governor'];
                                           $submittedby= $res['Submitted_by'];
 
+
                                           if($res){
                                             $tab1 = "DELETE from org_applications where ID='$User_id'";
                                           $res1 = mysqli_query($conn,$tab1);
-                                          echo '<script>
-                                                  swal({
-                                                    title: "'.$name.' : Disapproved",
-                                                    type: "Warning"
-                                                  }, function () {
+                                           echo '<script>
+                                                 swal({
+                                                    title: "Not Approved",
+                                                    type: "warning"
+                                                 }, function () {
                                                   setTimeout(function () {
                                                   window.location.href="../NewOrgApplicants.php";
                                                   }, 500);

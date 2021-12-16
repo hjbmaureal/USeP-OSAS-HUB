@@ -37,7 +37,7 @@
 include("conn.php"); 
 
 if(isset($_POST['submit'])) {   
-
+    // var_dump($_POST);
     $id_num = $_POST['id_num'];
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -150,12 +150,12 @@ else{
     move_uploaded_file($_FILES["cor"]["tmp_name"],"registration-files/student_cor/".$newFilename2);
     $location2="student_cor/".$newFilename2;
 
-if ($major == "null") {
-     $course_sql = "SELECT course_id FROM course WHERE name = '".$course."' and major is null";  
+if (strlen(trim($major)) == 0) {
+     $course_sql = "SELECT course_id FROM course WHERE name = '".$course."'";  
 }else{
     $course_sql = "SELECT course_id FROM course WHERE name = '".$course."' and major = '".$major."'";
 }
-
+// var_dump($course_sql);
 //$course_sql = "SELECT course_id FROM course WHERE name = '".$course."' and major = '".$major."' or major is null";
     $result = $conn->query($course_sql);
 
@@ -164,6 +164,7 @@ if ($major == "null") {
         $course_id = $row['course_id']; 
     }
     }   
+
 
 // Prepare an insert statement
 $sql = "call spRegisterStudent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -258,18 +259,18 @@ if($stmt = mysqli_prepare($conn, $sql)){
 }
 
         // Attempt to execute the prepared statement
-   /* if(mysqli_stmt_execute($stmt)){
+    if(mysqli_stmt_execute($stmt)){
         echo "<div class='collapse'>Records inserted successfully.</div>";
     } else{
         echo "ERROR: Could not execute query: $sql. " . mysqli_error($conn);
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
-}*/
-
-
-/*header('Location:index.php');*/
-
 }
+
+
+header('Location:index.php');
+
+
 ?>
 

@@ -71,7 +71,7 @@ include("conn.php");
         }
       }
       $user_id= 1;
-      $notif_body = "A student requests for a new password.";
+      $notif_body = "A user requests for a new password.";
       if(count($errors) == 0){
         $result=mysqli_query($conn,"insert into `forgot_pass_requests` (student_id, remarks) values ('$student_id', 'Request Delivered')");
         $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$user_id', '$notif_body',now(),'ForgotPassword_Requests.php', 'Delivered')");

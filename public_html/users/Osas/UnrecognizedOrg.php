@@ -343,7 +343,7 @@ if (isset($_GET['CBL_logo'])) {
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
           </div>
       </div>
 
@@ -450,17 +450,17 @@ if (isset($_GET['CBL_logo'])) {
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester where status='Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel" style="color:black;">
+                    <div class="appnavlevel">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel" style="color:black;">
+                    <div class="appnavlevel">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -537,7 +537,7 @@ if (isset($_GET['CBL_logo'])) {
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
                     <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
                 </a>
                 
@@ -577,46 +577,118 @@ if (isset($_GET['CBL_logo'])) {
                         <div class="row">
                           <div class="col-xl">
                             <div class="tile"> 
+                                <div class="header"><h5>Organization Files:</h5></div>
                               <div class="row">
                                 <div class="col">
                                  <div class="owl-carousel owl-theme">
-                                  <div class="item">
+                                
 
                                     <?php
                                          include("conn.php");
 
-                                         $tab = mysqli_query($conn,"SELECT * from org_filess where type=' Non-Govt. Funded'");
+                                         $tabun = mysqli_query($conn,"SELECT * from org_filess where Type=' Non-Govt. Funded'");
 
                                          
-                                           while($res = mysqli_fetch_array($tab)) {         
+                                           while($resun = mysqli_fetch_array($tabun)) {         
                                           ?>
                                   <div class="item">
                                     <form method="POST">
-                                    <div class=" card text-center btn btn-light orgbox" data-toggle="modal" data-role="orgbtn" id="<?php echo $res['ID']?>">
+                                    <div class=" card text-center btn btn-light orgbox" data-toggle="modal" data-role="orgbtn" id="<?php echo $resun['ID']?>">
 
                                       <div class="mx-auto">
                                          <?php 
-                                           $org = $res['ID'];
+                                           $org = $resun['ID'];
 
-                                            $tabb = mysqli_query($conn,"SELECT * FROM non_govt_funded_org WHERE id ='$org'");
+                                            $tabbun = mysqli_query($conn,"SELECT * FROM non_govt_funded_org WHERE id ='$org'");
 
-                                           $ress = mysqli_fetch_array($tabb);
+                                           $ressun = mysqli_fetch_array($tabbun);
                                         ?> 
-                                        <img src="../O-StudentDefault/Org_Applications/<?php echo $ress['logo'] ?>" class="card-img-top imgbx" class="card-img-top imgbx" alt="...">
+                                        <img src="../Student/Org_Applications/<?php echo $ressun['logo'] ?>" class="card-img-top imgbx" class="card-img-top imgbx" alt="...">
                                       </div>
                                       <div class="card-body">
-                                        <p class="card-text txbx"><?php echo $res['Org'] ?></p>
+                                        <p class="card-text txbx"><?php echo $resun['Org'] ?></p>
                                       </div>
                                       
 
                                     </div>
-                                    <button type="button" class="btn btn-dark btn-sm blocking w-100 mt-2" data-toggle="modal" data-role="remarkbtn" id="<?php echo $res['ID']?>"><i class="mr-2 fas fa-comment" ></i> ADD REMARKS</button>
+                                    <button type="button" class="btn btn-dark btn-sm blocking w-100 mt-2" data-toggle="modal" data-role="remarkbtn" id="<?php echo $resun['ID']?>"><i class="mr-2 fas fa-comment" ></i> ADD REMARKS</button>
                                     <div class="row">
                                       <div style="padding-right: 2px;" class="col-sm">
-                                        <button type="submit"  name="submit1" class="btn btn-success btn-sm blocking float-right mt-2 w-50"  value="<?php echo $res['ID']?>"><i class="fas fa-thumbs-up" ></i></button>
+                                        <button type="button"   class="btn btn-success btn-sm blocking float-right mt-2 w-50"  data-toggle="modal" data-role="org_verify"  id="<?php echo $res['ID']?>"><i class="fas fa-thumbs-up" ></i></button>
                                       </div>
                                       <div style="padding-left: 2px;" class="col-sm">
-                                        <button type="submit"  name="submit1" class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  value="<?php echo $res['ID']?>"><i class="fas fa-thumbs-up" ></i></button>
+                                       <button type="button"   class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  data-toggle="modal" data-role="org_verifydis"  id="<?php echo $res['ID']?>"><i class="fas fa-thumbs-down" ></i></button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+
+
+
+
+                                  <?php 
+                                            }
+                                            
+
+                                            
+
+                                        ?>
+                                  </div>
+
+                                  
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="row">
+                          <div class="col-xl">
+                            <div class="tile"> 
+                                <div class="header"><h5>Reaccreditation Files:</h5></div>
+                              <div class="row">
+                                <div class="col">
+                                 <div class="owl-carousel owl-theme">
+                                  
+
+                                    <?php
+                            
+
+                                         $tabquery = mysqli_query($conn,"SELECT * from accre_files where Type=' Non-Govt. Funded'");
+
+                                         
+                                           while($resquery = mysqli_fetch_array($tabquery)) {         
+                                          ?>
+                                  <div class="item">
+                                    <form method="POST">
+                                    <div class=" card text-center btn btn-light orgbox" data-toggle="modal" data-role="orgbtnaccre" id="<?php echo $resquery['org_id']?>">
+
+                                      <div class="mx-auto">
+                                         <?php 
+                                           $orgg = $resquery['org_id'];
+
+                                            $tabbquery = mysqli_query($conn,"SELECT * FROM non_govt_funded_org WHERE id ='$orgg'");
+
+                                           $ressquery = mysqli_fetch_array($tabbquery);
+                                        ?> 
+                                        <img src="../Student/Org_Applications/<?php echo $ressquery['logo'] ?>" class="card-img-top imgbx" class="card-img-top imgbx" alt="...">
+                                      </div>
+                                      <div class="card-body">
+                                        <p class="card-text txbx"><?php echo $resquery['org_name'] ?></p>
+                                      </div>
+                                      
+
+                                    </div>
+                                    <button type="button" class="btn btn-dark btn-sm blocking w-100 mt-2" data-toggle="modal" data-role="remarkbtnAccre" id="<?php echo $resquery['org_id']?>"><i class="mr-2 fas fa-comment" ></i> ADD REMARKS</button>
+                                    <div class="row">
+                                      <div style="padding-right: 2px;" class="col-sm">
+                                        <button type="button"  class="btn btn-success btn-sm blocking float-right mt-2 w-50" data-toggle="modal" data-role="org_verifyaccre"  id="<?php echo $resquery['org_id'];?>"><i class="fas fa-thumbs-up" ></i></button>
+                                      </div>
+                                      <div style="padding-left: 2px;" class="col-sm">
+                                        <button type="button"  class="btn btn-danger btn-sm blocking float-left mt-2 w-50"  data-toggle="modal" data-role="org_verifydisaccre"  id="<?php echo $resquery['org_id']?>"><i class="fas fa-thumbs-down" ></i></button>
                                       </div>
                                     </form>
                                   </div>
@@ -639,7 +711,10 @@ if (isset($_GET['CBL_logo'])) {
                             </div>
                           </div>
                         </div>
-                      </div>
+
+
+
+                      
 
 
 
@@ -663,7 +738,24 @@ if (isset($_GET['CBL_logo'])) {
           </div>
           </form>  
 
-<form method="post">
+          <!-- Reaccre Modal -->
+          <form method="post" >
+
+                      <div class="modal fade" id="org-modalaccre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                          <div class="modal-content">
+                            
+                            <div class="modal-body" id="org-detailaccre">
+                            </div>
+                 <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>  
+
+<form method="post" enctype="multipart/form-data">
 <div class="modal fade" id="remarks-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -684,7 +776,97 @@ if (isset($_GET['CBL_logo'])) {
                     </div>
                   </div>
 </form>
+<form method="post" enctype="multipart/form-data">
+<div class="modal fade" id="remarks-modalaccre" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Remarks</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="remark-detailaccre" style="margin-bottom: -30px;">
+        
+  </div>
 
+                        <div class="modal-footer" style="margin-bottom: 5px; right:50%;">
+                          <button type="submit" name="postbtn1" class="btn btn-danger btn-sm blocking mt-2"><i class="mr-1 fas fa-paper-plane"></i> POST</button>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+</form>
+
+
+<form method="POST" action="modal/org_approvenonfunded.php">    
+    <div class="modal fade " id="org_verify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verify"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+<form method="POST" action="modal/org_disnonfunded.php">    
+    <div class="modal fade " id="org_verifydis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verifydis"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+<form method="POST" action="modal/org_approvenonfundedaccre.php">    
+    <div class="modal fade " id="org_verifyaccre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verifyaccre"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+<form method="POST" action="modal/org_disnonfundedaccre.php">    
+    <div class="modal fade " id="org_verifydisaccre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" >
+                    
+                   <div class="modal-body" id="org-verifydisaccre"> 
+                   </div>
+                  
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
                   <!-- schedule -->
 
          <!--<div class="page-error tile">-->
@@ -748,8 +930,8 @@ if (isset($_GET['CBL_logo'])) {
 
       </script>
           
-  <script src="../js/jquery.min.js"></script>
-<script src="../js/owl.carousel.min.js"></script>
+  <script src="../../js/jquery.min.js"></script>
+<script src="../../js/owl.carousel.min.js"></script>
   <script type="text/javascript">
 $('.owl-carousel').owlCarousel({
     loop:false  ,
@@ -768,6 +950,24 @@ $('.owl-carousel').owlCarousel({
         }
     }
 })
+  </script>
+    <script type="text/javascript">
+      $(document).on('click','[data-role="orgbtnaccre"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'nonfunded_orgboxaccre.php',  
+          method:'POST',  
+          data:{id:id},  
+          success: function(data){
+            $('#org-detailaccre').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org-modalaccre').modal("show");
+
+
+      });
   </script>
   <script type="text/javascript">
       $(document).on('click','[data-role="orgbtn"]', function(){
@@ -844,7 +1044,7 @@ $('.owl-carousel').owlCarousel({
       $(document).on('click','[data-role="remarkbtn"]', function(){
         var id = $(this).attr("id");
         $.ajax({  
-          url:'remarks2.php',  
+          url:'remarks3.php',  
           method:'POST',  
           data:{id:id},  
           success: function(data){
@@ -854,6 +1054,100 @@ $('.owl-carousel').owlCarousel({
 
         jQuery.noConflict();
         $('#remarks-modal').modal("show");
+
+
+      });
+  </script>
+  <script type="text/javascript">
+      $(document).on('click','[data-role="remarkbtnAccre"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'remarks3Accre.php',  
+          method:'POST',  
+          data:{id:id},  
+          success: function(data){
+            $('#remark-detailaccre').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#remarks-modalaccre').modal("show");
+
+
+      });
+  </script>
+   <script type="text/javascript">
+      $(document).on('click','[data-role="org_verify"]', function(){
+        var id = $(this).attr("id");
+        var btn = $(this).data('name');
+        $.ajax({  
+          url:'modal/org_verifyfunded.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verify').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verify').modal("show");
+        $('#approvebtn').val(btn);
+
+
+      });
+  </script>
+  <script type="text/javascript">
+      $(document).on('click','[data-role="org_verifydis"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'modal/org_verifydisfunded.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verifydis').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verifydis').modal("show");
+
+
+      });
+  </script>
+  <script type="text/javascript">
+      $(document).on('click','[data-role="org_verifyaccre"]', function(){
+        var id = $(this).attr("id");
+        var btn = $(this).data('name');
+        $.ajax({  
+          url:'modal/org_verifyfunded.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verifyaccre').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verifyaccre').modal("show");
+        $('#approvebtn').val(btn);
+
+
+      });
+  </script>
+  <script type="text/javascript">
+      $(document).on('click','[data-role="org_verifydisaccre"]', function(){
+        var id = $(this).attr("id");
+        $.ajax({  
+          url:'modal/org_verifydisfunded.php',  
+          method:'POST',  
+          data:{id:id, btn:name},  
+          success: function(data){
+            $('#org-verifydisaccre').html(data);
+          }
+      })
+
+        jQuery.noConflict();
+        $('#org_verifydisaccre').modal("show");
 
 
       });
@@ -1016,6 +1310,84 @@ $query = "INSERT INTO remarks_apply(org_name,Submitted_by,file,message,date_appl
 
 
    if($run){ 
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/M-StudentGov-NonFunded/Org-files.php', 'Delivered')");
+    
+echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "success",
+                                                    title: "Your remarks has been saved",
+                                                    showConfirmButton: true
+                                                    
+                                                  })
+                                                });
+                                                 </script>';
+
+}
+else{
+                                            echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "warning",
+                                                    title: "Your remarks has been saved.",
+                                                    showConfirmButton: true
+                                                   
+                                                  })
+                                               });
+
+                                                </script>';
+                                                  //  echo $name, $file,$message, $image;
+                                                   
+                                                
+                                        }
+
+}
+}
+
+if(isset($_POST['postbtn1'])){
+    $name = $_POST['name'];
+    $file =  $_POST['file'];
+    $message = $_POST['message'];
+    $date = date('y-m-d h:i:s');  
+   $by = $_POST['by'];
+
+
+    /*$qr = "SELECT * FROM org_applications where Org_Name='$name'";
+    $res = mysqli_query($conn,$qr); 
+    echo '<script> 
+                                                $(document).ready(function(){
+                                                  swal({
+                                                    
+                                                    type: "success",
+                                                    title: "'.$res['Org_President_Governor'].'",
+                                                    showConfirmButton: true
+                                                    
+                                                  })
+                                                });
+                                                 </script>';
+
+    $gov = $res['Org_President_Governor'];  
+    $by = $res['Submitted_by'];
+   */
+$query = "INSERT INTO remarks_apply(org_name,Submitted_by,file,message,date_apply) values('$name','$by','$file','$message','$date')";
+    $run = mysqli_query($conn,$query); 
+  if(isset($_FILES['image'])){
+    $pdf_name2 = $_FILES['image']['name'];
+  $pdf_size = $_FILES['image']['size'];
+  $pdf_tmp = $_FILES['image']['tmp_name'];
+  $path = "Remarks/".$pdf_name2;
+  $movepdf = move_uploaded_file($pdf_tmp,$path);
+
+    $queryy = "UPDATE remarks_apply set image ='$pdf_name2' where org_name ='$name' and file='$file'";
+    $runn = mysqli_query($conn,$queryy); 
+
+
+   if($run){ 
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/M-StudentGov-NonFunded/Accre-files.php', 'Delivered')");
     
 echo '<script> 
                                                 $(document).ready(function(){

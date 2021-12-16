@@ -5,9 +5,11 @@
 
                                          
                               while($res = mysqli_fetch_array($tab)) {
+                                $student_check_query= substr(trim($res['Org_pres_gov']), 0,10);
                               echo '
                               <p class="text-black">Organization Name: <b><input type="text" name="name" style="border:none;" value="'.$res['Org'].'"></b></p>
                               <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'"></p>
+                              <input type="text" name="by" style="border:none; width:300px; color:white;" value="'.$student_check_query.'"></p>
           <div class=" tile remarks-container container p-3 mt-3">
            <div class="row">
             <div class="col-sm-9"> 
@@ -15,24 +17,18 @@
                 <div class="col-sm">
                   Type of File:
                   <select class="bootstrap-select bss mb-2 ww" id="select-box" name="file">
-                    <option class="select-item" value="1" disabled="">Select Option</option>
-                    <option class="select-item" value="Accomplishment Reports">Accomplishment Reports</option>
-                    <option class="select-item" value="Action Plan">Action Plan</option>
-                    <option class="select-item" value="Audited Financial Statement">Audited Financial Statement</option>
-                    <option class="select-item p-1" value="" disabled="">---------------------------------------------</option>
-                    <option class="select-item" value="List of Officers w/Contact No.">List of Officers w/Contact No.</option>
-                    <option class="select-item" value="List of Members">List of Members</option>
-                    <option class="select-item" value="Notarized Affidavit of the Adviser">Notarized Affidavit of the Adviser</option>
-                    <option class="select-item" value="Notarized Affidavit of the President">Notarized Affidavit of the President</option>
-                    <option class="select-item" value="Action & Financial Plan">Action & Financial Plan </option>
-                    <option class="select-item" value="CBL with Official Logo">CBL with Official Logo</option>
+                    <option class="select-item" value="1" selected="selected" disabled="">Select Option</option>
+                    <option class="select-item" value="AccomRep">Accomplishment Reports</option>
+                    <option class="select-item" value="ActionPlan">Action Plan</option>
+                    <option class="select-item" value="AFS">Audited Financial Statement</option>
+                   
                   </select>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
                  <div class="tile-body blocking w-100"> <span id="majorf" style="display: none;">Major Findings:</span>
-                  <textarea class="remarks-textarea w-100" placeholder="Write message here..." name="message"></textarea>
+                  <textarea class="remarks-textarea w-100" placeholder="Write message here..." name="message" style="height: 200px;"> </textarea>
                 </div>   
                 <div class="tile-body blocking w-100" style="display:none;" id="minorfindings"><span id="minorf">Minor Findings:</span>
                   <textarea class="remarks-textarea w-100" placeholder="Write message here..."></textarea>
@@ -48,11 +44,11 @@
                                     <div class="text-center dropzone remarks-upload img card text-center btn btn-light orgbox ">
                                       <label for="file-input2" >
                                   
-                                      <input class="file-input2 style"  id="file-input2" type="file" name="image" onchange="ssvalue2()" style="margin-top: -500px; margin-bottom: 10px; font-size:8px; " />
+                                      <input class="file-input2 style"  id="file-input2" type="file" name="image" onchange="ssvalue2()" style="margin-top: -500px; margin-bottom: 10px; font-size:8px; color:white;" />
                                       <div class="mx-auto">
-                                       <img src="../image/files.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px;"  alt="..."/></div> 
+                                       <img src="image/vertical.png" for="file-input2" class="card-img-top imgbx" style="height:50px; width:50px; margin-top:20px;"  alt="..."/></div> 
                                       <input class="file-input2" type="text" name="image" value="No Image Selected" id="input2" style="border-style: none;
-                                      background: transparent;" disabled >
+                                      background: transparent; margin-top:20px;" disabled >
                                       
                                       
                                    

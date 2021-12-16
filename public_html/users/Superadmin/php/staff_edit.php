@@ -51,6 +51,7 @@
       $email= $_POST['email'];
       $contact= $_POST['contact'];
       $password = $_POST['password'];
+      $hashed_pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
       $employment= $_POST['employment'];
       $address = $_POST['address'];
       $religion = $_POST['religion'];
@@ -72,7 +73,7 @@
         nationality = '$nationality', 
         address = '$address', 
         employment_status = '$employment',
-        password = '$password'
+        password = '$hashed_pass'
         WHERE staff_id = '$sid' ";
 
     $query = $conn->query($sql);
@@ -84,7 +85,7 @@
           type: "warning"
           }, function () {
             setTimeout(function () {
-              window.location.href="../Staff.php";
+              window.location.href="../Faculty_Staff_Accounts.php";
               }, 500);
               });
               </script>'; 
@@ -99,7 +100,7 @@
               type: "success"
               }, function () {
                 setTimeout(function () {
-                  window.location.href="../Staff.php";
+                  window.location.href="../Faculty_Staff_Accounts.php";
                   }, 500);
                   });
                   </script>'; 

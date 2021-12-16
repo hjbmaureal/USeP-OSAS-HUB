@@ -305,11 +305,7 @@ if (isset($_GET['Logo'])) {
 
     $file = mysqli_fetch_assoc($result);
     $filepath = '../Student/Org_Applications/'. $file['Logo'];
-
     if (file_exists($filepath)) {
-      /*echo '<script type="text/javascript">';
-echo ' alert("JavaScript Alert Box by PHP")';  //not showing an alert box.
-echo '</script>';*/
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . basename($filepath));
@@ -668,9 +664,8 @@ if (isset($_GET['AFS'])) {
 
       <!--navbar-->
 
-      <main class="app-content">
-
-        <div class="app-title">
+  <main class="app-content">
+    <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -680,17 +675,17 @@ if (isset($_GET['AFS'])) {
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
-            if($result = mysqli_query($conn, "SELECT * FROM current_semester")){
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
               while($row = mysqli_fetch_array($result)){
                 $currSemesterYear = $row['semester'] .' '. $row['year'];
                 echo '
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel" style="color:black;">
                       <span class="semesterYear">'.$row['semester'].'</span>
                     </div>
                   </li>
                   <li>
-                    <div class="appnavlevel">
+                    <div class="appnavlevel"style="color:black;">
                       <span class="semesterYear">'.$row['year'].'</span>
                     </div>
                   </li>
@@ -767,7 +762,9 @@ if (isset($_GET['AFS'])) {
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -794,10 +791,60 @@ if (isset($_GET['AFS'])) {
           </div>
         </div>
       </div>
-        <div class="red"> 
-          
-        </div>
+      <script type="text/javascript">
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
 
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
+    <div class="red"></div>
 
 
 
@@ -931,55 +978,34 @@ if (isset($_GET['AFS'])) {
                 <div class="modal-dialog" role="document">
                   <div class="modal-content" >
                     
-            
-                    <div class="modal-header">
-
-                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
-
-                          <h5 class="modal-title" id="exampleModalLongTitle">Verify password</h5>
-                          
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button></div>
-                             
-                                 <div class="modal-body c" id="org-verify"> 
+                   <div class="modal-body" id="org-verify"> 
                    </div>
+                  
                   <div class="modal-footer">
-                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <input type="submit" class="btn btn-success" name="verify" value="Verify">                     
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       
                     </div>
                 </div>
             </div>
     </div>
-</div>
 </form>
 <form method="POST" action="modal/org_dis.php">    
     <div class="modal fade " id="org_verifydis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content" >
                     
-
-                    <div class="modal-header">
-
-                      <h3 class="modal-title" id="exampleModalLongTitle"></h3>
-
-                          <h5 class="modal-title" id="exampleModalLongTitle">Verify password</h5>
-                          
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></button></div>
-                             
-                                 <div class="modal-body c" id="org-verifydis"> 
-
-                 </div>
+                   <div class="modal-body" id="org-verifydis"> 
+                   </div>
+                  
                   <div class="modal-footer">
-                      <input type="submit" class="btn btn-success"  value="Verify">                     
+                      <input type="submit" class="btn btn-success" name="verify"  value="Verify">                     
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                       
                     </div>
                 </div>
             </div>
     </div>
-</div>
 </form>
 
                   <!-- end modal -->
@@ -1215,9 +1241,8 @@ $query = "INSERT INTO remarks_apply(org_name,gov,Submitted_by,file,message,date_
 
 
    if($run){ 
-$notif_body = "You have a remarks regarding to you sent files in Student Organization.";
+$notif_body = "You have a remarks regarding to your sent files in Student Organization.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$by', '$notif_body',now(),'../users/Student/Apply-Org.php', 'Delivered')");
-    
 echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({

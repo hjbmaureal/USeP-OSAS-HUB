@@ -1,9 +1,9 @@
 <div class="modal fade " id="exampleModalLong2<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background-color: #2B4550">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FFFFFF">RESCHEDULE APPOINTMENT</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #FFFFFF" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">RESCHEDULE APPOINTMENT</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
       </div>
       <div class="modal-body c">
         <div class="container">
@@ -27,68 +27,68 @@
                 <span class="font-weight-lighter ml-6"><u><?php echo htmlentities($row['email_add']);?></u></span></h5>
               <br>
               <div class="form-row">
-			  <div class="form-group col-md-6">
-			    <label class=" control-label"><b>Mode of Communication(1st Option)</b></label>
+        <div class="form-group col-md-6">
+          <label class=" control-label"><b>Mode of Communication(1st Option)</b></label>
                  <select  name="mode2" id="mode2" class="form-control" onchange="showTextBox2()" readonly>
                     <option value="<?php echo htmlentities($row['communication_mode_first_option']);?>"><?php echo htmlentities($row['communication_mode_first_option']);?></option>
                     <?php
-										// Feching active mode of communication
-										$sql=mysqli_query($db,"select * from mode_of_communication");
-										while($result=mysqli_fetch_array($sql))
-										{    
-										?>
+                    // Feching active mode of communication
+                    $sql=mysqli_query($db,"select * from mode_of_communication");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
                     <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
                     <?php }
-										
-										?>
+                    
+                    ?>
                   </select>
-				   
-			  </div>
-			  
-			   <div class="form-group col-md-6">
-			    <label class=" control-label"><b>Mode of Communication(2nd Option)</b></label>
+           
+        </div>
+        
+         <div class="form-group col-md-6">
+          <label class=" control-label"><b>Mode of Communication(2nd Option)</b></label>
                  <select  name="mode" id="mode" class="form-control" readonly>
                     <option value="<?php echo htmlentities($row['communication_mode_second_option']);?>"><?php echo htmlentities($row['communication_mode_second_option']);?></option>
                     <?php
-										// Feching active mode of communication
-										$sql=mysqli_query($db,"select * from mode_of_communication");
-										while($result=mysqli_fetch_array($sql))
-										{    
-										?>
+                    // Feching active mode of communication
+                    $sql=mysqli_query($db,"select * from mode_of_communication");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
                     <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
                     <?php }
-										
-										?>
+                    
+                    ?>
                   </select>
-				   
-			  </div>
-			 
+           
+        </div>
+       
                                      <div class="form-group col-md-6">
                                         <label class=" control-label"><b>Meeting Time:</b></label>
                                         <input type="text" name="appdate" id="appdate" class="form-control datepicker" placeholder="<?php echo htmlentities($row['appointment_date']);?> <?php echo htmlentities($row['appointment_timefrom']);?>" autocomplete="off" onKeyDown="return false" required="">
-										 <span id="availability"></span>
-								 <input type="hidden" name="patient_id" class="form-control" value="<?php echo htmlentities($row['patient_id']);?>">
-								 <input type="hidden" name="id" class="form-control" value="<?php echo htmlentities($row['id']);?>"> 
-								
+                     <span id="availability"></span>
+                 <input type="hidden" name="patient_id" class="form-control" value="<?php echo htmlentities($row['patient_id']);?>">
+                 <input type="hidden" name="id" class="form-control" value="<?php echo htmlentities($row['id']);?>"> 
+                
                                       </div>
-									
-									 
-									  
-									  <?php if ($row['communication_mode_first_option']=="Google Meet" || $row['communication_mode_second_option']=="Google Meet"){ ?>
-									
+                  
+                   
+                    
+                    <?php if ($row['communication_mode_first_option']=="Google Meet" || $row['communication_mode_second_option']=="Google Meet"){ ?>
+                  
                                       <div class="form-group col-md-12">
                                         <label class=" control-label"><b>Google meet link:</b></label>
                                          <input type="text" class="form-control" name="link" id="link" value="<?php echo htmlentities($row['appointment_meetinglink']);?>" required>
                                       </div>
-									
+                  
                               
-							  <?php
-							  }else{?>
-							
-							  <?php
-							  }?>
-									  
-									  <?php 
+                <?php
+                }else{?>
+              
+                <?php
+                }?>
+                    
+                    <?php 
 
                  $results[]= '';$disableTimeArr[]=''; $disableTimeArr2[]=''; $i=0;$count=0;
                 $from= date('Y-m-d'); 
@@ -144,14 +144,14 @@
                 $timeToDisable= implode(", ", $disableTimeArr);
                 $timeToDisable2= implode(", ", $disableTimeArr2);
                 ?>
-							
-								   
-							
-							    
-							  
-							 
+              
+                   
+              
+                  
+                
+               
                               </div>
-							 
+               
                               </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
@@ -203,4 +203,4 @@ $(".datepicker").datetimepicker({
           }
         }
      </script>
-	
+  

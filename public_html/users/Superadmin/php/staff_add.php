@@ -80,7 +80,7 @@ if(isset($_POST['submit'])) {
         $position= $_POST['position'];
   }
 
-
+  $file = addslashes(file_get_contents($_FILES["id_pic"]["tmp_name"]));
   
   
     // $password = $_POST['password'];
@@ -92,31 +92,31 @@ if(isset($_POST['submit'])) {
 
 
 
-    $fileinfo=PATHINFO($_FILES["id_pic"]["name"]);
-    $ext = $fileinfo['extension'];
+//     $fileinfo=PATHINFO($_FILES["id_pic"]["name"]);
+//     $ext = $fileinfo['extension'];
 
 
-    if(empty($fileinfo['filename'])){
-        $location="";
-    }
-    if($ext != "png" && $ext != "jpeg" && $ext != "jpg" && $ext != "PNG" && $ext != "JPEG" && $ext != "JPG"){
-        $msg = "?status=err";
-        header("Location: Faculty_Staff_Accounts.php".$msg);
-        exit();
-}
-    else{
-    $newFilename=$fileinfo['filename'] ."_". time() . "." . $fileinfo['extension'];
-    move_uploaded_file($_FILES["id_pic"]["tmp_name"],"../idpic/" . $newFilename);
-    $location="../idpic/" . $newFilename;
-    }
+//     if(empty($fileinfo['filename'])){
+//         $location="";
+//     }
+//     if($ext != "png" && $ext != "jpeg" && $ext != "jpg" && $ext != "PNG" && $ext != "JPEG" && $ext != "JPG"){
+//         $msg = "?status=err";
+//         header("Location: Faculty_Staff_Accounts.php".$msg);
+//         exit();
+// }
+//     else{
+//     $newFilename=$fileinfo['filename'] ."_". time() . "." . $fileinfo['extension'];
+//     move_uploaded_file($_FILES["id_pic"]["tmp_name"],"../idpic/" . $newFilename);
+//     $location="../idpic/" . $newFilename;
+//     }
 
 
     if ($type == "Faculty" || $type == "Faculty Head") {
-    $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES (NULL, '$department', '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+    $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES (NULL, '$department', '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$file', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }else if($type == "Staff" || $type == "Coordinator"){
-        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ($office, NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ($office, NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position', '$level', '$employment', 'Active', NULL, '$file', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }else{
-        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ('$office', NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position2', '$level', '$employment', 'Active', NULL, '$location', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
+        $query = mysqli_query($conn, "INSERT INTO staff (office_id, dept_id, title, last_name, first_name, middle_name, suffix, extension, sex, civil_status, birthdate, email_add, phone_num, religion, nationality, address, type, position, access_level, employment_status, account_status, e_signature, pic, date_submitted, date_verified, password, patinfo_status, proffesional_honorific, medical_specialty, license_number, ptr_no, s2) VALUES ('$office', NULL, '$title', '$lname', '$fname', '$mname', '$suffix', '$exten', '$sex', '$civil', '$birthdate', '$email', '$contact', 'religion','$nationality', '$address', '$type', '$position2', '$level', '$employment', 'Active', NULL, '$file', now(), NULL, '$hashed_pass', 0, '$honorofic', '$specialty', '$license', '$ptr', '$s2') ");
   }
           if (!$query) {
                  echo '<script>
@@ -126,7 +126,7 @@ if(isset($_POST['submit'])) {
                   type: "warning"
                   }, function () {
                     setTimeout(function () {
-                      window.location.href="../Staff.php";
+                      window.location.href="../Faculty_Staff_Accounts.php";
                       }, 500);
                       });
                       </script>'; 
@@ -141,10 +141,11 @@ if(isset($_POST['submit'])) {
                   type: "success"
                   }, function () {
                     setTimeout(function () {
-                      window.location.href="../Staff.php";
+                      window.location.href="../Faculty_Staff_Accounts.php";
                       }, 500);
                       });
                       </script>'; 
-        }}
+        }
+      }
 
  ?>

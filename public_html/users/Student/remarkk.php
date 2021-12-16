@@ -26,6 +26,9 @@
                                       <div class="col-md-3">
                                           <p style="font-weight: bolder; margin-bottom:0px;">Attachments:</p>             
                                           <div class="tile" style="height:160px;">
+                                          <?php 
+                                              if($res['image']!=NULL){
+                                            ?>
                                            <div>
                                                 <label style="font-size: 2px; color: white;"><?php echo $res['image']; ?></label>
                                             </div>
@@ -44,6 +47,13 @@
                                               </div>
 
                                           </div>
+                                           <?php 
+                                            } else {
+                                        ?>  
+<img src="../../images/files.png" style="width:90px; height: 100px; border-radius: 5px; padding: 0px; margin-bottom: 0px; margin-top: 0px; margin-left: 10px;">
+<label style="font-size:10px; margin-left:10px;">No file attached here..</label>
+
+                                        <?php } ?> 
                                       </div>
 
                                       <input type="hidden" name="submitted_by" value="<?php echo $res['Submitted_by']; ?>">

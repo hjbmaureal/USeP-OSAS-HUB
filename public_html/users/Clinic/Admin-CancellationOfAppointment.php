@@ -1,9 +1,21 @@
 <?php
 require_once('tcpdf/tcpdf.php');
+include('connect.php');
+ include '../../php/notification-timeago.php'; 
+  session_start();
+  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id=$_SESSION['id'];
+  $count = 0;
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
  function fetch_data()  
  {
  $output = '';  
-      $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+      $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
  $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status, consultation.reason_cancel,consultation.request_cancel_date,consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending Cancel Request'" ;
   $result = mysqli_query($connect, $sql);  
       while($row = mysqli_fetch_array($result))  
@@ -11,15 +23,15 @@ require_once('tcpdf/tcpdf.php');
     $date =date_create($row['request_cancel_date']);
       $date1 = date_format($date,"F d, Y");  
       
-        $output .= '<tr>  
+        $output .= '<tr nobr="true">  
                           <td>'.$row["patient_id"].'</td>  
                           <td>'.$row["name"].'</td>  
                           <td>'.$row["email_add"].'</td>  
                           <td>'.$row["phone_number"].'</td>  
                           <td>'.$row["consultation_type"].'</td> 
-              <td>'.$row["reason_cancel"].'</td> 
-             <td>'.$date1.'</td> 
-              <td>'.$row["status"].'</td> 
+                          <td>'.$row["reason_cancel"].'</td> 
+                          <td>'.$date1.'</td> 
+                          <td>'.$row["status"].'</td> 
               
               
               
@@ -38,8 +50,10 @@ class MYPDF extends TCPDF {
 
     //Page header
     public function Header() {
+
+      if ($this->numpages < 2 )    {
         // Logo
-        $this->Image('image/logo2.jpg', 10, 10, 25, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         
     $this->Ln(6);
     // Set font
@@ -67,60 +81,56 @@ class MYPDF extends TCPDF {
         $this->Cell(0, 15, 'LIST OF APPOINTMENT CANCELLATION as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
     
     
-    
+    }
     }
 
-    // Page footer
-    public function Footer() {
-  session_start();
-     $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
-  $id=$_SESSION['id'];
-  $sql="Select * from staffdetails where staff_id='$id'";
-    $res = $connect->query($sql);
-     if($row=mysqli_fetch_array($res)) {
-   $title= $row['title'];
-   $name= $row['fullname'];
-   $extension= $row['extension'];
-   $position= $row['position'];
-   
-        // Position at 15 mm from bottom
-        $this->SetY(-50);
-        // Set font
-        $this->SetFont('calibri', 'B', 12);
-    $this->Ln(2);
-    $this->Cell(0, 0, 'Prepared By:', 0, false, 'L', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(40);
-    $this->Cell(0,0, ''.$title.''. $name.' '.$extension.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(50);
-    $this->Cell(0,0,''.$position.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+
+    protected $last_page_flag = false;
+
+    public function Close() {
+        $this->last_page_flag = true;
+        parent::Close();
     }
-         $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
-    $sql="Select * from staffdetails where office_name='Clinic' AND position='Doctor'";
+
+
+// Page footer
+public function Footer() {
+  session_start();
+
+  if ($this->last_page_flag) {
+
+    $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
     $res = $connect->query($sql);
+
      if($row=mysqli_fetch_array($res)) {
-   $title1= $row['title'];
-   $name1= $row['fullname'];
-   $extension1= $row['extension'];
-   $position1= $row['position'];
-     $this->SetY(-48);
-     $this->SetX(210);
-    $this->Cell(0, 0, 'Noted By:', 0, false, '', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(230);
-    $this->Cell(0,0, ''.$title1.''. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(255);
-    $this->Cell(0,0,''.$position1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-     $this->SetY(-15);
-     
-     $this->SetFont('calibri', 'I', 10);
-        // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
+
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+
+      $this->SetY(-48);
+      $this->SetX(210);
+       $this->SetFont('Calibri', 'B', 12);
+      $this->Cell(0, 0, 'Prepared By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+      $this->Ln(8);
+      $this->SetX(230);
+      $this->SetFont('Calibri', 'B', 12);
+      $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+      $this->Ln(8);
+      $this->SetX(235);
+      $this->SetFont('Calibri', '', 12);
+      $this->Cell(0,0,'Asst. '.$position1.'/Instructor I', 0, false, '', 0, '', 0, false, 'M', 'M');
+      $this->SetY(-15);
+
+
+      $this->SetFont('calibri', 'I', 10);
+      // Page number
+      $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }
   }
-
+}
 }
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -213,7 +223,8 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <title>List of Appointment Cancellation Request</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -229,104 +240,267 @@ $pdf->Output('example_003.pdf', 'I');
     <!-- disable selected option-->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-<body class="app sidebar-mini rtl">
-<!-- Navbar-->
+<body class="app sidebar-mini rtl" onload="initClock()">
+      <!-- Navbar-->
+
+             <script type="text/javascript">
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
 <header class="app-header"> </header>
 <!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-<aside class="app-sidebar">
-  <div class="app-sidebar__user"> <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
-    <div>
-      <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">USEP CLINIC</p>
-    </div>
-  </div>
-  <hr>
-  <ul class="app-menu font-sec">
-    <li><a class="app-menu__item" href="Admin-Dashboard.php"><i class="app-menu__icon fa fa-chart-bar"></i><span class="app-menu__label">Dashboard</span></a></li>
-    <li><a class="app-menu__item" href="Admin-PatientList.html"><i class="app-menu__icon fas fa-user-alt"></i><span class="app-menu__label">Patient</span></a></li>
-    <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Consultation</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-      <ul class="treeview-menu">
-        <li><a class="treeview-item" href="Admin-NewConsultation.php">New Consultation</a></li>
-        <li><a class="treeview-item" href="Admin-ListOfConsultation.html">List of Consultation</a></li>
-      </ul>
-    </li>
-    <li><a class="app-menu__item" href="Admin-NewConsultation.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
-    <li><a class="app-menu__item" href="Prescription_reports.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
-    <li><a class="app-menu__item" href=""><i class="app-menu__icon  fas fa-envelope-open-text"></i><span class="app-menu__label">Request</span></a></li>
-    <li><a class="app-menu__item" href=""><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Medical Certificate</span></a></li>
-    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
-    <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
-    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
-    <li><a class="app-menu__item" href=""><i class="app-menu__icon fas fa-poll"></i><span class="app-menu__label">Reports</span></a></li>
-  </ul>
-</aside>
+ <aside class="app-sidebar">
+        <div class="app-sidebar__user">
+          <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
+          <div>
+            <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">USEP CLINIC</p>
+          </div>
+        </div>
+
+        <hr>
+
+       <ul class="app-menu font-sec">
+       
+          <li><a class="app-menu__item" href="Admin-Dashboard.php"><i class="app-menu__icon fa fa-chart-bar"></i><span class="app-menu__label">Dashboard</span></a></li>
+           <li><a class="app-menu__item" href="Admin-PatientList.php"><i class="app-menu__icon fas fa-user-alt"></i><span class="app-menu__label">Patient</span></a></li>
+
+
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Consultation</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-NewConsultation.php">New Consultation</a></li>
+              <li><a class="treeview-item" href="Admin-ListOfConsultation.php">List of Consultation</a></li>
+            </ul>
+          </li>
+
+           <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
+              <li><a class="treeview-item active" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
+            </ul>
+          </li>
+     
+          <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
+
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
+              <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
+              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
+            </ul>
+          </li>
+
+
+          <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
+
+           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-tools"></i><span class="app-menu__label">Equipment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
+              <li><a class="treeview-item" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
+            </ul>
+          </li>
+
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-clipboard-list"></i><span class="app-menu__label">Item</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-ItemUnit.php">Item Unit</a></li>
+              <li><a class="treeview-item" href="Admin-ItemList.php">Item List</a></li>
+              <li><a class="treeview-item" href="Admin-ItemInventory.php">Item Inventory</a></li>
+              <li><a class="treeview-item" href="Admin-ItemStock.php">Overall Stock</a></li>
+            </ul>
+          </li>
+
+          <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
+          <li><a class="app-menu__item" href="Admin-MedicalPersonnel.php"><i class="app-menu__icon  fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
+          <li><a class="app-menu__item" href="Clinic_Admin_Announcements.php"><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-notes-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
+              <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
+            </ul>
+          </li>
+        
+          
+        </ul>
+      </aside>
 <!--navbar-->
 <main class="app-content">
   <div class="app-title">
-    <div>
-      <!-- Sidebar toggle button-->
-      <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a></div>
-    <ul class="app-nav">
-      <li> <a class="appnavlevel">Hi, Admin</a> </li>
-      <!-- <li class="app-search">
-                   <input class="app-search__input" type="search" placeholder="Search">
-                  <button class="app-search__button"><i class="fa fa-search"></i></button>
-              </li>-->
-      <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class=" fas fa-bell fa-lg mt-2"></i></a>
-        <ul class="app-notification dropdown-menu dropdown-menu-right">
-          <li class="app-notification__title">You have 4 new notifications.</li>
-          <div class="app-notification__content">
-            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-              <div>
-                <p class="app-notification__message">Lisa sent you a mail</p>
-                <p class="app-notification__meta">2 min ago</p>
+      <div><!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      </div>
+      <ul class="app-nav">
+        <li>
+          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+        </li>
+        <!-- SEMESTER, TIME, USER DROPDOWN -->
+          <?php
+            if($result = mysqli_query($db, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+              while($row = mysqli_fetch_array($result)){
+                $currSemesterYear = $row['semester'] .' '. $row['year'];
+                echo '
+                  <li>
+                    <div class="appnavlevel" style="color:black;">
+                      <span class="semesterYear">'.$row['semester'].'</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="appnavlevel"style="color:black;">
+                      <span class="semesterYear">'.$row['year'].'</span>
+                    </div>
+                  </li>
+                ';
+              }
+            }
+          ?>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="date">
+                <span id="dayname">Day</span>,
+                <span id="month">Month</span>
+                <span id="daynum">00</span>,
+                <span id="year">Year</span>
               </div>
-              </a></li>
-            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
-              <div>
-                <p class="app-notification__message">Mail server not working</p>
-                <p class="app-notification__meta">5 min ago</p>
+            </div>
+          </li>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="time">
+                <span id="hour">00</span>:
+                <span id="minutes">00</span>:
+                <span id="seconds">00</span>
+                <span id="period">AM</span>
               </div>
-              </a></li>
-            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
-              <div>
-                <p class="app-notification__message">Transaction complete</p>
-                <p class="app-notification__meta">2 days ago</p>
+            </div>
+          </li>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
+            <b style="color: red;"><?php echo $count;  ?></b>
+            <i class=" fas fa-bell fa-lg mt-2"></i>
+          </a>
+          <ul class="app-notification dropdown-menu dropdown-menu-right">
+            <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
+              <div class="app-notification__content">                   
+                <?php 
+                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $result = mysqli_query($db, $count_sql);
+                  while ($row = mysqli_fetch_assoc($result)) { 
+                    $intval = intval(trim($row['time']));
+                      if ($row['message_status']=='Delivered') {
+                        echo'
+                            <b><li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message">
+                                <form method="POST" action="../../php/change_notif_status.php">
+                                  <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                  <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li></b>
+                              ';
+                      }else{
+                              echo'
+                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                              <div>
+                                <p class="app-notification__message">'.$row['message_body'].'</p>
+                                <p class="app-notification__meta">'.timeago($row['time']).'</p>
+                                <p class="app-notification__message"><form method="POST" action="../../php/change_notif_status.php">
+                                <input type="hidden" name="notif_id" value="'.$row['notif_id'].'">
+                                <input type="submit" name="open_notif" value="Open Message">
+                                </form></p>
+                              </div></a></li>
+                              ';
+                       }                 
+
+                  }
+                ?> 
               </div>
-              </a></li>
-            <div class="app-notification__content">
-              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                <div>
-                  <p class="app-notification__message">Lisa sent you a mail</p>
-                  <p class="app-notification__meta">2 min ago</p>
-                </div>
-                </a></li>
-              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
-                <div>
-                  <p class="app-notification__message">Mail server not working</p>
-                  <p class="app-notification__meta">5 min ago</p>
-                </div>
-                </a></li>
-              <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
-                <div>
-                  <p class="app-notification__message">Transaction complete</p>
-                  <p class="app-notification__meta">2 days ago</p>
-                </div>
-                </a></li>
+            <li class="app-notification__footer">
+              <a href="Notifications.php">See all notifications.</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">      
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
+                
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                  <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+            </li>
+      
+      </ul>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <form action="../../logout.php"><button class="btn btn-primary" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
             </div>
           </div>
-          <li class="app-notification__footer"><a href="#">See all notifications.</a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
-        <ul class="dropdown-menu settings-menu dropdown-menu-right">
-          <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
-          <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-          <li><a class="dropdown-item" href="page-login.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+        </div>
+      </div>
   <div class="red"> </div>
   <!-- Navbar-->
   <script>
@@ -377,17 +551,16 @@ $pdf->Output('example_003.pdf', 'I');
         <div class="tile-body">
           <div>
             <div>
-              <div class="float-left">
-                <h4>List of Appointment Cancellation Request</h4>
-              </div>
+                <h3 class="mb-3 line-head">List of Appointment Cancellation Request</h3>
+       
             </div>
             <br>
-            <br>
+         
             <div class="row">
               <div class="col-auto">
                 <div class="inline-block">
-                    Consultation Type
-                   <select  name="type" id="type" class="bootstrap-select" data-table="reports-list">
+                    <b>Consultation Type</b><br>
+                   <select  name="type" id="type" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
             <option value="">All</option>
                                                  <?php
                     // Feching active consultation type
@@ -401,29 +574,15 @@ $pdf->Output('example_003.pdf', 'I');
                     ?>
                     </select>  
                     </div>
-                <div class="inline-block">
-                    Mode of Communication
-                   <select  name="mode" id="mode" class="bootstrap-select" data-table="reports-list">
-           <option value="">All</option>
-                                                 <?php
-                    // Feching active mode of communication
-                    $sql=mysqli_query($db,"select * from mode_of_communication");
-                    while($result=mysqli_fetch_array($sql))
-                    {    
-                    ?>
-                    <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
-                    <?php }
-                    
-                    ?>
-                    </select>  
-                    </div>
+
                    
 
            
                       </div>
               <div class="col">
         <form method="post">
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf" type="submit" onClick="Export()"><i class="fas fa-download"></i> Export</button></div>  </form>  
+          <br>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf" type="submit"><i class="fas fa-download"></i> Export</button></div>  </form>  
                       </div>
 
                   </div>
@@ -464,7 +623,7 @@ $pdf->Output('example_003.pdf', 'I');
                     <td><?php echo htmlentities($row['reason_cancel']);?></td>
                     <td><?php echo $date1 ;?></td>
                     <td><?php echo htmlentities($row['status']);?></td>
-                    <td><a class="text-info mr-2" data-toggle="modal" href="#exampleModalLong<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></a>
+                    <td><a class="btn btn-info btn-sm" data-toggle="modal" href="#exampleModalLong<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></a>
                       </td>
                   </tr>
                 </tbody>

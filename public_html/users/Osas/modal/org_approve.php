@@ -64,7 +64,7 @@ if (isset($_POST['pass'])){
 
                                 $query = "INSERT INTO govt_funded_org(org_name,id,org_pres_gov,org_adviser,type,logo) VALUES('$name','$idd','$gov','$adviser','$type','$logo')";
                                 $run = mysqli_query($conn, $query);
-                                $queryadd = "INSERT INTO approve_funded(org_name,id,org_pres_gov,org_adviser,type,logo) VALUES('$name','$idd','$gov','$adviser','$type','$logo')";
+                                $queryadd = "INSERT INTO approve_funded(org_name,id,org_pres_gov,org_adviser,type) VALUES('$name','$idd','$gov','$adviser','$type')";
                                 $runadd = mysqli_query($conn, $queryadd);
                                           
 
@@ -89,16 +89,19 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
                                                  
                                               }
                                             else{
-                                              echo '<script>
-                                                 swal({
-                                                    title: "Not Approved",
-                                                    type: "warning"
-                                                 }, function () {
-                                                  setTimeout(function () {
-                                                  window.location.href="../NewOrgApplicants.php";
-                                                  }, 500);
-                                                  });
-                                                  </script>';
+                                              
+                                                  echo '<script>
+          swal({
+            title: "Approved:",
+            text: "'.$name.'",
+            type: "success"
+            }, function () {
+              setTimeout(function () {
+               window.location.href="../NewOrgApplicants.php";
+               }, 500);
+               });
+               </script>'; 
+
                                                 
                                         }
                               }
