@@ -12,6 +12,8 @@ include('connect.php');
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
+
  function fetch_data()  
  {
  $output = '';  
@@ -105,6 +107,7 @@ class MYPDF extends TCPDF {
     $id=$_SESSION['id'];
     $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
     $res = $connect->query($sql);
+    
      if($row=mysqli_fetch_array($res)) {
    $title1= $row['title'];
    $name1= $row['fullname'];
@@ -228,7 +231,7 @@ $pdf->Ln(36);
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -244,10 +247,10 @@ $pdf->Ln(36);
     <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
     
     </head>
-     <body class="app sidebar-mini rtl" onload="initClock()">
+      <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+<script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -299,8 +302,8 @@ $pdf->Ln(36);
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      </script>
-
+      
+</script>
         
      <header class="app-header">
     
@@ -387,7 +390,7 @@ $pdf->Ln(36);
 
        <!--navbar-->
 
-          <main class="app-content">
+            <main class="app-content">
             
         <div class="app-title">
       <div><!-- Sidebar toggle button-->
@@ -492,7 +495,7 @@ $pdf->Ln(36);
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                 <li><a class="dropdown-item" href="../../index.php" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                 <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
                 </ul>
             </li>
       

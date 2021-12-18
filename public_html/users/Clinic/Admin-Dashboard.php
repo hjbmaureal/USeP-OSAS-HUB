@@ -1,20 +1,58 @@
+ <!DOCTYPE html>
+  <html lang="en">
+
+  <!--SESSION-->
+
   <?php
-  include 'connect.php';
-  include '../../php/notification-timeago.php'; 
   session_start();
+  require_once('tcpdf/tcpdf.php');
+  include('connect.php');
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';
   }
+  
   $id=$_SESSION['id'];
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-?>
 
- <!DOCTYPE html>
-  <html lang="en">
+  //Session ends here....
+
+
+function timeago($datetime, $full = false) {
+  date_default_timezone_set('Asia/Manila');
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+  $string = array(
+    'y' => 'yr',
+    'm' => 'mon',
+    'w' => 'week',
+    'd' => 'day',
+    'h' => 'hr',
+    'i' => 'min',
+    's' => 'sec',
+  );
+  foreach ($string as $k => &$v) {
+    if ($diff->$k) {
+      $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+    } 
+    else {
+      unset($string[$k]);
+    }
+  }
+  if (!$full) {
+    $string = array_slice($string, 0, 1);
+  }
+  
+  return $string ? implode(', ', $string) . '' : 'just now';
+}
+
+  ?>
     <head>
       <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <!-- Twitter meta-->
@@ -29,24 +67,26 @@
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/orig-main/main.css">
       <link rel="stylesheet" type="text/css" href="css/clinic_style.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
+
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+    <script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -98,7 +138,8 @@
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      </script>
+  </script>
+        
      <header class="app-header">
     
    
@@ -129,8 +170,13 @@
             </ul>
           </li>
 
- 
-          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
+           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
+              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
+            </ul>
+          </li>
+     
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -167,7 +213,8 @@
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
@@ -176,16 +223,18 @@
       </aside>
 
 
-       <!--navbar-->
+<!-- NOTIF START -->
 
-   <main class="app-content">
+  <main class="app-content">
+            
     <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
-      <ul class="app-nav">
+      
+    <ul class="app-nav">
         <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <a class="appnavlevel">Hi, <b><?php echo $_SESSION['fullname'] ?></b></a>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -235,7 +284,7 @@
           <ul class="app-notification dropdown-menu dropdown-menu-right">
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
-  <?php 
+                <?php 
                   $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
@@ -300,11 +349,13 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
               <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <form action="../../logout.php"><button class="btn btn-primary" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
+              <form action="../../logout.php"><button class="btn btn-danger" name="logout" id="logoutbtn2" type="submit">Logout</button></form>
             </div>
           </div>
         </div>
       </div>
+
+ <!-- NOTIF ENDS HERE -->     
         <div class="red"> 
           
         </div>
@@ -323,7 +374,7 @@
               <h4>Today Patient</h4>
         <?php
         $date = date('Y-m-d');
-   $sql= " Select * from consultation where appointment_date='$date' AND status='Pending' group by patient_id";
+   $sql= " Select * from consultation where date_completed='$date' group by patient_id";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $today_patient = mysqli_num_rows($res);
@@ -339,7 +390,7 @@
               <h4>Today Consultation</h4>
            <?php
         $date = date('Y-m-d');
-   $sql= " Select * from consultation where appointment_date='$date' AND status='Pending'";
+   $sql= " Select * from consultation where date_completed='$date' group by patient_id";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $today_consultation = mysqli_num_rows($res);
@@ -356,7 +407,7 @@
               <h4>Today Prescription</h4>
         <?php
         $date = date('Y-m-d');
-   $sql= " Select * from consultation where prescription_date_issued='$date'";
+   $sql= " Select * from prescription where date='$date'";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $today_prescription = mysqli_num_rows($res);
@@ -389,7 +440,7 @@
             <div class="info">
               <h4>Total Patient</h4>
           <?php
-   $sql= " Select * from consultation group by patient_id";
+   $sql= " Select * from patient_list group by patient_id";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $total_patient = mysqli_num_rows($res);
@@ -403,7 +454,7 @@
             <div class="info">
               <h4>Total Consultation</h4>
          <?php
-   $sql= " Select * from consultation where status='Approved'";
+   $sql= " Select * from consultation where status='Completed'";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $consultation_total = mysqli_num_rows($res);
@@ -421,7 +472,7 @@
               <h4>Total Prescription</h4>
          <?php
         $date = date('Y-m-d');
-   $sql= " Select * from consultation where prescription_details!='NULL' AND  prescription_date_issued!='NULL'";
+   $sql= " Select * from prescription where prescription_details!='NULL'";
    $res = mysqli_query($db,$sql);
    $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
    $prescription = mysqli_num_rows($res);
@@ -505,7 +556,7 @@
     <script type="text/javascript" src="js/plugins/jquery.vmap.min.js"></script>
     <script type="text/javascript" src="js/plugins/jquery.vmap.world.js"></script>
     <script type="text/javascript" src="js/plugins/jquery.vmap.sampledata.js"></script>
-	  <script type="text/javascript" src="js/plugins/moment.min.js"></script>
+    <script type="text/javascript" src="js/plugins/moment.min.js"></script>
     <script type="text/javascript" src="js/plugins/jquery-ui.custom.min.js"></script>
     <script type="text/javascript" src="js/plugins/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css">
@@ -555,12 +606,7 @@
       }
 
     </script>
-<?php  
-      if ($count!=0) 
-        { 
-          echo '<script>swal("Notification Alert!", "You have '.$count.' unread notification/s!", "success")</script>';
-        }
-      ?>
+
     <!-- Google analytics script-->
 
    

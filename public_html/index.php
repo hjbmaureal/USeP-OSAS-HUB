@@ -59,7 +59,10 @@ include('conn.php');
                 <input type="password" class="form-control" id="password" name="pword" required>
                 
               </div>
-              
+              <div class="d-flex mb-5 align-items-center">
+                <input type="checkbox" onClick="showPass()" id="showpass">
+                <label for="showpass"class="control control--checkbox mb-0" style="padding-left:10px;padding-bottom: 5px;"><span class="caption">Show Password</span></label> 
+              </div>
               <div class="d-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
@@ -93,6 +96,17 @@ include('conn.php');
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+    function showPass(){
+      var pass = document.getElementById("password");
+      if (pass.type === "password") {
+        pass.type = "text";
+      } else {
+        pass.type = "password";
+      }
+    }
+</script>
 
     <?php 
       if (isset($_GET['res'])){
@@ -102,6 +116,19 @@ include('conn.php');
               Swal.fire(
                   'Error',
                   'Incorrect username or password!',
+                  'error'
+                )
+              </script>
+          ";
+        }
+      }
+      if (isset($_GET['res'])){
+        if ($_GET['res']=="NotVerified/Inactive"){
+          echo "
+              <script type='text/javascript'>
+              Swal.fire(
+                  'Error',
+                  'Account not Verified or Disabled!',
                   'error'
                 )
               </script>

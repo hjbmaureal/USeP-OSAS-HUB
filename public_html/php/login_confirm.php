@@ -45,7 +45,11 @@ if(isset($_POST['submit'])){
                 $_SESSION['position'] = $row['staff_position'];
                 $activity = 'Successfully Logged in.';
                 $page = 'public_html/index.php';   
+                $_SESSION['account_status'] =$row['account_status'];
+                $_SESSION['verified_status'] = $row['verified_status'];
                 log_activity($activity,$page);
+
+
                 if ($_SESSION['usertype']=='Alumni'){
                      echo '<script type="text/javascript">'; 
                      echo 'window.location= "../users/Alumni/";';
@@ -59,71 +63,87 @@ if(isset($_POST['submit'])){
                 
                
                 if ($_SESSION['usertype']=='Student'){
-                    $_SESSION['sl_status'] = $row['sl_status'];
+                    if($_SESSION['account_status']=='Active' && $_SESSION['verified_status']=='Verified'){
+                     $_SESSION['sl_status'] = $row['sl_status'];
                      echo '<script type="text/javascript">'; 
                      echo 'window.location= "../users/Student/";';
                      echo '</script>';
+                    }
                 }
                
                 if ($_SESSION['usertype']=='Coordinator'){
-                    $access_level = $row['access_level'];
-                    if ($_SESSION['office'] == 'OSAS' && $access_level == 1){
-                         echo '<script type="text/javascript">'; 
-                         echo 'window.location="../users/Osas/";';
-                         echo '</script>';
+                    if($_SESSION['account_status']=='Active'){
+                            $access_level = $row['access_level'];
+                        if ($_SESSION['office'] == 'OSAS' && $access_level == 1){
+                             echo '<script type="text/javascript">'; 
+                             echo 'window.location="../users/Osas/";';
+                             echo '</script>';
+                        }
                     }
                 }  
                 if ($_SESSION['usertype']=='Coordinator'){
-                    $access_level = $row['access_level'];
-                    if ($_SESSION['office'] =='Scholarship' && $access_level == 1){
-                         echo '<script type="text/javascript">'; 
-                         echo 'window.location= "../users/Scholarship/";';
-                         echo '</script>';
+                    if($_SESSION['account_status']=='Active'){
+                        $access_level = $row['access_level'];
+                        if ($_SESSION['office'] =='Scholarship' && $access_level == 1){
+                             echo '<script type="text/javascript">'; 
+                             echo 'window.location= "../users/Scholarship/";';
+                             echo '</script>';
+                        }
                     }
 
                 }
                  if ($_SESSION['usertype']=='Coordinator'){
-                    $access_level = $row['access_level'];
-                    if ($_SESSION['office'] =='Clinic' && $access_level == 1){
-                         echo '<script type="text/javascript">'; 
-                         echo 'window.location= "../users/Clinic/Admin-Dashboard.php";';
-                         echo '</script>';
-                    } 
-                }
-                if ($_SESSION['usertype']=='Coordinator'){
-                    if($_SESSION['position']=='Guidance Counselor'){
-                            $access_level = $row['access_level'];
-                        if ($_SESSION['office'] =='Guidance' && $access_level == 1){
+                    if($_SESSION['account_status']=='Active'){
+                        $access_level = $row['access_level'];
+                        if ($_SESSION['office'] =='Clinic' && $access_level == 1){
                              echo '<script type="text/javascript">'; 
-                             echo 'window.location= "../users/Guidance/";';
+                             echo 'window.location= "../users/Clinic/Admin-Dashboard.php";';
                              echo '</script>';
                         } 
-                    }else{
-                         $activity = 'Incorrect Password.';
-                        $page = '/osaweb/Log-in.html';
-                        log_activity($activity,$page);
-                         echo '<script>alert(\"Incorrect Password!\")</script>"';   
-
-                         echo '<script type="text/javascript">'; 
-                         echo 'window.location= "../index.php?res=Incorrect";';
-                         echo '</script>';
                     }
+                }
+                if ($_SESSION['usertype']=='Coordinator'){
+                    if($_SESSION['account_status']=='Active'){
+                        if($_SESSION['position']=='Guidance Counselor'){
+                            $access_level = $row['access_level'];
+                            if ($_SESSION['office'] =='Guidance' && $access_level == 1){
+                               echo '<script type="text/javascript">'; 
+                               echo 'window.location= "../users/Guidance/";';
+                               echo '</script>';
+                           } 
+                       }else{
+                           $activity = 'Incorrect Password.';
+                           $page = '/osaweb/Log-in.html';
+                           log_activity($activity,$page);
+                           echo '<script>alert(\"Incorrect Password!\")</script>"';   
+
+                           echo '<script type="text/javascript">'; 
+                           echo 'window.location= "../index.php?res=Incorrect";';
+                           echo '</script>';
+                       }
+                   }
                     
                 }
                 if ($_SESSION['usertype']=='Faculty' && $access_level = 2){
-                     echo '<script type="text/javascript">'; 
-                     echo 'window.location= "../users/Faculty/";';
-                     echo '</script>';
+                    if($_SESSION['account_status']=='Active'){
+                         echo '<script type="text/javascript">'; 
+                         echo 'window.location= "../users/Faculty/";';
+                         echo '</script>';
+                     }
                 }
                 if ($_SESSION['usertype']=='Staff' && $access_level = 2){
-                     echo '<script type="text/javascript">'; 
-                     echo 'window.location= "../users/Faculty/";';
-                     echo '</script>';
+                    if($_SESSION['account_status']=='Active'){
+                         echo '<script type="text/javascript">'; 
+                         echo 'window.location= "../users/Faculty/";';
+                         echo '</script>';
+                     }
                 }
                 if ($_SESSION['usertype']=='Faculty Head' && $access_level = 1){
-                     echo '<script type="text/javascript">'; 
-                     echo 'window.location= "../users/Faculty/";';
-                     echo '</script>';
+                    if($_SESSION['account_status']=='Active'){
+                         echo '<script type="text/javascript">'; 
+                         echo 'window.location= "../users/Faculty/";';
+                         echo '</script>';
+                     }
                 }
             
         

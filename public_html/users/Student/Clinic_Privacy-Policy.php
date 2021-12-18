@@ -1,6 +1,6 @@
   <!DOCTYPE html>
   <html lang="en">
-    <?php
+<?php
   session_start();
   include('connect.php');
   include('conn.php');
@@ -256,7 +256,7 @@ function timeago($datetime, $full = false) {
 
 
             
-        <div class="app-title">
+    <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>

@@ -52,14 +52,14 @@ function timeago($datetime, $full = false) {
  {
  $output = '';  
       $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
- $sql = "SELECT * from request_list where request_type='Medical Certificate' order by request_id DESC";
+ $sql = "SELECT * from request_list where request_type='Medical Certificate' and status='Pending' order by request_id DESC";
   $result = mysqli_query($connect, $sql);  
       while($row = mysqli_fetch_array($result))  
       {  
         $date =date_create($row['date_requested']);
         $date1 = date_format($date,"F d, Y"); ;  
       
-        $output .= '<tr>  
+        $output .= '<tr nobr="true">  
                           <td>'.$row["date_requested"].'</td>  
                           <td>'.$row["fullname"].'</td>  
                           <td>'.$row["course_department"].'</td>  
@@ -78,8 +78,11 @@ if(isset($_POST["crt_pdf"])){
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
 
+
     //Page header
     public function Header() {
+
+      if ($this->numpages < 2 )    {
         // Logo
         $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         
@@ -108,39 +111,29 @@ class MYPDF extends TCPDF {
         // Title
         $this->Cell(0, 15, 'LIST OF REQUESTS FOR MEDICAL CERTIFICATE as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
     
+    }
     
-    
+    }
+
+
+
+    protected $last_page_flag = false;
+
+    public function Close() {
+        $this->last_page_flag = true;
+        parent::Close();
     }
 
     // Page footer
     public function Footer() {
-  session_start();
-     $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
-  $id=$_SESSION['id'];
-  $sql1="Select * from staffdetails where staff_id='$id' AND type='Staff'";
-    $res = $connect->query($sql1);
-     if($row=mysqli_fetch_array($res)) {
-   $title= $row['title'];
-   $name= $row['fullname'];
-   $extension= $row['extension'];
-   $position= $row['position'];
-   
-        // Position at 15 mm from bottom
-        $this->SetY(-50);
-        // Set font
-        $this->SetFont('calibri', 'B', 12);
-    $this->Ln(2);
-    $this->Cell(0, 0, 'Prepared By:', 0, false, 'L', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(40);
-     $this->SetFont('Calibri', '', 12);
-    $this->Cell(0,0, ''.$title.' '. $name.' '.$extension.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(50);
-    $this->Cell(0,0,''.$position.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+      if(!isset($_SESSION)) { 
+      session_start(); 
     }
-         $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
-    $sql2="Select * from staffdetails where office_name='Clinic' AND type='Staff'";
+
+    if ($this->last_page_flag) {
+
+    $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql2="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
     $res = $connect->query($sql2);
      if($row=mysqli_fetch_array($res)) {
    $title1= $row['title'];
@@ -153,11 +146,12 @@ class MYPDF extends TCPDF {
     $this->Cell(0, 0, 'Noted By:', 0, false, '', 0, '', 0, false, 'M', 'M');
     $this->Ln(8);
     $this->SetX(230);
-     $this->SetFont('Calibri', '', 12);
+     $this->SetFont('Calibri', 'B', 12);
     $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
     $this->Ln(8);
-    $this->SetX(244);
-    $this->Cell(0,0,''.$position1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+     $this->SetX(235);
+     $this->SetFont('Calibri', '', 12);
+    $this->Cell(0,0,'Asst. '.$position1.'/Instructor I', 0, false, '', 0, '', 0, false, 'M', 'M');
      $this->SetY(-15);
      
      $this->SetFont('calibri', 'I', 10);
@@ -165,7 +159,7 @@ class MYPDF extends TCPDF {
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }
   }
-
+}
 }
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -255,7 +249,7 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -268,10 +262,10 @@ $pdf->Output('example_003.pdf', 'I');
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-      <body class="app sidebar-mini rtl" onload="initClock()">
+     <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+    <script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -324,7 +318,6 @@ $pdf->Output('example_003.pdf', 'I');
         image.src = URL.createObjectURL(event.target.files[0]);
       };
       </script>
-      <!-- Navbar-->
 
         
           <header class="app-header">
@@ -357,20 +350,14 @@ $pdf->Output('example_003.pdf', 'I');
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item active" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
             </ul>
           </li>
 
@@ -410,7 +397,6 @@ $pdf->Output('example_003.pdf', 'I');
       </aside>
 
        <!--navbar-->
-
           <main class="app-content">
             
         <div class="app-title">
@@ -544,6 +530,46 @@ $pdf->Output('example_003.pdf', 'I');
         </div>
 
       <!-- Navbar-->
+
+      <script>
+        (function(document) {
+            'use strict';
+
+            var TableFilter = (function(myArray) {
+                var search_input;
+
+                function _onInputSearch(e) {
+                    search_input = e.target;
+                    var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+                    myArray.forEach.call(tables, function(table) {
+                        myArray.forEach.call(table.tBodies, function(tbody) {
+                            myArray.forEach.call(tbody.rows, function(row) {
+                                var text_content = row.textContent.toLowerCase();
+                                var search_val = search_input.value.toLowerCase();
+                                row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+                            });
+                        });
+                    });
+                }
+
+                return {
+                    init: function() {
+                        var inputs = document.getElementsByClassName('bootstrap-select');
+                        myArray.forEach.call(inputs, function(input) {
+                            input.oninput = _onInputSearch;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            document.addEventListener('readystatechange', function() {
+                if (document.readyState === 'complete') {
+                    TableFilter.init();
+                }
+            });
+
+        })(document);
+    </script>
        
         <div class="row">
           <div class="col-md-12">
@@ -551,23 +577,46 @@ $pdf->Output('example_003.pdf', 'I');
               <div class="tile-body">
                 <div>
                 <div>
-                <div class="float-left"><h4>New Request for Medical Certificate</h4></div>
+                <h3 class="mb-3 line-head">New Request for Medical Certificate</h3>
                   </div>
-                  <br><br>
+                  <br>
                   <div class="row">
                     <div class="col-sm">
 
-                     
                   <div class="inline-block">
-                    Request Type
+                    <b>Course/Department</b>
                     <br>
-                    <select class="bootstrap-select" style="width: 100%;">
-                        <option class="select-item" value="1" selected="selected">All</option>
-                        <option class="select-item" value="2">Medical Certificate</option>
-                        <option class="select-item" value="3">Medical Records Certification</option>
+                        <select class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 260px">
+                        <option class="select-item" value="" selected="selected">All</option>
 
+                                               <?php
+                                                  
+                                                  $sql1=mysqli_query($conn,"select dept_name from department UNION SELECT ALL title FROM course where status='Active'");
+                                                  while($result=mysqli_fetch_array($sql1))
+                                                  {    
+                                                  ?>
+                                                  <option class="select-item" value="<?php echo htmlentities($result['dept_name']);?>"><?php echo htmlentities($result['dept_name']);?></option>
+                                                  <?php }
+                                                  
+                                                  ?>
+                    </select>
+                    </div>
+
+                    &emsp;
+
+                    <div class="inline-block">
+                    <b>Purpose</b>
+                    <br>
+                    <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
+                        <option class="select-item" value="" selected="selected">All</option>
+                        <option class="select-item" value="OJT">OJT</option>
+                        <option class="select-item" value="Field Trip">Field Trip</option>
+                        <option class="select-item" value="Employment">Employment</option>
+                   
                       </select>
                     </div>
+
+
                    
                       </div>
                       <div class="col-sm">
@@ -586,17 +635,17 @@ $pdf->Output('example_003.pdf', 'I');
               <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <table class="table table-hover table-bordered reports-list" id="sampleTable">
+                  <table class="table table-hover table-bordered reports-list" id="sampleTable2">
                     <thead>
                       <tr>
                       <th>Date Requested</th>
                       <th class="max">Patient Name</th>
                       <th>Course/Dept.</th>
-                      <th>Request type</th>
                       <th>Purpose</th>
                       <th>Required Lab Test</th>
                       <th>Lab Result</th>
                       <th>Certificate</th>
+                     
                     </tr>
                   </thead>
                   <tbody>
@@ -606,7 +655,7 @@ $pdf->Output('example_003.pdf', 'I');
 
 
                       <?php 
-                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' order by request_id DESC");
+                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' AND status='Pending' order by request_id DESC");
 
         while($res = mysqli_fetch_array($sql)) {  
           $id=$res['request_id'];
@@ -617,7 +666,6 @@ $pdf->Output('example_003.pdf', 'I');
                       <td><?php echo $res['date_requested']; ?></td>
                       <td><?php echo $res['fullname']; ?></td>
                       <td><?php echo $res['course_department']; ?></td>
-                      <td><?php echo $res['request_type']; ?></td>
                       <td><?php echo $res['purpose']; ?></td>
                       <td>
                         <?php
@@ -661,6 +709,7 @@ $pdf->Output('example_003.pdf', 'I');
                         }
                         ?>
                       </td>
+                  
                     </tr>
                     <?php
                     }

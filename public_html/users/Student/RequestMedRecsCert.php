@@ -568,7 +568,7 @@ function timeago($datetime, $full = false) {
                                         <td><?php echo $row["purpose"]; ?></td>
                                         <td>
 
-                                          <button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 60%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>
+                                          <button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 90%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>
                                         </td>                                    
                           <td>
                         <?php
