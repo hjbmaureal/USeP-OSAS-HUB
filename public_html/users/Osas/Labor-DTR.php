@@ -417,7 +417,7 @@
 
 
                       <!-- password -->
-                      <div class="modal fade" id="pass-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal fade" id="pass-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -428,6 +428,7 @@
                             </div>
                             <div class="modal-body"><div class="form-group">
                               <label class="control-label">Password:</label>
+                              <input class="form-control d-inline w-75"  type="hidden" id="uname" value="username">
                               <input class="form-control d-inline w-75"  type="password" id="pword" placeholder="">
                             </div>
                           </div>

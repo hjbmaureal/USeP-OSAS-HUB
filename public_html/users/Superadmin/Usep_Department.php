@@ -318,8 +318,8 @@ function timeago($datetime, $full = false) {
                                   Status
                                   <select class="bootstrap-select" id="sel2">
                                     <option class="select-item" value="All" selected="selected">All</option>
-                                    <option class="select-item" value="Active">Active</option>
-                                    <option class="select-item" value="Inactive">Inactive</option>
+                                    <option class="select-item" value="Enabled">Enabled</option>
+                                    <option class="select-item" value="Disabled">Disabled</option>
                                   </select>
                                 </div>
                               <div class="col-sm">
@@ -436,7 +436,7 @@ function timeago($datetime, $full = false) {
                                 <select type="text" name="d_name" id="edit-college-name" class="form-control" required>
                                 <option style="color:white" selected></option> 
                                 <?php
-                                    $result1=mysqli_query($conn, "SELECT * FROM college WHERE status = 'Active'");               
+                                    $result1=mysqli_query($conn, "SELECT * FROM college WHERE status IN('Active','Enabled')");               
                                     while($resu = mysqli_fetch_array($result1)) { 
                                         $value1= $resu['college_id']; ?>
                                         <option class="select-item" value="<?php echo $value1; ?>"><?php echo $resu['description'];?></option>
@@ -484,6 +484,30 @@ function timeago($datetime, $full = false) {
                       </div>
                     </div>
                   </div>
+
+
+                    <!-- password -->
+                    <div class="modal fade" id="pass-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Authentication ...</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body"><div class="form-group">
+                              <label class="control-label">Password:</label>
+                              <input class="form-control d-inline w-75"  type="hidden" id="uname" value="username" >
+                              <input class="form-control d-inline w-75"  type="password" id="pword" placeholder="">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="check-pword">Submit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
 
 
@@ -613,6 +637,8 @@ function timeago($datetime, $full = false) {
                       var current_dept_id = 0;
                       var current_dept_name = '';
                       var current_dept_college = '';
+                      var current_dept_stat = '';
+                      var current_set_stat = '';
 
                       var tbl = $('#dept-table').DataTable({
                           serverside: false,
@@ -647,7 +673,7 @@ function timeago($datetime, $full = false) {
                                   let stat = row['status'];
                                   let markup = '';
 
-                                  if (stat=='Active') {
+                                  if (stat=='Active' || stat=='Enabled') {
                                     markup = '<button class="btn btn-info btn-sm view-dept-details ml-1"><i class="fas fa-eye"></i></button><a class="btn btn-warning btn-sm edit-dept-details text-white ml-1"><i class="fas fa-edit"></i></a><button class="btn btn-success btn-sm ml-1 disable-enable-dept" disabled>Enable</button><a class="btn btn-danger btn-sm text-white ml-1 disable-enable-dept">Disable</a>';
                                   } else {
                                     markup = '<button class="btn btn-info btn-sm view-dept-details ml-1"><i class="fas fa-eye"></i></button><a class="btn btn-warning btn-sm edit-dept-details text-white ml-1"><i class="fas fa-edit"></i></a><button class="btn btn-success btn-sm ml-1 disable-enable-dept">Enable</button><a class="btn btn-danger btn-sm text-white ml-1 disable-enable-dept disabled">Disable</a>';
@@ -806,100 +832,92 @@ function timeago($datetime, $full = false) {
                       $(document).on("click",".disable-enable-dept",function(){
 
                         var currentRow = $(this).closest("tr");
-                        let _dept_id = currentRow.find("td:eq(0)").text();
-                        let _dept_stat = currentRow.find("td:eq(4)").text();
-                        let set_stat = (_dept_stat=='Active') ? 'Inactive' : 'Active';
-                        console.log(set_stat);
-                        console.log(_dept_id);
+                        current_dept_id = currentRow.find("td:eq(0)").text();
+                        current_dept_stat = currentRow.find("td:eq(4)").text();
+                        current_set_stat = (current_dept_stat=='Active' || current_dept_stat=='Enabled') ? 'Disabled' : 'Enabled';
 
-                            Swal.fire({
-                                  title: 'Password Validation',
-                                  html: `<input type="password" id="password" class="swal2-input" placeholder="Password">`,
-                                  confirmButtonText: 'Validate',
-                                  focusConfirm: false,
-                                  preConfirm: () => {
-                                    const password = Swal.getPopup().querySelector('#password').value
-                                    if (!password) {
-                                      Swal.showValidationMessage(`Please enter password`)
-                                    }
-                                    return {password: password }
-                                  }
-                                }).then((result) => {
-                                  let password = result.value.password;
-                                  
-                                  $.ajax({
-                                      url:"../../php/users-check-password.php",
-                                      method:"POST",
-                                      data:{pass:password},
-                                      success:function(response)
-                                        {
-                                          try {
-                                            var obj = JSON.parse(response);
-                                            var result = obj[0].res;
-                                            if (result==0){
-                                              Swal.fire({
-                                                position: 'center',
-                                                icon: 'error',
-                                                title: 'Wrong password!',
-                                                showConfirmButton: false,
-                                                timer: 1000
-                                              })
-                                            } else if (result==1) {
+                        $('#pass-modal').modal("show");
 
-                                              Swal.fire({
-                                                position: 'center',
-                                                icon: 'success',
-                                                title: 'Authentication Successful!',
-                                                showConfirmButton: false,
-                                                timer: 1000
-                                              })
-                                              .then(() => {
-
-                                                    $.ajax({
-                                                        url:"php/insert-update-queries.php",
-                                                        method:"POST",
-                                                        data:{id : _dept_id, stat : set_stat, queryno : 1},
-                                                        success:function(response)
-                                                          {
-                                                            if (response.length == 0){
-                                                              tbl.ajax.reload();
-                                                              Swal.fire(
-                                                                'Success!',
-                                                                'Changes has been saved successfully',
-                                                                'success'
-                                                              )
-                                                            } else {
-                                                              Swal.fire({
-                                                                position: 'center',
-                                                                icon: 'error',
-                                                                title: 'Something went wrong! Try again!',
-                                                                showConfirmButton: false,
-                                                                timer: 1000
-                                                              })
-                                                            }
-                                                          },
-                                                        error: function(response){
-                                                          $('.fetched-data').text('');
-                                                          alert("fail" + JSON.stringify(response));
-                                                        }
-                                                    });
-                                              })
-                                            }
-
-
-                                          } catch (e) {
-                                            alert("Server error. Reload page."+response);
-                                          }
-                                        },
-                                      error: function(response){
-                                        $('.fetched-data').text('');
-                                        alert("fail" + JSON.stringify(response));
-                                      }
-                                  })
-
-                            });
                       });
 
+
+                      // PASSWORD VERIFY
+                      $(document).on("click","#check-pword",function(){
+                        var password = $('#pword').val();
+
+                            $.ajax({
+                                url:"../../php/users-check-password.php",
+                                method:"POST",
+                                data:{pass:password},
+                                success:function(response)
+                                  {
+                                    $('#pass-modal').modal("hide");
+                                    try {
+                                      var obj = JSON.parse(response);
+                                      var result = obj[0].res;
+                                      if (result==0){
+                                        Swal.fire({
+                                          position: 'center',
+                                          icon: 'error',
+                                          title: 'Wrong password!',
+                                          showConfirmButton: false,
+                                          timer: 1000
+                                        })
+                                      } else if (result==1) {
+
+                                                        Swal.fire({
+                                                          position: 'center',
+                                                          icon: 'success',
+                                                          title: 'Authentication Successful!',
+                                                          showConfirmButton: false,
+                                                          timer: 1000
+                                                        })
+                                                        .then(() => {
+
+                                                              $.ajax({
+                                                                  url:"php/insert-update-queries.php",
+                                                                  method:"POST",
+                                                                  data:{id : current_dept_id, stat : current_set_stat, queryno : 1},
+                                                                  success:function(response)
+                                                                    {
+                                                                      if (response.length == 0){
+                                                                        tbl.ajax.reload();
+                                                                        Swal.fire(
+                                                                          'Success!',
+                                                                          'Changes has been saved successfully',
+                                                                          'success'
+                                                                        )
+                                                                      } else {
+                                                                        Swal.fire({
+                                                                          position: 'center',
+                                                                          icon: 'error',
+                                                                          title: 'Something went wrong! Try again!',
+                                                                          showConfirmButton: false,
+                                                                          timer: 1000
+                                                                        })
+                                                                      }
+                                                                    },
+                                                                  error: function(response){
+                                                                    $('.fetched-data').text('');
+                                                                    alert("fail" + JSON.stringify(response));
+                                                                  }
+                                                              });
+                                                        })
+                                      }
+
+
+                                    } catch (e) {
+                                      alert("Server error. Reload page."+response);
+                                    }
+                                  },
+                                error: function(response){
+                                  $('.fetched-data').text('');
+                                  alert("fail" + JSON.stringify(response));
+                                }
+                            });
+
+
+                      });
 
                     });
                   </script>
