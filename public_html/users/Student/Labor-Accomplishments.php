@@ -23,7 +23,7 @@
     $name = $_SESSION['fullname'];
     $from = $_POST['min_date'];
     $to = $_POST['max_date'];
- 
+    $period = $from.' - '.$to;
     // var_dump($salary_rate);
     // var_dump($salary);
     // var_dump($hours);
