@@ -1,15 +1,14 @@
 <?php 
 	include '../../conn.php';
-
-	$student_id = $_REQUEST['sampstudent_id'];
-	$labor_type = $_REQUEST['labor_type'];
-	$labor_class = $_REQUEST['labor_class'];
-	$labor_status = $_REQUEST['labor_status'];
-	$semester_sy = $_REQUEST['sem_year'];
-	$time_from = $_REQUEST['time_from'];
-	$time_to = $_REQUEST['time_to'];
-	$assignment = $_REQUEST['assignment'];
-	$yearlevel = $_REQUEST['year_level'];
+	$student_id = $_POST['sampstudent_id'];
+	$labor_type = $_POST['labor_type'];
+	$labor_class = $_POST['labor_class'];
+	$labor_status = $_POST['labor_status'];
+	$semester_sy = $_POST['sem_year'];
+	$time_from = $_POST['time_from'];
+	$time_to = $_POST['time_to'];
+	$assignment = $_POST['assignment'];
+	$yearlevel = $_POST['year_level'];
 
 	$fileinfo=PATHINFO($_FILES["student_grades"]["name"]);
     $newFilename=$fileinfo['filename'] ."_". time() . ".".$fileinfo['extension'];

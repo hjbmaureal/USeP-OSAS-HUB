@@ -41,7 +41,28 @@
       <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-      <body class="app sidebar-mini rtl">
+      <body class="app sidebar-mini rtl">                      <!-- password -->
+                      <div class="modal fade" id="pass-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Authentication ...</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body"><div class="form-group">
+                              <label class="control-label">Password:</label>
+                              <input class="form-control d-inline w-75"  type="hidden" id="uname" value="username" >
+                              <input class="form-control d-inline w-75"  type="password" id="pword" placeholder="">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="check-pword">Submit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
       <!-- Navbar-->
 
         
@@ -188,7 +209,7 @@
 <?php 
   $appid = $_GET['id'];
   $data = array();
-  $query=mysqli_query($conn,"call MainStudentOtherQueries('$appid',3);");
+  $query=mysqli_query($conn,"SELECT s.Student_id as student_id, IF((LENGTH(TRIM(s.`middle_name`)) > 0), CONCAT(s.`first_name`, ' ', SUBSTR(s.`middle_name`, 1, 1), '. ', s.`last_name`), CONCAT(s.`first_name`, ' ', s.`last_name`)) as applicant_name, c.title as course, a.year_level, IF ((st.office_id is not null or st.office_id = 0),o.office_name,d.dept_name) as office_name, SUBSTR(a.semester_year,14) as sy, SUBSTR(a.semester_year,1,12) as sem, IF((LENGTH(TRIM(st.`middle_name`)) > 0), CONCAT(st.`first_name`, ' ', SUBSTR(st.`middle_name`, 1, 1), '. ', st.`last_name`), CONCAT(st.`first_name`, ' ', st.`last_name`)) as staff_name, (SELECT salary FROM salary ORDER BY id desc limit 1) as salary_rate, a.status as sl_status FROM sl_applicant as a JOIN student as s on s.Student_id = a.student_id JOIN course as c on c.course_id = s.course_id JOIN requisition_form as r on r.id = a.assigned_to JOIN staff as st on st.staff_id = r.requested_by LEFT JOIN office as o on o.office_name = st.office_id LEFT JOIN department as d on d.dept_id = st.dept_id WHERE a.applicant_id = $appid;");
     while($row=mysqli_fetch_array($query))
       {
         $data = $row;
@@ -197,6 +218,7 @@
 
 <span class="collapse" id="applicant-id"><?php echo $appid ?></span>
 <span class="collapse" id="salary-rate"><?php echo $data[8] ?></span>
+<span class="collapse" id="sl-status"><?php echo $data[9] ?></span>
 
 
                             <div class="row">
@@ -366,28 +388,7 @@
 
 
 
-                      <!-- password -->
-                      <div class="modal fade" id="pass-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">Authentication ...</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body"><div class="form-group">
-                              <label class="control-label">Password:</label>
-                              <input class="form-control d-inline w-75"  type="hidden" id="uname" value="username" >
-                              <input class="form-control d-inline w-75"  type="password" id="pword" placeholder="">
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="check-pword">Submit</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
 
 
                     <!-- log in log out  -->
@@ -596,6 +597,7 @@
               var row_time_period = '';
               var row_id = 0;
               let salary_rate = parseFloat($('#salary-rate').text().trim()).toFixed(2);
+              const sl_stat = $('#sl-status').text().trim();
               let semester = $('#semester-year').text().trim();
               let _year = $('#semester-year-year').text().trim();
               let semester_year = semester+" "+_year;
@@ -651,7 +653,7 @@
                         let salary_amt = row['salary'];
                         let markup = '';
 
-                        if (salary_amt!=null){
+                        if (salary_amt!=null || ((sl_stat=='Terminated' || sl_stat=='Completed') && salary_amt==null)){
                           markup = '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-edit mr-1"></i>Override</a>';
                         } else {
                           markup = '<a class="btn btn-warning btn-sm override-btn" href="#"  data-toggle="modal" data-target="#pass-modal"><i class="fas fa-edit mr-1"></i>Override</a>';

@@ -16,9 +16,12 @@
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck > 0){
             while ($row = mysqli_fetch_assoc($result)){ 
-                $student_sign = base64_encode($row['e_signature']);
-                $head_sign = base64_encode($row['head_signature']);
-                $osas_sign = base64_encode($row['assessor_signature']);
+                $student_sign = ($row['e_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['e_signature']);
+                // $student_sign = base64_encode($row['e_signature']);
+                $head_sign = ($row['head_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['head_signature']);
+                // $head_sign = base64_encode($row['head_signature']);
+                $osas_sign = ($row['assessor_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['assessor_signature']);
+                // $osas_sign = base64_encode($row['assessor_signature']);
                 $student_pic = ($row['pic']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['pic']);
                 $row['e_signature'] = $student_sign;
                 $row['head_signature'] = $head_sign;
