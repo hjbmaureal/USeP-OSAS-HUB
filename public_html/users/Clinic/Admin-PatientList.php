@@ -735,7 +735,7 @@ $pdf->Output('example_003.pdf', 'I');
                                           
                                      <td>
 
-            <a class="btn btn-info btn-sm" href="user-profiles.php?patient_id=<?php echo $row["patient_id"] ?>" target="_blank"><i class="fas fa-eye"></i></a>
+            <a class="btn btn-info btn-sm" href="patient-profiles.php?patient_id=<?php echo $row["patient_id"] ?>" target="_blank"><i class="fas fa-eye"></i></a>
           <!--<a class="btn btn-warning btn-sm" data-toggle="modal" href="#HRModal<?php echo $row["patient_id"] ?>"><i class="fa fa-plus"></i></a>-->
             <a class="btn btn-warning btn-sm" data-toggle="modal" href="#HRModal<?php echo $row["patient_id"] ?>"><i class="fas fa-edit"></i></a>  
           

@@ -709,6 +709,15 @@ if($in_ch==1)
       $res ="INSERT INTO clinic_patient_info_female(patient_id,mens_age_start,mens_regular,mens_irregular,dysmenorrhea,pms) VALUES('$patient_id','$first','$regular','$peryear','$dysmenorrhea','$premen')";
 
             if ($db->query($res) === TRUE) {
+              
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student filed a consultation.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
 
            $sql="Update student set patinfo_status='1'  where Student_id='$patient_id'";
            $result5 = $db->query($sql);
