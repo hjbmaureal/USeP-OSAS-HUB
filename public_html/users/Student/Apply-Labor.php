@@ -12,6 +12,11 @@ session_start();
     echo 'window.location= "index.php";';
     echo '</script>';
   }
+  if (!isset($_GET['stat'])){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "Home-Labor.php";';
+    echo '</script>';
+  }
   $id=$_SESSION['id'];
   $count = 0;
   $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where user_id='$id' and message_status='Delivered'");
@@ -526,22 +531,22 @@ session_start();
                 <div class="row">
                   <div class="form-group col-sm-3">
                     <p style="font-weight: bolder;">Certificate of Grades 
-                      <input class="form-control-file" id="student_grades" type="file" name="student_grades" aria-describedby="fileHelp" required><small class="form-text text-muted" id="fileHelp"></small>
+                      <input class="form-control-file check-file" id="student_grades" type="file" name="student_grades" aria-describedby="fileHelp" required><small class="form-text text-muted" id="fileHelp"></small>
                     </p>
                   </div>
                   <div class="form-group col-sm-3">
                     <p style="font-weight: bolder;">Current COR 
-                      <input class="form-control-file" id="current_cor" type="file" name="current_cor" aria-describedby="current_cor" required><small class="form-text text-muted" id="current_cor"></small>
+                      <input class="form-control-file check-file" id="current_cor" type="file" name="current_cor" aria-describedby="current_cor" required><small class="form-text text-muted" id="current_cor"></small>
                     </p>
                   </div>
                   <div class="form-group col-sm-3">
                     <p style="font-weight: bolder;">Letter of Intent For Faculty/Unit Head
-                      <input class="form-control-file" id="letter_unit_head" type="file" name="letter_unit_head" aria-describedby="letter_unit_head" required><small class="form-text text-muted" id="letter_unit_head"></small>
+                      <input class="form-control-file check-file" id="letter_unit_head" type="file" name="letter_unit_head" aria-describedby="letter_unit_head" required><small class="form-text text-muted" id="letter_unit_head"></small>
                     </p>
                   </div>
                   <div class="form-group col-sm-3">
                     <p style="font-weight: bolder;">Letter of Intent For OSAS head
-                      <input class="form-control-file" id="letter_osas_head" type="file" name="letter_osas_head" aria-describedby="letter_osas_head" required><small class="form-text text-muted" id="letter_osas_head"></small>
+                      <input class="form-control-file check-file" id="letter_osas_head" type="file" name="letter_osas_head" aria-describedby="letter_osas_head" required><small class="form-text text-muted" id="letter_osas_head"></small>
                     </p>
                   </div>
                 </div>
@@ -642,39 +647,61 @@ session_start();
                 });
 
           $('#studentapplicationform').submit(function(e){
-            var file_flag = checkFile($('#student_grades').val());
+
+                // Get form
+                var form = $('#studentapplicationform')[0];
+         
+                // FormData object 
+                var data = new FormData(form);
+
+           var file_flag = true;
+
+            $( ".check-file" ).each(function( index ) {
+                file_flag = checkFile($(this).val());
+                if (!file_flag){
+                  $(this).val('');
+                  return false;
+                }
+            });
             e.preventDefault();
-            if (file_flag){
-              $.ajax({
-                url:"../../php/O-StudentDefault/sendStudentLaborApplicationForm.php",
-                method:"POST",
-                data:new FormData(this),
-                contentType:false,
-                processData:false,
-                success:function(response)
-                 {
-                    if (response.length == 0){
-                      swal({
-                          title: "You're application has been sent!",
-                          text: "You can only submit an application one at a time. Monitor the status of your application through your notifications",
-                          type: "warning",
-                          showCancelButton: false,
-                          confirmButtonColor: '#DD6B55',
-                          confirmButtonText: 'Okay, I got it!',
-                          closeOnConfirm: false,
-                          //closeOnCancel: false
-                        },
-                        function(){
-                          window.location = "Home-Labor.php";
-                        });
-                    } else {
-                      alert("An error has occurred. Application was not submitted Successfuly. Please fill it again. Error :"+response);
-                    }                                          
-                 },
-                error: function(response){
-                    alert("fail" + JSON.stringify(response));
-                 }
+            if (file_flag){$.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "../../php/O-StudentDefault/sendStudentLaborApplicationForm.php",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 800000,
+                    success: function (data) {
+                        swal({
+                            title: "You're application has been sent!",
+                            text: "You can only submit an application one at a time. Monitor the status of your application through your notifications",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Okay, I got it!',
+                            closeOnConfirm: false,
+                            //closeOnCancel: false
+                          },
+                          function(){
+                            window.location = "Home-Labor.php";
+                          });    
+                    },
+                    error: function (e) {
+                      alert("fail" + JSON.stringify(e));
+                    }
                 });
+            } else {
+              swal({
+                              title: "Invalid Files!",
+                              text: "All files must be in pdf format.",
+                              icon: "warning",
+                              buttons: false,
+                              timer: 1800,
+                              closeOnClickOutside: false,
+                                closeOnEsc: false,
+                          });
             }
           });
 
@@ -682,8 +709,6 @@ session_start();
         function checkFile(file) {
           var extension = file.substr((file.lastIndexOf('.') +1));
           if (!/(pdf)$/ig.test(extension)) {
-            alert("Invalid file type: "+extension+".  Please attach a pdf file.");
-            $("#student_grades").val("");
             return false;
           }
           return true;

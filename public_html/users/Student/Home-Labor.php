@@ -502,7 +502,7 @@
                         var job_hirings = obj[0].job_hirings;
                         var stat = obj[0].sl_status;
                         if (application_status == 0 && job_hirings > 0 && stat!='Hired'){
-                          window.location = "Apply-Labor.php";
+                          window.location = "Apply-Labor.php?stat=success";
                         }
                         if (job_hirings==0) {
                           swal("No Job Hirings!", "There are currently no job postings. Check the job hiring page to be kept up to date!", "warning");
@@ -532,14 +532,17 @@
              $applicantid = $_REQUEST['applicationid'];
              $query=mysqli_query($conn,"CALL MainGetApplicationFormInfo($applicantid)");
               while($row=mysqli_fetch_array($query)){
-                $student_sign = base64_encode($row['e_signature']);
-                $head_sign = base64_encode($row['head_signature']);
-                $osas_sign = base64_encode($row['assessor_signature']);
-                $picz = ($row['pic']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['pic']);
-                $row['pic'] = $picz;
+                $student_sign = ($row['e_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['e_signature']);
+                // $student_sign = base64_encode($row['e_signature']);
+                $head_sign = ($row['head_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['head_signature']);
+                // $head_sign = base64_encode($row['head_signature']);
+                $osas_sign = ($row['assessor_signature']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['assessor_signature']);
+                // $osas_sign = base64_encode($row['assessor_signature']);
+                $student_pic = ($row['pic']==null) ? '../../images/transparentbg.png' :'data:image/jpeg;base64,'.base64_encode($row['pic']);
                 $row['e_signature'] = $student_sign;
                 $row['head_signature'] = $head_sign;
                 $row['assessor_signature'] = $osas_sign;
+                $row['pic'] = $student_pic;
                 $data[] = $row;
               }
 
@@ -789,7 +792,7 @@
                                         </div>
                                         <div class="col-4">
                                          <div class="form-group fg text-center">
-                                          <img id="student_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="data:image/jpeg;base64,'.$data[0]['e_signature'].'" />
+                                          <img id="student_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="'.$data[0]['e_signature'].'" />
                                           <input class="form-control pl-2 fc2 w200  bg-white applicant-name-upper text-uppercase font-weight-bold text-center" type="text" value="'.$data[0]['applicant_name'].'"  disabled>
                                           <br>
                                           <label class="control-label cl">Print Name and Signature</label>
@@ -822,7 +825,7 @@
                                               </div>
                                               <div class="col-4">
                                               <div class="form-group fg text mb-2 text-center align-middle">
-                                              <img id="head_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="data:image/jpeg;base64,'.$data[0]['head_signature'].'" />
+                                              <img id="head_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="'.$data[0]['head_signature'].'" />
                                               <input class="form-control pl-2 fc2 w200  bg-white applicant-name text-uppercase font-weight-bold text-center" id="unit-head-name" value="'.$data[0]['staff_requested_by'].'" type="text" disabled><br>
                                               <label class="control-label mr65 w-100">Faculty/Staff</label>
                                             </div>
@@ -922,7 +925,7 @@
                                         <div class="col-4" style="margin-top: -80px;">
                                           <div class="form-group fg text mb-2 text-center align-middle">
 
-                                          <img id="coordinator_signature" class="e-sign" height="150" width="150" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px"  src="data:image/jpeg;base64,'.$data[0]['assessor_signature'].'" />
+                                          <img id="coordinator_signature" class="e-sign" height="150" width="150" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px"  src="'.$data[0]['assessor_signature'].'" />
                                             <input class="form-control fc2 mr-1 p-2 w-100 text-center text-uppercase" id="assessed_name" type="text" value="'.$data[0]['assessed_name'].'"  disabled><br>
                                             <label class="control-label mr65 w-100">Coordinator, OSAS </label>
                                           </div>
@@ -1190,7 +1193,7 @@
                                           <div class="col-sm-5">
                                             <p class="font-weight-bold">Conforme: <br><br>
                                             <div class="form-group fg text-center">
-                                              <img id="student_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="data:image/jpeg;base64,'.$data[0]['e_signature'].'" />
+                                              <img id="student_signature" class="e-sign" height="200" width="200" style="margin-bottom:-70px; margin-top:-50px; position:relative; margin-right:100px; margin-left: -30px" src="'.$data[0]['e_signature'].'" />
                                               <input class="form-control fc2 mr-1 p-2 w-100 font-weight-bold text-center text-uppercase" type="text" value="'.$data[0]['applicant_name'].'" disabled><br>
                                               <label class="control-label mr65 w-100">Signature Over Printed Name</label>
                                             </p>

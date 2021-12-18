@@ -1421,12 +1421,12 @@
                           $('#sem_year').val(obj[0].semester_year);
                           $('#time_available').val(obj[0].time_available);
                           $('#proposed_college').val(obj[0].office_name);
-                          $('#student_signature').attr('src','data:image/jpeg;base64,'+obj[0].e_signature);
+                          $('#student_signature').attr('src',obj[0].e_signature);
 
                           if (obj[0].recommendation_status == 1){
                             $('.applicant-name-recommendation').val(obj[0].applicant_name);
                             $('#dept_college').val(obj[0].course+' - '+obj[0].college);
-                            $('#head_signature').attr('src','data:image/jpeg;base64,'+obj[0].head_signature);
+                            $('#head_signature').attr('src',obj[0].head_signature);
                             $('#unit-head-name').val(obj[0].staff_requested_by);
                           }
 
@@ -1437,7 +1437,7 @@
                             $('#duty4').val(obj[0].duty4);
                             $('#schedule1').val(obj[0].schedule1);
                             $('#schedule2').val(obj[0].schedule2);
-                            $('#coordinator_signature').attr('src','data:image/jpeg;base64,'+obj[0].assessor_signature);
+                            $('#coordinator_signature').attr('src',obj[0].assessor_signature);
                             $('#assessed_name').val(obj[0].assessed_name);
                             $('#office-assigned').val(obj[0].office_name);
                             $('#starting-date').val(obj[0].starting_date);
@@ -1452,7 +1452,7 @@
 
                             $('#applicant_date_signed').val(obj[0].date_signed);
 
-                            $('#applicant-signature-if-hired').attr('src','data:image/jpeg;base64,'+obj[0].e_signature);
+                            $('#applicant-signature-if-hired').attr('src',obj[0].e_signature);
                           } 
                         
                         } catch (e) {
@@ -1520,7 +1520,6 @@
                               let required_months = obj[0].length_of_service;
                               required_month_sl = required_months;
                               var currentDate = moment(); 
-                              console.log(currentDate);
                               var futureMonth = getFutureMonth(currentDate,required_months);
                               
 
@@ -1557,7 +1556,8 @@
           $(document).on('change','#acceptance_startdate',function(){
             var curval = new Date($('#acceptance_startdate').val());
             var date_picked = moment(curval);
-            console.log('curval '+date_picked);
+            var futureMonth = getFutureMonth(date_picked,required_month_sl);
+            $('#acceptance_expiredate').val(futureMonth.format('YYYY-MM-DD'));
           });
 
   });
