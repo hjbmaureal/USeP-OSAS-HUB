@@ -1,7 +1,82 @@
-   <!DOCTYPE html>
-  <html lang="en">
-  <?php
-  session_start();
+<?php
+require_once('tcpdf/tcpdf.php');
+
+ function fetch_data()  
+ {
+ $output = '';  
+      $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+ $sql = "SELECT item_inventory.id, item_inventory.item_code, item_inventory.unit, item_inventory.item_name, SUM(item_inventory.received_qty) as qty, SUM(item_inventory.issuance_mabini) as issued_mabini, SUM(item_inventory.issuance_apokon) as issued_apokon, item_unit.unit as un_name FROM item_inventory JOIN item_unit ON item_unit.unit_id=item_inventory.unit GROUP BY item_inventory.item_code";
+  $result = mysqli_query($connect, $sql);  
+      while($row = mysqli_fetch_array($result))  
+      {  
+        
+        $output .= '<tr>  
+                          <td>'.$row["id"].'</td>  
+                          <td>'.$row["item_code"].'</td>  
+                          <td>'.$row["un_name"].'</td>  
+                          <td>'.$row["item_name"].'</td>  
+                          <td>'.$row["qty"].'</td> 
+              <td>'.$row["issued_mabini"].'</td> 
+              <td>'.$row["issued_apokon"].'</td> 
+              
+                     </tr>   
+                          ';  
+      }  
+      return $output;  
+ }  
+       
+
+if(isset($_POST["create_pdf"])) 
+  
+ { 
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
+
+    //Page header
+    public function Header() {
+   if ($this->numpages < 2 )    {
+        // Logo
+        $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Republic of the Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    $this->SetFont('Old English', '', 12);
+    $this->Cell(0, 15, 'University of Southeastern Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Tagum- Mabini Campus', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
+        $this->SetFont('Calibri', '', 12);
+        // Title
+        $this->Cell(0, 15, 'Apokon, Tagum City', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+    $this->Ln(16);
+    // Set font
+        $this->SetFont('Calibri', 'B', 12);
+        // Title
+        $this->Cell(0, 15, 'LIST OF ITEM TOTAL STOCK as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    
+  }
+    
+    }
+
+    protected $last_page_flag = false;
+
+    public function Close() {
+        $this->last_page_flag = true;
+        parent::Close();
+    }
+
+     // Page footer
+    public function Footer() {
+ session_start();
   include('connect.php');
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
     echo '<script type="text/javascript">'; 
@@ -12,6 +87,134 @@
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
+  if ($this->last_page_flag) {
+     $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+$id=$_SESSION['id'];
+$connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
+     if($row=mysqli_fetch_array($res)) {
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+     $this->SetY(-48);
+     $this->SetX(210);
+      $this->SetFont('Calibri', 'B', 12);
+    $this->Cell(0, 0, 'Prepared By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(230);
+     $this->SetFont('Calibri', 'B', 12);
+    $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+     $this->SetX(235);
+     $this->SetFont('Calibri', '', 12);
+    $this->Cell(0,0,'Asst. '.$position1.'/Instructor I', 0, false, '', 0, '', 0, false, 'M', 'M');
+     $this->SetY(-15);
+     
+     $this->SetFont('calibri', 'I', 10);
+        // Page number
+        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
+    }
+  }
+}
+
+}
+// create new PDF document
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('List of Item Total Stock '.date("F d, Y").'');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('Helvetica', '', 12);
+
+// add a page
+$pdf->AddPage('L','Legal');
+$pdf->Ln(36);
+    $content = '<table border="1" cellspacing="0" cellpadding="5">  
+         
+                  <tr>
+                    <th width="10%" align="center"><b>No.</b></th>
+                    <th width="13%" align="center"><b>Item Code</b></th>
+                    <th width="13%" align="center"><b>Unit</b></th>
+                    <th width="15%" align="center"><b>Item Name</b></th>
+                    <th width="10%" align="center"><b>Total Quantity Received</b></th>
+                    <th width="15%" align="center"><b>Total Issuance (Mabini)</b></th>
+          <th width="15%" align="center"><b>Total Issuance (Apokon)</b></th>
+          
+                  </tr>
+          ';   
+      $content .= fetch_data();  
+      $content .= '</table>'; 
+     $pdf->writeHTML($content);  
+      $pdf->Output('Item_Total_Stock '.date("F d, y").'.pdf', 'I');  
+
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+
+
+//============================================================+
+// END OF FILE
+//============================================================+
+}
+?> 
+ 
+ <!DOCTYPE html>
+  <html lang="en">
+  <?php
+  session_start();
+  include('connect.php');
+  // $user_id = $_SESSION['id'];
+  $user_id = '11111';
+   $count_sql="SELECT * from notif where message_status='Delivered' AND user_id='$user_id' ";
+
+          $result = mysqli_query($db, $count_sql);
+
+          $count = 0;
+
+          while ($row = mysqli_fetch_assoc($result)) {                             
+
+            $count++;
+
+                              }
 
 
 function timeago($datetime, $full = false) {
@@ -64,7 +267,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,7 +283,7 @@ function timeago($datetime, $full = false) {
 
 
       </head>
-        <body class="app sidebar-mini rtl" onload="initClock()">
+       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
              <script type="text/javascript">
@@ -168,13 +371,8 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -219,7 +417,6 @@ function timeago($datetime, $full = false) {
           
         </ul>
       </aside>
-
 
 
        <!--navbar-->
@@ -400,19 +597,32 @@ function timeago($datetime, $full = false) {
                       </div>
                       <div class="col-sm">
                         <br>
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
+                            <div class="col">
+        <form method="post">
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf" type="submit" ><i class="fas fa-download"></i> Export</button></div>  </form>  
+                      </div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
                        </div>  
 
                       
 
                   </div>
                 </div>
-                  <div class="table-bd">
-                <div class="table-responsive">
-                  <br>
+                    <div class="table-bd">
+          <div class="table-responsive">
+            <div id="table_clone" style="display: compact; border-color:#000000;">
                   <div class="calldiv3" id="calldiv3">
+           <div class="head101" style="line-height: normal;">
+        <br>
+               <p><img src="image/logo.png" width="100"> </p><center>
+                        <p style="margin-top:-12%; font-family:Calibri;">Republic of the Philippines</p>
+                        <p style="font-family: Old English Text MT;"> University of Southeastern Philippines</p>
+                        <p style="font-family:Calibri;"> Tagum - Mabini Campus</p>
+                        <p style="font-family:Calibri;"> Apokon, Tagum City</p>
+                      <br>
+              <p style="font-family:Calibri; margin-top:2%;">Item Total Stock </p></center></th>
+                      </div>
                    <table class="table table-hover table-bordered reports-list" id="sampleTable3">
                     <thead>
                       <tr>
@@ -464,6 +674,7 @@ function timeago($datetime, $full = false) {
             </div>
           </div>
         </div>  
+    </div>
 
        <div class="modal fade " id="AddNewType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -524,10 +735,6 @@ function timeago($datetime, $full = false) {
 
 
 
-
-
-
-
 <!-- Bootstrap core JavaScript
     ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
@@ -557,11 +764,155 @@ function timeago($datetime, $full = false) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+    
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable3').DataTable();</script>
+    
+    <script>
+    $('#print_att').click(function(){
+    var _c = $('#calldiv3').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  });
+    $('#print_att2').click(function(){
+    var _c = $('#calldiv').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  })
+</script>
+<style>
+
+@media screen{
+.head{
+display:none;}
+.heads{
+display:none;}
+ .head101{
+display:none;} 
+.tit{
+display:none;}
+h2{
+display:none;}
+tfoot{
+display:none;}
+}
+@media print{
+.head{
+margin-top:-100%;
+display:table-header-group;
+margin-bottom:5px;}
+
+
+}
+ 
+}
+
+@page{
+margin-top:-1cm; 
+margin-left:1cm;
+margin-right:1cm;
+margin-bottom:1.5cm;
+}
+}
+
+.dropdown-menu {
+    max-height: 280px;
+    overflow-y: auto;
+}
+</style>
+<noscript>
+<table align="right" style="margin-top:8%; margin-right: 25%;">
+<tr>
+<td align="right" style="font-family: Calibri"><b> &emsp;Prepared By: </b></td>
+</tr>
+</table>
+
+<table align="right" style="margin-top:14%; margin-right: -35%">
+
+<tr>
+<?php $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
+     if($row=mysqli_fetch_array($res)) {
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+   }
+   ?>
+<td style="font-family: Calibri"><b><?php echo $title1 ;?>  <?php echo $name1 ;?>  <?php echo $extension1 ;?></b></td>
+</tr>
+<tr>
+<td>Asst. <?php echo $position1;?>/Instructor I</td>
+</tr>
+</table>
+      <style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:1%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:0.2%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    .action-column{
+      display: none;
+    }
+    </style>
+
+</noscript>
+
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {

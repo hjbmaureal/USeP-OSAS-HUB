@@ -1,5 +1,7 @@
  <!DOCTYPE html>
   <html lang="en">
+  <!--SESSION-->
+
   <?php
   session_start();
   require_once('tcpdf/tcpdf.php');
@@ -9,10 +11,13 @@
     echo 'window.location= "../../index.php";';
     echo '</script>';
   }
+  
   $id=$_SESSION['id'];
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
+//Session ends here....
 
 
 function timeago($datetime, $full = false) {
@@ -249,23 +254,26 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
+      <title>Patient List</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/main.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
+
+<!-- Start Clock -->
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+<script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -319,8 +327,10 @@ $pdf->Output('example_003.pdf', 'I');
       };
       </script>
 
+<!--End Clock -->
+
         
-          <header class="app-header">
+      <header class="app-header">
     
    
       </header>
@@ -403,7 +413,7 @@ $pdf->Output('example_003.pdf', 'I');
       </aside>
 
 
-       <!--navbar-->
+<!-- NOTIF START -->
 
           <main class="app-content">
             
@@ -413,7 +423,7 @@ $pdf->Output('example_003.pdf', 'I');
       </div>
       <ul class="app-nav">
         <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <a class="appnavlevel">Hi, <b><?php echo $_SESSION['fullname'] ?></b></a>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -533,6 +543,9 @@ $pdf->Output('example_003.pdf', 'I');
           </div>
         </div>
       </div>
+
+ <!-- NOTIF ENDS HERE -->     
+
         <div class="red"> 
           
         </div>

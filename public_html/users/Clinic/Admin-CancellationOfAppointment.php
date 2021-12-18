@@ -12,6 +12,7 @@ include('connect.php');
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
  function fetch_data()  
  {
  $output = '';  
@@ -224,7 +225,7 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -240,10 +241,11 @@ $pdf->Output('example_003.pdf', 'I');
     <!-- disable selected option-->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
+
 <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+<script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -295,7 +297,9 @@ $pdf->Output('example_003.pdf', 'I');
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      </script>
+</script>
+
+
 <header class="app-header"> </header>
 <!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
@@ -381,7 +385,7 @@ $pdf->Output('example_003.pdf', 'I');
       </div>
       <ul class="app-nav">
         <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <a class="appnavlevel">Hi, <b><?php echo $_SESSION['fullname'] ?></b></a>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php

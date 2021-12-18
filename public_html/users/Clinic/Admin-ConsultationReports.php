@@ -28,7 +28,7 @@
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -132,13 +132,8 @@
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -475,11 +470,11 @@
             <div class="table-bd">
             <div class="table-responsive">
             <br>
-				  									
+                            
     <div id="table_clone" style="display: compact">
           
     <table  class="head">
-		<thead>
+    <thead>
       <tr>
         <th rowspan="5"><img src="image/logo.png" width="100"></th>
       </tr>
@@ -497,21 +492,21 @@
       <tr>
         <th rowspan="5"><img src="image/logo.png" width="100" hidden=""></th>
       </tr>
-			<tr>
-	
-			<th width="100"></th>
+      <tr>
+  
       <th width="100"></th>
       <th width="100"></th>
       <th width="100"></th>
-			<th width="100"></th>
-			<th width="100"></th>
       <th width="100"></th>
       <th width="100"></th>
-			</tr>
+      <th width="100"></th>
+      <th width="100"></th>
+      <th width="100"></th>
+      </tr>
       
-			</thead>
-			</table>
-			<table class="heads" style="border-collapse: collapse;">
+      </thead>
+      </table>
+      <table class="heads" style="border-collapse: collapse;">
       <tr>
       <th width="120"></th>
       <th width="120"></th>
@@ -606,7 +601,7 @@
   
   }?>
                    
-                  </table>				  </div>
+                  </table>          </div>
                 </div>
               </div>
               </div>
@@ -673,24 +668,24 @@
       </script>
 
 
-	  
-	
+    
+  
 
 
  <script>
-		$('#print_att').click(function(){
-		var _c = $('#table_clone').html();
-		var ns = $('noscript').clone();
-		var nw = window.open('','_blank','width=900,height=600')
-		nw.document.write(_c)
-		nw.document.write(ns.html())
-		nw.document.close()
-		nw.print()
-		setTimeout(() => {
-			nw.close()
-		}, 500);
-		
-	})
+    $('#print_att').click(function(){
+    var _c = $('#table_clone').html();
+    var ns = $('noscript').clone();
+    var nw = window.open('','_blank','width=900,height=600')
+    nw.document.write(_c)
+    nw.document.write(ns.html())
+    nw.document.close()
+    nw.print()
+    setTimeout(() => {
+      nw.close()
+    }, 500);
+    
+  })
 </script>
 <style>
 
@@ -699,7 +694,7 @@
 display:none;}
 .heads{
 display:none;}
-	
+  
 .tit{
 display:none;}
 h2{
@@ -744,58 +739,58 @@ margin-bottom:1.5cm;
 
 <style>
 
-	  .heads {
-  	  margin-top:5%;
-  	  font-size:12px;
+    .heads {
+      margin-top:5%;
+      font-size:12px;
       font-family: Arial;
-  	  }
+      }
 
-	   table.reports-list {
-			border-collapse:collapse;
-			margin-top:-3%;
-		  }
+     table.reports-list {
+      border-collapse:collapse;
+      margin-top:-3%;
+      }
 
       table.reports-list td,table.reports-list th {
-			 border:1px solid;
-			 font-size: 12px;
+       border:1px solid;
+       font-size: 12px;
        font-family: Arial;
-		  }
+      }
 
-	   table.reports-list th {
-		  width:100%;
-		  }
+     table.reports-list th {
+      width:100%;
+      }
 
-  		.text-center {
-  			text-align:center
-  		}
+      .text-center {
+        text-align:center
+      }
 
-  		td {
-  		text-align:center;
-  		}
+      td {
+      text-align:center;
+      }
 
-  		h3 {
-  		display:none;
-  		}	
+      h3 {
+      display:none;
+      } 
 
       th {
         font-size: 12px;
       }
 
-  	 .dataTables_info {
-  		display:none;
-  		}
+     .dataTables_info {
+      display:none;
+      }
 
-  	 .dataTables_filter {
-  		display:none;
-  		}
+     .dataTables_filter {
+      display:none;
+      }
 
-  	 .dataTables_paginate {
-  		display:none;
-  		}
+     .dataTables_paginate {
+      display:none;
+      }
 
-  	 .dataTables_length {
-  		display:none;
-  		}
+     .dataTables_length {
+      display:none;
+      }
 
 </style>
 
@@ -804,7 +799,7 @@ margin-bottom:1.5cm;
 
 
 </script>
-			 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
             <script type="text/javascript">
         function Export() {

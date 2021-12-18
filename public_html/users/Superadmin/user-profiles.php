@@ -120,7 +120,7 @@ function timeago($datetime, $full = false) {
 
         <ul class="app-menu font-sec">
           <li class="p-2 sidebar-label"><span class="app-menu__label">DASHBOARD</span></li>
-          <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-home"></i><span class="app-menu__label">Home</span></a></li>
+          <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-home"></i><span class="app-menu__label">Home</span></a></li>
           <!-- Pre Student Count -->
           <?php 
               $prestudent_count_sql="SELECT * from student where date_verified is NULL";
@@ -311,7 +311,7 @@ function timeago($datetime, $full = false) {
           <!-- FIRST ROW CONTAINING THE TITLE -->
           <div class="float-left">
             <h2>UPDATE CURRENT PASSWORD</h2>
-            <input type="HIDDEN" value="<?php echo $staff_id?>" name="staff_id">
+            <input type="HIDDEN" value="<?php echo $id?>" name="id">
           </div>
           <!-- CLEARFIX FOR BOTH FOR FLOATED ELEMENTS -->
           <div class="clearfix"></div>
@@ -478,6 +478,36 @@ function timeago($datetime, $full = false) {
           special.classList.add("invalid");
         }
       }
+     </script>
+
+      <style type="text/css">
+.control--checkbox input:disabled:checked ~ .control__indicator {
+    background-color: green;
+    opacity: 1;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative; 
+  content: "✖";
+}
+
+</style>
+<script type="text/javascript">
+
       //JQUERY SCRIPTS
       $(document).ready(function(){
         //logout
@@ -506,7 +536,7 @@ function timeago($datetime, $full = false) {
           });
         });
       })
-
+      </script>
     </script>
   </body>
 </html>

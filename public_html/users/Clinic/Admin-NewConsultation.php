@@ -8,26 +8,26 @@ require_once('tcpdf/tcpdf.php');
   $result = mysqli_query($connect, $sql);  
       while($row = mysqli_fetch_array($result))  
       {  
-	  	  $date =date_create($row['date_filed']);
-			$date1 = date_format($date,"F d, Y"); ;  
-			
-			  $output .= '<tr>  
+        $date =date_create($row['date_filed']);
+      $date1 = date_format($date,"F d, Y"); ;  
+      
+        $output .= '<tr>  
                           <td>'.$row["patient_id"].'</td>  
                           <td>'.$row["name"].'</td>  
                           <td>'.$row["email_add"].'</td>  
                           <td>'.$row["phone_number"].'</td>  
                           <td>'.$row["consultation_type"].'</td> 
-						  <td>'.$row["communication_mode_first_option"].'</td> 
-						  <td>'.$row["communication_mode_second_option"].'</td> 
-						  <td>'.$date1.'</td> 
-						  <td>'.$row["status"].'</td> 
-						  
+              <td>'.$row["communication_mode_first_option"].'</td> 
+              <td>'.$row["communication_mode_second_option"].'</td> 
+              <td>'.$date1.'</td> 
+              <td>'.$row["status"].'</td> 
+              
                      </tr>   
                           ';  
       }  
       return $output;  
  }  
-			 
+       
 
 if(isset($_POST["create_pdf"])) 
   
@@ -42,33 +42,33 @@ class MYPDF extends TCPDF {
         // Logo
         $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         
-		$this->Ln(6);
-		// Set font
+    $this->Ln(6);
+    // Set font
         $this->SetFont('Calibri', '', 12);
         // Title
         $this->Cell(0, 15, 'Republic of the Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		$this->Ln(6);
-		$this->SetFont('Old English', '', 12);
-		$this->Cell(0, 15, 'University of Southeastern Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		$this->Ln(6);
-		// Set font
+    $this->Ln(6);
+    $this->SetFont('Old English', '', 12);
+    $this->Cell(0, 15, 'University of Southeastern Philippines', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    $this->Ln(6);
+    // Set font
         $this->SetFont('Calibri', '', 12);
         // Title
         $this->Cell(0, 15, 'Tagum- Mabini Campus', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		$this->Ln(6);
-		// Set font
+    $this->Ln(6);
+    // Set font
         $this->SetFont('Calibri', '', 12);
         // Title
         $this->Cell(0, 15, 'Apokon, Tagum City', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		
-		$this->Ln(16);
-		// Set font
+    
+    $this->Ln(16);
+    // Set font
         $this->SetFont('Calibri', 'B', 12);
         // Title
         $this->Cell(0, 15, 'LIST OF NEW CONSULTATION as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-		
-		}
-		
+    
+    }
+    
     }
 
     protected $last_page_flag = false;
@@ -80,38 +80,39 @@ class MYPDF extends TCPDF {
 
     // Page footer
     public function Footer() {
-	session_start();
+  session_start();
 
   if ($this->last_page_flag) {
-		 $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+     $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
 $id=$_SESSION['id'];
-$connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
-		$sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+$connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
     $res = $connect->query($sql);
     
      if($row=mysqli_fetch_array($res)) {
-  	 $title1= $row['title'];
-  	 $name1= $row['fullname'];
-  	 $extension1= $row['extension'];
-  	 $position1= $row['position'];
-		 $this->SetY(-48);
-		 $this->SetX(210);
-		  $this->SetFont('Calibri', 'B', 12);
-		$this->Cell(0, 0, 'Prepared By:', 0, false, '', 0, '', 0, false, 'M', 'M');
-		$this->Ln(8);
-		$this->SetX(230);
-		 $this->SetFont('Calibri', '', 12);
-		$this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-		$this->Ln(8);
-		 $this->SetX(235);
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+     $this->SetY(-48);
+     $this->SetX(210);
+      $this->SetFont('Calibri', 'B', 12);
+    $this->Cell(0, 0, 'Prepared By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+    $this->SetX(230);
+     $this->SetFont('Calibri', 'B', 12);
+    $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Ln(8);
+     $this->SetX(235);
+     $this->SetFont('Calibri', '', 12);
     $this->Cell(0,0,'Asst. '.$position1.'/Instructor I', 0, false, '', 0, '', 0, false, 'M', 'M');
-		 $this->SetY(-15);
-		 
-		 $this->SetFont('calibri', 'I', 10);
+     $this->SetY(-15);
+     
+     $this->SetFont('calibri', 'I', 10);
         // Page number
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }
-	}
+  }
 }
 
 }
@@ -160,7 +161,7 @@ $pdf->SetFont('Helvetica', '', 12);
 // add a page
 $pdf->AddPage('L','Legal');
 $pdf->Ln(36);
-		$content = '<table border="1" cellspacing="0" cellpadding="5">  
+    $content = '<table border="1" cellspacing="0" cellpadding="5">  
          
                   <tr>
                     <th width="10%" align="center"><b>Patient ID</b></th>
@@ -169,15 +170,15 @@ $pdf->Ln(36);
                     <th width="10%" align="center"><b>Contact Number</b></th>
                     <th width="10%" align="center"><b>Type of Consultation</b></th>
                     <th width="15%" align="center"><b>Mode of Communication(1st Option)</b></th>
-					<th width="15%" align="center"><b>Mode of Communication(2nd Option)</b></th>
+          <th width="15%" align="center"><b>Mode of Communication(2nd Option)</b></th>
                     <th width="10%" align="center"><b>Date Received</b></th>
                     <th width="10%" align="center"><b>Status</b></th>
-					
+          
                   </tr>
-				  ';   
+          ';   
       $content .= fetch_data();  
       $content .= '</table>'; 
-	   $pdf->writeHTML($content);  
+     $pdf->writeHTML($content);  
       $pdf->Output('List_of_Appointment_Cancellation '.date("F d, y").'.pdf', 'I');  
 
 
@@ -205,10 +206,11 @@ $pdf->Output('example_003.pdf', 'I');
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}?>
- <!DOCTYPE html>
+
+<!DOCTYPE html>
   <html lang="en">
     <head>
-	   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
 <link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -224,12 +226,12 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-         <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
 
       <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -243,10 +245,12 @@ $pdf->Output('example_003.pdf', 'I');
     <!-- disable selected option-->
 
 </head>
- <body class="app sidebar-mini rtl" onload="initClock()">
-      <!-- Navbar-->
 
-             <script type="text/javascript">
+
+<body class="app sidebar-mini rtl" onload="initClock()">
+      
+
+<script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -298,15 +302,15 @@ $pdf->Output('example_003.pdf', 'I');
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      </script>
-     <header class="app-header">
-    
-   
-      </header>
 
-      <!-- Sidebar menu-->
-      <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+</script>
+<!-- Navbar-->
+
+
+<header class="app-header"> </header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -329,8 +333,13 @@ $pdf->Output('example_003.pdf', 'I');
             </ul>
           </li>
 
- 
-          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
+           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
+              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
+            </ul>
+          </li>
+     
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -367,25 +376,25 @@ $pdf->Output('example_003.pdf', 'I');
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
           
         </ul>
       </aside>
+<!--navbar-->
 
 
-       <!--navbar-->
-
-   <main class="app-content">
+<main class="app-content">
     <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
       <ul class="app-nav">
         <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <a class="appnavlevel">Hi, <b><?php echo $_SESSION['fullname'] ?></b></a>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -563,42 +572,44 @@ $pdf->Output('example_003.pdf', 'I');
                     <b>Consultation Type</b>
                     <br>
                    <select  name="type" id="type" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
-				            <option value="">All</option>
-                                                 <?php
-										// Feching active consultation type
-										$sql=mysqli_query($db,"select * from consultation_type");
-										while($result=mysqli_fetch_array($sql))
-										{    
-										?>
-										<option class="select-item" value="<?php echo htmlentities($result['consultation_type']);?>"><?php echo htmlentities($result['consultation_type']);?></option>
-										<?php }
-										
-										?>
-										</select>  
-                    </div>
-
-                    &emsp;
-<div class="inline-block">
-                    <b>Mode of Communication</b> <br>
-                       <select  name="mode" id="mode" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
                     <option value="">All</option>
-                                                     <?php
-                        // Feching active mode of communication
-                        $sql=mysqli_query($db,"select * from mode_of_communication");
-                        while($result=mysqli_fetch_array($sql))
-                        {    
-                        ?>
-                    <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
+                                                 <?php
+                    // Feching active consultation type
+                    $sql=mysqli_query($db,"select * from consultation_type");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
+                    <option class="select-item" value="<?php echo htmlentities($result['consultation_type']);?>"><?php echo htmlentities($result['consultation_type']);?></option>
                     <?php }
                     
                     ?>
                     </select>  
                     </div>
 
+                    &emsp;
+
+                <div class="inline-block">
+                    <b>Mode of Communication</b> <br>
+                   <select  name="mode" id="mode" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
+                <option value="">All</option>
+                                                 <?php
+                    // Feching active mode of communication
+                    $sql=mysqli_query($db,"select * from mode_of_communication");
+                    while($result=mysqli_fetch_array($sql))
+                    {    
+                    ?>
+                    <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
+                    <?php }
+                    
+                    ?>
+                    </select>  
+                    </div>
+                   
+
            
                       </div>
               <div class="col">
-			  <form method="post">
+        <form method="post">
           <br>
                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="create_pdf" type="submit" ><i class="fas fa-download"></i> Export</button></div>  </form>  
                       </div>
@@ -607,7 +618,7 @@ $pdf->Output('example_003.pdf', 'I');
                 </div>
                   <div class="table-bd">
                 <div class="table-responsive">
-				
+        
                   <br>
                    <table class="table table-hover table-bordered reports-list" id="sampleTable2">
                 <thead>
@@ -618,7 +629,7 @@ $pdf->Output('example_003.pdf', 'I');
                     <th>Contact Number</th>
                     <th>Type of Consultation</th>
                     <th>Mode of Communication(1st Option)</th>
-					         <th>Mode of Communication(2nd Option)</th>
+                   <th>Mode of Communication(2nd Option)</th>
                     <th>Date Received</th>
                     <th>Status</th>
                     <th class="max">Action</th>
@@ -626,15 +637,15 @@ $pdf->Output('example_003.pdf', 'I');
                 </thead>
                 <tbody>
                   <?php 
-					
-				$sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'" ;
-			$res = $db->query($sql);
-			$cnt=1;
-			if ($res->num_rows > 0) {
-			while($row = $res->fetch_assoc()) {
-			$date =date_create($row['date_filed']);
-			$date1 = date_format($date,"F d, Y");
-				?>
+          
+        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'" ;
+      $res = $db->query($sql);
+      $cnt=1;
+      if ($res->num_rows > 0) {
+      while($row = $res->fetch_assoc()) {
+      $date =date_create($row['date_filed']);
+      $date1 = date_format($date,"F d, Y");
+        ?>
                   <tr>
                     <td><?php echo htmlentities($row['patient_id']);?></td>
                     <td><?php echo htmlentities($row['name']);?></td>
@@ -642,17 +653,17 @@ $pdf->Output('example_003.pdf', 'I');
                     <td><?php echo htmlentities($row['phone_number']);?></td>
                     <td><?php echo htmlentities($row['consultation_type']);?></td>
                     <td><?php echo htmlentities($row['communication_mode_first_option']);?></td>
-					         <td><?php echo htmlentities($row['communication_mode_second_option']);?></td>
+                   <td><?php echo htmlentities($row['communication_mode_second_option']);?></td>
                     <td><?php echo $date1 ;?></td>
                     <td><?php echo htmlentities($row['status']);?></td>
                     <td><a class="btn btn-info btn-sm" data-toggle="modal" href="#exampleModalLong<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></a>
 
                 <?php
-            				include("set_appointment.php");?> </td>
+                    include("set_appointment.php");?> </td>
                     </tr>
                 </tbody>
                 <?php
-				
+        
   }
   }?>
   
@@ -661,7 +672,7 @@ $pdf->Output('example_003.pdf', 'I');
 <?php 
 
 include_once('connect.php');
-	if(isset($_POST['appointment'])){			
+  if(isset($_POST['appointment'])){     
    $pat_id= $_POST['id'];
    $patient_id= $_POST['patient_id'];
    $name= $_POST['name']; 
@@ -713,31 +724,31 @@ include_once('connect.php');
    $sql = "Update consultation set appointment_date='$date', communication_mode_first_option='$mode', communication_mode_first_option='$mode2',consultation_duration='$duration', appointment_timefrom='$date',status='Approved', appointment_meetinglink='$link', date_received_by_nurse= now() where id='$pat_id'"; 
    if ($db->query($sql) === TRUE) {
  echo '<script>
-		  swal({
-		  title: "Appointment set successfully!",
-		  text: "Server Request Successful!",
-		  type:"success",
-		  icon: "success",
-		  button: false,
-		  closeOnClickOutside: false,
-		  closeOnEsc: false,
-		  }).then(function() {
+      swal({
+      title: "Appointment set successfully!",
+      text: "Server Request Successful!",
+      type:"success",
+      icon: "success",
+      button: false,
+      closeOnClickOutside: false,
+      closeOnEsc: false,
+      }).then(function() {
       window.location = "Admin-Appointment.php";
-	})
+  })
   </script>';
 
   $from_name = "Therese Joy Inso";        
   $from_address = "tjbinso@usep.edu.ph";        
   $to_name = "Teejay";   
-	$startTime =$date;
+  $startTime =$date;
   $endTime= $duration;      
   $to_address = $email;     
-	$subject = "Appointment Schedule";   
-	$description = "Appointment schedule";    
-	$location = "";	
-	$domain = 'gmail.com';
-	
-	//Create Email Headers
+  $subject = "Appointment Schedule";   
+  $description = "Appointment schedule";    
+  $location = ""; 
+  $domain = 'gmail.com';
+  
+  //Create Email Headers
     $mime_boundary = "----Meeting Booking----".MD5(TIME());
 
     $headers = "From: ".$from_name." <".$from_address.">\n";
@@ -754,28 +765,28 @@ include_once('connect.php');
     $message .= "<body>\n";
     
   $message .= 'Good day  '.$name.',';
-	$message .= "<br><br>\n \n";
-	$message .= 'Your appointment has been set on  '.$date2.' at '.$date12.' to '.$duration2.'. You selected '.$mode2.' and '.$mode.' as your modes of communication.';
-	if($mode=="Google Meet" || $mode2=="Google Meet"){
-	$message .= 'Click the meeting link  '.$link.' at the specified time to start your consultation.';
-	}else if($mode=="Zoom" || $mode2=="Zoom"){
-	$message .= 'Click the meeting link  '.$link.' at the specified time to start your consultation.';
-	}else if($mode=="Cellphone" || $mode2=="Cellphone"){
-	$message .= 'The Clinic will contact you directly via phone. Please be ready on your schedule.';
-	}else if($mode=="Messenger" || $mode2=="Messenger"){
-	$message .= 'The Clinic will contact you directly via your messenger. Please be guided that you registered correctly your messenger account on the system.';
-	}else{
-	}
-	$message .="<br><br> \n \n";
-	$message .=' Sincerely,';
-	$message .="<br> \n ";
-	$message .='USeP Tagum-Mabini Clinic';
-	
+  $message .= "<br><br>\n \n";
+  $message .= 'Your appointment has been set on  '.$date2.' at '.$date12.' to '.$duration2.'. You selected '.$mode2.' and '.$mode.' as your modes of communication.';
+  if($mode=="Google Meet" || $mode2=="Google Meet"){
+  $message .= 'Click the meeting link  '.$link.' at the specified time to start your consultation.';
+  }else if($mode=="Zoom" || $mode2=="Zoom"){
+  $message .= 'Click the meeting link  '.$link.' at the specified time to start your consultation.';
+  }else if($mode=="Cellphone" || $mode2=="Cellphone"){
+  $message .= 'The Clinic will contact you directly via phone. Please be ready on your schedule.';
+  }else if($mode=="Messenger" || $mode2=="Messenger"){
+  $message .= 'The Clinic will contact you directly via your messenger. Please be guided that you registered correctly your messenger account on the system.';
+  }else{
+  }
+  $message .="<br><br> \n \n";
+  $message .=' Sincerely,';
+  $message .="<br> \n ";
+  $message .='USeP Tagum-Mabini Clinic';
+  
     $message .= "</body>\n";
     $message .= "</html>\n";
     $message .= "--$mime_boundary\r\n";
 
-	//Event setting
+  //Event setting
     $ical = 'BEGIN:VCALENDAR' . "\r\n" .
     'PRODID:-//Microsoft Corporation//Outlook 10.0 MIMEDIR//EN' . "\r\n" .
     'VERSION:2.0' . "\r\n" .
@@ -796,7 +807,7 @@ include_once('connect.php');
     'TZOFFSETTO:-0400' . "\r\n" .
     'TZNAME:PHT' . "\r\n" .
     'END:DAYLIGHT' . "\r\n" .
-    'END:VTIMEZONE' . "\r\n" .	
+    'END:VTIMEZONE' . "\r\n" .  
     'BEGIN:VEVENT' . "\r\n" .
     'ORGANIZER;CN="'.$from_name.'":MAILTO:'.$from_address. "\r\n" .
     'ATTENDEE;CN="'.$to_name.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$to_address. "\r\n" .
@@ -902,7 +913,7 @@ include_once('connect.php');
             });
         }
     </script>
-	<style>
+  <style>
 th {
 text-align:center;
 }
@@ -914,7 +925,7 @@ text-align:center;
 display:none;}
 .heads{
 display:none;}
-	
+  
 .tit{
 display:none;}
 h2{
@@ -946,77 +957,77 @@ margin-bottom:1.5cm;
 <table style="margin-top:8%;">
   <tr>
     <td><b> &emsp;Prepared By: </b></td>
-	<td>&emsp;&emsp;&emsp; </td>
-	<td> &emsp;&emsp;&emsp;	</td>
-	<td> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td><td> &emsp;&emsp;&emsp;&emsp;</td>
-	<td> &emsp;&emsp;&emsp;&emsp;</td>
-	<td>&emsp;&emsp;&emsp; </td>
-	<td> &emsp;</td><td> </td>
-	<td> </td>
-	<td><b>&emsp;Noted By:</b></td>
+  <td>&emsp;&emsp;&emsp; </td>
+  <td> &emsp;&emsp;&emsp; </td>
+  <td> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td><td> &emsp;&emsp;&emsp;&emsp;</td>
+  <td> &emsp;&emsp;&emsp;&emsp;</td>
+  <td>&emsp;&emsp;&emsp; </td>
+  <td> &emsp;</td><td> </td>
+  <td> </td>
+  <td><b>&emsp;Noted By:</b></td>
   </tr>
 </table>
 <table align="left" style="margin-top:3%;">
   <td align="left" style="margin-top:10%;"><b><?php $id=$_SESSION['id']; $sql="Select * from staffdetails where staff_id='$id'";
     $res = $db->query($sql);
      if($row=mysqli_fetch_array($res)) {
-	 
-	  echo htmlentities($row['title']); echo htmlentities($row['fullname']);?> &nbsp;<?php	   echo htmlentities($row['extension']); }?>&nbsp;</b></td>
+   
+    echo htmlentities($row['title']); echo htmlentities($row['fullname']);?> &nbsp;<?php     echo htmlentities($row['extension']); }?>&nbsp;</b></td>
   <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
    <td align="left" style="margin-top:10%;"><b><?php $sql="Select * from staffdetails where office_name='Clinic' AND position='Nurse'";
     $res = $db->query($sql);
      if($row=mysqli_fetch_array($res)) {
-	 
-	  echo htmlentities($row['title']); echo htmlentities($row['fullname']);?>&nbsp;
-	   <?php  echo htmlentities($row['extension']);
-	 ?></b></td>
+   
+    echo htmlentities($row['title']); echo htmlentities($row['fullname']);?>&nbsp;
+     <?php  echo htmlentities($row['extension']);
+   ?></b></td>
   <tr>
     <td align="left" style="margin-top:10%;"><?php echo $_SESSION["staff_office"];?>   <?php echo $_SESSION["staff_position"];?></td>
-	 <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
-	 <td align="left" style="margin-top:10%;"><?php  echo htmlentities($row['position']); }?> </td>
+   <td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td>
+   <td align="left" style="margin-top:10%;"><?php  echo htmlentities($row['position']); }?> </td>
   </tr>
 </table>
 <style>
-	  .heads{
-	  margin-top:5%;
-	  margin-left:6%;
-	  font-size:20px;
-	  font-weight:bold; 
-	  }
-	table.reports-list{
-			width:100%;
-			border-collapse:collapse;
-			margin-top:-3%;
-		}
-		table.reports-list td,table.reports-list th{
-			border:1px solid;
-		
-		}
-		table.reports-list th{
-		padding:1%;
-		}
-		.text-center{
-			text-align:center
-		}
-		td{
-		text-align:center;
-		}
-		h3{
-		display:none;
-		}	
-	.dataTables_info{
-		display:none;
-		}
-		.dataTables_filter{
-		display:none;
-		}
-		.dataTables_paginate{
-		display:none;
-		}
-		.dataTables_length{
-		display:none;
-		}
-		</style>
+    .heads{
+    margin-top:5%;
+    margin-left:6%;
+    font-size:20px;
+    font-weight:bold; 
+    }
+  table.reports-list{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:-3%;
+    }
+    table.reports-list td,table.reports-list th{
+      border:1px solid;
+    
+    }
+    table.reports-list th{
+    padding:1%;
+    }
+    .text-center{
+      text-align:center
+    }
+    td{
+    text-align:center;
+    }
+    h3{
+    display:none;
+    } 
+  .dataTables_info{
+    display:none;
+    }
+    .dataTables_filter{
+    display:none;
+    }
+    .dataTables_paginate{
+    display:none;
+    }
+    .dataTables_length{
+    display:none;
+    }
+    </style>
 </noscript>
 <!-- Data table plugin-->
 <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>

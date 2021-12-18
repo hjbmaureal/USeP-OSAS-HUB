@@ -46,44 +46,6 @@ function timeago($datetime, $full = false) {
   return $string ? implode(', ', $string) . '' : 'just now';
 }
 
- if(isset($_POST['AddSE'])){
-
-  $se_cd = $_POST['suppeq_cd'];
-  $se_type = $_POST['suppeq_type'];
-  $se_nm = $_POST['suppeq_name'];
-
-    $sql2 = "INSERT INTO supply_equipment_list VALUES (NULL, '$se_cd', '$se_nm', '$se_type', NOW())";
-
-      if ($db->query($sql2) === TRUE) {
-          echo '<script> alert("Supply/Equipment added!");</script>';
-    }else{
-    
-      echo '<script> alert("An error occured.Try again!");</script>';
-
-    }
-    echo "<meta http-equiv='refresh' content='1'>";
- }
-
-   if(isset($_POST['EditSE'])) {
-
-    $se_no = $_POST['cd'];
-    $se_code = $_POST['se_cd'];
-    $type = $_POST['se_type'];
-    $se_name = $_POST['se_name'];
-    
-  $result5=mysqli_query($db,"UPDATE supply_equipment_list SET supply_equipment_code='$se_code', supply_equipment_name='$se_name', type='$type' WHERE id='$se_no'");
-
-      if($result5){
-        echo '<script>
-        alert("Succesful");
-        </script>';
-      }else{
-        echo '<script>
-        alert("Failed");
-        </script>';
-      }
-      echo "<meta http-equiv='refresh' content='1'>";
-  }
 
   ?>
     <head>
@@ -104,7 +66,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -120,10 +82,10 @@ function timeago($datetime, $full = false) {
 
 
       </head>
-        <body class="app sidebar-mini rtl" onload="initClock()">
+       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+      <script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -209,13 +171,8 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -399,6 +356,46 @@ function timeago($datetime, $full = false) {
 
 
       <!-- Navbar-->
+      <script>
+        (function(document) {
+            'use strict';
+
+            var TableFilter = (function(myArray) {
+                var search_input;
+
+                function _onInputSearch(e) {
+                    search_input = e.target;
+                    var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+                    myArray.forEach.call(tables, function(table) {
+                        myArray.forEach.call(table.tBodies, function(tbody) {
+                            myArray.forEach.call(tbody.rows, function(row) {
+                                var text_content = row.textContent.toLowerCase();
+                                var search_val = search_input.value.toLowerCase();
+                                row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+                            });
+                        });
+                    });
+                }
+
+                return {
+                    init: function() {
+                        var inputs = document.getElementsByClassName('bootstrap-select');
+                        myArray.forEach.call(inputs, function(input) {
+                            input.oninput = _onInputSearch;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            document.addEventListener('readystatechange', function() {
+                if (document.readyState === 'complete') {
+                    TableFilter.init();
+                }
+            });
+
+        })(document);
+        
+    </script>
        
 
          <!--<div class="page-error tile">-->
@@ -414,50 +411,39 @@ function timeago($datetime, $full = false) {
                   <div class="row">
                     <div class="col-auto">
 
-                     
-                 
-                    <div class="col-auto">
 
                     <div class="inline-block">
-                    Type
-                    <select  name="type" id="type" class="bootstrap-select" data-table="reports-list">
-                    <option value="">All</option>
-                                                 <?php
-                    // Fetching active consultation type
-                    $sql=mysqli_query($db,"select * from consultation_type");
-                          while($result=mysqli_fetch_array($sql))
-                          {    
-                          ?>
-                          <option class="select-item" value="<?php echo htmlentities($result['consultation_type']);?>"><?php echo htmlentities($result['consultation_type']);?></option>
-                          <?php }
-                          
-                          ?>
-                    </select>  
+                        <b>Type</b>
+                        <br>
+                        <select  name="type" id="type" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
+                        <option value="">All</option>
+                                                     <?php
+                        // Fetching active consultation type
+                        $sql=mysqli_query($db,"select * from supply_equipment_type");
+                        while($result=mysqli_fetch_array($sql))
+                        {    
+                        ?>
+                        <option class="select-item" value="<?php echo htmlentities($result['type']);?>"><?php echo htmlentities($result['type']);?></option>
+                        <?php }
+                        
+                        ?>
+                        </select> 
                     </div>
-                    
-                   
 
-           
                       </div>
-                    
-                   
-
-           
-                      </div>
-                      <div class="col">
+                      <div class="col"><br>
                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#AddNewSupplyEquipment" style="width: 100%;"><i class="fas fa-plus" data-toggle="modal" data-target="#AddNewSupplyEquipment"></i> New Equipment/Supply </button></div>
                       </div>
 
                   </div>
                 </div>
-                  <div class="table-bd">
+                <div class="table-bd">
                 <div class="table-responsive">
                   <br>
-                  <div class="calldiv5" id="calldiv5">
-                   <table class="table table-hover table-bordered reports-list" id="sampleTable2">
-                    <thead>
-                      <tr>
-                
+                  <table class="table table-hover table-bordered reports-list" id="sampleTable">
+
+                  <thead>
+                    <tr>
                       <th>No.</th>
                       <th>Code</th>
                       <th>Equipment/Supply</th>
@@ -501,6 +487,7 @@ function timeago($datetime, $full = false) {
                    </tbody>
                   </table>
                 </div>
+              </div>
                 </div>
               </div>
               </div>
@@ -626,5 +613,93 @@ function timeago($datetime, $full = false) {
           ga('send', 'pageview');
         }
       </script>
+
+<?php 
+
+ if(isset($_POST['AddSE'])){
+
+  $se_cd = $_POST['suppeq_cd'];
+  $se_type = $_POST['suppeq_type'];
+  $se_nm = $_POST['suppeq_name'];
+
+    $sql2 = "INSERT INTO supply_equipment_list VALUES (NULL, '$se_cd', '$se_nm', '$se_type', NOW())";
+
+      if ($db->query($sql2) === TRUE) {
+                                echo '<script>
+                                    swal({
+                                    title: "Inserted successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+ }
+
+   if(isset($_POST['EditSE'])) {
+
+    $se_no = $_POST['cd'];
+    $se_code = $_POST['se_cd'];
+    $type = $_POST['se_type'];
+    $se_name = $_POST['se_name'];
+    
+  $result5=mysqli_query($db,"UPDATE supply_equipment_list SET supply_equipment_code='$se_code', supply_equipment_name='$se_name', type='$type' WHERE id='$se_no'");
+
+      if($result5){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+  }
+?>
+
+
     </body>
   </html>

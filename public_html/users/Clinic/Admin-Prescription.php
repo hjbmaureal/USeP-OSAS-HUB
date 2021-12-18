@@ -61,6 +61,8 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Admin Hub</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
       <title>USeP Clinic Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -161,14 +163,14 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
               <li><a class="treeview-item active" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
             </ul>
           </li>
      
-          <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
+          <li><a class="app-menu__item active" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
@@ -608,7 +610,7 @@ function timeago($datetime, $full = false) {
 
                                        
                                         <div class="">
-                                          <textarea style="width: 65%; margin-top: 2%;" class="form-control rounded-10" name="addMedication" id="addMedication" rows="2" placeholder="If medication is unavailable, type it here"></textarea>
+                                          <textarea style="width: 425px; margin-top: 2%;" class="form-control rounded-10" name="addMedication" id="addMedication" rows="4" placeholder="If medication is unavailable, type it here"></textarea>
                                       </div>
                                         
                                       <!-- <table id="myTable" class="tclass">

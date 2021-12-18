@@ -4,15 +4,18 @@
   session_start();
   include('connect.php');
   // $user_id = $_SESSION['id'];
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
-    echo '<script type="text/javascript">'; 
-    echo 'window.location= "../../index.php";';
-    echo '</script>';
-  }
-  $id=$_SESSION['id'];
-  $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+  $user_id = '11111';
+   $count_sql="SELECT * from notif where message_status='Delivered' AND user_id='$user_id' ";
+
+          $result = mysqli_query($db, $count_sql);
+
+          $count = 0;
+
+          while ($row = mysqli_fetch_assoc($result)) {                             
+
+            $count++;
+
+                              }
 
 
 function timeago($datetime, $full = false) {
@@ -45,42 +48,7 @@ function timeago($datetime, $full = false) {
   
   return $string ? implode(', ', $string) . '' : 'just now';
 }
-
-
-  if (isset($_POST['AddStock'])) {
-
-      $date_from = $_POST['date_from'];
-      $date_to = $_POST['date_to'];
-      $se_no = $_POST['se_no'];
-      $qty = $_POST['qty'];
-      $se_condition = $_POST['se_condition'];
-
-      $res=mysqli_query($db,"SELECT * from supply_equipment_list where supply_equipment_code='$se_no'");
-      while($row = mysqli_fetch_assoc($res)){
-       $type = $row['type'];
-       $se_code = $row['supply_equipment_code'];
-       $se_name = $row['supply_equipment_name'];
-      }
-
-
-      $result=mysqli_query($db,"INSERT INTO supply_equipment_inventory (id, supply_equipment_code, supply_equipment_name, date_from, date_to, qty, type, supply_equipment_condition) values ('$se_code', '$se_name', '$date_from', '$date_to', '$qty', $type, '$se_condition')");
-
-                              if($result){
-                               echo '<script>
-                                    alert("Supply/Equipment stock added!");
-                                  </script>';
-                              }
-                              else {
-                               echo '<script>
-                                      alert("An error occured.Try again!");
-                                    </script>';
-                              }
-      echo "<meta http-equiv='refresh' content='1'>";
-                        
-    }
-
-
-  ?>
+?>
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -99,7 +67,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -115,10 +83,11 @@ function timeago($datetime, $full = false) {
 
 
       </head>
-        <body class="app sidebar-mini rtl" onload="initClock()">
+        
+      <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+   <script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -170,9 +139,9 @@ function timeago($datetime, $full = false) {
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
+      
       </script>
-
-
+        <!-- Navbar-->
 
         
      <header class="app-header">
@@ -205,16 +174,11 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
@@ -222,12 +186,11 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-
-          <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
+           <li class="p-2 sidebar-label"><span class="app-menu__label">INVENTORY</span></li>
 
            <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-tools"></i><span class="app-menu__label">Equipment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Supply & Equipment List</a></li>
+              <li><a class="treeview-item" href="Admin-Supplies&Equipment.php">Equipment List</a></li>
               <li><a class="treeview-item active" href="Admin-Stock-Supplies&Equipment.php">Inventory</a></li>
             </ul>
           </li>
@@ -239,17 +202,16 @@ function timeago($datetime, $full = false) {
               <li><a class="treeview-item" href="Admin-ItemInventory.php">Item Inventory</a></li>
               <li><a class="treeview-item" href="Admin-ItemStock.php">Overall Stock</a></li>
             </ul>
-          </li>
+          </li> 
 
           <li class="p-2 sidebar-label"><span class="app-menu__label">OTHERS</span></li>
           <li><a class="app-menu__item" href="Admin-MedicalPersonnel.php"><i class="app-menu__icon  fas fa-user-nurse"></i><span class="app-menu__label">Medical Personnel</span></a></li>
           <li><a class="app-menu__item" href="Clinic_Admin_Announcements.php"><i class="app-menu__icon fas fa-bullhorn"></i><span class="app-menu__label">Announcement</span></a></li>
-          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-notes-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-comment-medical"></i><span class="app-menu__label">Reports</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
-              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
-              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
+              <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Summary Reports</a></li>
             </ul>
           </li>
         
@@ -395,6 +357,46 @@ function timeago($datetime, $full = false) {
 
 
       <!-- Navbar-->
+
+      <script>
+        (function(document) {
+            'use strict';
+
+            var TableFilter = (function(myArray) {
+                var search_input;
+
+                function _onInputSearch(e) {
+                    search_input = e.target;
+                    var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+                    myArray.forEach.call(tables, function(table) {
+                        myArray.forEach.call(table.tBodies, function(tbody) {
+                            myArray.forEach.call(tbody.rows, function(row) {
+                                var text_content = row.textContent.toLowerCase();
+                                var search_val = search_input.value.toLowerCase();
+                                row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+                            });
+                        });
+                    });
+                }
+
+                return {
+                    init: function() {
+                        var inputs = document.getElementsByClassName('bootstrap-select');
+                        myArray.forEach.call(inputs, function(input) {
+                            input.oninput = _onInputSearch;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            document.addEventListener('readystatechange', function() {
+                if (document.readyState === 'complete') {
+                    TableFilter.init();
+                }
+            });
+
+        })(document);
+    </script> 
        
 
          <!--<div class="page-error tile">-->
@@ -409,23 +411,44 @@ function timeago($datetime, $full = false) {
                   <br>
                   <div class="row">
 
-                    <div class="col-auto">
+                  <div class="col-auto">
+
+                  <div class="inline-block">
+                    <b>Type</b>
+                    <br>
+                    <select  name="type" id="type" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
+                      <option value="">All</option>
+                                                 <?php
+                       
+                          $sql=mysqli_query($db,"select * from supply_equipment_type where type != 'Supply'");
+                          while($result=mysqli_fetch_array($sql))
+                          {    
+                          ?>
+
+                      <option class="select-item" value="<?php echo htmlentities($result['type']);?>"><?php echo htmlentities($result['type']);?></option>
+                    <?php }
+                    
+                    ?>
+                  </select> 
+
+                </div>
+
+                  &emsp;
 
                     <div class="inline-block">
-                    Date <br>
-                    <input type="date" class="bootstrap-select" name="filterdate" id="filterdate" style="width: 100%;">
+                    <b>Date</b> <br>
+                    <input type="date" class="bootstrap-select" name="filterdate" id="filterdate" style="width: 100%; height: 35px;">
 
-                    </div>
+                      </div>
 
                       </div>
                   
                       <div class="col">
                         <br>  
 
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button" ><i class="fas fa-download"></i> Export</button></div>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
                            
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
-
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" data-toggle="modal" data-target="#" id="print_att" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
 
                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#NewArrival" style="width: 100%;"><i class="fas fa-plus" data-toggle="modal" data-target="#NewArrival"></i> New Arrival </button></div>
 
@@ -433,27 +456,23 @@ function timeago($datetime, $full = false) {
 
                   </div>
                 </div>
-                 
-                 <div class="table-bd">
-                <div class="table-responsive">
+          <div class="table-bd">
+            <div class="table-responsive">
+              <div id="table_clone" style="display: compact; border-color:#000000;">
+                <div class="head101" style="line-height: normal;">
                   <br>
-                  <div class="calldiv" id="calldiv" style="display: compact">
-                   <table class="head">
-                     <thead>
-                      <tr>
-                      <th><img src="image/logo.png" width="100"></th>
-                      <th width="100"></th>
-                      <th><center><p>Republic of the Philippines</p>
-                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
-                      <p> Tagum-Mabini Campus</p>
-                      <p> Apokon, Tagum City</p>
+
+                <p><img src="image/logo.png" width="100"> </p><center>
+                        <p style="margin-top:-12%; font-family:Calibri;">Republic of the Philippines</p>
+                        <p style="font-family: Old English Text MT;"> University of Southeastern Philippines</p>
+                        <p style="font-family:Calibri;"> Tagum - Mabini Campus</p>
+                        <p style="font-family:Calibri;"> Apokon, Tagum City</p>
                       <br>
-                      <p style="font-size: 20px"> Medical-Dental Equipment Inventory </p></center></th>
-                      <th width="100"></th>
-                      <th width="100"></th>
-                      </tr>                       
-                     </thead>
-                   </table>
+                       <p style="font-family:Calibri; margin-top:2%;">Medical-Dental Equipment Inventory </p></center></th>
+                      </div>  
+
+
+                  <div class="calldiv" id="calldiv">
                    <table class="table table-hover table-bordered reports-list" id="sampleTable">
                     <thead>
                       <tr>
@@ -461,11 +480,12 @@ function timeago($datetime, $full = false) {
                     
                       <th>Time Period</th>
                       <th>Equipment Code</th>
-                      <th>Equipment</th> 
+                      <th>Equipment</th>
                       <th>Quantity Received</th>
                       <th>Functional</th>
                       <th>Semi-functional</th>
                       <th>Non-functional</th>
+                      <th>Type</th>
                       <th class="max action-column noEx1" width="100px">Action</th>
                     </tr>
                   </thead>
@@ -475,25 +495,33 @@ function timeago($datetime, $full = false) {
           <?php 
           
                
-               $sql = "SELECT supply_equipment_inventory .*, supply_equipment_type.type as type from supply_equipment_inventory join supply_equipment_type on supply_equipment_type.type_id=supply_equipment_inventory.type where supply_equipment_type.type='Equipment'";
+               $sql = "SELECT supply_equipment_inventory .*, supply_equipment_list.supply_equipment_code as code, supply_equipment_type.type as type from supply_equipment_inventory join supply_equipment_list on supply_equipment_list.id=supply_equipment_inventory.supply_equipment_code join supply_equipment_type on supply_equipment_type.type_id=supply_equipment_inventory.type where supply_equipment_type.type!='Supply'";
 
 
                 if($result1 = mysqli_query($db, $sql)){
                  while ($row = mysqli_fetch_assoc($result1)) {
                             $eqs_id = $row['id'];
+                            $datefrom =date_create($row['date_from']);
+                            $dateto =date_create($row['date_to']);
+                            $date1 = date_format($datefrom,"F d, Y");
+                            $date2 = date_format($dateto,"F d, Y");
 
                   ?>
-                              <tr>
-                    <td><?php echo $row['date_from'].' - '.$row['date_to'];?></td>
-                    <td><?php echo $row['supply_equipment_code'];?></td>
+                    <tr>
+                    <td><?php echo $date1.' - '.$date2 ;?></td>
+                    <td><?php echo $row['code'];?></td>
                     <td><?php echo $row['supply_equipment_name'];?></td>
                     <td><?php echo $row['qty'];?></td>
                     <td><?php echo $row['functional'];?></td>
                     <td><?php echo $row['semi_functional'];?></td>
                     <td><?php echo $row['non_functional'];?></td>
-                    <td class="action-column">
-                        <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#UpdateSE"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#EquipmentCondition" style="color: white;">Condition</a>
+                    <td><?php echo $row['type'];?></td>
+
+
+                    <td class="action-column noEx1">
+                        <a class="btn btn-warning btn-sm" data-toggle="modal" href="#edit<?php echo $eqs_id; ?>"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm" data-toggle="modal" href="#EquipmentCondition<?php echo $eqs_id; ?>" style="color: white;">Condition</a>
+                        <?php include ('condition2.php') ?>
                         
                     </td>
                               </tr>
@@ -512,7 +540,8 @@ function timeago($datetime, $full = false) {
             </div>
           </div>
         </div>  
-
+</div>
+</div>
 
         <div class="row">
           <div class="col">
@@ -531,7 +560,7 @@ function timeago($datetime, $full = false) {
 
                     <div class="inline-block">
                     Date <br>
-                    <input type="date"  id="filterdateS" placeholder="From" class="bootstrap-select " style="width: 100%;">
+                    <input type="date" id="filterdateS" placeholder="From" class="bootstrap-select " style="width: 100%;">
 
                       </div>
 
@@ -541,37 +570,31 @@ function timeago($datetime, $full = false) {
                        <div class="col">
                         <br>  
 
-                            <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button2" ><i class="fas fa-download"></i> Export</button></div>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" type="submit" id="export-button2" style="width: 100%;"><i class="fas fa-download" data-toggle="modal" data-target="#"></i> Export </button></div>
                            
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify text-white" style="width: 100%;" id="print_att2"><i class="fas fa-print"></i> Print </button></div>
-
+                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" id="print_att2" style="width: 100%;"><i class="fas fa-print" data-toggle="modal" data-target="#"></i> Print </button></div>
 
                       </div>
       
 
                   </div>
                 </div>
-                
                 <div class="table-bd">
                 <div class="table-responsive">
-                  <br>
-                  <div class="calldiv2" id="calldiv2" style="display: compact">
-                   <table class="head">
-                     <thead>
-                      <tr>
-                      <th><img src="image/logo.png" width="100"></th>
-                      <th width="100"></th>
-                      <th><center><p>Republic of the Philippines</p>
-                      <p> UNIVERSITY OF SOUTHEASTERN PHILIPPINES</p>
-                      <p> Tagum-Mabini Campus</p>
-                      <p> Apokon, Tagum City</p>
+                 <div id="table_clone1" style="display: compact; border-color:#000000;">
+              <div class="head101" style="line-height: normal;">
+              <br>
+              <p><img src="image/logo.png" width="100"> </p><center>
+                        <p style="margin-top:-12%; font-family:Calibri;">Republic of the Philippines</p>
+                        <p style="font-family: Old English Text MT;"> University of Southeastern Philippines</p>
+                        <p style="font-family:Calibri;"> Tagum - Mabini Campus</p>
+                        <p style="font-family:Calibri;"> Apokon, Tagum City</p>
                       <br>
-                      <p style="font-size: 20px"> Medical-Dental Supply Inventory </p></center></th>
-                      <th width="100"></th>
-                      <th width="100"></th>
-                      </tr>                       
-                     </thead>
-                   </table>
+                      <p style="font-family:Calibri; margin-top:2%;">Medical-Dental Supply Inventory </p></center></th>
+                      </div>
+
+
+                  <div class="calldiv2" id="calldiv2">
                    <table class="table table-hover table-bordered reports-list" id="sampleTable2">
                     <thead>
                       <tr>
@@ -589,26 +612,31 @@ function timeago($datetime, $full = false) {
                   <tbody>
           <?php 
           
-                 $sql = "SELECT supply_equipment_inventory .*, supply_equipment_type.type as type from supply_equipment_inventory join supply_equipment_type on supply_equipment_type.type_id=supply_equipment_inventory.type where supply_equipment_type.type='Supply'";
+                 $sql = "SELECT supply_equipment_inventory .*, supply_equipment_list.supply_equipment_code as scode, supply_equipment_type.type as type from supply_equipment_inventory join supply_equipment_list on supply_equipment_list.id=supply_equipment_inventory.supply_equipment_code join supply_equipment_type on supply_equipment_type.type_id=supply_equipment_inventory.type where supply_equipment_type.type='Supply'";
                
 
                 if($result2 = mysqli_query($db, $sql)){
                  while ($row = mysqli_fetch_assoc($result2)) {
                             $se_id = $row['id'];
+                            $dfrom =date_create($row['date_from']);
+                            $dto =date_create($row['date_to']);
+                            $date_1 = date_format($dfrom,"F d, Y");
+                            $date_2 = date_format($dto,"F d, Y");
 
                   ?>
                               <tr>
                    
-                    <td><?php echo $row['date_from'].' - '.$row['date_to'];?></td>
-                    <td><?php echo $row['supply_equipment_code'];?></td>
+                    <td><?php echo $date_1.' - '.$date_2 ;?></td>
+                    <td><?php echo $row['scode'];?></td>
                     <td><?php echo $row['supply_equipment_name'];?></td>
                     <td><?php echo $row['qty'];?></td>
                     <td><?php echo $row['available'];?></td>
                     <td><?php echo $row['consumed'];?></td>
-                    <td class="action-column">
-                    
-                        <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#UpdateSE"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#SupplyCondition" style="color: white;">Condition</a>
+                    <td class="action-column noEx2">
+
+                        <a class="btn btn-warning btn-sm" data-toggle="modal" href="#UpdateSE<?php echo $se_id; ?>"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm" data-toggle="modal" href="#SupplyCondition<?php echo $se_id; ?>" style="color: white;">Condition</a>
+                        <?php include ('condition.php') ?>
                         
                     </td>
                               </tr>
@@ -626,195 +654,11 @@ function timeago($datetime, $full = false) {
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-       <div class="modal fade " id="UpdateSE" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Supply/Equipment</h5>
-                        <button type="button" class="close" data-dismiss="modal" style="color: #FFFFFF" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <form method="POST">
-                      <div class="modal-body c">
-                        <div class="container">
-                          
-                          <?php
-                            $sql1="SELECT condition_id, supply_equipment_condition FROM supply_equipment_condition";
-                          ?>
+      
 
-                            <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                    <label for="exampleSelect1">Start Date</label>
-                                    <input type="date" id="date_from" name="date_from" placeholder="From" class="bootstrap-select " style="width: 100%;">
-                                  </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="form-group">
-                                    <label for="exampleSelect1">End Date</label>
-                                    <input type="date" id="date_to" name="date_to" placeholder="To" class="bootstrap-select " style="width: 100%;">
-                                  </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label for="exampleSelect1">Equipment or Supply</label><br>
-                                    <select class="bootstrap-select" name="se_no" id="se_no" style="width: 100%;">
-                                    
-                                              <?php
-                                           $result=mysqli_query($db, "SELECT * FROM supply_equipment_list");               
-                                          while($res = mysqli_fetch_array($result)) {         
-                                              $value= $res['supply_equipment_code']; ?>
-                                              <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['supply_equipment_name'];?></option>
-                                              <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label"> Quantity </label>
-                                  <input class="form-control" name="qty" id="qty" type="number" placeholder="Enter qty">
-                                </div>
-                            </div>
-
-
-                          </div>
-                          
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="AddStock">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-
-          <div class="modal fade " id="EquipmentCondition" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Condition for Supply/Equipment</h5>
-                        <button type="button" class="close" data-dismiss="modal" style="color: #FFFFFF" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <form method="POST">
-                      <div class="modal-body c">
-                        <div class="container">
-                          
-                          <?php
-                            $sql1="SELECT condition_id, supply_equipment_condition FROM supply_equipment_condition";
-                          ?>
-
-                            
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label for="exampleSelect1">Equipment or Supply</label><br>
-                                    <select class="bootstrap-select" name="se_no" id="se_no" style="width: 100%;">
-                                    
-                                              <?php
-                                           $result=mysqli_query($db, "SELECT * FROM supply_equipment_list");               
-                                          while($res = mysqli_fetch_array($result)) {         
-                                              $value= $res['supply_equipment_code']; ?>
-                                              <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['supply_equipment_name'];?></option>
-                                              <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label"> Semi-functional </label>
-                                  <input class="form-control" name="qty" id="qty" type="number" placeholder="Enter qty">
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label"> Non-functional </label>
-                                  <input class="form-control" name="qty" id="qty" type="number" placeholder="Enter qty">
-                                </div>
-                            </div>
-
-                            
-                          </div>
-                          
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" name="AddStock">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="modal fade " id="SupplyCondition" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Condition for Supply/Equipment</h5>
-                        <button type="button" class="close" data-dismiss="modal" style="color: #FFFFFF" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <form method="POST">
-                      <div class="modal-body c">
-                        <div class="container">
-                          
-                          <?php
-                            $sql1="SELECT condition_id, supply_equipment_condition FROM supply_equipment_condition";
-                          ?>
-
-                            
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label for="exampleSelect1">Equipment or Supply</label><br>
-                                    <select class="bootstrap-select" name="se_no" id="se_no" style="width: 100%;">
-                                    
-                                              <?php
-                                           $result=mysqli_query($db, "SELECT * FROM supply_equipment_list");               
-                                          while($res = mysqli_fetch_array($result)) {         
-                                              $value= $res['supply_equipment_code']; ?>
-                                              <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['supply_equipment_name'];?></option>
-                                              <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm">
-                              <div class="form-group">
-                                  <label class="control-label"> Consumed </label>
-                                  <input class="form-control" name="qty" id="qty" type="number" placeholder="Enter qty">
-                                </div>
-                            </div>
-
-                          </div>
-                          
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" name="AddStock">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
 
                 <div class="modal fade " id="NewArrival" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -858,7 +702,7 @@ function timeago($datetime, $full = false) {
                                               <?php
                                            $result=mysqli_query($db, "SELECT * FROM supply_equipment_list");               
                                           while($res = mysqli_fetch_array($result)) {         
-                                              $value= $res['supply_equipment_code']; ?>
+                                              $value= $res['id']; ?>
                                               <option class="select-item" value="<?php echo $value; ?>"><?php echo $res['supply_equipment_name'];?></option>
                                               <?php } ?>
                                     </select>
@@ -910,9 +754,7 @@ function timeago($datetime, $full = false) {
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-
       <script type="text/javascript" src="../js/plugins/jquery.table2excel.js"></script>
-       
 
       <script type="text/javascript">
         $('#demoNotify').click(function(){
@@ -932,9 +774,9 @@ function timeago($datetime, $full = false) {
 });
       </script>
 
-<script>
+  <script>
     $('#print_att').click(function(){
-    var _c = $('#calldiv').html();
+   var _c = $('#table_clone').html();
     var ns = $('noscript').clone();
     var nw = window.open('','_blank','width=900,height=600')
     nw.document.write(_c)
@@ -947,7 +789,7 @@ function timeago($datetime, $full = false) {
     
   });
     $('#print_att2').click(function(){
-    var _c = $('#calldiv2').html();
+    var _c = $('#table_clone1').html();
     var ns = $('noscript').clone();
     var nw = window.open('','_blank','width=900,height=600')
     nw.document.write(_c)
@@ -960,10 +802,14 @@ function timeago($datetime, $full = false) {
     
   })
 </script>
+
+
 <style>
 
 @media screen{
 .head{
+display:none;}
+.head101{
 display:none;}
 .heads{
 display:none;}
@@ -999,19 +845,37 @@ margin-bottom:1.5cm;
     overflow-y: auto;
 }
 </style>
+
 <noscript>
-    <table style="margin-top:8%;">
+  <table align="right" style="margin-top:8%; margin-right: 25%;">
+    <tr>
+      <td align="right" style="font-family: Calibri"><b> &emsp;Prepared By: </b></td>
+    </tr>
+  </table>
+
+<table align="right" style="margin-top:14%; margin-right: -35%">
+
 <tr>
-<td><b> &emsp;Prepared By: </b></td>
+<?php $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
+     if($row=mysqli_fetch_array($res)) {
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+   }
+   ?>
+
+<td style="font-family: Calibri"><b><?php echo $title1 ;?>  <?php echo $name1 ;?>  <?php echo $extension1 ;?></b></td>
+</tr>
+<tr>
+<td>Asst. <?php echo $position1;?>/Instructor I</td>
 </tr>
 </table>
-<table align="center" style="margin-top:3%;">
-<td align="center" style="margin-top:10%;"><p>Admin</p></td>
-<tr>
-<td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
-</tr>
-</table>
-      <style>
+
+<style>
     .heads{
     margin-top:5%;
     margin-left:6%;
@@ -1054,7 +918,7 @@ margin-bottom:1.5cm;
     .action-column{
       display: none;
     }
-    </style>
+</style>
 
 </noscript>
 
@@ -1065,6 +929,7 @@ margin-bottom:1.5cm;
       } );
 
     </script>
+
 
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
@@ -1084,7 +949,9 @@ margin-bottom:1.5cm;
         }
       </script>
 
-      <script type="text/javascript">
+
+
+   <script type="text/javascript">
         $("#export-button").click(function(){
         $("#sampleTable").table2excel({
           // exclude CSS class
@@ -1107,10 +974,12 @@ margin-bottom:1.5cm;
 
       });
 
-
+      
 
     </script>
-                 <script type="text/javascript">
+
+
+ <script type="text/javascript">
 
       $(document).ready(function(){
                   /*STATUS*/
@@ -1154,7 +1023,307 @@ margin-bottom:1.5cm;
 
              });
       </script>
+          
 
+<?php 
+
+
+  if (isset($_POST['AddStock'])) {
+
+      $date_from = $_POST['date_from'];
+      $date_to = $_POST['date_to'];
+      $se_no = $_POST['se_no'];
+      $qty = $_POST['qty'];
+      $func = $_POST['functional'];
+      $semi_func = $_POST['semi_functional'];
+      $non_func = $_POST['non_functional'];
+
+
+      $res=mysqli_query($db,"SELECT * from supply_equipment_list where id='$se_no'");
+      while($row = mysqli_fetch_assoc($res)){
+       $type = $row['type'];
+       $se_code = $row['id'];
+       $se_name = $row['supply_equipment_name'];
+      }
+
+
+      $result=mysqli_query($db,"INSERT INTO supply_equipment_inventory (supply_equipment_code, supply_equipment_name, date_from, date_to, qty, type, functional, semi_functional, non_functional) values ('$se_code', '$se_name', '$date_from', '$date_to', '$qty', $type, $qty, '0', '0')");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Inserted successfully!",
+                                    text: "Supply/Equipment stock added!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+                        
+    }
+
+
+  if (isset($_POST['update_condition'])) {
+    $id = $_POST['id'];
+    $total_qty = $_POST['qty']?? null;
+    $se_no = $_POST['se_no'];
+    $qty_semifunctional = $_POST['qty_semifunctional']?? null;
+    $qty_nonfunctional = $_POST['qty_nonfunctional']?? null;
+    $total_kuha = $qty_semifunctional + $qty_nonfunctional;
+    $diff = $total_qty - $total_kuha;
+
+
+
+       if($diff<'0'){
+        echo '<script>
+              swal({
+                title: "Error! The quantity to be distributed must not exceed the current balance",
+                text: "Server Request Failed!",
+                type:"error",
+                icon: "error",
+                showConfirmButton: true,
+                button: true,
+                closeOnClickOutside: true,
+                closeOnEsc: true,
+                })
+              </script>';
+     }else{
+      $result=mysqli_query($db,"UPDATE supply_equipment_inventory set functional='$diff', semi_functional='$qty_semifunctional', non_functional='$qty_nonfunctional' where id='$id'");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Supply/Equipment stock Updated Successfuly!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+
+
+     }
+
+
+      
+                        
+    }
+
+  if (isset($_POST['supply_consume'])) {
+    $id = $_POST['id'];
+    $available = $_POST['available']?? null;
+    $se_no = $_POST['se_no'];
+    $consume = $_POST['consume']?? null;
+    $diff = $available - $consume;
+    // var_dump("SELECT * from supply_equipment_inventory where id='$id'");
+      $res=mysqli_query($db,"SELECT * from supply_equipment_inventory where id='$id'");
+      while($row = mysqli_fetch_assoc($res)){
+       $consumed = $row['consumed'];
+      }
+      $total_consumed = $consume + $consumed;
+
+
+       if($diff<'0'){
+        echo '<script>
+                swal({
+                title: "Error! The quantity to be consumed must not exceed the available supply",
+                text: "Server Request Failed!",
+                type:"error",
+                icon: "error",
+                showConfirmButton: true,
+                button: true,
+                closeOnClickOutside: true,
+                closeOnEsc: true,
+                })
+                                 </script>';
+     }else{
+      $result=mysqli_query($db,"UPDATE supply_equipment_inventory set available='$diff', consumed='$total_consumed' where id='$id'");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Supply/Equipment stock Updated Successfuly!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+
+
+     }
+
+
+      
+                        
+    }
+
+  if (isset($_POST['edit'])) {
+    $id = $_POST['n_id'];
+    $date_from = $_POST['date_from'];
+    $date_to = $_POST['date_to'];
+    $qty = $_POST['qty'];
+    $func = $_POST['functional']?? null;
+    $semi_func = $_POST['semi_functional']?? null;
+    $non_func = $_POST['non_functional']?? null;
+
+    // var_dump("UPDATE supply_equipment_inventory set date_from='$date_from', date_to='$date_to', qty= '$qty' where id='$id'");
+      $result=mysqli_query($db,"UPDATE supply_equipment_inventory set date_from='$date_from', date_to='$date_to', qty= '$qty', functional= qty - (semi_functional + non_functional) where id='$id'");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Supply/Equipment stock Updated Successfuly!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+
+
+
+     }
+
+
+  if (isset($_POST['EditSE'])) {
+    $id = $_POST['n_id'];
+    $date_from = $_POST['date_from'];
+    $date_to = $_POST['date_to'];
+    $qty = $_POST['qty'];
+    $available = $_POST['available']; 
+    $consumed = $_POST['consumed'];
+
+    // var_dump("UPDATE supply_equipment_inventory set date_from='$date_from', date_to='$date_to', qty= '$qty' where id='$id'");
+    // $query = "UPDATE table1 SET Qty = Qty - $proc[Item_Qty] WHERE buyer='$user'";
+      $result=mysqli_query($db,"UPDATE supply_equipment_inventory set date_from='$date_from', date_to='$date_to', qty= '$qty', available = qty - consumed where id='$id'");
+
+                              if($result){
+
+
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Supply/Equipment stock Updated Successfuly!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+
+
+
+     }
+
+     
+
+
+?>
 
     </body>
   </html>

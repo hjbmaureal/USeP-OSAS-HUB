@@ -82,7 +82,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
           <span class="app-menu__label">DASHBOARD</span>
         </li>
         <li>
-          <a class="app-menu__item active" href="index.php">
+          <a class="app-menu__item" href="index.php">
             <i class="app-menu__icon fa fa-home"></i>
             <span class="app-menu__label">Home</span>
           </a>

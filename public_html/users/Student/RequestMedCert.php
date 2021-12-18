@@ -591,7 +591,7 @@ function timeago($datetime, $full = false) {
                           include("lab_modal.php");
                           
                         }else{
-                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 60%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
+                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 80%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
                             
                           ';
                         }
@@ -601,10 +601,10 @@ function timeago($datetime, $full = false) {
                         <td>
                           <?php
                         if(empty($res['certificate_location'])){
-                          echo '<button class="btn btn-danger btn-sm verify" data-toggle="modal" style="width:50%; height: 35px;" data-target="#ModalRequiredLab" disabled>Open Certificate</i></button>';
+                          echo '<button class="btn btn-danger btn-sm verify" data-toggle="modal" style="width:80%; height: 35px;" data-target="#ModalRequiredLab" disabled>Open Certificate</i></button>';
 
                         }else{
-                          echo '<a class="btn btn-danger btn-sm verify" target="_blank" href=view.php?id='.$res['request_id'].' style="height: 35px; width:50%;">Open Certificate</a>';
+                          echo '<a class="btn btn-danger btn-sm verify" target="_blank" href=view.php?id='.$res['request_id'].' style="height: 35px; width:80%;">Open Certificate</a>';
 
                         }
                         ?>

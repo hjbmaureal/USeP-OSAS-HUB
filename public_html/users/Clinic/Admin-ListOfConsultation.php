@@ -81,13 +81,14 @@ class MYPDF extends TCPDF {
 
 
     // Page footer
-    public function Footer() {
+ public function Footer() {
   if(!isset($_SESSION)) { 
   session_start(); 
 } 
 
     if ($this->last_page_flag) {
     $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $id=$_SESSION['id'];
     $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
     $res = $connect->query($sql);
      if($row=mysqli_fetch_array($res)) {
@@ -176,7 +177,7 @@ $pdf->Ln(36);
       $content .= fetch_data();  
       $content .= '</table>'; 
      $pdf->writeHTML($content);  
-      $pdf->Output('List_of_Consultation '.date("F d, y").'.pdf', 'I');  
+      $pdf->Output('List_of_Consultation '.date("F d, y").'.pdf', 'D');  
 
 
 // ---------------------------------------------------------
@@ -189,8 +190,9 @@ $pdf->Output('example_003.pdf', 'I');
 //============================================================+
 }
 ?>
-<?php include('connect.php');
 
+<?php
+  include 'connect.php';
   include '../../php/notification-timeago.php'; 
   session_start();
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
@@ -201,9 +203,9 @@ $pdf->Output('example_003.pdf', 'I');
   $id=$_SESSION['id'];
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-  ?>
-  <!DOCTYPE html>
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}?>
+
+<!DOCTYPE html>
   <html lang="en">
     <head>
 
@@ -219,24 +221,26 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
       <link rel="stylesheet" type="text/css" href="css/main.css">
-          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
       <!-- Font-icon css-->
-          <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
- <body class="app sidebar-mini rtl" onload="initClock()">
+
+
+  <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
-             <script type="text/javascript">
+  <script type="text/javascript">
         //CLOCK
       function updateClock(){
         var now = new Date();
@@ -288,8 +292,10 @@ $pdf->Output('example_003.pdf', 'I');
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      </script>
-     <header class="app-header">
+
+</script>
+
+<header class="app-header">
     
    
       </header>
@@ -373,15 +379,14 @@ $pdf->Output('example_003.pdf', 'I');
 
        <!--navbar-->
 
-
-   <main class="app-content">
+  <main class="app-content">
     <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
       <ul class="app-nav">
         <li>
-          <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
+          <a class="appnavlevel">Hi, <b><?php echo $_SESSION['fullname'] ?></b></a>
         </li>
         <!-- SEMESTER, TIME, USER DROPDOWN -->
           <?php
@@ -501,6 +506,7 @@ $pdf->Output('example_003.pdf', 'I');
           </div>
         </div>
       </div>
+
         <div class="red"> 
           
         </div>
@@ -567,7 +573,7 @@ $pdf->Output('example_003.pdf', 'I');
                     <select  name="type" id="type" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
                    <option value="">All</option>
                                                  <?php
-                    // Feching active consultation type
+                   
                     $sql=mysqli_query($db,"select * from consultation_type where status='Active'");
                     while($result=mysqli_fetch_array($sql))
                     {    
@@ -577,7 +583,7 @@ $pdf->Output('example_003.pdf', 'I');
                     
                     ?>
                     </select> 
-                    </div>
+                </div>
 
 
                       &emsp;
@@ -587,7 +593,7 @@ $pdf->Output('example_003.pdf', 'I');
                        <select  name="mode" id="mode" class="bootstrap-select" data-table="reports-list" style="height: 35px;width: 160px">
                     <option value="">All</option>
                                                      <?php
-                        // Feching active mode of communication
+                      
                         $sql=mysqli_query($db,"select * from mode_of_communication");
                         while($result=mysqli_fetch_array($sql))
                         {    
@@ -651,7 +657,8 @@ $pdf->Output('example_003.pdf', 'I');
           $sql = "SELECT consultation.id,CONCAT(student.first_name,' ',student.last_name) as name,student.email_add,student.sex, student.civil_status,student.year_level,student.section,consultation.patient_id,consultation.status,consultation.date_filed,consultation.problems,consultation_type.consultation_type, course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id WHERE consultation.status='$stat' order by date_filed";
 
           $res = $db->query($sql);
-            
+                    $cnt=1;
+
                     while($row = $res->fetch_assoc()) {
                       ?>
 

@@ -1,5 +1,5 @@
-    <?php
-  session_start();
+   <?php include('conn.php');
+   session_start();
   include('connect.php');
   // $user_id = $_SESSION['id'];
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
@@ -11,6 +11,7 @@
   $count = 0;
   $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
 
 
 function timeago($datetime, $full = false) {
@@ -62,7 +63,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -175,13 +176,8 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -226,7 +222,6 @@ function timeago($datetime, $full = false) {
           
         </ul>
       </aside>
-
 
        <!--navbar-->
 
@@ -362,7 +357,6 @@ function timeago($datetime, $full = false) {
           
         </div>
 
-
         <style>
         .vertical {
             border-left: 6px solid black;
@@ -386,7 +380,7 @@ function timeago($datetime, $full = false) {
             <table class="announcements-table" id="announcements-table" cellpadding="10px" width="100%">
               <?php 
           $sql2="select announcements.announcement_id,announcements.staff_id,announcements._date,announcements.title,announcements.content, staff.office_id from staff INNER JOIN announcements ON announcements.staff_id=staff.staff_id WHERE staff.office_id=3";
-          $result = mysqli_query($db, $sql2);
+          $result = mysqli_query($conn, $sql2);
           while ($row2 = mysqli_fetch_assoc($result)) {
 
                                 echo'<tr class="tile">
@@ -417,23 +411,23 @@ function timeago($datetime, $full = false) {
     $content = ($_POST['content']);
 
 
-   $sql="INSERT INTO announcements(announcement_id,staff_id, _date, title, content) VALUES (announcement_id,$id, '$date', '$title', '$content')";
-    if(mysqli_query($db,$sql)){
-      addNotif($db);
+   $sql="INSERT INTO announcements(announcement_id,staff_id, _date, title, content) VALUES (announcement_id,$user_id, '$date', '$title', '$content')";
+    if(mysqli_query($conn,$sql)){
+      addNotif($conn);
             echo "<script>alert('New Announcement Added Successfully!');</script>";
             echo "<meta http-equiv='refresh' content='0'>";
           }else{
             echo "<script>alert(' ERROR Adding new Announcement! Please Try again');</script>";
           }
   }
-  function addNotif($db){
+  function addNotif($conn){
       $sql8 = "SELECT student.Student_id, student.student_status, student.account_status from student WHERE student.student_status='currently enrolled' AND student.account_status='active'";
-                      $result8 = $db->query($sql8);
+                      $result8 = $conn->query($sql8);
                       if ($result8->num_rows > 0) {
                       // output data of each row
                       while($row = $result8->fetch_assoc()) {
                               $Student_id = $row['Student_id'];
-                            $result=mysqli_query($db,"insert into notif(notif_id,user_id, message_body, time, link, message_status,office_id) values (notif_id,'$Student_id', 'Clinic posted a new announcement.',now(),'clinic_admin_announcements.php', 'Delivered','3')");
+                            $result=mysqli_query($conn,"insert into notif(notif_id,user_id, message_body, time, link, message_status,office_id) values (notif_id,'$Student_id', 'Clinic posted a new announcement.',now(),'clinic_admin_announcements.php', 'Delivered','3')");
 
                               if($result){
                                 echo 'Succesful';
@@ -456,7 +450,7 @@ function timeago($datetime, $full = false) {
 
 
     $sql="UPDATE announcements SET title='$newtitle', content='$newcontent' where announcement_id='$newannouncement_id'";
-    if(mysqli_query($db,$sql)){
+    if(mysqli_query($conn,$sql)){
             echo "<script>alert('Announcement Updated Successfully!');</script>";
             echo "<meta http-equiv='refresh' content='0'>";
           }else{
@@ -469,7 +463,7 @@ function timeago($datetime, $full = false) {
   
 
     $sql="DELETE from announcements where announcement_id='$announcement_id'";
-    if(mysqli_query($db,$sql)){
+    if(mysqli_query($conn,$sql)){
             echo "<script>alert('Announcement Deleted Successfully!');</script>";
             echo "<meta http-equiv='refresh' content='0'>";
           }else{

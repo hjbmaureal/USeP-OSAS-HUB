@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-  <html lang="en">
-  <?php
+<?php 
+  
   session_start();
   include('connect.php');
 
@@ -47,111 +46,10 @@ function timeago($datetime, $full = false) {
 }
 
 
-    if (isset($_POST['savechanges'])) {
+?>
+<!DOCTYPE html>
+  <html lang="en">
 
-      $datefrom= $_POST['datefrom'];
-      $dateto= $_POST['dateto'];
-      $item_no = $_POST['item_no'];
-      $quantity = $_POST['quantity'];
-
-      $res=mysqli_query($db,"SELECT * from item_list where item_code='$item_no'");
-      while($row = mysqli_fetch_assoc($res)){
-       $unit = $row['unit'];
-       $item_code = $row['item_code'];
-       $item_name = $row['item_name'];
-      }
-
-      $result=mysqli_query($db,"INSERT into item_inventory (id, item_code, unit, item_name, datefrom, dateto, received_qty, issuance_mabini, issuance_apokon, balance) values (id, '$item_code', '$unit', '$item_name', '$datefrom', '$dateto', '$quantity', '0', '0', '$quantity')");
-
-                              if($result){
-                               echo '<script>
-                                    alert("Succesful");
-                                  </script>';
-                              }else{
-                               echo '<script>
-                                      alert("Failed");
-                                    </script>';
-                              }
-      echo "<meta http-equiv='refresh' content='1'>";
-                        
-    }
-
-    if (isset($_POST['update'])) {
-
-      $dfrom= $_POST['dfrom'];
-      $dto= $_POST['dto'];
-      $itm_cd = $_POST['itm_cd'];
-      $rec_qty = $_POST['rec_qty'];
-      $new_id = $_POST['id'];
-
-      $res=mysqli_query($db,"SELECT * from item_list where item_code='$itm_cd'");
-      while($row = mysqli_fetch_assoc($res)){
-       $new_unit = $row['unit'];
-       $itm_cd2 = $row['item_code'];
-       $itm_nm2 = $row['item_name'];
-      }
-
-      $result=mysqli_query($db,"UPDATE item_inventory set datefrom='$dfrom', dateto='$dto', unit='$new_unit', item_code='$itm_cd2', item_name='$itm_nm2', received_qty='$rec_qty', balance='$rec_qty' where id='$new_id'");
-
-                              if($result){
-                               echo '<script>
-                                    alert("Succesful");
-                                  </script>';
-                              }else{
-                               echo '<script>
-                                      alert("Failed");
-                                    </script>';
-                              }
-      echo "<meta http-equiv='refresh' content='1'>";
-                        
-    }
-    
-    if (isset($_POST['distribute'])) {
-
-      $item_id= $_POST['id'];
-      $campus= $_POST['campus'];
-      (int)$distribute = $_POST['num'];
-      (int)$bal = $_POST['bal'];
-      $diff = $bal-$distribute; 
-
-     if($diff<'0'){
-        echo '<script>
-              alert("Error! The quantity to be distributed must not exceed the current balance");
-              </script>';
-     } else{
-      if ($campus=='Apokon') {
-        $result2=mysqli_query($db,"UPDATE item_inventory set issuance_apokon=issuance_apokon+'$distribute', balance='$diff' where id='$item_id'");
-
-                              if($result2){
-                               echo '<script>
-                                    alert("Succesful");
-                                  </script>';
-                              }else{
-                               echo '<script>
-                                      alert("Failed");
-                                    </script>';
-                              }
-      } if ($campus=='Mabini') {
-        $result2=mysqli_query($db,"UPDATE item_inventory set issuance_mabini=issuance_mabini+'$distribute', balance='$diff' where id='$item_id'");
-
-                              if($result2){
-                               echo '<script>
-                                    alert("Succesful");
-                                  </script>';
-                              }else{
-                               echo '<script>
-                                      alert("Failed");
-                                    </script>';
-                              }
-      }
-
-      
-      echo "<meta http-equiv='refresh' content='1'>";
-                        
-    }
-  }
-
-  ?>
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -170,7 +68,7 @@ function timeago($datetime, $full = false) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -196,6 +94,7 @@ function timeago($datetime, $full = false) {
 
 
       </head>
+  
         <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
@@ -252,7 +151,6 @@ function timeago($datetime, $full = false) {
         image.src = URL.createObjectURL(event.target.files[0]);
       };
       </script>
-
         
      <header class="app-header">
     
@@ -284,13 +182,8 @@ function timeago($datetime, $full = false) {
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -561,7 +454,7 @@ function timeago($datetime, $full = false) {
                       <th>Issuance (Mabini Clinic)</th>
                       <th>Issuance (Apokon)</th>
                       <th>Balance</th>
-                      <th class="max action-column" width="100px">Action</th>
+                      <th class="max action-column noExl" width="100px">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -588,7 +481,7 @@ function timeago($datetime, $full = false) {
                     <td><?php echo $row['issuance_mabini'];?></td>
                     <td><?php echo $row['issuance_apokon'];?></td>
                     <td><?php echo $row['balance'];?></td>
-                    <td class="action-column">
+                    <td class="action-column noExl">
 
                         <a class="btn btn-warning btn-sm" data-toggle="modal" href="#UpdateStock<?php echo $stock_id; ?>"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger btn-sm" data-toggle="modal" href="#DistributeItem<?php echo $stock_id; ?>">Release</a>
@@ -815,8 +708,6 @@ function timeago($datetime, $full = false) {
 
 
 
-
-
 <!-- Bootstrap core JavaScript
     ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
@@ -835,7 +726,7 @@ function timeago($datetime, $full = false) {
         <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
-    <script type="text/javascript" src="js/plugins/jquery.table2excel.js"></script>
+    <script type="text/javascript" src="../js/plugins/jquery.table2excel.js"></script>
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {
@@ -994,8 +885,7 @@ margin-bottom:1.5cm;
 
 
 
-
-      <script type="text/javascript">
+<script type="text/javascript">
 
         
 $("#export-button").click(function(){
@@ -1008,6 +898,7 @@ $("#export-button").click(function(){
   });
 
 });
+
         
 $("#export-button2").click(function(){
   $("#table2excel2").table2excel({
@@ -1017,7 +908,6 @@ $("#export-button2").click(function(){
     filename:"Item-Inventory",//do not include extension
     fileext:".xls" // file extension
   });
-
 });
 
 
@@ -1102,6 +992,207 @@ $("#export-button2").click(function(){
       } );
 
     </script>
+
+<?php
+    if (isset($_POST['savechanges'])) {
+
+      $datefrom= $_POST['datefrom'];
+      $dateto= $_POST['dateto'];
+      $item_no = $_POST['item_no'];
+      $quantity = $_POST['quantity'];
+
+      $res=mysqli_query($db,"SELECT * from item_list where item_code='$item_no'");
+      while($row = mysqli_fetch_assoc($res)){
+       $unit = $row['unit'];
+       $item_code = $row['item_code'];
+       $item_name = $row['item_name'];
+      }
+
+      $result=mysqli_query($db,"INSERT into item_inventory (id, item_code, unit, item_name, datefrom, dateto, received_qty, issuance_mabini, issuance_apokon, balance) values (id, '$item_code', '$unit', '$item_name', '$datefrom', '$dateto', '$quantity', '0', '0', '$quantity')");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Inserted successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+                        
+    }
+
+    if (isset($_POST['update'])) {
+
+      $dfrom= $_POST['dfrom'];
+      $dto= $_POST['dto'];
+      $itm_cd = $_POST['itm_cd'];
+      $rec_qty = $_POST['rec_qty'];
+      $new_id = $_POST['id'];
+
+      $res=mysqli_query($db,"SELECT * from item_list where item_code='$itm_cd'");
+      while($row = mysqli_fetch_assoc($res)){
+       $new_unit = $row['unit'];
+       $itm_cd2 = $row['item_code'];
+       $itm_nm2 = $row['item_name'];
+      }
+
+      $result=mysqli_query($db,"UPDATE item_inventory set datefrom='$dfrom', dateto='$dto', unit='$new_unit', item_code='$itm_cd2', item_name='$itm_nm2', received_qty='$rec_qty', balance='$rec_qty' where id='$new_id'");
+
+                              if($result){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      echo "<meta http-equiv='refresh' content='1'>";
+                        
+    }
+    
+    if (isset($_POST['distribute'])) {
+
+      $item_id= $_POST['id'];
+      $campus= $_POST['campus'];
+      (int)$distribute = $_POST['num'];
+      (int)$bal = $_POST['bal'];
+      $diff = $bal-$distribute; 
+
+     if($diff<'0'){
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+     } else{
+      if ($campus=='Apokon') {
+        $result2=mysqli_query($db,"UPDATE item_inventory set issuance_apokon=issuance_apokon+'$distribute', balance='$diff' where id='$item_id'");
+
+                              if($result2){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      } if ($campus=='Mabini') {
+        $result2=mysqli_query($db,"UPDATE item_inventory set issuance_mabini=issuance_mabini+'$distribute', balance='$diff' where id='$item_id'");
+
+                              if($result2){
+                                echo '<script>
+                                    swal({
+                                    title: "Updated successfully!",
+                                    text: "Server Request Successful!",
+                                    type:"success",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    button: false,
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                    }).then(function() {
+                                  window.location = "sample.php";
+                                })
+                                   </script>';
+                              }else{
+                               echo '<script>
+                                  swal({
+                                  title: "Something went wrong...",
+                                  text: "Server Request Failed!",
+                                  type:"error",
+                                  icon: "error",
+                                  showConfirmButton: false,
+                                  button: false,
+                                  timer:2000,
+                                  closeOnClickOutside: false,
+                                  closeOnEsc: false,
+                                  })
+                                 </script>';
+                              }
+      }
+
+      
+      echo "<meta http-equiv='refresh' content='1'>";
+                        
+    }
+  }
+
+  ?>
 
 
     </body>

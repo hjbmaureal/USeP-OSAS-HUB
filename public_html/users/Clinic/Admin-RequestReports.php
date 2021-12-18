@@ -1,57 +1,12 @@
-<!DOCTYPE html>
 <?php
-include("connect.php");
-session_start();
-if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
-    echo '<script type="text/javascript">'; 
-    echo 'window.location= "../../index.php";';
-    echo '</script>';
-  }
-  $id=$_SESSION['id'];
-  $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
-  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
-
-
-function timeago($datetime, $full = false) {
-  date_default_timezone_set('Asia/Manila');
-  $now = new DateTime;
-  $ago = new DateTime($datetime);
-  $diff = $now->diff($ago);
-  $diff->w = floor($diff->d / 7);
-  $diff->d -= $diff->w * 7;
-  $string = array(
-    'y' => 'yr',
-    'm' => 'mon',
-    'w' => 'week',
-    'd' => 'day',
-    'h' => 'hr',
-    'i' => 'min',
-    's' => 'sec',
-  );
-  foreach ($string as $k => &$v) {
-    if ($diff->$k) {
-      $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-    } 
-    else {
-      unset($string[$k]);
-    }
-  }
-  if (!$full) {
-    $string = array_slice($string, 0, 1);
-  }
-  
-  return $string ? implode(', ', $string) . '' : 'just now';
-}
-
-
-
+require_once('tcpdf/tcpdf.php');
 
 function fetch_data()  
  {
  $output = '';  
-$conn = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
- $sql = "SELECT * FROM patient_list";
+$conn = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+ $sql = "SELECT request_list.date_requested,request_list.request_id,request_list.patient_id, request_list.fullname,request_list.type, request_list.request_type, request_list.address, request_list.email_add, request_list.phone_number, request_list.course_department,  request_list.date_released
+                                from request_list  WHERE request_list.status='Completed' order by date_released";
   $result = mysqli_query($conn, $sql);  
       while($row = mysqli_fetch_array($result))  
       {  
@@ -82,8 +37,9 @@ if(isset($_POST["crt_pdf"])){
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
 
-    //Page header
+ //Page header
     public function Header() {
+   if ($this->numpages < 2 )    {
         // Logo
         $this->Image('image/logo.png', 10, 10, 25, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         
@@ -110,57 +66,56 @@ class MYPDF extends TCPDF {
     // Set font
         $this->SetFont('Calibri', 'B', 12);
         // Title
-        $this->Cell(0, 15, 'PATIENT LIST as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        $this->Cell(0, 15, 'LIST OF REQUEST as of '.date("F d, Y").'', 0, false, 'C', 0, '', 0, false, 'M', 'M');
     
-    
+  }
     
     }
 
-    // Page footer
-    public function Footer() {
-     $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
-  $id=$_SESSION['id'];
-  $sql1="Select * from staffdetails where staff_id='$id' AND type='Staff'";
-    $res = $connect->query($sql1);
-     if($row=mysqli_fetch_array($res)) {
-   $title= $row['title'];
-   $name= $row['fullname'];
-   $extension= $row['extension'];
-   $position= $row['position'];
-   
-        // Position at 15 mm from bottom
-        $this->SetY(-50);
-        // Set font
-        $this->SetFont('calibri', 'B', 12);
-    $this->Ln(2);
-    $this->Cell(0, 0, 'Prepared By:', 0, false, 'L', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(40);
-     $this->SetFont('Calibri', '', 12);
-    $this->Cell(0,0, ''.$title.' '. $name.' '.$extension.'', 0, false, '', 0, '', 0, false, 'M', 'M');
-    $this->Ln(8);
-    $this->SetX(50);
-    $this->Cell(0,0,''.$position.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+    protected $last_page_flag = false;
+
+    public function Close() {
+        $this->last_page_flag = true;
+        parent::Close();
     }
-         $connect = mysqli_connect("localhost", "root", "", "osasdb_latest4"); 
-    $sql2="Select * from staffdetails where office_name='Clinic' AND type='Staff'";
-    $res = $connect->query($sql2);
+
+     // Page footer
+    public function Footer() {
+  
+
+  if ($this->last_page_flag) {
+     $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+     session_start();
+if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id=$_SESSION['id'];
+  $count = 0;
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+$connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
      if($row=mysqli_fetch_array($res)) {
-   $title1= $row['title'];
-   $name1= $row['fullname'];
-   $extension1= $row['extension'];
-   $position1= $row['position'];
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
      $this->SetY(-48);
      $this->SetX(210);
       $this->SetFont('Calibri', 'B', 12);
-    $this->Cell(0, 0, 'Noted By:', 0, false, '', 0, '', 0, false, 'M', 'M');
+    $this->Cell(0, 0, 'Prepared By:', 0, false, '', 0, '', 0, false, 'M', 'M');
     $this->Ln(8);
     $this->SetX(230);
-     $this->SetFont('Calibri', '', 12);
+     $this->SetFont('Calibri', 'B', 12);
     $this->Cell(0,0, ''.$title1.' '. $name1.' '.$extension1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
     $this->Ln(8);
-    $this->SetX(244);
-    $this->Cell(0,0,''.$position1.'', 0, false, '', 0, '', 0, false, 'M', 'M');
+     $this->SetX(235);
+     $this->SetFont('Calibri', '', 12);
+    $this->Cell(0,0,'Asst. '.$position1.'/Instructor I', 0, false, '', 0, '', 0, false, 'M', 'M');
      $this->SetY(-15);
      
      $this->SetFont('calibri', 'I', 10);
@@ -168,6 +123,7 @@ class MYPDF extends TCPDF {
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }
   }
+}
 
 }
 // create new PDF document
@@ -176,7 +132,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('List of Patient '.date("F d, Y").'');
+$pdf->SetTitle('List of Request '.date("F d, Y").'');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -220,14 +176,14 @@ $pdf->Ln(36);
                   <tr>
                     <th width="10%" align="center"><b>Date Requested</b></th>
                     <th width="10%" align="center"><b>Patient ID</b></th>
-                    <th width="30%" align="center"><b>Full Name</b></th>
-                    <th width="20%" align="center"><b>User Type</b></th>
-                    <th width="15%" align="center"><b>Request Type</b></th>
-                    <th width="15%" align="center"><b>Address</b></th>
-                    <th width="20%" align="center"><b>Email</b></th>
-                    <th width="15%" align="center"><b>Contact Number</b></th>
-                    <th width="15%" align="center"><b>Course/Department</b></th>
-                    <th width="15%" align="center"><b>Date Released</b></th>
+                    <th width="10%" align="center"><b>Full Name</b></th>
+                    <th width="10%" align="center"><b>User Type</b></th>
+                    <th width="10%" align="center"><b>Request Type</b></th>
+                    <th width="10%" align="center"><b>Address</b></th>
+                    <th width="10%" align="center"><b>Email</b></th>
+                    <th width="10%" align="center"><b>Contact Number</b></th>
+                    <th width="10%" align="center"><b>Course/Department</b></th>
+                    <th width="10%" align="center"><b>Date Released</b></th>
           
                   </tr>
           ';   
@@ -235,13 +191,12 @@ $pdf->Ln(36);
       $content .= '</table>'; 
      $pdf->writeHTML($content); 
      ob_end_clean(); 
-      $pdf->Output('List_of_Patient'.date("F d, y").'.pdf', 'I');  
+      $pdf->Output('List_of_Request_Reports'.date("F d, y").'.pdf', 'I');  
 
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_003.pdf', 'I');
 
 //============================================================+
 // END OF FILE
@@ -250,8 +205,55 @@ $pdf->Output('example_003.pdf', 'I');
 
   ?>
 
-
+<!DOCTYPE html>
   <html lang="en">
+  <?php
+  session_start();
+  include('connect.php');
+if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
+    echo '<script type="text/javascript">'; 
+    echo 'window.location= "../../index.php";';
+    echo '</script>';
+  }
+  $id=$_SESSION['id'];
+  $count = 0;
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
+
+
+
+function timeago($datetime, $full = false) {
+  date_default_timezone_set('Asia/Manila');
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+  $string = array(
+    'y' => 'yr',
+    'm' => 'mon',
+    'w' => 'week',
+    'd' => 'day',
+    'h' => 'hr',
+    'i' => 'min',
+    's' => 'sec',
+  );
+  foreach ($string as $k => &$v) {
+    if ($diff->$k) {
+      $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+    } 
+    else {
+      unset($string[$k]);
+    }
+  }
+  if (!$full) {
+    $string = array_slice($string, 0, 1);
+  }
+  
+  return $string ? implode(', ', $string) . '' : 'just now';
+}
+?>
+
     <head>
       <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <!-- Twitter meta-->
@@ -266,7 +268,7 @@ $pdf->Output('example_003.pdf', 'I');
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Clinic Hub</title>
+      <title>USeP Clinic Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -279,40 +281,7 @@ $pdf->Output('example_003.pdf', 'I');
       <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">  
-<style>
 
-@media screen{
-.head{
-display:none;}
-.heads{
-display:none;}
-  
-.tit{
-display:none;}
-h2{
-display:none;}
-tfoot{
-display:none;}
-}
-@media print{
-.head{
-margin-top:-100%;
-display:table-header-group;
-margin-bottom:5px;}
-
-
-}
- 
-}
-
-@page{
-margin-top:-1cm; 
-margin-left:1cm;
-margin-right:1cm;
-margin-bottom:1.5cm;
-}
-}
-</style>
       </head>
       <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
@@ -402,13 +371,8 @@ margin-bottom:1.5cm;
             </ul>
           </li>
 
-           <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-calendar"></i><span class="app-menu__label">Appointment</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a class="treeview-item" href="Admin-Appointment.php">List of Appointment</a></li>
-              <li><a class="treeview-item" href="Admin-CancellationOfAppointment.php">Cancellation of Appointment</a></li>
-            </ul>
-          </li>
-     
+ 
+          <li><a class="app-menu__item" href="Admin-Appointment.php"><i class="app-menu__icon fa fa-calendar-alt"></i><span class="app-menu__label">Appointment</span></a></li>
           <li><a class="app-menu__item" href="Admin-Prescription.php"><i class="app-menu__icon fas fa-prescription"></i><span class="app-menu__label">Prescription</span></a></li>
 
          <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon  fas fa-file-medical"></i><span class="app-menu__label">Request</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -657,15 +621,12 @@ margin-bottom:1.5cm;
                       </select>
                     </div>
               </div>
-                      <div class="col-sm">
-                         
-                          
-                           <form method="post">
-                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="crt_pdf" type="submit" ><i class="fas fa-download"></i> Export</button></div>
-                           <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
-
-                       </div> 
-                       </div> 
+                     
+                          <div class="col">
+        <form method="post">
+          <br>
+                          <div class="inline-block float ml-2 mt-1"><button class="btn btn-danger btn-sm verify" name="crt_pdf" type="submit" ><i class="fas fa-download"></i> Export</button></div>  </form>  <div class="inline-block float ml-2 mt-1"><button class="btn btn-warning btn-sm verify" style="width: 100%;" id="print_att"><i class="fas fa-print"></i> Print </button></div>
+</div></div>
                        <br>
 
      <!--   <button class="btn btn-danger btn-sm verify" id="demoNotify" href="#" >Verify</button>-->
@@ -697,16 +658,16 @@ margin-bottom:1.5cm;
       <tr>
         <th rowspan="5"><img src="image/logo.png" width="100"></th>
       </tr>
-        <th colspan="7"><h4 style="font-family: Arial;"><center>Republic of the Philippines</center></h4></th>
+        <th colspan="7"><h4 style="font-family: Calibri;"><center>Republic of the Philippines</center></h4></th>
       </tr>
       <tr>
         <th colspan="7"><h4 style="font-family: Old English Text MT;"><center>University of Southeastern Philippines</center></h4></th>
       </tr>
       <tr>
-        <th colspan="7"><h4 style="font-family: Arial;"><center>Tagum-Mabini Campus</center></h4></th>
+        <th colspan="7"><h4 style="font-family: Calibri;"><center>Tagum-Mabini Campus</center></h4></th>
       </tr>
       <tr>
-        <th colspan="7"><h4 style="font-family: Arial;"><center>Apokon, Tagum City</center></h4></th>
+        <th colspan="7"><h4 style="font-family: Calibri;"><center>Apokon, Tagum City</center></h4></th>
       </tr>
       <tr>
         <th rowspan="5"><img src="image/logo.png" width="100" hidden=""></th>
@@ -737,7 +698,7 @@ margin-bottom:1.5cm;
       <th width="120"></th>
       </tr>
       <tr>
-        <th colspan="8" style="font-family: Arial; color: red;"><h4 style="font-size: 16px;"><center>Request Reports</center></h4></th>
+        <th colspan="8" style="font-family: Calibri; color: red;"><h4 style="font-size: 16px;"><center>Request Reports</center></h4></th>
       </tr>
       </table>
       <br>
@@ -760,7 +721,7 @@ margin-bottom:1.5cm;
                   </thead>
                   <tbody id="Table">
                     <?php
-                      $conn = mysqli_connect("localhost","root","","osasdb_latest4");
+                      $conn = mysqli_connect("localhost","root","","backupdb-3");
                       $stat = "Completed";
 
                       $cou = 0;
@@ -908,17 +869,65 @@ margin-bottom:1.5cm;
     
   })
 </script>
+<style>
 
+@media screen{
+.head{
+display:none;}
+.heads{
+display:none;}
+  
+.tit{
+display:none;}
+h2{
+display:none;}
+tfoot{
+display:none;}
+}
+@media print{
+.head{
+margin-top:-100%;
+display:table-header-group;
+margin-bottom:5px;}
+
+
+}
+ 
+}
+
+@page{
+margin-top:-1cm; 
+margin-left:1cm;
+margin-right:1cm;
+margin-bottom:1.5cm;
+}
+}
+</style>
 <noscript>
-    <table style="margin-top:8%;">
+<table align="right" style="margin-top:8%; margin-right: 25%;">
 <tr>
-<td><b> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Prepared By: </b></td>
+<td align="right" style="font-family: Calibri"><b> &emsp;Prepared By: </b></td>
 </tr>
 </table>
-<table align="center" style="margin-top:3%;">
-<td align="center" style="margin-top:10%;"><p>Admin</p></td>
+
+<table align="right" style="margin-top:14%; margin-right: -35%">
+
 <tr>
-<td align="center" style="margin-top:10%;"><i>Officer In-charge</i></td>
+<?php $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+    $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
+    $res = $connect->query($sql);
+    
+     if($row=mysqli_fetch_array($res)) {
+     $title1= $row['title'];
+     $name1= $row['fullname'];
+     $extension1= $row['extension'];
+     $position1= $row['position'];
+   }
+   ?>
+<td style="font-family: Calibri"><b><?php echo $title1 ;?>  <?php echo $name1 ;?>  <?php echo $extension1 ;?></b></td>
+</tr>
+<tr>
+<td>Asst. <?php echo $position1;?>/Instructor I</td>
 </tr>
 </table>
       <style>
