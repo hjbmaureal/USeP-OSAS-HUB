@@ -378,6 +378,7 @@
                             </div>
                             <div class="modal-body"><div class="form-group">
                               <label class="control-label">Password:</label>
+                              <input class="form-control d-inline w-75"  type="hidden" id="uname" value="username" >
                               <input class="form-control d-inline w-75"  type="password" id="pword" placeholder="">
                             </div>
                           </div>
