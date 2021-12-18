@@ -632,6 +632,16 @@ function timeago($datetime, $full = false) {
     } 
 
     else { 
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$student_name= $_SESSION['fullname'];
+
+$notif_body = "".$student_name." filed a consultation.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
         
         //insert syntax
         $result ="INSERT INTO consultation(patient_id,consultation_type,communication_mode_first_option,communication_mode_second_option,messenger,patient_type,problems,date_filed, status,semester,school_year) VALUES('$patient_id','$type','$mode','$modei','$fb','$patient_type','$problem',now(),'$status','$semester','$school_year')";

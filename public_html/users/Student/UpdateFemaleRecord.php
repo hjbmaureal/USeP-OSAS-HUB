@@ -808,6 +808,14 @@ function timeago($datetime, $full = false) {
         $result5 = $db->query($up);
 
 
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student updated a consultation.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
            echo '<script>
                   swal({
                   title: "Record Successfully Updated!",
@@ -849,6 +857,16 @@ $in_ch=mysqli_query($db,"INSERT INTO clinic_patient_info(patient_id,admitted,adm
 
 if($in_ch==1)  
    {  
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$student_name= $_SESSION['fullname'];
+
+$notif_body = "".$student_name." updated her Medical Record.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
 
 
       $res ="INSERT INTO clinic_patient_info_female(patient_id,mens_age_start,mens_regular,mens_irregular,dysmenorrhea,pms) VALUES('$patient_id','$first','$regular','$peryear','$dysmenorrhea','$premen')";

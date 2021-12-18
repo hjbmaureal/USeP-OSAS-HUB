@@ -717,6 +717,14 @@ function timeago($datetime, $full = false) {
 
 
 
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student updated a consultation.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
            echo '<script>
                   swal({
                   title: "Record Successfully Updated!",
@@ -757,6 +765,17 @@ function timeago($datetime, $full = false) {
 
     if($in_ch==1)  
        {  
+
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$student_name= $_SESSION['fullname'];
+
+$notif_body = "".$student_name." updated his Medical Record.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
 
            $sql="Update student set patinfo_status='1'  where Student_id='$patient_id'";
            $result5 = $db->query($sql);
