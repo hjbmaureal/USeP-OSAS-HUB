@@ -1,13 +1,158 @@
-             <div class="modal fade " id="requiredlab<?php echo $id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content" id="content<?php echo $id ?>">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">LAB REQUEST SLIP</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body c" id="printThis">
+<?php
+include("connect.php");
+    include('conn.php');
+session_start();
+  if(!isset($_SESSION['id'])){
+  echo '<script> alert("Please Login first!!!") 
+  window.location="../../index.php";
+  </script>';
+    
+}?>
+<!DOCTYPE html>
+<html>
+<head>
+      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+      <!-- Twitter meta-->
+      <meta property="twitter:card" content="summary_large_image">
+      <meta property="twitter:site" content="@pratikborsadiya">
+      <meta property="twitter:creator" content="@pratikborsadiya">
+      <!-- Open Graph Meta-->
+      <meta property="og:type" content="website">
+      <meta property="og:site_name" content="Vali Admin">
+      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+       <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Student Hub</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
+
+      <!-- Font-icon css-->
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <script>
+    function printDiv(prescript){
+      var printContents = document.getElementById(prescript).innerHTML;
+      var originalContents = document.body.innerHTML;
+
+      document.body.innerHTML = printContents;
+
+      window.print();
+
+      document.body.innerHTML = originalContents;
+
+    }
+  </script>
+  <style>
+                   @media screen {
+
+                        #printSection {
+
+                            display: none;
+
+                        }
+
+                    }
+
+                    @media print {
+
+                        body * {
+
+                            visibility: hidden;
+
+                        }
+
+                        #printSection,
+
+                        #printSection *,#container {
+
+                            visibility: visible;
+                            max-height: 100%;
+                            
+
+                        }
+
+                        #printSection {
+
+                            position: absolute;
+
+                            left: 2%;
+
+                            top: 1%;
+
+
+                            
+                        }
+
+                        .close{
+                          display: none;
+                        }
+                        #container{
+                          
+                        }
+                        .btn{
+                          display: none;
+                        }
+                        #printSection, #container{
+
+                        }
+                        .head,hr,.modal-dialog,#requested{
+                          width: 47%;
+                        }
+                        .modal-content{
+                          width: 51%;
+                        }
+
+                        #date {
+                          margin-left:-22%;
+                        }
+
+                        .modal-header, .modal-footer {
+                          display: none;
+                        }
+
+
+                        
+                        
+
+                        
+
+                    }
+
+                </style>
+<body class="app sidebar-mini rtl" style="background-color: #fff;" onload="window.print()">
+
+<?php
+
+
+$id = $_SESSION['id'];
+
+if (isset($_POST['print'])) {
+  $request_id= $_POST['request_id'];
+  $id = $_SESSION['id'];
+
+  $db = mysqli_connect("localhost","root","","backupdb-3");
+
+                        $sql = "SELECT * from request_list where patient_id=('$id') AND request_type='Medical Certificate' and request_id='$request_id'";
+
+
+                    $res = $db->query($sql);
+                    $cnt=1;
+                    
+                    while($row = $res->fetch_assoc()) {
+                      $prescription_id = $row['prescription_id'];
+                      $image_data=$row['e_signature'];
+
+?>
+
+<div class="modal-body c" id="printThis">
                       <div class="container">
                       <div class = "head">  
                         
@@ -238,143 +383,15 @@
                           <br>
                           <br>
                           <div id="requested">
-                          <h6 style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="<?php echo $staff_name ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none; cursor: default; height: 35px; width: auto; font-weight: bold;"></h6> 
+                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="<?php echo $staff_name ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;background-color: #F5F5F5;cursor: default;"></h6> 
                         </div>
                           <br>
                            
                           </div>   
                         </div>
-                    
-                      <div class="modal-footer">
-                        
-                          <button type="submit" class="btn btn-success" id="btnPrint<?php echo $id ?>" name="print">Print</button>
-                        
-                        
-                      </div>
-                      <img src="image/logo.png"  style="position: absolute;transform: translate(100px, 430px);opacity: .10 " />
-                    </div>
+<?php 
+  }
+}?>
 
-                  </div>
-                </div>   
-                
-                 <script type="text/javascript">
-
-                    document.getElementById("btnPrint<?php echo $id ?>").onclick = function () {
-
-                                    printElement(document.getElementById("content<?php echo $id ?>"));
-
-                                };
-
-                                function printElement(elem) {
-
-                                    var domClone = elem.cloneNode(true);
-
-                                    
-
-                                    var $printSection = document.getElementById("printSection");
-
-                                    
-
-                                    if (!$printSection) {
-
-                                        var $printSection = document.createElement("div");
-
-                                        $printSection.id = "printSection";
-
-                                        document.body.appendChild($printSection);
-
-                                    }
-
-                                    
-
-                                    $printSection.innerHTML = "";
-
-                                    $printSection.appendChild(domClone);
-
-                                    window.print();
-
-                                }
-
-                </script>
-
-                <script type="text/javascript">
-                  document.getElementById('address').innerHTML = document.getElementById('address').innerHTML.trim();
-                </script>
-
-                <style>
-                   @media screen {
-
-                        #printSection {
-
-                            display: none;
-
-                        }
-
-                    }
-
-                    @media print {
-
-                        body * {
-
-                            visibility: hidden;
-
-                        }
-
-                        #printSection,
-
-                        #printSection *,#container {
-
-                            visibility: visible;
-                            max-height: 100%;
-                            
-
-                        }
-
-                        #printSection {
-
-                            position: absolute;
-
-                            left: 2%;
-
-                            top: 1%;
-
-
-                            
-                        }
-
-                        .close{
-                          display: none;
-                        }
-                        #container{
-                          
-                        }
-                        .btn{
-                          display: none;
-                        }
-                        #printSection, #container{
-
-                        }
-                        .head,hr,.modal-dialog,#requested{
-                          width: 47%;
-                        }
-                        .modal-content{
-                          width: 51%;
-                        }
-
-                        #date {
-                          margin-left:-22%;
-                        }
-
-                        .modal-header, .modal-footer {
-                          display: none;
-                        }
-
-
-                        
-                        
-
-                        
-
-                    }
-
-                </style>
+</body>
+</html>

@@ -1,4 +1,6 @@
+ 
 
+ <link rel="stylesheet" type="text/css" href="css/clinic_style.css">
              <div class="modal fade " id="requiredlab<?php echo $prescription_id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document" >
                     <div class="modal-content" id="content<?php echo $prescription_id ?>" style="width: 100%;">
@@ -86,24 +88,23 @@
                          <br>
 
                           <h6 class="font-weight-bold" style="margin-left: 5%; font-family: Courier New; font-weight:  bold; font-size: 18px;"><?php echo nl2br($row['prescription_details']);?> </h6> 
-
-                             <br>
+                         <br>
                              <br>
                              <br>
                                <div class="col-sm">
                                 <div class="form-group">
-                                    <div style="text-align: right; margin-right: 15%;">
-                                    <object data="data:image/jpeg;base64,<?php echo base64_encode($image_data); ?>" width="100px" height="100px" style="margin-bottom: -80px;"></div>
+                                    <div style="text-align: right; margin-right: 12%; ">
+                                    <object class="sign" data="data:image/jpeg;base64,<?php echo base64_encode($image_data); ?>" width="100px" height="100px" style="margin-bottom: -200px;position: sticky;" ></div>
                                     <div style="text-align: right; margin-right: -6%; ">
-                                      <img id="e_sig" src="image/no_sig.png" alt="E-signature" width="150px" height="30px" style="margin-bottom: -20px;"></div>
+                                      <img id="e_sig" src="image/no_sig.png" alt="E-signature" width="150px" height="30px" style="margin-bottom: -250px;"></div>
                                     </object>
                                   </div>
                                   </div>
                             </div>
                                 
                           
-                          <div style="display: inline-block; text-align: right; margin-left: 120px;" id="other" >
-                            <h6 class="font-weight-bold"><input type="text" readonly="" value="<?php echo $row['prescribing_doctor_name']; ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;cursor: default; width: 250px; font-weight: bold;"></h6> </input>
+                          <div style="display: inline-block; text-align: right; margin-left: 120px; margin-top: 120px;" id="other" >
+                            <h6 class="font-weight-bold"><input type="text" readonly="" value="<?php echo " ".$row['professional_honorific']." ".$row['prescribing_doctor_name'].", ".$row['extension']; ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;cursor: default; width: 250px;"></h6> </input>
 
                       <h6 class="font-weight-normal">Lic. No.: <span class="font-weight-lighter ml-2"></span><input type="text" readonly="" value="<?php echo $row['license_number']; ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;cursor: default;width: 250px;"></input>
                       </h6> 
@@ -124,9 +125,11 @@
                         </div>
                     
    
-                        <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" id="btnPrint<?php echo $prescription_id ?>">Print</button>
-                   
+                      <div class="modal-footer">
+                      
+                        <button type="submit" class="btn btn-success" id="btnPrint<?php echo $prescription_id ?>" name="print">Print</button>
+                      
+                        
                       </div>
 
                       <img id="logo" src="image/logo.png"  style="position: absolute;transform: translate(100px, 370px);opacity: .15 " />
@@ -138,15 +141,6 @@
 <script type="text/javascript">
   document.getElementById('address').innerHTML = document.getElementById('address').innerHTML.trim();
 </script>
-<script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
-      <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
-      <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
 
  <script type="text/javascript">
 
@@ -187,7 +181,6 @@
                                 }
 
                 </script>
-
                 <style>
                    @media screen {
 
@@ -236,7 +229,7 @@
                           display: none;
                         }
                         #printSection, #container{
-                          width: 50%;
+                          width: 55%;
 
                         }
                         .head,hr,.modal-dialog,#requested{
@@ -263,6 +256,14 @@
 
                         #date {
                           margin-left:-22%;
+                        }
+
+                        .sign {
+                          margin-right: 52% ;
+                        }
+
+                        #e_sig {
+                          display: none;
                         }
 
 

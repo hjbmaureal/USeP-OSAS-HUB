@@ -1,3 +1,4 @@
+            
             <div class="modal fade " id="released<?php echo $res['request_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="RequestModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -16,22 +17,22 @@
                         <h6 class="font-weight-bold">Tagum-Mabini Campus</h6> 
                         <h6 class="font-weight-bold">Apokon, Tagum City</h6> 
                         <br>
-                        <hr width=”100%″ size="10">
-                        <hr width=”100%″ size="10">
+                        <hr width=”75%″ size="10">
+                        <hr width=”75%″ size="10">
                       </div>
                       <form method="POST" action="generate_cert.php">
                        <input type="text" name="id" value="<?php echo $res['request_id']; ?>" hidden></input>
+
+                       <h6 class="font-weight-bold">Name of Consultant: <br><input type="text" name="consultant"  style="border-top:none;border-left: none;border-right: none;outline: none; width: 400px; height: 35px;"></input></h6> 
                        <br>
-                       <h6 class="font-weight-bold">Name of Consultant:<br><input type="text" name="consultant"  style="border-top:none;border-left: none;border-right: none;outline: none; width: 400px; font-size: 18px; margin-top: 3%;"></input></h6> 
-                        <br>
-                        <h6 class="font-weight-bold">Found him/her to be with:<br><input type="text" name="found"  style="border-top:none;border-left: none;border-right: none;outline: none; width: 400px; font-size: 18px; margin-top: 3%;"></input></h6> 
+                        <h6 class="font-weight-bold">Found him/her to be with:<br><br> <textarea type="text" rows="5" name="found" style="width: 400px;"></textarea></h6> 
                         <br>
  
                         </div>
 
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                        <button type="submit" onclick="sweetAlert('Certificate released successfully', 'Server Request Successful!', 'success', 10000, false);" class="btn btn-success" name="submit">Submit</button>
                       </div>
                     </div>
                     </form>

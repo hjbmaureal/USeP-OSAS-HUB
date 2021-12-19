@@ -71,8 +71,8 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
                               $("#Add").prop('disabled', false);
                              }else{
                               swal({
-                                              title: "Out of stock!",
-                                              text: "Out of stock!",
+                                              title: "Insufficient stock!",
+                                              text: "Please enter a valid quantity",
                                               icon: "error",
                                               buttons: false,
                                               timer: 2000,
@@ -134,6 +134,13 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
     $details= implode('. ', $combined);
     
     $sqlInsert=mysqli_query($db,"INSERT INTO `prescription`(`prescription_id`, `patient_id`, `consultation_id`, `prescription_details`, `prescribing_doctor`, `date`) VALUES (null,'$patientID','$consultID','".$details." ".$addMedication."','$name',now())");
+    
+    if($sqlInsert=== TRUE){
+      $notif_body = "USeP Clinic issued a prescription.";
+    $notification=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$patientID', '$notif_body',now(),'../users/Student/Prescription.php', 'Delivered')");
+    }
+    
+
       for ($i=0; $i <= $count-1; $i++) {
       if ($arraycheck[$i]=='1') {
         $name_holder=trim($arraymed[$i]);
@@ -145,6 +152,10 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
         $sqlUpdate_Inv=mysqli_query($db,"UPDATE `item_inventory` SET `issuance_apokon`=issuance_apokon + '".$arrayquan[$i]."',`balance`=balance - '".$arrayquan[$i]."' WHERE item_code ='$itemID' and datefrom='".$arraydate[$i]."'");
       }
     }
+
+
+
+
   
   }
 

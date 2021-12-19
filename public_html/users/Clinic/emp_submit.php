@@ -136,6 +136,6 @@ imagedestroy($photoFrame);
 //images
 $message = 'released your Medical Certificate';
 mysqli_query($conn,"UPDATE clinic_certificate_requests set certificate_location='../C-admin/certs/$targetfile.jpg', date_released='$date',status='completed' where request_id=$request_id");
-$result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'requestmedcert.php', 'Delivered','3')");
+$result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'USeP Clinic" .' '. "".$message."',now(),'../users/Faculty/RequestMedCert.php', 'Delivered','3')");
 header("Location: admin-request.php");
 ?>

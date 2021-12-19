@@ -638,8 +638,8 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       <th scope="col">Date of Appointment</th>
                       <th scope="col">Time</th>
                       <th scope="col">Duration</th>
-                     <th scope="col">Status</th>
-            <th scope="col">Cancellation Remarks (if applicable)</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Cancellation Remarks (if applicable)</th>
                      <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -713,6 +713,17 @@ if(isset($_POST['cancelappointment'])){
    $mcomment= $_POST['reason'];
   $sql = "Update consultation set status='Pending Cancel Request', reason_cancel='$mcomment', request_cancel_date= now() where id='$patient_id'"; 
    if ($db->query($sql) === TRUE) {
+
+      
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+
+$admin_id= $request['staff_id'];
+
+$notif_body = " ".$_SESSION['fullname']." filed a request for cancellation of appointment.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-CancellationOfAppointment.php', 'Delivered')");
   echo '<script>
       swal({
       title: "Cancellation request submitted successfully!",

@@ -93,7 +93,7 @@ if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset(
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
     $sql="Select * from staffdetails where office_name='Clinic' AND type='Coordinator'";
@@ -217,7 +217,7 @@ if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset(
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 

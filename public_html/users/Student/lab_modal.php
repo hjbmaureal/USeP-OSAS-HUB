@@ -1,14 +1,14 @@
 <div class="modal fade " id="SubmitLabModal<?php echo $res['request_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="RequestModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <div class="modal-header" style="background-color: #2B4550">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FFFFFF">&nbsp;SUBMIT LAB RESULT</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #FFFFFF">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle" >&nbsp;SUBMIT LAB RESULT</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body c">
-                        <div class="container" style="border: 2px solid black; border-radius: 10px; padding: 25px; background-color: #F5F5F5">
+                        <div class="container" style="border: 1px solid black; border-radius: 10px; padding: 25px;">
                       <div class = "head">  
                         
                         <h6 class="font-weight-bold">Republic of the Philippines</h6> 
@@ -21,7 +21,7 @@
                       </div>
                       <form method="POST" action="student_submit_lab.php" enctype="multipart/form-data"> 
                       <input type="text" name="id" value="<?php echo $id ?>"hidden ></input>
-                        <h6 class="font-weight-bold">Date: <input type="text" name="date" readonly="" value="<?php echo(date('Y/m/d'))?>"  style="border:none;outline: none;background-color: #F5F5F5;cursor: default;"></input></h6> 
+                        <h6 class="font-weight-bold">Date:<input type="text" name="date" readonly="" value="<?php echo(date('Y/m/d'))?>"  style="border:none;outline: none;cursor: default; font-weight: bold;"></input></h6> 
                         <br>
                         <h6 class="font-weight-bold">Please submit the following:</h6> 
                         <?php

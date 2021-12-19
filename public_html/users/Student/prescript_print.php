@@ -1,3 +1,13 @@
+<?php
+include("connect.php");
+    include('conn.php');
+session_start();
+  if(!isset($_SESSION['id'])){
+  echo '<script> alert("Please Login first!!!") 
+  window.location="../../index.php";
+  </script>';
+    
+}?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +38,8 @@
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <script>
-    function printDiv(container){
-      var printContents = document.getElementById(container).innerHTML;
+    function printDiv(prescript){
+      var printContents = document.getElementById(prescript).innerHTML;
       var originalContents = document.body.innerHTML;
 
       document.body.innerHTML = printContents;
@@ -40,17 +50,105 @@
 
     }
   </script>
-<body class="app sidebar-mini rtl" style="background-color: #fff;" onload="printDiv('container')">
+  <style>
+                   @media screen {
+
+                        #printSection {
+
+                            
+
+                        }
+
+                    }
+
+                    @media print {
+
+                        body * {
+
+                            
+
+                        }
+
+                        #printSection,
+
+                        #printSection *,#container {
+
+                            visibility: visible;
+                            max-height: 100%;
+                            
+
+                        }
+
+                        #printSection {
+
+                            position: absolute;
+
+                            left: 2%;
+
+                            top: 1%;
+
+
+                            
+                        }
+
+
+                        .close{
+                          display: none;
+                        }
+
+                        .btn{
+                          display: none;
+                        }
+                        #printSection, #container{
+                          width: 50%;
+
+                        }
+                        .head,hr,.modal-dialog,#requested{
+                          width: 47%;
+                        }
+                        hr{
+                          margin-left: 10px !important;
+                        }
+                        .modal-content{
+                          width: 50%;
+                        }
+                        .pr{
+                          width: 10%;
+                          height: 10%;
+                          
+                        }
+                        #other{
+                          margin-left: 165px!important;
+                        }
+
+                        .modal-title, .modal-header, .modal-footer {
+                          display: none;
+                        }
+
+                        #date {
+                          margin-left:-22%;
+                        }
+
+
+
+                       /** footer {page-break-after: left;} */
+
+
+                    @page {
+
+                    }
+                        
+                        
+
+                        
+
+                    }
+
+                </style>
+<body class="app sidebar-mini rtl" style="background-color: #fff;" onload="window.print()">
+
 <?php
-include("connect.php");
-    include('conn.php');
-session_start();
-  if(!isset($_SESSION['id'])){
-  echo '<script> alert("Please Login first!!!") 
-  window.location="../../index.php";
-  </script>';
-    
-}
+
 
 $id = $_SESSION['id'];
 
@@ -72,8 +170,8 @@ if (isset($_POST['print'])) {
 
 ?>
 
-<div class="modal-body" id="prescript">
-                      <div class="container" id="container" style="max-width:500px;">
+<div id="prescript">
+<div class="container" id="container">
 
 <img id="logo" src="image/logo.png"  style="position: absolute;transform: translate(100px, 370px);opacity: .15 " />
 
@@ -86,8 +184,8 @@ if (isset($_POST['print'])) {
                         <h6 class="font-weight-bold">Apokon, Tagum City</h6> 
                         <br>
                       </div>
-                        <hr width=”100%″ size="10" style="border: 1px solid #8064a2;">
-                        <hr width=”100%″ size="10" style="border: 1px solid #8064a2;">
+                        <hr width=”50%″ size="10" style="border: 1px solid #8064a2;">
+                        <hr width=”50%″ size="10" style="border: 1px solid #8064a2;">
                        
                        
                         
@@ -152,16 +250,17 @@ if (isset($_POST['print'])) {
                              <br>
                              <br>
                              <br>
-                               <div class="col-sm">
+                              <div class="col-sm">
                                 <div class="form-group">
                                     <div style="text-align: right; margin-right: 15%;">
-                                    <object data="data:image/jpeg;base64,<?php echo base64_encode($image_data); ?>" width="100px" height="100px" style="margin-bottom: -80px;"></div>
+                                    <object id="e_sig" data="data:image/jpeg;base64,<?php echo base64_encode($image_data); ?>" width="100px" height="100px" style="margin-bottom: -80px;position: sticky;   margin-right:390px;"></div>
                                     <div style="text-align: right; margin-right: -6%; ">
-                                      <img id="e_sig" src="image/no_sig.png" alt="E-signature" width="150px" height="30px" style="margin-bottom: -20px;"></div>
+                                      <img id="e_sig" src="image/no_sig.png" alt="E-signature" width="150px" height="30px" style="margin-bottom: -80px;margin-right:420px;"></div>
                                     </object>
                                   </div>
                                   </div>
                             </div>
+                                
                                 
                           
                           <div style="display: inline-block; text-align: right; margin-left: 120px;" id="other" >

@@ -46,8 +46,30 @@ $message = 'released your Medical Certificate';
 imagejpeg($image,"certs/".$file.".jpg");
 imagedestroy($image);
 mysqli_query($conn,"UPDATE clinic_certificate_requests set certificate_location='../C-admin/certs/$file.jpg', date_released='$date',status='completed' where request_id=$id");
-$result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'requestmedcert.php', 'Delivered','3')");
-header("Location: admin-request.php");
+
+$user_check_query="SELECT * from login_credentials where username='$patient_id' LIMIT 1";
+$result2=mysqli_query($conn,$user_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+if($request['usertype']=='Student'){
+    $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'../users/Student/RequestMedCert.php', 'Delivered','3')");
+    header("Location: admin-request.php");
+}
+if($request['usertype']=='Faculty Head'){
+    $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'../users/Faculty/RequestMedCert.php', 'Delivered','3')");
+    header("Location: admin-request.php");
+}
+if($request['usertype']=='Faculty'){
+     $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'../users/Faculty/RequestMedCert.php', 'Delivered','3')");
+    header("Location: admin-request.php");
+}
+if($request['usertype']=='Staff'){
+    $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'../users/Faculty/RequestMedCert.php', 'Delivered','3')");
+    header("Location: admin-request.php");
+}
+
+
+
 }
 
 ?>

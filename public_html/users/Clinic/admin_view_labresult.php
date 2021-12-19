@@ -300,7 +300,7 @@
                         
                           <br>
                           <br>
-                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="Ardy Larita"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;background-color: #F5F5F5;cursor: default;"></h6> 
+                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="<?php echo $res['requested_by']; ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;cursor: default; height: 35px; width:auto;"></h6> 
                           <br>
                            
                           </div>   

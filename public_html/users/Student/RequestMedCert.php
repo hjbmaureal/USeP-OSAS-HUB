@@ -587,7 +587,7 @@ function timeago($datetime, $full = false) {
                         <td>
                           <?php
                         if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1){
-                         echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 60%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
+                         echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 80%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
                           include("lab_modal.php");
                           
                         }else{

@@ -3,7 +3,7 @@ require_once('tcpdf/tcpdf.php');
  function fetch_data()  
  {
  $output = '';  
-      $connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
+$connect = mysqli_connect("localhost", "root", "", "backupdb-3"); 
  $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'";
   $result = mysqli_query($connect, $sql);  
       while($row = mysqli_fetch_array($result))  
@@ -204,7 +204,7 @@ $pdf->Output('example_003.pdf', 'I');
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}?>
 
 <!DOCTYPE html>
@@ -445,7 +445,7 @@ $pdf->Output('example_003.pdf', 'I');
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -638,7 +638,8 @@ $pdf->Output('example_003.pdf', 'I');
                 <tbody>
                   <?php 
           
-        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, student.pic, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'" ;
+        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, student.pic, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending' order by date_filed DESC";
+
       $res = $db->query($sql);
       $cnt=1;
       if ($res->num_rows > 0) {

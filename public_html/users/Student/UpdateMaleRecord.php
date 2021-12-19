@@ -588,7 +588,7 @@ function timeago($datetime, $full = false) {
 
 
                                   <div class="form-group">
-                                    <label class="control-label"><b>Do you experience headache, dizziness or syncope at any time?</b></label>
+                                    <label class="control-label"><b>Do you experience headache, dizziness (<i>pagkahilo</i>) or syncope (<i>pagkahimatay</i>) at any time?</b></label>
                                     <h6>(Previous answer:&nbsp;
                                       <?php
                                         $pat_id=$_SESSION['id'];
@@ -723,7 +723,7 @@ $request=mysqli_fetch_assoc($result2);
 
 $admin_id= $request['staff_id'];
 
-$notif_body = "A student updated a consultation.";
+$notif_body = "".$student_name." updated his Medical Record.";
 $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
            echo '<script>
                   swal({

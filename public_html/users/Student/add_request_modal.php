@@ -4,7 +4,7 @@
 
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
             <link rel="stylesheet" type="text/css" href="css/main.css">
           <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
@@ -23,7 +23,7 @@ $date = $_POST['date'];
 $purpose = $_POST['purpose']; 
 $type="Medical Certificate";
 $other_text = $_POST['other_text']?? null;
-$message = 'Request for a Medical Certificate';
+$message = 'requested a Medical Certificate';
 
 foreach ($purpose as $purpose2){ 
     if ($purpose2 == "others") {
@@ -47,26 +47,20 @@ foreach ($purpose as $purpose2){
     $patient_id = $res['patient_id'];
     }
     if (empty($patient_id)) {
-        echo '<script>
-                swal({
-                title: "No Record!",
-                text: "Server Request Successful!",
-                type:"error",
-                icon: "error",
-                button: false,
-                timer:1000,
-                closeOnClickOutside: false,
-                closeOnEsc: false,                                                                                             
-                },function() {
-              window.location.href = "StudentConsultation.php";
-            })
-         </script>';
+        echo '<script> alert("No records")
+        window.location.href="StudentConsultation.php";
+         </script>
+        ';
     }else{
 $query = "INSERT INTO clinic_certificate_requests(user_id, date_requested, purpose, request_type,status ) VALUES('$id','$date','$new_purpose','$type','pending')";
 
-$result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$staff_id', '$name" .' '. "".$message."',now(),'admin-request.php', 'Delivered','3')");
 
 if ($conn->query($query) === TRUE) {
+    $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+$admin_id= $request['staff_id'];
+$result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$admin_id', '$name" .' '. "".$message."',now(),'../users/Clinic/admin-request.php', 'Delivered','3')");
   echo '<script>
                 swal({
                 title: "Request added successfully!",
@@ -74,11 +68,11 @@ if ($conn->query($query) === TRUE) {
                 type:"success",
                 icon: "success",
                 button: false,
-                timer:1000,
+                timer:2000,
                 closeOnClickOutside: false,
                 closeOnEsc: false,                                                                                             
-                },function() {
-              window.location.href = "requestmedcert.php";
+                }).then(function() {
+                window.location = "requestmedcert.php";
             })
          </script>';
 } else {
