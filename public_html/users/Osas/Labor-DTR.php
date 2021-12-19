@@ -713,6 +713,7 @@
                     { data: "salary", className:'collapse'},
                     { data: "salary_status", className:'collapse'}
                   ],
+                  paging:false,
                   ordering : false,
                   initComplete: function () {
                    // getTotalHours();
@@ -780,9 +781,37 @@
             function addTimes(times) {
               let duration = 0;
               times.forEach(time => {
-                duration = duration + moment.duration(time).as('milliseconds')
+                duration += convertH2M(time);
               });
-              return  moment.utc(duration).format("HH")+" hours "+ moment.utc(duration).format("mm")+" minutes";
+              console.log(duration);
+              return  timeConvert(duration);
+            }
+
+            function msToTime(duration) {
+              var milliseconds = parseInt((duration % 1000) / 100),
+                seconds = Math.floor((duration / 1000) % 60),
+                minutes = Math.floor((duration / (1000 * 60)) % 60),
+                hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+              hours = (hours < 10) ? "0" + hours : hours;
+              minutes = (minutes < 10) ? "0" + minutes : minutes;
+              seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+              return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+            }
+
+            function convertH2M(timeInHour){
+              var timeParts = timeInHour.split(":");
+              return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+            }
+
+            function timeConvert(n) {
+            var num = n;
+            var hours = (num / 60);
+            var rhours = Math.floor(hours);
+            var minutes = (hours - rhours) * 60;
+            var rminutes = Math.round(minutes);
+            return rhours + " hour(s)";
             }
 
 

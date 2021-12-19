@@ -536,6 +536,9 @@
                       <input type="text" id="max-date" class="form-control date-range-filter mx-2" data-date-format="yyyy-mm-dd" placeholder="To:">
 
                     </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-1">Total</div>
+                    <div class="col-sm-2 text-left font-weight-bold h5"><span id="total-hours-temp"></span></div>
                 </div>
                 <div class="table-responsive">
                   <br>
@@ -709,6 +712,7 @@
                 { data : "diff" },
                 { data : "stat" }
               ],
+              paging:false,
               responsive : true,
               ordering : false,
               initComplete: function () {
@@ -742,14 +746,42 @@
           }
 
 
-          function addTimes(times) {
-            let duration = 0;
-            times.forEach(time => {
-              duration = duration + moment.duration(time).as('milliseconds')
-            });
-            return  moment.utc(duration).format("HH:mm")
-          }
+            // GET TOTAL WORKING HOURS
+            function addTimes(times) {
+              let duration = 0;
+              times.forEach(time => {
+                duration += convertH2M(time);
+              });
+              console.log(duration);
+              return  timeConvert(duration);
+            }
 
+            function msToTime(duration) {
+              var milliseconds = parseInt((duration % 1000) / 100),
+                seconds = Math.floor((duration / 1000) % 60),
+                minutes = Math.floor((duration / (1000 * 60)) % 60),
+                hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+              hours = (hours < 10) ? "0" + hours : hours;
+              minutes = (minutes < 10) ? "0" + minutes : minutes;
+              seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+              return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+            }
+
+            function convertH2M(timeInHour){
+              var timeParts = timeInHour.split(":");
+              return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+            }
+
+            function timeConvert(n) {
+            var num = n;
+            var hours = (num / 60);
+            var rhours = Math.floor(hours);
+            var minutes = (hours - rhours) * 60;
+            var rminutes = Math.round(minutes);
+            return rhours + " hour(s)";
+            }
 
           function getTotalHours(){
             var times = [];
@@ -762,6 +794,7 @@
               })
             var total = addTimes(times);
             $('#total-hours').text(total);
+            $('#total-hours-temp').text(total);
 
           }
 

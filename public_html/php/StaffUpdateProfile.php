@@ -98,6 +98,13 @@
       }
     //$query
 
+      if ($_SESSION['usertype']=='Coordinator' && $_SESSION['office']=='Scholarship' && file_exists($_FILES['image1']['tmp_name'])){
+
+          $fileinfo2=PATHINFO($_FILES["image1"]["name"]);
+          $newFilename2='signature.png';
+          move_uploaded_file($_FILES["image1"]["tmp_name"],"../images/scholarship_card_template/".$newFilename2);
+      }
+
       if(!file_exists($_FILES['image1']['tmp_name']) && !file_exists($_FILES['image']['tmp_name'])){
         $file = "";
         $file1= "";
