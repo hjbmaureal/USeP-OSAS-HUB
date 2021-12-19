@@ -503,7 +503,7 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                 <div class="row">
                 <div class="form-group col-sm-3">
                 <label class="control-label cl mt-5">Respectfully,</label><br><br>
-          <img id="report-student-signature" class="e-sign" width="200" height="200" style="margin-bottom:-90px; margin-top: -110px; margin-left: -70px; position:relative;" src="data:image/jpeg;base64,<?php echo base64_encode( $row['e_signature'] ); ?>"> <br>
+          <img id="report-student-signature" class="e-sign" width="200" height="200" style="margin-bottom:-90px; margin-top: -110px; margin-left: -70px; position:relative;"src="data:image/jpeg;base64,<?php echo $_SESSION['user_signature'] ?>" > <br>
     <span class="font-weight-lighter "><p class="Signature" style="border: 0;border-bottom: 1px solid #000; font-size: 120%;text-transform: uppercase;"></span><br>
  <span class="font-weight-lighter "><?php echo $row['fullname'];  ?></span>
                 <p style="margin-top: -8%">(Signature over printed name)

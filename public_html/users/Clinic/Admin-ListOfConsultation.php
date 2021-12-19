@@ -338,7 +338,7 @@ $pdf->Output('example_003.pdf', 'I');
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
+
             </ul>
           </li>
 
@@ -654,12 +654,13 @@ $pdf->Output('example_003.pdf', 'I');
           <?php 
           $stat="Approved";
           
-          $sql = "SELECT consultation.id,CONCAT(student.first_name,' ',student.last_name) as name,student.email_add,student.sex, student.civil_status,student.year_level,student.section,consultation.patient_id,consultation.status,consultation.date_filed,consultation.problems,consultation_type.consultation_type, course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id WHERE consultation.status='$stat' order by date_filed";
+          $sql = "SELECT consultation.id,CONCAT(student.first_name,' ',student.last_name) as name,student.email_add,student.sex, student.civil_status,student.year_level,student.section, student.pic, consultation.patient_id,consultation.status,consultation.date_filed,consultation.problems,consultation_type.consultation_type, course.title,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id WHERE consultation.status='$stat' order by date_filed";
 
           $res = $db->query($sql);
                     $cnt=1;
 
                     while($row = $res->fetch_assoc()) {
+                      $image_data=$row['pic'];
                       ?>
 
                     <tr>

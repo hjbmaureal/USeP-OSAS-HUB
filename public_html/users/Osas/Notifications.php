@@ -1,8 +1,8 @@
 <?php
- include 'conn.php';
+  include 'conn.php';
   include '../../php/notification-timeago.php'; 
   session_start();
-  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'OSAS'){
+  if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Coordinator' || isset($_SESSION['office']) != 'OSAS'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
     echo '</script>';
@@ -12,7 +12,7 @@
   $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 1) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 ?>
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
@@ -28,7 +28,7 @@
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Super Admin</title>
+      <title>USeP OSAS Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,7 +40,7 @@
       <link rel="stylesheet" type="text/css" href="../../css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-      <body class="app sidebar-mini rtl">
+      <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
         
@@ -48,15 +48,17 @@
     
    
       </header>
+   
+
 
       <!-- Sidebar menu-->
-      <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside class="app-sidebar">
+  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
       <div class="app-sidebar__user">
         <img class="app-sidebar__user-avatar" src="../../images/logo.png" width="20%" alt="img">
           <div>
             <p class="app-sidebar__user-name font-sec" style="margin-top: 8px;">COORDINATOR</p>
-            <p style="text-align: center;" class="app-sidebar__user-name font-sec" > PORTAL</p>
+            <p style="text-align: center;" class="app-sidebar__user-name font-sec" >HUB</p>
           </div>
       </div>
 
@@ -75,7 +77,7 @@
         <li class="treeview">
           <a class="app-menu__item" href="#" data-toggle="treeview">
             <i class="app-menu__icon fa fa-list-alt"></i>
-            <span class="app-menu__label">Student Discipine</span>
+            <span class="app-menu__label">Student Discipline</span>
             <i class="treeview-indicator fa fa-angle-right"></i>
           </a>
             <ul class="treeview-menu">
@@ -110,13 +112,14 @@
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Labor-Requisition.php">Requisition</a></li>
               <li><a class="treeview-item" href="Labor-Application.php">Application</a></li>
-              <li><a class="treeview-item" href="DTR.php">DTR & Salary</a></li>
+              <li><a class="treeview-item" href="DTR.php">DTR</a></li>
               <li><a class="treeview-item" href="Labor-Accomplishment.php">Accomplishment Reports</a></li>
+              <li><a class="treeview-item" href="Labor-Hired-Students.php">History</a></li>
             </ul>
         </li>
         <li>
           <a class="app-menu__item" href="ReqGoodMoral.php">
-            <i class="app-menu__icon fa fa-file-text-o"></i>
+            <i class="app-menu__icon fa fa-file"></i>
             <span class="app-menu__label">Request for Good Moral</span>
           </a>
         </li>
@@ -148,11 +151,12 @@
       </ul>
     </aside>
 
+
+
        <!--navbar-->
 
-          <main class="app-content">
-            
-        <div class="app-title">
+  <main class="app-content">
+    <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -160,6 +164,46 @@
         <li>
           <a class="appnavlevel">Hi, <?php echo $_SESSION['fullname'] ?></a>
         </li>
+        <!-- SEMESTER, TIME, USER DROPDOWN -->
+          <?php
+            if($result = mysqli_query($conn, "SELECT * FROM list_of_semester WHERE status = 'Active'")){
+              while($row = mysqli_fetch_array($result)){
+                $currSemesterYear = $row['semester'] .' '. $row['year'];
+                echo '
+                  <li>
+                    <div class="appnavlevel" style="color:black;">
+                      <span class="semesterYear">'.$row['semester'].'</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="appnavlevel"style="color:black;">
+                      <span class="semesterYear">'.$row['year'].'</span>
+                    </div>
+                  </li>
+                ';
+              }
+            }
+          ?>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="date">
+                <span id="dayname">Day</span>,
+                <span id="month">Month</span>
+                <span id="daynum">00</span>,
+                <span id="year">Year</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="datetime appnavlevel" style="color: black;">
+              <div class="time">
+                <span id="hour">00</span>:
+                <span id="minutes">00</span>:
+                <span id="seconds">00</span>
+                <span id="period">AM</span>
+              </div>
+            </div>
+          </li>
         <li class="dropdown">
           <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications">
             <b style="color: red;"><?php echo $count;  ?></b>
@@ -209,7 +253,9 @@
           </ul>
         </li>
         <li class="dropdown">      
-                <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Prologo Menu"><i class="text-warning fas fa-user-circle fa-2x"></i></a>
+                <a class="app-nav__item" style="width: 48px;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+                    <img class="rounded-circle" src="data:image/png;base64,<?php echo $_SESSION['photo'] ?>" style="max-width:100%;">
+                </a>
                 
                 <ul class="dropdown-menu settings-menu dropdown-menu-right">
                   <li><a class="dropdown-item" href="user-profiles.php"><i class="fa fa-user fa-lg"></i> Profile</a></li>
@@ -236,9 +282,62 @@
           </div>
         </div>
       </div>
-        <div class="red"> 
-          
-        </div>
+      <script type="text/javascript">
+        //CLOCK
+      function updateClock(){
+        var now = new Date();
+        var dname = now.getDay(),
+            mo = now.getMonth(),
+            dnum = now.getDate(),
+            yr = now.getFullYear(),
+            hou = now.getHours(),
+            min = now.getMinutes(),
+            sec = now.getSeconds(),
+            pe = "AM";
+        
+            if(hou >= 12){
+              pe = "PM";
+            }
+            if(hou == 0){
+              hou = 12;
+            }
+            if(hou > 12){
+              hou = hou - 12;
+            }
+
+            Number.prototype.pad = function(digits){
+              for(var n = this.toString(); n.length < digits; n = 0 + n);
+              return n;
+            }
+
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            for(var i = 0; i < ids.length; i++)
+            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+
+      function initClock(){
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+      var myInput = document.getElementById("newPass");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+      var special = document.getElementById("special");
+
+      var loadFile = function (event,imgname) {
+        console.log("userPic");
+        var image = document.getElementById(imgname);
+        image.src = URL.createObjectURL(event.target.files[0]);
+      };
+      </script>
+    <div class="red"></div>
+
+
               
           <!-- Content -->
      <div class="row">

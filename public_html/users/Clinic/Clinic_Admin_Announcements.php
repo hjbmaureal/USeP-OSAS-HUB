@@ -47,48 +47,48 @@ function timeago($datetime, $full = false) {
 
 ?>
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <!-- Twitter meta-->
-      <meta property="twitter:card" content="summary_large_image">
-      <meta property="twitter:site" content="@pratikborsadiya">
-      <meta property="twitter:creator" content="@pratikborsadiya">
-      <!-- Open Graph Meta-->
-      <meta property="og:type" content="website">
-      <meta property="og:site_name" content="Vali Admin">
-      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
-      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
-      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
-      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+<!-- Twitter meta-->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:site" content="@pratikborsadiya">
+<meta property="twitter:creator" content="@pratikborsadiya">
+<!-- Open Graph Meta-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vali Admin">
+<meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+<meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+<meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+<meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
       <title>USeP Clinic Admin Hub</title>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="css/main.css">
-      <link rel="stylesheet" type="text/css" href="css/upstyle.css">
-
-      <!-- Font-icon css-->
-      <link rel="stylesheet" type="text/css" href="css/all.min.css">
-      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
-      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-      <!--Jquery -->
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-
-    </head>
-    <body class="app sidebar-mini rtl" onload="initClock()">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/upstyle.css">
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css" href="css/all.min.css">
+<link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<style>
+  #registered{
+    display:block;
+  }
+  #ext {
+    display: none;
+  
+  }
+    #medical {
+    display: none;
+  }
+  </style>
+</head>
+<body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
              <script type="text/javascript">
@@ -144,16 +144,10 @@ function timeago($datetime, $full = false) {
         image.src = URL.createObjectURL(event.target.files[0]);
       };
       </script>
-
-        
-     <header class="app-header">
-    
-   
-      </header>
-
-      <!-- Sidebar menu-->
-      <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-      <aside class="app-sidebar">
+<header class="app-header"> </header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
         <div class="app-sidebar__user">
           <img class="app-sidebar__user-avatar" src="image/logo.png" width="20%" alt="img">
           <div>
@@ -184,7 +178,6 @@ function timeago($datetime, $full = false) {
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
             </ul>
           </li>
 
@@ -215,19 +208,16 @@ function timeago($datetime, $full = false) {
               <li><a class="treeview-item" href="Admin-ConsultationReports.php">Consultation Reports</a></li>
               <li><a class="treeview-item" href="Admin-RequestReports.php">Request Reports</a></li>
               <li><a class="treeview-item" href="Admin-ServicesSummaryReports.php">Medical Services Summary Reports</a></li>
-              <li><a class="treeview-item" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
+              <li><a class="treeview-item active" href="Admin-DentalSummaryReports.php">Dental Services Summary Reports</a></li>
             </ul>
           </li>
         
           
         </ul>
       </aside>
-
-       <!--navbar-->
-
-          <main class="app-content">
-            
-        <div class="app-title">
+<!--navbar-->
+<main class="app-content">
+  <div class="app-title">
       <div><!-- Sidebar toggle button-->
         <a class="app-sidebar__toggle fa fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       </div>
@@ -353,9 +343,7 @@ function timeago($datetime, $full = false) {
           </div>
         </div>
       </div>
-        <div class="red"> 
-          
-        </div>
+  <div class="red"> </div>
 
         <style>
         .vertical {

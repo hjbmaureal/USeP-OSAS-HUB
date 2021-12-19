@@ -62,7 +62,7 @@
                <div class="row">
                 <div class="form-group col-m-2">
                 <label class="control-label cl mt-5">Respectfully,</label><br>
-          <img id="report-student-signature" class="e-sign" width="200" height="200" style="margin-bottom:-90px; margin-top: -80px; margin-left: -70px; position:relative;" src="data:image/jpeg;base64,<?php echo base64_encode( $res['e_signature'] ); ?>"><br>
+          <img id="report-student-signature" class="e-sign" width="200" height="200" style="margin-bottom:-90px; margin-top: -80px; margin-left: -70px; position:relative;" src="data:image/jpeg;base64,<?php echo $_SESSION['user_signature'] ?>" ><br>
     <span class="font-weight-lighter "><p class="Signature" style="border: 0;border-bottom: 1px solid #000; font-size: 120%;text-transform: uppercase;"></span><br>
  <span class="font-weight-lighter "><?php echo $res['fullname']; ?></span>
         <?php //}?>

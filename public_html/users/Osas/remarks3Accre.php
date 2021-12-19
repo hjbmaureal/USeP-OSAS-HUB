@@ -8,8 +8,8 @@
                                 $student_check_query= substr(trim($res['Org_President_Governor']), 0,10);
                               echo '
                               <p class="text-black">Organization Name: <b><input type="text" name="name" style="border:none;" value="'.$res['org_name'].'"></b></p>
-                              <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'">
-                              <input type="text" name="by" style="border:none; width:300px; color:white;" value="'.$student_check_query'"></p>
+                              <p id="type">Organization Type: <input type="text" name="type" style="border:none;" value="'.$res['Type'].'"></p>
+                              <input type="text" name="by" style="border:none; width:300px; color:white;" value="'.$student_check_query.'"></p>
                                 <div class=" tile remarks-container container p-3 mt-3">
                                  <div class="row">
                                   <div class="col-sm-9"> 
@@ -56,7 +56,7 @@
                       </div>
                                     
                                      
-                        ';}?>
+                     ';}?>
 <head>
   <style>
       .style{

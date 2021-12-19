@@ -123,7 +123,7 @@ function timeago($datetime, $full = false) {
             document.getElementById(ids[i]).firstChild.nodeValue = values[i];
       }
 
-      function initClock(){
+  function initClock(){
         updateClock();
         window.setInterval("updateClock()", 1);
       }
@@ -139,7 +139,6 @@ function timeago($datetime, $full = false) {
         var image = document.getElementById(imgname);
         image.src = URL.createObjectURL(event.target.files[0]);
       };
-      
       </script>
         <!-- Navbar-->
 
@@ -182,7 +181,7 @@ function timeago($datetime, $full = false) {
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
+              
             </ul>
           </li>
 

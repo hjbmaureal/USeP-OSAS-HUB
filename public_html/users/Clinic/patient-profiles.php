@@ -18,6 +18,7 @@ if(isset($_GET['patient_id']))
   $patientid = $_GET['patient_id'];
   $sql = mysqli_query($mysqli, "SELECT * from patient_list where patient_id='$patientid'");
   while ($row = mysqli_fetch_array($sql)){
+        $pic = $row['pic'];
     $fname = $row['first_name'];
     $lname = $row['last_name'];
     $sex = $row["sex"];
@@ -375,12 +376,11 @@ if(isset($_GET['patient_id']))
                          <div class="row">
                                <div class="col-4">
 
-                                    <div style="height: 200px; width: 150px; border-radius: 50%; margin-left: 40px;"><img id='img-upload' class="prof" src="data:image/jpeg;base64,<?php echo $_SESSION['photo'] ?>" style=" vertical-align: middle; max-width: 100%; border-radius: 50%;">
+                                    <div style="height: 230px; width: 180px; border-radius: 50%; margin-left: 40px; "><object data="data:image/jpeg;base64,<?php echo base64_encode($pic); ?>" style=" vertical-align: middle; max-width: 100%; border-radius: 50%;"></div>
+                                    <div style="text-align: right; margin-right: -6%; margin-top: 4%;">
+                                      <img id="e_sig" src="image/logo.png" alt="logo" style=" vertical-align: middle; max-width: 100%; border-radius: 50%;"></div>
+                                    </object>
                                      
-                                      <h5 style="margin-left: 10px; margin-top: 10px;"><?php echo $fname ?>&nbsp;<?php echo $lname ?></h5> 
-
-                                      <h5 style="margin-left: 30px;"><?php echo $patientid ?></h5>
-                                   
                                             </div>
                                   </div>
                           
@@ -531,7 +531,13 @@ if(isset($_GET['patient_id']))
                         <table cellspacing="5px" style="width: 100%; border-spacing: 0px; border-collapse: separate;">
                           <tr>
                             <td style="text-align: center;"><h2> PATIENT PERMANENT RECORDS 2 </h2></td>
-                            <td><div class="id-picture"><img src="image/female_user.png" style="max-width: 100%; "></div></td>
+                           <td><div class="id-picture">
+                               <object data="data:image/jpeg;base64,<?php echo base64_encode($pic); ?>" width="160px" height="160px"></div>
+                                    <div style="text-align: right; margin-right: 55px; margin-top: 4%;">
+                                      <img id="e_sig" src="image/logo.png" alt="logo" width="160px" height="150px"></div>
+                                    </object>
+                                  </div>
+                                </td>
                           <table cellspacing="5px" style="width: 100%; border-spacing: 0px; border-collapse: separate;">
                             <tr>
                               <td colspan="4"><h5 class="font-weight-bold">Name:<span class="font-weight-lighter ml-2"><u><?php echo $fname ?>&nbsp;<?php echo $lname ?></u></h5></td>
@@ -782,7 +788,13 @@ if(isset($_GET['patient_id']))
                         <table cellspacing="5px" style="width: 100%; border-spacing: 0px; border-collapse: separate;">
                           <tr>
                             <td style="text-align: center;"><h2> PATIENT PERMANENT RECORDS 2 </h2></td>
-                            <td><div class="id-picture"><img src="image/female_user.png" style="max-width: 100%; "></div></td>
+                            <td><div class="id-picture">
+                               <object data="data:image/jpeg;base64,<?php echo base64_encode($pic); ?>" width="160px" height="160px"></div>
+                                    <div style="text-align: right; margin-right: 55px; margin-top: 4%;">
+                                      <img id="e_sig" src="image/logo.png" alt="logo" width="160px" height="150px"></div>
+                                    </object>
+                                  </div>
+                                </td>
 
                           <table cellspacing="5px" style="width: 100%; border-spacing: 0px; border-collapse: separate;">
                             <tr>

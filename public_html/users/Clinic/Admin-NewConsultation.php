@@ -346,7 +346,7 @@ $pdf->Output('example_003.pdf', 'I');
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
+            
             </ul>
           </li>
 
@@ -638,11 +638,12 @@ $pdf->Output('example_003.pdf', 'I');
                 <tbody>
                   <?php 
           
-        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'" ;
+        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.status,consultation.messenger, consultation.problems,consultation.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option,student.email_add,student.last_name,student.first_name,student.birth_date,student.birth_date,student.civil_status,student.sex,student.year_level,student.phone_number, student.pic, course.title,consultation_type.consultation_type, CONCAT(student.first_name, ' ', student.last_name) as name from consultation join student on consultation.patient_id=student.Student_id join course on student.course_id=course.course_id join consultation_type on consultation.consultation_type=consultation_type.type_id where consultation.status='Pending'" ;
       $res = $db->query($sql);
       $cnt=1;
       if ($res->num_rows > 0) {
       while($row = $res->fetch_assoc()) {
+      $image_data=$row['pic'];
       $date =date_create($row['date_filed']);
       $date1 = date_format($date,"F d, Y");
         ?>

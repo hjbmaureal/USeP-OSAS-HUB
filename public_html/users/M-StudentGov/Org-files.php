@@ -1043,7 +1043,7 @@ $org_name=$org['Org_Name'];
 $admin_id= $request['staff_id'];
 
 $notif_body = "The organization ".$org_name." sent a Organization Files in Student Organization.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', 'The organization ".$org_name." sent a Organization Files in Student Organization.',now(),'../users/Osas/RecognizedOrg.php', 'Delivered')");
 echo '<script> 
                                                 $(document).ready(function(){
                                                   swal({

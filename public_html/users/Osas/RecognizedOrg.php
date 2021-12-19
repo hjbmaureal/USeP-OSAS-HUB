@@ -368,7 +368,7 @@ if (isset($_GET['CBL_logo'])) {
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
       <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
-      <title>USeP Student Hub</title>
+      <title>USeP OSAS Admin Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -694,7 +694,7 @@ if (isset($_GET['CBL_logo'])) {
                           <div class="row">
                           <div class="col-xl">
                             <div class="tile"> 
-                                <div class="header"><h5>Reaccreditation Files:</h5></div>
+                                <div class="header"><h5>Re Accreditation Files:</h5></div>
                               <div class="row">
                                 <div class="col">
                                  <div class="owl-carousel owl-theme">

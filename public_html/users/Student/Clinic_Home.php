@@ -530,7 +530,7 @@ function timeago($datetime, $full = false) {
         <div class="organization">
           <h2>ORGANIZATIONAL STRUCTURE</h2>
           <div class="frame">
-            <img id="myImg" src="image/clinic-org.png" alt="Medical-Dental Organizational Chart of Tagum-Mabini Campus" style="width: 100%; padding-top: -500px;">
+            <img id="myImg" src="imagec/clinic-org.png" alt="Medical-Dental Organizational Chart of Tagum-Mabini Campus" style="width: 100%; padding-top: -500px;">
           </div>
         </div>
 

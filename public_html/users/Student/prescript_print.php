@@ -1,19 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <meta name="description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+      <!-- Twitter meta-->
+      <meta property="twitter:card" content="summary_large_image">
+      <meta property="twitter:site" content="@pratikborsadiya">
+      <meta property="twitter:creator" content="@pratikborsadiya">
+      <!-- Open Graph Meta-->
+      <meta property="og:type" content="website">
+      <meta property="og:site_name" content="Vali Admin">
+      <meta property="og:title" content="Vali - Free Bootstrap 4 admin theme">
+      <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
+      <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
+      <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
+       <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
+      <title>USeP Student Hub</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Main CSS-->
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
-             <div class="modal fade " id="requiredlab<?php echo $prescription_id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document" >
-                    <div class="modal-content" id="content<?php echo $prescription_id ?>" style="width: 100%;">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">&nbsp; PRESCRIPTION </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
+      <!-- Font-icon css-->
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <script>
+    function printDiv(container){
+      var printContents = document.getElementById(container).innerHTML;
+      var originalContents = document.body.innerHTML;
 
-                     
-                      <div class="modal-body" id="prescript">
-                      <div class="container" id="container">
+      document.body.innerHTML = printContents;
+
+      window.print();
+
+      document.body.innerHTML = originalContents;
+
+    }
+  </script>
+<body class="app sidebar-mini rtl" style="background-color: #fff;" onload="printDiv('container')">
+<?php
+include("connect.php");
+    include('conn.php');
+session_start();
+  if(!isset($_SESSION['id'])){
+  echo '<script> alert("Please Login first!!!") 
+  window.location="../../index.php";
+  </script>';
+    
+}
+
+$id = $_SESSION['id'];
+
+if (isset($_POST['print'])) {
+  $prescription_id= $_POST['prescription_id'];
+  $id = $_SESSION['id'];
+
+  $db = mysqli_connect("localhost","root","","backupdb-3");
+
+                        $sql = "SELECT prescription_list.*, consultation_type.consultation_type as type from prescription_list join consultation_type on consultation_type.type_id=prescription_list.consultation_type where patient_id=('$id') and prescription_id=('$prescription_id')";
 
 
+                    $res = $db->query($sql);
+                    $cnt=1;
+                    
+                    while($row = $res->fetch_assoc()) {
+                      $prescription_id = $row['prescription_id'];
+                      $image_data=$row['e_signature'];
+
+?>
+
+<div class="modal-body" id="prescript">
+                      <div class="container" id="container" style="max-width:500px;">
+
+<img id="logo" src="image/logo.png"  style="position: absolute;transform: translate(100px, 370px);opacity: .15 " />
 
                       <div class = "head">  
                         <br>
@@ -122,162 +184,9 @@
                      
                           </div>   
                         </div>
-                    
-   
-                        <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" id="btnPrint<?php echo $prescription_id ?>">Print</button>
-                   
-                      </div>
+<?php 
+  }
+}?>
 
-                      <img id="logo" src="image/logo.png"  style="position: absolute;transform: translate(100px, 370px);opacity: .15 " />
-                    </div>
-                  </div>
-                  </div>
-                </div>   
-
-<script type="text/javascript">
-  document.getElementById('address').innerHTML = document.getElementById('address').innerHTML.trim();
-</script>
-<script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
-      <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
-      <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-
- <script type="text/javascript">
-
-                    document.getElementById("btnPrint<?php echo $prescription_id ?>").onclick = function () {
-
-                                    printElement(document.getElementById("content<?php echo $prescription_id ?>"));
-
-                                };
-
-                                function printElement(elem) {
-
-                                    var domClone = elem.cloneNode(true);
-
-                                    
-
-                                    var $printSection = document.getElementById("printSection");
-
-                                    
-
-                                    if (!$printSection) {
-
-                                        var $printSection = document.createElement("div");
-
-                                        $printSection.id = "printSection";
-
-                                        document.body.appendChild($printSection);
-
-                                    }
-
-                                    
-
-                                    $printSection.innerHTML = "";
-
-                                    $printSection.appendChild(domClone);
-
-                                    window.print();
-
-                                }
-
-                </script>
-
-                <style>
-                   @media screen {
-
-                        #printSection {
-
-                            display: none;
-
-                        }
-
-                    }
-
-                    @media print {
-
-                        body * {
-
-                            visibility: hidden;
-
-                        }
-
-                        #printSection,
-
-                        #printSection *,#container {
-
-                            visibility: visible;
-                            max-height: 100%;
-                            
-
-                        }
-
-                        #printSection {
-
-                            position: absolute;
-
-                            left: 2%;
-
-                            top: 1%;
-
-
-                            
-                        }
-                        .close{
-                          display: none;
-                        }
-
-                        .btn{
-                          display: none;
-                        }
-                        #printSection, #container{
-                          width: 50%;
-
-                        }
-                        .head,hr,.modal-dialog,#requested{
-                          width: 47%;
-                        }
-                        hr{
-                          margin-left: 10px !important;
-                        }
-                        .modal-content{
-                          width: 50%;
-                        }
-                        .pr{
-                          width: 10%;
-                          height: 10%;
-                          
-                        }
-                        #other{
-                          margin-left: 165px!important;
-                        }
-
-                        .modal-title, .modal-header, .modal-footer {
-                          display: none;
-                        }
-
-                        #date {
-                          margin-left:-22%;
-                        }
-
-
-
-                       /** footer {page-break-after: left;} */
-
-
-                    @page {
-
-                    }
-                        
-                        
-
-                        
-
-                    }
-
-                </style>
+</body>
+</html>

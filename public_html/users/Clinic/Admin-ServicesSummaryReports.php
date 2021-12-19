@@ -150,7 +150,7 @@ $overall2 = 0;
             <ul class="treeview-menu">
               <li><a class="treeview-item" href="Admin-Request.php">Medical Certificate</a></li>
               <li><a class="treeview-item" href="Admin-MedicalRecordCert.php">Medical Records Certification</a></li>
-              <li><a class="treeview-item" href="Admin-RequestHistory.php">Request History</a></li>
+     
             </ul>
           </li>
 

@@ -463,60 +463,11 @@ if( purpose.value == "")
  }
 }
   </script>
-<?php
-if( isset( $_POST['submit'] ) )
-{
- 
-
-
-$lastsyattendedto = $_POST['to'];
-$lastsyattendedfrom = $_POST['from'];
-$reqby = $_SESSION['id'];
-$datereq = date('Y-m-d H:i:s');
-$orno = $_POST['or_no'];
-$purpose = $_POST['purpose'];
-$file = addslashes(file_get_contents($_FILES["or_pic"]["tmp_name"]));
- 
-
-$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
-$result2=mysqli_query($conn,$admin_check_query);
-$request=mysqli_fetch_assoc($result2);
-
-$admin_id= $request['staff_id'];
-
-$notif_body = "A student requests for a Good Moral Certificate.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/ReqGoodMoral.php', 'Delivered')");
-
- $sql = mysqli_query($conn,"INSERT INTO good_moral_requests (request_id, last_sy_attended, requested_by, date_requested, or_no, purpose, or_pic)
- VALUES ('','$lastsyattendedfrom-$lastsyattendedto','$reqby','$datereq','$orno','$purpose','$file')");
-
-if ($sql && $notification) {
-    echo '<script>
-                 swal({
-                  title: "Request Submitted Succesfully",
-                  text: "Server Request Success",
-                  type: "success"
-                });
-                </script>';
-} else {
-    echo '<script>
-                 swal({
-                  title: "Request Submit Failed",
-                  text: "Server Request Failed",
-                  type: "warning"
-                });
-                </script>';
-}
- mysqli_close($conn);
-
-
-}
- ?>
 
         <div class="row">
        
         <div class="col-md">
-          <form method="POST" action="ReqGoodMoral_Student.php" onsubmit="return validate();">
+          <form enctype="multipart/form-data"   method="POST" action="upload.php" onsubmit="return validate();">
           <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
           <div class="tile">
               
@@ -602,14 +553,14 @@ if ($sql && $notification) {
                 </div>
                 <div class="row">
                   <div class="form-group col-sm">
-                    <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. &emsp; Please upload your Official Reciept in a PDF File only.
-                      <br>
-                    <input type="file" id="or_pic" name="or_pic" accept=".png, .jpeg, .jpg"  required>                    
+                    <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. Please upload your Official Reciept. 
+                    <br><input type="file" name="my_image" > 
+                    
                   </div>
                 </div>
 
               <div class="tile-footer"></div>
-              <button class="btn btn-success" type="submit" name="submit" id="submit" >Submit</button>
+              <button class="btn btn-success" type="submit" name="submits" id="submit" value="upload">Submit</button>
               <button class="btn btn-primary" type="submit">Cancel</button>
 
           </div>

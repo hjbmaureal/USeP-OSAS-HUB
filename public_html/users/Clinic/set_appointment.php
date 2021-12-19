@@ -8,7 +8,17 @@
       </div>
       <div class="modal-body c">
         <div class="container" style="border: 1px solid black; margin-top: 10px; padding: 20px; border-radius: 10px;">
-          <div class="id-picture"><img src="image/female_user.png" style="max-width: 100%;"> <a href="user-profiles.php?patient_id=<?php echo $row["patient_id"]; ?>" target="_blank">
+          
+      <div class="id-picture"> 
+          <object data="data:image/jpeg;base64,<?php echo base64_encode($image_data); ?>" width="165px" height="165px">
+                                    <div style="text-align: right;  margin-right: 45px; margin-top: 4%;">
+                                      <img id="e_sig" src="image/logo.png" alt="logo" width="150px" height="150px" >
+                                    </div>
+          </object>
+
+                                    <br>
+
+          <a href="patient-profiles.php?patient_id=<?php echo $row["patient_id"]; ?>" target="_blank">
             <button class="btn btn-danger btn-sm" style="width: 100%; margin-top: 5px; font-size: 10px;"><i class="fas fa-exclamation-triangle"></i> View Medical Info/History </button>
             </a></div>
           <h5 class="font-weight-bold" style="margin-bottom: 20px; margin-top: 10px;">Patient Basic Information</h5>

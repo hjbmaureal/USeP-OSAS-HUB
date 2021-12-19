@@ -65,22 +65,21 @@ function timeago($datetime, $full = false) {
       <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
       <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
       <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-      <link rel="icon" href="../../images/logo.png" type="image/gif" sizes="16x16">
+       <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
       <title>USeP Student Hub</title>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Main CSS-->
-      <link rel="stylesheet" type="text/css" href="cssc/main.css">
-          <link rel="stylesheet" type="text/css" href="cssc/upstyle.css">
-          <link rel="stylesheet" type="text/css" href="../../css/custom.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+          <link rel="stylesheet" type="text/css" href="css/upstyle.css">
 
       <!-- Font-icon css-->
-      <link rel="stylesheet" type="text/css" href="cssc/all.min.css">
-      <link rel="stylesheet" type="text/css" href="cssc/fontawesome.min.css">
+      <link rel="stylesheet" type="text/css" href="css/all.min.css">
+      <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-      <body class="app sidebar-mini rtl" onload="initClock()">
+            <body class="app sidebar-mini rtl" onload="initClock()">
       <!-- Navbar-->
 
         
@@ -246,7 +245,7 @@ function timeago($datetime, $full = false) {
 
        <!--navbar-->
 
-          <main class="app-content">
+            <main class="app-content">
             
         <div class="app-title">
       <div><!-- Sidebar toggle button-->
@@ -494,7 +493,7 @@ function timeago($datetime, $full = false) {
                     <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
                         <option class="select-item" value="" selected="selected">All</option>
                         <?php
-                                                  // Fetching consultation type
+                                                
                                                   $sql1=mysqli_query($db,"select * from consultation_type");
                                                   while($result=mysqli_fetch_array($sql1))
                                                   {    
@@ -525,6 +524,8 @@ function timeago($datetime, $full = false) {
                       <tr>
                       <th scope="col">Date Received</th>
                       <th scope="col">Type</th>
+                      <th scope="col">Complaint</th>
+                      <th scope="col">Prescribing Doctor</th>
                       <th scope="col">Action</th>
                     
                     </tr>
@@ -532,28 +533,32 @@ function timeago($datetime, $full = false) {
               <tbody>
                       <?php 
 
-                      $db = mysqli_connect("localhost","root","","osasdb_latest4");
+                      $db = mysqli_connect("localhost","root","","backupdb-3");
 
-                        $sql = "SELECT consultation_details.*, consultation_type.consultation_type as consultation_type from consultation_details join consultation_type on consultation_details.consultation_type=consultation_type.type_id where patient_id = '$id' AND prescription_details IS NOT NULL";
+                        $sql = "SELECT prescription_list.*, consultation_type.consultation_type as type from prescription_list join consultation_type on consultation_type.type_id=prescription_list.consultation_type where patient_id=('$id')";
 
 
                     $res = $db->query($sql);
                     $cnt=1;
                     
                     while($row = $res->fetch_assoc()) {
-                      $consult_id = $row['consultation_id'];
+                      $prescription_id = $row['prescription_id'];
+                      $image_data=$row['e_signature'];
+
                       ?>
 
                     <tr>
-                      <td><?php echo htmlentities($row['prescription_date_issued']);?></td>
-                      <td><?php echo htmlentities($row['consultation_type']);?></td>
+                      <td><?php echo htmlentities($row['date']);?></td>
+                      <td><?php echo htmlentities($row['type']);?></td>
+                      <td><?php echo htmlentities($row['problems']);?></td>
+                      <td><?php echo htmlentities($row['prescribing_doctor_name']);?></td>
                       <td>
                       <?php
                         if(empty($row['prescription_details'])){
                           echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" disabled>View</button>';
 
                         }else{
-                          echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" href=#requiredlab'.$row['consultation_id'].'>View</button>';
+                          echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" href=#requiredlab'.$row['prescription_id'].'>View</button>';
                           include("prescript_modal.php");
 
                         }
@@ -583,15 +588,15 @@ function timeago($datetime, $full = false) {
       </main>
       <!-- Essential javascripts for application to work-->
       
-      <script src="jsc/jquery-3.3.1.min.js"></script>
-      <script src="jsc/popper.min.js"></script>
-      <script src="jsc/bootstrap.min.js"></script>
-      <script src="jsc/main.js"></script>
+      <script src="js/jquery-3.3.1.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
-      <script src="jsc/plugins/pace.min.js"></script>
+      <script src="js/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
-      <script type="text/javascript" src="jsc/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="jsc/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -603,15 +608,65 @@ function timeago($datetime, $full = false) {
           });
         });
       </script>
+
+      <script type="text/javascript">
+        $('textarea#address').html($('textarea#address').html().trim());
+      </script>
+
+      
+
       <script>
         <!-- table selection -->
           $('#selectAll').click(function (e) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+
+      <script type="text/javascript">
+ 
+          // JavaScript program to put spaces between words
+          // starting with capital letters.
+           
+          // Function to amend the sentence
+          function amendSentence(sstr)
+          {
+              let str = sstr.split("\n");
+                 
+              // Traverse the string
+              for (let i = 0; i < str.length; i++)
+              {
+                     
+                  // Convert to lowercase if its
+                  // an uppercase character
+                  if (str[i].charCodeAt() >= 'A'.charCodeAt() &&
+                  str[i].charCodeAt() <= 'Z'.charCodeAt())
+                  {
+                    str[i] =
+                    String.fromCharCode(str[i].charCodeAt() + 32);
+                         
+                      // Print space before it
+                      // if its an uppercase
+                      // character
+                      if (i != 0)
+                         document.write("\n");
+             
+                      // Print the character
+                      document.write(str[i]);
+                  }
+             
+                  // if lowercase character
+                  // then just print
+                  else
+                      document.write(str[i]);
+              }
+          }
+           
+     
+      </script>
+
       <!-- Data table plugin-->
-      <script type="text/javascript" src="jsc/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="jsc/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#myTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
       <!-- Google analytics script-->

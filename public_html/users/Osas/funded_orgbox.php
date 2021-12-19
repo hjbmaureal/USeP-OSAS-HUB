@@ -33,9 +33,9 @@
                               </button>
                             </div>
                               <label  name="idd"><input type="hidden" name="idd" style="border:none;" value="<?php echo $res['ID'];?>"></label><br>
-                              <label name="gov">Student Org. President/Governor: &emsp; <input type="text" style="border:none;" name="gov" value="<?php echo $res['Org_pres_gov'];?>" style="width: 500px;" ></label><br>
-                              <label name="adviser">Student Org. Adviser: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" style="border:none;" name="adviser" value="<?php echo $res['Org_adviser'];?>"></label><br>
-                              <label name="type">Organization Type: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" name="type" style="border:none;" value="<?php echo $res['Type']; ?>"> </label><br>
+                              <label name="gov">Student Org. President/Governor: &emsp; <input type="text" style="border:none; width: 400px;" name="gov" value="<?php echo $res['Org_pres_gov'];?>" style="width: 500px;" ></label><br>
+                              <label name="adviser">Student Org. Adviser: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" style="border:none;width: 400px;" name="adviser" value="<?php echo $res['Org_adviser'];?>"></label><br>
+                              <label name="type">Organization Type: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" name="type" style="border:none;width: 400px;" value="<?php echo $res['Type']; ?>"> </label><br>
                               <label class="control-label ml-2 mt-2">File Submitted:</label>
                               <!--<div class="remarks-container container p-3">-->
                                 <div class="row">
@@ -56,7 +56,8 @@
                                 <div class="col-sm">
                                  <div class="tile card text-center h120" style="height:130px;  background: #EFE0DE;">
                                    <div class="card-body fs1">
-                                   
+                                    <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>WFP</b></p>
+                                <br>
                                     <p class="card-text" id="al"style="font-size: 10px;margin-bottom:0" ><?php echo $res['WFP'];?></p>
                                   </div>
                                   <div class="card-body fs2">
@@ -70,7 +71,8 @@
                                <div class="col-sm">
                                  <div class="tile card text-center h120" style="height:130px;">
                                    <div class="card-body fs1">
-                                   
+                                    <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>WFP</b></p>
+                                <br>
                                     <p class="card-text" id="al"style="font-size: 10px;margin-bottom:0" ><?php echo $res['WFP'];?></p>
                                   </div>
                                   <div class="card-body fs2">
@@ -88,7 +90,8 @@
                            <div class="col-sm">
                               <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">
                                <div class="card-body fs1">
-                               
+                                <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>PPMP</b></p>
+                                <br>
                                 <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['PPMP'];?></p>
                               </div>
                               <div class="card-body fs2">
@@ -102,7 +105,8 @@
                               <div class="col-sm">
                               <div class="tile card text-center h120" style="height:130px;">
                                <div class="card-body fs1">
-                               
+                                <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>PPMP</b></p>
+                                <br>
                                 <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['PPMP'];?></p>
                               </div>
                               <div class="card-body fs2">
@@ -121,7 +125,8 @@
                             <div class="col-sm">
                               <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">
                                <div class="card-body fs1">
-                               
+                                <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Accomplishment Reports</b></p>
+                                <br>
                                 <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['AccomRep'];?></p>
                               </div>
                               <div class="card-body fs2">
@@ -135,7 +140,8 @@
                                <div class="col-sm">
                               <div class="tile card text-center h120" style="height:130px;">
                                <div class="card-body fs1">
-                               
+                                <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Accomplishment Reports</b></p>
+                                <br>
                                 <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['AccomRep'];?></p>
                               </div>
                               <div class="card-body fs2">
@@ -146,14 +152,16 @@
                           </div>
                           <?php }
                             ?> 
-
+ </div>
+ <div class="row">
                             <?php 
                             if ($files[0] == "ActionPlan" ||$files[1] == "ActionPlan" ||$files[2] == "ActionPlan" ||$files[3] == "ActionPlan" ||$files[4] == "ActionPlan"  ){ 
                                         ?>
                           <div class="col-sm">
                             <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">
                              <div class="card-body fs1">
-                            
+                             <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Action Plan</b></p>
+                                <br>
                               <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['ActionPlan'];?></p>
                             </div>
                             <div class="card-body fs2">
@@ -167,7 +175,8 @@
                               <div class="col-sm">
                             <div class="tile card text-center h120" style="height:130px;">
                              <div class="card-body fs1">
-                            
+                              <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Action Plan</b></p>
+                                <br>
                               <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['ActionPlan'];?></p>
                             </div>
                             <div class="card-body fs2">
@@ -178,13 +187,15 @@
                         </div>
                         <?php }
                          ?>
-
+                      
                          <?php 
                          if ($files[0] == "AFS" ||$files[1] == "AFS" ||$files[2] == "AFS" ||$files[3] == "AFS" ||$files[4] == "AFS" ){ 
                                         ?>
                         <div class="col-sm">
                           <div class="tile card text-center h120" style="height:130px; background: #EFE0DE;">
                            <div class="card-body fs1">
+                           <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Audited Financial Statement</b></p>
+                                <br>
                           
                             <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['AFS'];?> </p>
                           </div>
@@ -198,6 +209,8 @@
                               <div class="col-sm">
                           <div class="tile card text-center h120" style="height:130px;">
                            <div class="card-body fs1">
+                           <p class="card-text" style="font-size: 12px;margin-bottom:0"><b>Audited Financial Statement</b></p>
+                                <br>
                           
                             <p class="card-text"style="font-size: 10px;margin-bottom:0"><?php echo $res['AFS'];?> </p>
                           </div>
@@ -211,6 +224,7 @@
 
 
                     </div>
+
                     
 
                    </div>
