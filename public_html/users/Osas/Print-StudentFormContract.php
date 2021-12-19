@@ -364,14 +364,14 @@ $student_pic = '../../images/logo.png';
 
     <div class="row">
       <div class="col">
-        <h6 class="mb-3 S17">DUTIES & RESPONSIBILITIES</h6>
+        <h6 class="mb-1 S17">DUTIES & RESPONSIBILITIES</h6>
         <input class="form-control fc2 p-2" type="text" value="<?php echo $duty1 ?>" disabled="">
         <input class="form-control fc2 p-2" type="text" value="<?php echo $duty2 ?>" disabled="">
         <input class="form-control fc2 p-2" type="text" value="<?php echo $duty3 ?>" disabled="">
         <input class="form-control fc2 p-2" type="text" value="<?php echo $duty4 ?>" disabled="">
       </div>   
       <div class="col">
-        <h6 class="mb-3 S17">SCHEDULE OF SERVICE</h6>
+        <h6 class="mb-1 S17">SCHEDULE OF SERVICE</h6>
         <input class="form-control fc2 p-2" type="text" value="<?php echo $sched1 ?>" disabled="">
         <br><br>
         <input class="form-control fc2 p-2" type="text" value="<?php echo $sched2 ?>" disabled="">
@@ -382,7 +382,7 @@ $student_pic = '../../images/logo.png';
 
     <div class="row mt-3 text-center">
       <div class="col text-center">
-        <h6 class="mb-3 S17 text-center"><i>NOTE: </i><span class="font-weight-normal"> Renewal for another term depends on working attitude and performance.</span></h6>
+        <h6 class="S17 text-center"><i>NOTE: </i><span class="font-weight-normal"> Renewal for another term depends on working attitude and performance.</span></h6>
       </div>
     </div>
 
