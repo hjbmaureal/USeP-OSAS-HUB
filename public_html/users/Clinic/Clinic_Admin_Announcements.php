@@ -1,7 +1,7 @@
    <?php include('conn.php');
    session_start();
   include('connect.php');
-  // $user_id = $_SESSION['id'];
+   $user_id = $_SESSION['id'];
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';

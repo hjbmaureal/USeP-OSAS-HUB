@@ -22,7 +22,7 @@ $id = $_SESSION['id'];
 
 if(isset($_POST['submit'])) {  
 $request_id = $_POST['request_id'];
-$message = 'Submitted a letter of request';
+$message = 'submitted a letter of request';
     $sql = mysqli_query($mysqli, "SELECT patient_id, CONCAT(first_name,' ',middle_name,' ',last_name) as fullname , type from patient_list where patient_id = '$id'");
     while($res = mysqli_fetch_array($sql)) { 
     $name = $res['fullname'];
@@ -49,14 +49,20 @@ $fileinfo=PATHINFO($_FILES["file"]["name"]);
 
     else{
     $newFilename=$fileinfo['filename'] ."_". time() . "." . $fileinfo['extension'];
-    move_uploaded_file($_FILES["file"]["tmp_name"],"../C-Admin/Letter of Request/" . $newFilename);
+    move_uploaded_file($_FILES["file"]["tmp_name"],"../Clinic/Letter of Request/" . $newFilename);
     $location="Letter of Request/" . $newFilename;
     }   
 
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($mysqli,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
 
+$admin_id= $request['staff_id'];
+
+$student_name= $_SESSION['fullname'];
 
 $query = mysqli_query($mysqli, "UPDATE clinic_certificate_requests SET document_passed='$location' WHERE request_id=$request_id");
-$result=mysqli_query($mysqli,"insert into notif (user_id, message_body, time, link, message_status,office_id) values ('$staff_id', '$name" .' '. "".$message."',now(),'Admin-MedicalRecordCert.php', 'Delivered','3')");
+$result=mysqli_query($mysqli,"insert into notif (user_id, message_body, time, link, message_status,office_id) values ('$admin_id', '$name" .' '. "".$message."',now(),'../users/Clinic/Admin-MedicalRecordCert.php', 'Delivered','3')");
 
 if($query === TRUE){  
  echo '<script>
@@ -67,9 +73,9 @@ if($query === TRUE){
           icon: "success",
           button: false,
           closeOnClickOutside: false,
-          closeOnEsc: false,                                                                                             
-          },function() {
-          window.location = "RequestMedRecsCert.php";
+          closeOnEsc: false,
+            }).then(function() {
+            window.location = "RequestMedRecsCert.php";
             })
    </script>';
 

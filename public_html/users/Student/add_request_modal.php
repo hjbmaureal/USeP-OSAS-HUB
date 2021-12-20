@@ -52,7 +52,7 @@ foreach ($purpose as $purpose2){
          </script>
         ';
     }else{
-$query = "INSERT INTO clinic_certificate_requests(user_id, date_requested, purpose, request_type,status ) VALUES('$id','$date','$new_purpose','$type','pending')";
+$query = "INSERT INTO clinic_certificate_requests(user_id, date_requested, purpose, request_type,status ) VALUES('$id','$date','$new_purpose','$type','Pending')";
 
 
 if ($conn->query($query) === TRUE) {

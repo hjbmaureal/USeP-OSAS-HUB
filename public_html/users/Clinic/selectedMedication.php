@@ -136,8 +136,27 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
     $sqlInsert=mysqli_query($db,"INSERT INTO `prescription`(`prescription_id`, `patient_id`, `consultation_id`, `prescription_details`, `prescribing_doctor`, `date`) VALUES (null,'$patientID','$consultID','".$details." ".$addMedication."','$name',now())");
     
     if($sqlInsert=== TRUE){
-      $notif_body = "USeP Clinic issued a prescription.";
-    $notification=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$patientID', '$notif_body',now(),'../users/Student/Prescription.php', 'Delivered')");
+      
+  $user_check_query="SELECT * from login_credentials where username='$patientID' LIMIT 1";
+  $result2=mysqli_query($db,$user_check_query);
+  $request=mysqli_fetch_assoc($result2);
+
+  if($request['usertype']=='Student'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Student/Prescription.php', 'Delivered','3')");
+    }
+
+if($request['usertype']=='Faculty Head'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription.php#dash', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Faculty'){
+     $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Staff'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription', 'Delivered','3')");
+    
+}
     }
     
 

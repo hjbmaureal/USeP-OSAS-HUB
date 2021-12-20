@@ -723,7 +723,7 @@ $request=mysqli_fetch_assoc($result2);
 $admin_id= $request['staff_id'];
 
 $notif_body = " ".$_SESSION['fullname']." filed a request for cancellation of appointment.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-CancellationOfAppointment.php', 'Delivered')");
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-CancellationOfAppointment.php', 'Delivered', '3')");
   echo '<script>
       swal({
       title: "Cancellation request submitted successfully!",

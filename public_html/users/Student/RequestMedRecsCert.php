@@ -575,7 +575,7 @@ function timeago($datetime, $full = false) {
                         if(empty($row['med_info'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['med_info'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['med_info'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 
@@ -586,7 +586,7 @@ function timeago($datetime, $full = false) {
                         if(empty($row['med_history'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['med_history'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['med_history'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 
@@ -597,7 +597,7 @@ function timeago($datetime, $full = false) {
                         if(empty($row['health_record'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['health_record'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['health_record'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 

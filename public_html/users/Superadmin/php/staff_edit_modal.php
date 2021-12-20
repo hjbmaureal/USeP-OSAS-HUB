@@ -29,10 +29,10 @@
 
               <div class="row">
                 <div class="form-group col-sm-3">
-                  <input class="form-control" type="text" id="lname" name="lname" value="<?php echo $res['last_name'];?>" required>
+                  <input class="form-control" type="text" id="lname" name="lname" value="<?php echo $res['last_name'];?>" >
                 </div>
                 <div class="form-group col-sm-3">
-                  <input class="form-control" type="text" id="fname" name="fname" value="<?php echo $res['first_name'];?>" required>
+                  <input class="form-control" type="text" id="fname" name="fname" value="<?php echo $res['first_name'];?>">
                 </div>
                 <div class="form-group col-sm-3">
                   <input class="form-control" type="text" id="mname" name="mname" value="<?php echo $res['middle_name'];?>">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="form-group col-sm-3">
                   Nationality<span style="color:red">*</span>
-                  <input class="form-control" type="text" id="nationality" name="nationality" value="<?php echo $res['nationality'] ?>"  required>
+                  <input class="form-control" type="text" id="nationality" name="nationality" value="<?php echo $res['nationality'] ?>"  >
                 </div>
               </div>
 
@@ -101,7 +101,7 @@
               <div class="row">
                  <div class="form-group col-sm-3">
                               Contact Number<span style="color:red">*</span>
-                                  <input class="form-control" type="Number" id="contact" name="contact" required>
+                                  <input class="form-control" type="Number" id="contact" name="contact">
                           </div>
                <div class="form-group col-sm-4">
                 Email Address<span style="color:red">*</span>

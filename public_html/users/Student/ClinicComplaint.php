@@ -632,7 +632,7 @@ function timeago($datetime, $full = false) {
     } 
 
     else { 
-        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
 $request=mysqli_fetch_assoc($result2);
 

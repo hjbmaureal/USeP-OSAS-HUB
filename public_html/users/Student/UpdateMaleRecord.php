@@ -766,7 +766,7 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
     if($in_ch==1)  
        {  
 
-        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
 $request=mysqli_fetch_assoc($result2);
 

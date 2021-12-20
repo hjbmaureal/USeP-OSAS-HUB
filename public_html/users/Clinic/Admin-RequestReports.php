@@ -520,7 +520,7 @@ function timeago($datetime, $full = false) {
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -706,8 +706,7 @@ function timeago($datetime, $full = false) {
       <table class="table table-hover table-bordered reports-list" id="sampleTable2">
                     <thead>
                       <tr>
-                      
-                      <th>Date Requested</th>
+                     
                       <th class="max">Patient ID</th>
                       <th>Full Name</th>
                       <th>User Type</th>
@@ -753,7 +752,7 @@ function timeago($datetime, $full = false) {
 
                         ?>
                         <tr>
-                     <td><?php echo htmlentities($row['date_requested']);?></td>  
+                      
                     <td> <?php echo htmlentities($row['patient_id']);?></td>
                     <td> <?php echo htmlentities($row['fullname']);?></td>
                     <td><?php echo htmlentities($row['type']);?></td>

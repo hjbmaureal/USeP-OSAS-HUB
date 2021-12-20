@@ -645,6 +645,7 @@ $pdf->Output('example_003.pdf', 'I');
                       <th>Required Lab Test</th>
                       <th>Lab Result</th>
                       <th>Certificate</th>
+                      <th>Status</th>
                      
                     </tr>
                   </thead>
@@ -655,7 +656,7 @@ $pdf->Output('example_003.pdf', 'I');
 
 
                       <?php 
-                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' AND status='Pending' order by request_id DESC");
+                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' AND status !='Completed' order by request_id DESC");
 
         while($res = mysqli_fetch_array($sql)) {  
           $id=$res['request_id'];
@@ -692,9 +693,9 @@ $pdf->Output('example_003.pdf', 'I');
                       </td>
                       <td>
                         <?php
-                        if(($res['status']) == 'pending'){
+                        if(($res['status']) == 'Pending'){
                           echo '<a class="btn btn-danger btn-sm disabled" href="#" >Release</a>';
-                        }if(($res['status']) == 'completed'){
+                        }if(($res['status']) == 'Approved'){
                           if ($res['purpose'] == 'Employment') {
                             echo '<a class="btn btn-danger btn-sm"  data-toggle="modal" href=#released'.$res['request_id'].' >Release</a>';
                           include("employment_modal.php");
@@ -709,6 +710,7 @@ $pdf->Output('example_003.pdf', 'I');
                         }
                         ?>
                       </td>
+                      <td><?php echo $res['status']; ?></td>
                   
                     </tr>
                     <?php

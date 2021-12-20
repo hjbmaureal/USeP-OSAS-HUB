@@ -726,7 +726,7 @@ function timeago($datetime, $full = false) {
         <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
-    <script type="text/javascript" src="../js/plugins/jquery.table2excel.js"></script>
+    <script type="text/javascript" src="../../js/plugins/jquery.table2excel.js"></script>
       <!-- Google analytics script-->
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {

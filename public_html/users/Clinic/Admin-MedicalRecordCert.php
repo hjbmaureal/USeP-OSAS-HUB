@@ -82,7 +82,7 @@ if(isset($_POST['rel'])) {
         }
 
       }
-      $result=mysqli_query($mysqli,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'RequestMedRecsCert.php', 'Delivered')");
+      $result=mysqli_query($mysqli,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$patient_id', 'Admin" .' '. "".$message."',now(),'../users/Student/RequestMedRecsCert.php', 'Delivered')");
 
 }
 
