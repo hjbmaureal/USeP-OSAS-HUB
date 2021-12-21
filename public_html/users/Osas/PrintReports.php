@@ -335,7 +335,7 @@
                                       echo  "<td>".$row['sem_year']."</td>";
                                       echo  "<td>".$row['unit_assigned']."</td>";
                                       echo  "<td>".$row['staff_requested_by']."</td>";
-                                      echo  "<td>".$row['month']."</td>";
+                                      echo  "<td>".$row['date_posted']."</td>";
                                       echo  "<td>".$row['total_hours']."</td>";
                                       echo  "</tr>";
                                     }
