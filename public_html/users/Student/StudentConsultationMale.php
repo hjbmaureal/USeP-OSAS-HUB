@@ -526,7 +526,7 @@ function timeago($datetime, $full = false) {
 
 
                                   <div class="form-group">
-                                    <label class="control-label"><b>Do you experience headache, dizziness or syncope at any time?</b></label>
+                                    <label class="control-label"><b>Do you experience headache, dizziness (<i>pagkahilo</i>) or syncope (<i>pagkahimatay</i>) at any time?</b></label>
                                     <div class="form-check">
                                       <label class="form-check-label">
                                         <input class="form-check-input" type="radio" name="illness" value="Yes">Yes

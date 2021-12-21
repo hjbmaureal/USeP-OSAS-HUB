@@ -71,8 +71,8 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
                               $("#Add").prop('disabled', false);
                              }else{
                               swal({
-                                              title: "Out of stock!",
-                                              text: "Out of stock!",
+                                              title: "Insufficient stock!",
+                                              text: "Please enter a valid quantity",
                                               icon: "error",
                                               buttons: false,
                                               timer: 2000,
@@ -134,6 +134,32 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
     $details= implode('. ', $combined);
     
     $sqlInsert=mysqli_query($db,"INSERT INTO `prescription`(`prescription_id`, `patient_id`, `consultation_id`, `prescription_details`, `prescribing_doctor`, `date`) VALUES (null,'$patientID','$consultID','".$details." ".$addMedication."','$name',now())");
+    
+    if($sqlInsert=== TRUE){
+      
+  $user_check_query="SELECT * from login_credentials where username='$patientID' LIMIT 1";
+  $result2=mysqli_query($db,$user_check_query);
+  $request=mysqli_fetch_assoc($result2);
+
+  if($request['usertype']=='Student'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Student/Prescription.php', 'Delivered','3')");
+    }
+
+if($request['usertype']=='Faculty Head'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription.php#dash', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Faculty'){
+     $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Staff'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patientID', 'USeP Clinic issued a prescription.',now(),'../users/Faculty/facultyPrescription', 'Delivered','3')");
+    
+}
+    }
+    
+
       for ($i=0; $i <= $count-1; $i++) {
       if ($arraycheck[$i]=='1') {
         $name_holder=trim($arraymed[$i]);
@@ -145,6 +171,10 @@ if (isset($_POST['quan']) && isset($_POST['med']) && isset($_POST['unit']) && is
         $sqlUpdate_Inv=mysqli_query($db,"UPDATE `item_inventory` SET `issuance_apokon`=issuance_apokon + '".$arrayquan[$i]."',`balance`=balance - '".$arrayquan[$i]."' WHERE item_code ='$itemID' and datefrom='".$arraydate[$i]."'");
       }
     }
+
+
+
+
   
   }
 

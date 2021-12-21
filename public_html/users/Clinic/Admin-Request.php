@@ -11,7 +11,7 @@
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($conn,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 
@@ -456,7 +456,7 @@ $pdf->Output('example_003.pdf', 'I');
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($conn, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -645,6 +645,7 @@ $pdf->Output('example_003.pdf', 'I');
                       <th>Required Lab Test</th>
                       <th>Lab Result</th>
                       <th>Certificate</th>
+                      <th>Status</th>
                      
                     </tr>
                   </thead>
@@ -655,7 +656,7 @@ $pdf->Output('example_003.pdf', 'I');
 
 
                       <?php 
-                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' AND status='Pending' order by request_id DESC");
+                      $sql = mysqli_query($conn, "SELECT * from request_list where request_type='Medical Certificate' AND status !='Completed' order by request_id DESC");
 
         while($res = mysqli_fetch_array($sql)) {  
           $id=$res['request_id'];
@@ -692,9 +693,9 @@ $pdf->Output('example_003.pdf', 'I');
                       </td>
                       <td>
                         <?php
-                        if(($res['status']) == 'pending'){
+                        if(($res['status']) == 'Pending'){
                           echo '<a class="btn btn-danger btn-sm disabled" href="#" >Release</a>';
-                        }if(($res['status']) == 'completed'){
+                        }if(($res['status']) == 'Approved'){
                           if ($res['purpose'] == 'Employment') {
                             echo '<a class="btn btn-danger btn-sm"  data-toggle="modal" href=#released'.$res['request_id'].' >Release</a>';
                           include("employment_modal.php");
@@ -709,6 +710,7 @@ $pdf->Output('example_003.pdf', 'I');
                         }
                         ?>
                       </td>
+                      <td><?php echo $res['status']; ?></td>
                   
                     </tr>
                     <?php

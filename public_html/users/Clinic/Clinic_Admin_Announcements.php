@@ -1,7 +1,7 @@
    <?php include('conn.php');
    session_start();
   include('connect.php');
-  // $user_id = $_SESSION['id'];
+   $user_id = $_SESSION['id'];
   if (!isset($_SESSION['id']) || isset($_SESSION['usertype']) != 'Staff' || isset($_SESSION['office']) != 'Clinic'){
     echo '<script type="text/javascript">'; 
     echo 'window.location= "../../index.php";';
@@ -9,7 +9,7 @@
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 
@@ -274,7 +274,7 @@ function timeago($datetime, $full = false) {
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));

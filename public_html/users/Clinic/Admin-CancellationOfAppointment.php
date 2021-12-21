@@ -10,7 +10,7 @@ include('connect.php');
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
  function fetch_data()  
@@ -435,7 +435,7 @@ $pdf->Output('example_003.pdf', 'I');
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -645,8 +645,50 @@ if(isset($_POST['reviewcancelappointment'])){
    $patient_id= $_POST['idx'];
    $comment= $_POST['comments'];
    $reqstat= $_POST['reqstat'];
+   $p_id = $_POST['patient_id'];
   $sql = "Update consultation set status='$reqstat', cancel_request_remarks='$comment' where id='$patient_id'"; 
    if ($db->query($sql) === TRUE) {
+    $user_check_query="SELECT * from login_credentials where username='$p_id' LIMIT 1";
+$result2=mysqli_query($db,$user_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$message = 'USeP Clinic';
+if($reqstat=='Request Granted'){
+  if($request['usertype']=='Student'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been approved by the USeP Clinic',now(),'../users/Student/StudentConsultationHistory.php', 'Delivered','3')");
+    }
+
+if($request['usertype']=='Faculty Head'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been approved by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Faculty'){
+     $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been approved by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Staff'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been approved by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+}else{
+  if($request['usertype']=='Student'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been denied by the USeP Clinic',now(),'../users/Student/StudentConsultationHistory.php', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Faculty Head'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been denied by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Faculty'){
+     $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been denied by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+if($request['usertype']=='Staff'){
+    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$p_id', 'Your request for Appointment Cancellation has been denied by the by the USeP Clinic',now(),'../users/Faculty/FacultyConsultationHistory.php', 'Delivered','3')");
+    
+}
+}
+
   echo '<script>
       swal({
       title: "Cancellation request reviewed successfully!",

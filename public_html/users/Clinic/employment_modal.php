@@ -1,9 +1,9 @@
              <div class="modal fade " id="released<?php echo $res['request_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document" style="position: absolute;transform: translate(30%, 5%);" >
+                  <div class="modal-dialog" role="document" style="position: absolute;transform: translate(80%, 0%);" >
                     <div class="modal-content" id="content<?php echo $id ?>" style="width: 1100px">
-                      <div class="modal-header" style="background-color: #2B4550;">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FFFFFF;">&nbsp; Employment Certificate</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #FFFFFF">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">&nbsp; Employment Certificate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -15,7 +15,7 @@
   <tr>
     <th style="border-left: solid">NAME (Last Name, First Name, Name Extension (if any) and Middle Name)</th>
     <th style="border-right: solid"></th>
-    <th  >AGENCY/ADDRESS</th>
+    <th >AGENCY/ADDRESS</th>
     <th style="border-right: solid"></th>
   </tr>
 <input type="text" name="request_id" id="request_id" value="<?php echo $id ?>" hidden>
@@ -95,7 +95,7 @@ while($r = mysqli_fetch_array($result))
   <td>OTHER INFORMATION ABOUT THE PROPOSED APPOINTEE: </td>
 </tr>
 <tr>
-  <td><img src="image/no_sig.png" name="imageID" id="imageID" width="150px" height="80px"/> <input type="hidden" id="image_text" name="image_text" value=""/><br><input type="text" name="fullname" id="fullname"> </td>
+  <td><img src="image/no_sig.png" name="imageID" id="imageID" width="150px" height="50px"/> <input type="hidden" id="image_text" name="image_text" value=""/><br><input type="text" name="fullname" id="fullname"> </td>
   <td><input type="text" name="other_info" id="" value=""> </td>
 </tr>
 
@@ -146,7 +146,8 @@ while($r = mysqli_fetch_array($result))
 
 
 <br>
-<button type="submit" class="btn btn-success" name="submit">Released</button>
+
+<button type="submit" style="float: right;" onclick="sweetAlert('Certificate released successfully', 'Server Request Successful!', 'success');" class="btn btn-success" name="submit">Release</button>
 </form>
 
 

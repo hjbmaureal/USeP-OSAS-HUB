@@ -1,33 +1,81 @@
              <div class="modal fade " id="requiredlab<?php echo $id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content" id="content<?php echo $id ?>">
-                      <div class="modal-header" style="background-color: #2B4550">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FFFFFF">&nbsp; LAB REQUEST SLIP</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #FFFFFF">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">LAB REQUEST SLIP</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body c" id="printThis">
-                      <div class="container" id="container">
+                      <div class="container">
                       <div class = "head">  
                         
-                        <h6 class="font-weight-bold">Republic of the Philippines</h6> 
-                        <h6 class="font-weight-bold" style= "font-family: Old English Text MT;">University of Southeastern Philippines</h6>
-                        <h6 class="font-weight-bold">Tagum-Mabini Campus</h6> 
-                        <h6 class="font-weight-bold">Apokon, Tagum City</h6> 
                         <br>
-                        <hr width=”75%″ size="10">
-                        <hr width=”75%″ size="10">
+                        <h6 class="font-weight-bold" style= "font-family: Calibri; font-size: 16px;">UNIVERSITY OF SOUTHEASTERN PHILIPPINES</h6>
+                        <h6 style= "font-family: Calibri;">Tagum-Mabini Campus</h6> 
+                        <h6 style= "font-family: Calibri;">Apokon, Tagum City</h6> 
+                        <br>
+                  
                        
-                        <h6 class="font-weight-bold">MEDICAL-DENTAL UNIT</h6> 
-                        <h6 class="font-weight-bold">LABORATORY REQUEST</h6> 
+                        <h6 class="font-weight-bold" style= "font-family: Calibri; font-size: 16px;">MEDICAL-DENTAL UNIT</h6> 
+                        <h6 class="font-weight-bold" style="font-family: Calibri; font-size: 16px; color: red">LABORATORY REQUEST</h6> 
                       </div>
                       <br>
-                        <h6>Date: <span class="font-weight-lighter ml-2"> 2021-07-19</span></h6>
-                        <h6>Name: <span class="font-weight-lighter ml-2"> <?php echo $res['fullname']; ?></span></h6>
+                        <h6>Name: <span class="font-weight-lighter ml-1"><input type="text" readonly="" value="<?php echo $res['fullname']; ?>"  style="font-weight: bold; font-size: 15px;text-align:left;border-left:none;border-right: none;border-top: none;outline: none;cursor: default;width: 370px;"></input></h6>
+
+                          <h6>Address:<br>
+                            <textarea name="address" 
+                              id="address"
+                              readonly="" 
+                              rows="3" 
+                              style=
+                                 "font-size: 15px;
+                                  font-weight: bold;
+                                  border-left:none;
+                                  border-right: none;
+                                  border-top: none;
+                                  outline: none;cursor: default;
+                                  height: 50px;
+                                  width: 430px;
+                                  border-width: 2px;
+                                  ">
+                              <?php echo $res['address']; ?>
+                            </textarea>
+                        </h6>
+                        <div class="row" id="asd" style="position: static;">
+                        <div class="col-sm-6" id="age">
+                                <h6>Age/Sex:
+                                  
+                                    <input type="text" 
+                                    readonly="" 
+                                    value="<?php 
+                                    echo $res['age']. " / ";
+                                    echo $res['sex']; ?>"  
+                                    style="
+                                      font-size: 15px;
+                                      font-weight: bold;
+                                      text-align:left;
+                                      border-left:none;
+                                      border-right: none;
+                                      border-top: none;
+                                      outline: none;
+                                      cursor: default;
+                                      width: 130px; 
+                                      position: sticky;">
+                                    </input>
+                                </h6>
+                          </div>
+
+           
+                          <div class="col-sm-6" id="date">
+                              <h6>Date: <input type="text" readonly="" value="<?php echo $res['date_requested']; ?>" style="font-weight: bold;text-align: left; font-size: 15px; border-left:none;border-right: none;border-top: none;outline: none;cursor: default;width: 115px; position: sticky;"></input></h6>
+                          </div>
+                        </div>
 
                          <br> 
                          <h6 class="font-weight-bold">Required Lab Test: </h6> 
+                         <b>
                          <?php
                         if($res['CBC'] == 1){
                           echo '<input type="checkbox"checked disabled>
@@ -186,11 +234,11 @@
                         }
                         ?>
 
-                        
+                        </b>
                           <br>
                           <br>
                           <div id="requested">
-                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="Sir Jet"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;background-color: #F5F5F5;cursor: default;"></h6> 
+                          <h6 style="text-align: center;margin-left:60%">Requested by: <input type="text" readonly="" value="<?php echo $staff_name ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none; cursor: default; height: 35px; width: auto; font-weight: bold;"></h6> 
                         </div>
                           <br>
                            
@@ -198,9 +246,12 @@
                         </div>
                     
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnPrint<?php echo $id ?>">Print</button>
+                        
+                          <button type="submit" class="btn btn-success" id="btnPrint<?php echo $id ?>" name="print">Print</button>
+                        
+                        
                       </div>
-                      <img src="image/logo.png"  style="position: absolute;transform: translate(100px, 350px);opacity: .10 " />
+                      <img src="image/logo.png"  style="position: absolute;transform: translate(100px, 430px);opacity: .10 " />
                     </div>
 
                   </div>
@@ -246,6 +297,10 @@
 
                 </script>
 
+                <script type="text/javascript">
+                  document.getElementById('address').innerHTML = document.getElementById('address').innerHTML.trim();
+                </script>
+
                 <style>
                    @media screen {
 
@@ -279,13 +334,14 @@
 
                             position: absolute;
 
-                            left: 0;
+                            left: 2%;
 
-                            top: 0;
+                            top: 1%;
 
 
                             
                         }
+
                         .close{
                           display: none;
                         }
@@ -303,6 +359,14 @@
                         }
                         .modal-content{
                           width: 51%;
+                        }
+
+                        #date {
+                          margin-left:-22%;
+                        }
+
+                        .modal-header, .modal-footer {
+                          display: none;
                         }
 
 

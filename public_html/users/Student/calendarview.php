@@ -1,33 +1,42 @@
 <?php 
-
-include('conn.php');
-include('session_student.php');
-$id=$_SESSION['username'];
+session_start();
+include('connect.php');
+$id=$_SESSION['id'];
 $data = array();/*GROUP BY day(appointment_date)*/
-$querry = mysqli_query($conn,"SELECT * FROM guidance_appointments LEFT JOIN indv_counselling ON guidance_appointments.appointment_id=indv_counselling.appointment_id LEFT JOIN intake_form ON indv_counselling.intake_id=intake_form.intake_id LEFT JOIN student on intake_form.Student_id=student.Student_id WHERE intake_form.Student_id='$id' ORDER BY appointment_date, appointment_time ASC");
+$querry = mysqli_query($db,"SELECT * FROM consultation join student on consultation.patient_id=student.Student_id where patient_id='$id'");
  while($row = mysqli_fetch_array($querry)) {
- 					$timestamp = strtotime($row['appointment_time']) + 60*60;
+ 					$timestamp = strtotime($row['appointment_timefrom']) + 60*60;
+					$timestamp1 = strtotime($row['appointment_timeto']) + 60*60;
 					$time = date('H:i', $timestamp);
+					$time1 = date('H:i', $timestamp1);
 					$color='';
     				$date = date("Y-m-d");
     				$dateDiff=(strtotime($row['appointment_date']) - strtotime($date)) / 86400;
-					if ($dateDiff<0) 
+					if ($row['appointment_date'] < $date) 
+					{
+						$color='#e8e6e5';/*gray*/
+					}else if ($dateDiff>=1 && $dateDiff <=7) 
+					{
+						$color='#fcc521';/*yellow*/
+					}else if($row['appointment_date']==$date) 
+					{
+						$color='#f90a20';/*red*/
+						
+					}else if ($dateDiff>7 && $dateDiff <=13) 
 					{
 						$color='#28a745';/*green*/
-					}else if ($dateDiff>=0 && $dateDiff <=6) 
+					}
+					else
 					{
-						$color='#dc3545';/*red*/
-					}else if ($dateDiff>6 && $dateDiff <=13) 
-					{
-						$color='#ffc107';/*yellow*/
+						$color='#f86707';/*green*/
 					}
 
 	$data[]=array(
 			'color' => $color,
-			'id' => $row['appointment_id'],
-			'title' => '',
-			'start' => $row['appointment_date'].' '.$row['appointment_time'],
-			'end' => $row['appointment_date'].' '.$time,
+			'id' => $row['patient_id'],
+			'title' => $row['first_name'].' '.$row['last_name'].' - '.$row['type'],
+			'start' => $row['appointment_date'].' '.$row['appointment_timefrom'],
+			'end' => $row['appointment_date'].' '.$time1,
 
 	);/*$row['last_name'].' '.$row['first_name']*/
 }

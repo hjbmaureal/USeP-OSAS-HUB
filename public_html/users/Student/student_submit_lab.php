@@ -1,3 +1,15 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
+<script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/upstyle.css">
+    <title></title>
+</head>
+<body>
 <?php
 session_start();
 include("conn.php"); 
@@ -36,7 +48,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($cbc['filename'])){
         $newcbc=$cbc['filename'] ."_". time() . "." . $cbc['extension'];
-        move_uploaded_file($_FILES["cbc"]["tmp_name"],"../C-Admin/labresult/" . $newcbc);
+        move_uploaded_file($_FILES["cbc"]["tmp_name"],"../Clinic/labresult/" . $newcbc);
         $cbc_loc="labresult/" . $newcbc;
 
     }
@@ -48,7 +60,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($plate['filename'])){
        $newplate=$plate['filename'] ."_". time() . "." . $plate['extension'];
-        move_uploaded_file($_FILES["plate"]["tmp_name"],"../C-Admin/labresult/" . $newplate);
+        move_uploaded_file($_FILES["plate"]["tmp_name"],"../Clinic/labresult/" . $newplate);
         $plate_loc="labresult/" . $newplate;
     }
 
@@ -58,7 +70,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($hema['filename'])){
         $newhema=$hema['filename'] ."_". time() . "." . $hema['extension'];
-        move_uploaded_file($_FILES["hema"]["tmp_name"],"../C-Admin/labresult/" . $newhema);
+        move_uploaded_file($_FILES["hema"]["tmp_name"],"../Clinic/labresult/" . $newhema);
         $hema_loc="labresult/" . $newhema;
     }
 
@@ -68,7 +80,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($hemo['filename'])){
         $newhemo=$hemo['filename'] ."_". time() . "." . $hemo['extension'];
-        move_uploaded_file($_FILES["hemo"]["tmp_name"],"../C-Admin/labresult/" . $newhemo);
+        move_uploaded_file($_FILES["hemo"]["tmp_name"],"../Clinic/labresult/" . $newhemo);
         $hemo_loc="labresult/" . $newhemo;
     }
 
@@ -78,7 +90,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($urine['filename'])){
         $newurine=$urine['filename'] ."_". time() . "." . $urine['extension'];
-        move_uploaded_file($_FILES["urine"]["tmp_name"],"../C-Admin/labresult/" . $newurine);
+        move_uploaded_file($_FILES["urine"]["tmp_name"],"../Clinic/labresult/" . $newurine);
         $urine_loc="labresult/" . $newurine;
     }
 
@@ -87,7 +99,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($fecal['filename'])){
         $newfecal=$fecal['filename'] ."_". time() . "." . $fecal['extension'];
-        move_uploaded_file($_FILES["fecal"]["tmp_name"],"../C-Admin/labresult/" . $newfecal);
+        move_uploaded_file($_FILES["fecal"]["tmp_name"],"../Clinic/labresult/" . $newfecal);
         $fecal_loc="labresult/" . $newfecal;
     }
 
@@ -97,7 +109,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($fbs['filename'])){
         $newfbs=$fbs['filename'] ."_". time() . "." . $fbs['extension'];
-        move_uploaded_file($_FILES["fbs"]["tmp_name"],"../C-Admin/labresult/" . $newfbs);
+        move_uploaded_file($_FILES["fbs"]["tmp_name"],"../Clinic/labresult/" . $newfbs);
         $fbs_loc="labresult/" . $newfbs;
     }
 
@@ -107,7 +119,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($sua['filename'])){
         $newsua=$sua['filename'] ."_". time() . "." . $sua['extension'];
-        move_uploaded_file($_FILES["sua"]["tmp_name"],"../C-Admin/labresult/" . $newsua);
+        move_uploaded_file($_FILES["sua"]["tmp_name"],"../Clinic/labresult/" . $newsua);
         $sua_loc="labresult/" . $newsua;
     }
 
@@ -116,7 +128,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($creat['filename'])){
         $newcreat=$creat['filename'] ."_". time() . "." . $creat['extension'];
-        move_uploaded_file($_FILES["creat"]["tmp_name"],"../C-Admin/labresult/" . $newcreat);
+        move_uploaded_file($_FILES["creat"]["tmp_name"],"../Clinic/labresult/" . $newcreat);
         $creat_loc="labresult/" . $newcreat;
     }
 
@@ -126,7 +138,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($lip['filename'])){
         $newlip=$lip['filename'] ."_". time() . "." . $lip['extension'];
-        move_uploaded_file($_FILES["lip"]["tmp_name"],"../C-Admin/labresult/" . $newlip);
+        move_uploaded_file($_FILES["lip"]["tmp_name"],"../Clinic/labresult/" . $newlip);
         $lip_loc="labresult/" . $newlip;
     }
 
@@ -135,7 +147,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($sgot['filename'])){
         $newsgot=$sgot['filename'] ."_". time() . "." . $sgot['extension'];
-        move_uploaded_file($_FILES["sgot"]["tmp_name"],"../C-Admin/labresult/" . $newsgot);
+        move_uploaded_file($_FILES["sgot"]["tmp_name"],"../Clinic/labresult/" . $newsgot);
         $sgpt_locg="labresult/" . $newsgot;
     }
 
@@ -144,7 +156,7 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($sgpt['filename'])){
         $newsgpt=$sgpt['filename'] ."_". time() . "." . $sgpt['extension'];
-        move_uploaded_file($_FILES["sgpt"]["tmp_name"],"../C-Admin/labresult/" . $newsgpt);
+        move_uploaded_file($_FILES["sgpt"]["tmp_name"],"../Clinic/labresult/" . $newsgpt);
         $sgpt_loc="labresult/" . $newsgpt;
     }
 
@@ -153,17 +165,54 @@ $others=PATHINFO($_FILES["others"]["name"]?? null);
     }
     if(!empty($others['filename'])){
         $newothers=$others['filename'] ."_". time() . "." . $others['extension'];
-        move_uploaded_file($_FILES["others"]["tmp_name"],"../C-Admin/labresult/" . $newothers);
+        move_uploaded_file($_FILES["others"]["tmp_name"],"../Clinic/labresult/" . $newothers);
         $others_loc="labresult/" . $newothers;
     }
 
 
-$query = mysqli_query($conn, "UPDATE clinic_certificate_requests SET cbc_loc='$cbc_loc',platelet_loc='$plate_loc',hema_loc='$hema_loc',hemo_loc='$hemo_loc',urine_loc='$urine_loc',fecal_loc='$fecal_loc',fbs_loc='$fbs_loc',sua_loc='$sua_loc',creat_loc='$creat_loc',lipid_loc='$lip_loc',sgot_loc='$sgpt_locg',sgpt_loc='$sgpt_loc',others_loc='$others_loc' WHERE request_id=$id");
-$result=mysqli_query($conn,"insert into notif (user_id, message_body, time, link, message_status,office_id) values ('$staff_id', '$name" .' '. "".$message."',now(),'admin-request.php', 'Delivered','3')");
+$query =  "UPDATE clinic_certificate_requests SET cbc_loc='$cbc_loc',platelet_loc='$plate_loc',hema_loc='$hema_loc',hemo_loc='$hemo_loc',urine_loc='$urine_loc',fecal_loc='$fecal_loc',fbs_loc='$fbs_loc',sua_loc='$sua_loc',creat_loc='$creat_loc',lipid_loc='$lip_loc',sgot_loc='$sgpt_locg',sgpt_loc='$sgpt_loc',others_loc='$others_loc' WHERE request_id=$id";
 
 
-echo '<script>alert("Data added successfully!");</script>';
-echo "<script type='text/javascript'> document.location = 'requestmedcert.php'; </script>";
+
+if ($conn->query($query) === TRUE) {
+    $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$admin_id= $request['staff_id'];
+
+$student_name= $_SESSION['fullname'];
+
+$notif_body = "".$student_name." submitted the result/s for Required Laboratory test/s.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-Request.php', 'Delivered', '3')");
+  echo '<script>
+                swal({
+                title: "Lab Result submitted successfully!",
+                text: "Server Request Successful!",
+                type:"success",
+                icon: "success",
+                button: false,
+                timer:1000,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                }).then(function() {
+              window.location = "RequestMedCert.php";
+            })
+         </script>';
+} else {
+  echo '<script>
+                    swal({
+                    title: "Something went wrong...",
+                    text: "Server Request Failed!",
+                    type:"error",
+                    icon: "error",
+                    button: false,
+                    timer:2000,
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    })
+         </script>';
+}
 
 
 
@@ -172,3 +221,5 @@ echo "<script type='text/javascript'> document.location = 'requestmedcert.php'; 
 }
 
 ?>
+</body>
+</html>

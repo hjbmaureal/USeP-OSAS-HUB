@@ -8,7 +8,7 @@ session_start();
   }
   $id=$_SESSION['id'];
   $count = 0;
-  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' or office_id = 3) and message_status='Delivered'");
+  $query=mysqli_query($db,"SELECT count(*) as cnt from notif where (user_id='$id' and office_id = 3) and message_status='Delivered'");
   while($row=mysqli_fetch_array($query)){$count = $row['cnt'];}
 
 
@@ -275,7 +275,7 @@ function timeago($datetime, $full = false) {
             <li class="app-notification__title">You have <?php echo $count;  ?> new notifications.</li>              
               <div class="app-notification__content">                   
                 <?php 
-                  $count_sql="SELECT * from notif where (user_id=$id or office_id = 3)  order by time desc";
+                  $count_sql="SELECT * from notif where (user_id=$id and office_id = 3)  order by time desc";
                   $result = mysqli_query($db, $count_sql);
                   while ($row = mysqli_fetch_assoc($result)) { 
                     $intval = intval(trim($row['time']));
@@ -1154,8 +1154,8 @@ margin-bottom:1.5cm;
                               $("#Add").prop('disabled', false);
                              }else{
                               swal({
-                                              title: "Out of stock!",
-                                              text: "Out of stock!",
+                                              title: "Insufficient stock",
+                                              text: "Please enter a valid qty!",
                                               icon: "error",
                                               buttons: false,
                                               timer: 1800,

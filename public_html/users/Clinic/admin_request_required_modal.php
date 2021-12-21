@@ -1,14 +1,14 @@
             <div class="modal fade " id="required_docu<?php echo $id ?>" tabindex="-1" role="dialog" aria-labelledby="RequestModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <div class="modal-header" style="background-color: #2B4550">
-                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FFFFFF">&nbsp; Lab Request Slip</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #FFFFFF">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">&nbsp; Lab Request Slip</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body c">
-                        <div class="container" style="border: 2px solid black; border-radius: 10px; padding: 25px; background-color: #F5F5F5">
+                        <div class="container" style="border: 2px solid black; border-radius: 10px; padding: 25px;">
                       <div class = "head">  
                         
                         <h6 class="font-weight-bold">Republic of the Philippines</h6> 
@@ -68,7 +68,7 @@
                         <br>
                           <br>
                           <div id="requested">
-                          <h6 class="font-weight-bold" style="text-align: center;margin-left:60%">Requested by: <input type="text" name="requested_by"  value=""  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none;background-color: #F5F5F5;"></h6> 
+                          <h6 class="font-weight-bold" style="text-align: center; margin-left:50%">Requested by: <input type="text" name="requested_by"  value="<?php echo $res['requested_by']; ?>"  style="text-align: center;border-left:none;border-right: none;border-top: none;outline: none; height: 35px; width: 210px;"></h6> 
                         </div>
                           <br>
                         </div>

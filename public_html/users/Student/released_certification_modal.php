@@ -19,17 +19,27 @@
                         <hr width=”75%″ size="10">
                         <hr width=”75%″ size="10">
                       </div>
-                      <form method="POST" action="generate_certificate.php">
+                      <form method="post" action="" enctype="multipart/form-data">
                        <input type="text" name="id" value="<?php echo $row['request_id']; ?>" hidden></input>
-
-                        <h6 class="font-weight-bold">Name of Consultant: <input type="text" name="consultant"  style="border-top:none;border-left: none;border-right: none;outline: none;background-color: #F5F5F5;"></input></h6> 
                         <br>
- 
+                        <label class="control-label"><b>Medical Info</b><br>
+                                    &ensp;&ensp;&ensp;
+                                        <input class="form-check-input" type="file" name="m_info" multiple>
+                                    </label><br><br>
+                        <label class="control-label"><b>Medical History</b><br>
+                                    &ensp;&ensp;&ensp;
+                                        <input class="form-check-input" type="file" name="m_his" multiple>
+                                    </label><br><br>
+                        <label class="control-label"><b>Health Record</b><br>
+                                    &ensp;&ensp;&ensp;
+                                        <input class="form-check-input" type="file" name="h_rec" multiple>
+                                    </label><br><br>
+
                         </div>
 
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-success" name="rel">Submit</button>
                       </div>
                     </div>
                     </form>

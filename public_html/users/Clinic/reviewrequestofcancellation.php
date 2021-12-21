@@ -11,7 +11,7 @@
       <div class="form-group row">
         <label class="control-label col-md-4">Patient Name:</label>
         <div class="col-md-8">
-    <input class="form-control col-md-8" type="hidden" name="username" id="username" value="<?php echo htmlentities($row['patient_id']);?>" required>
+    <input class="form-control col-md-8" type="hidden" name="patient_id" id="username" value="<?php echo htmlentities($row['patient_id']);?>" required>
     <input class="form-control col-md-8" type="hidden" name="idx" id="idx" value="<?php echo htmlentities($row['id']);?>" required><b>
          <?php echo htmlentities($row['name']);?></b>
           <span id="availability"></span> </div>
