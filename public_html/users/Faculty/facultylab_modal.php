@@ -2,13 +2,13 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">&nbsp;SUBMIT LAB RESULT</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle" >&nbsp;SUBMIT LAB RESULT</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body c">
-                        <div class="container" style="border: 2px solid black; border-radius: 10px; padding: 25px;">
+                        <div class="container" style="border: 1px solid black; border-radius: 10px; padding: 25px;">
                       <div class = "head">  
                         
                         <h6 class="font-weight-bold">Republic of the Philippines</h6> 
@@ -21,7 +21,7 @@
                       </div>
                       <form method="POST" action="faculty_submit_lab.php" enctype="multipart/form-data"> 
                       <input type="text" name="id" value="<?php echo $id ?>"hidden ></input>
-                        <h6 class="font-weight-bold">Date: <?php echo(date('Y/m/d'))?></h6> 
+                        <h6 class="font-weight-bold">Date:<input type="text" name="date" readonly="" value="<?php echo(date('Y/m/d'))?>"  style="border:none;outline: none;cursor: default; font-weight: bold;"></input></h6> 
                         <br>
                         <h6 class="font-weight-bold">Please submit the following:</h6> 
                         <?php
@@ -191,72 +191,7 @@
                         <label for="">SGPT</label><br>';
 
                         }
-                        ?>
-
-                        <?php
-                        if($bloodtest == 1){
-                          echo '<input type="checkbox" checked disabled>
-                        <label for="">Blood Test</label><br>
-                        <input class="form-control" style="height: 50%;" type="file" name="bloodtest" required/>';
-
-                        }else{
-                          echo '<input type="checkbox">
-                        <label for="">Blood Test</label><br>';
-
-                        }
                         ?> 
-
-                        <?php
-                        if($chest_xray == 1){
-                          echo '<input type="checkbox" checked disabled>
-                        <label for="">Chest X-ray</label><br>
-                        <input class="form-control" style="height: 50%;" type="file" name="chest_xray" required/>';
-
-                        }else{
-                          echo '<input type="checkbox">
-                        <label for="">Chest X-ray</label><br>';
-
-                        }
-                        ?> 
-
-                        <?php
-                        if($drugtest == 1){
-                          echo '<input type="checkbox" checked disabled>
-                        <label for="">Drug Test</label><br>
-                        <input class="form-control" style="height: 50%;" type="file" name="drugtest" required/>';
-
-                        }else{
-                          echo '<input type="checkbox">
-                        <label for="">Drug Test</label><br>';
-
-                        }
-                        ?> 
-
-                        <?php
-                        if($psychological_test == 1){
-                          echo '<input type="checkbox" checked disabled>
-                        <label for="">Psychological Test</label><br>
-                        <input class="form-control" style="height: 50%;" type="file" name="psychological_test" required/>';
-
-                        }else{
-                          echo '<input type="checkbox">
-                        <label for="">Psychological Test</label><br>';
-
-                        }
-                        ?> 
-
-                        <?php
-                        if($NPE == 1){
-                          echo '<input type="checkbox" checked disabled>
-                        <label for="">Neuro-Psychiatric Examination (if applicable)</label><br>
-                        <input class="form-control" style="height: 50%;" type="file" name="NPE" required/>';
-
-                        }else{
-                          echo '<input type="checkbox">
-                        <label for="">Neuro-Psychiatric Examination (if applicable)</label><br>';
-
-                        }
-                        ?>  
 
                         <?php
                         if($others == 1){

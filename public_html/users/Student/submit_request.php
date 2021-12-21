@@ -25,7 +25,7 @@ $date = $_POST['date'];
 $id = $_SESSION['id'];
 $message = 'filed a request for Medical Records Certification.';
 
-    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Staff' AND position='Nurse' AND account_status='Active'");
+    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Coordinator' and office_id = 3 AND account_status='Active'");
     while($res = mysqli_fetch_array($sql2)) { 
     $staff_id = $res['staff_id'];
     }

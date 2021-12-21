@@ -607,24 +607,9 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                             
             <div id="table_clone" style="display: compact">
               <table  class="head">
-                <thead>
-
-                  <tr>
-                  <th><img src="image/logo.png" width="100"></th>
-                  <th width="100"></th>
-                  <th><center><p>Republic of the Philippines</p>
-                  <p> UNIVERITY OF SOUTHEASTERN PHILIPPINES</p>
-                  <p> Tagum-Mabini Campus</p>
-                  <p> Apokon, Tagum City</p>
-                  <br>
-                  <p style="font-size: 20px"> Consultation History</p></center></th>
-                  <th width="100"></th>
-                  <th width="100"></th>
-                  </th>
-                  </tr>
 
       
-                  <table class="table table-hover table-bordered reports-list" id="myTable">
+                  <table class="table table-hover reports-list" id="sampleTable2">
         
                    <thead>
 
@@ -633,13 +618,12 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
                       <tr>
                       <th scope="col">Complaint Date</th>
                       <th scope="col">Consultation type</th>
-                      <th scope="col">Mode of Communication (First Option)</th>
-                      <th scope="col">Mode of Communication (Second Option)</th>
-                      <th scope="col">Date of Appointment</th>
+                      <th style="width:20%">Mode of Communication (First Option)</th>
+                      <th style="width:20%">Mode of Communication (Second Option)</th>
+                      <th scope="col">Appointment Date</th>
                       <th scope="col">Time</th>
-                      <th scope="col">Duration</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Cancellation Remarks (if applicable)</th>
+                      <th style="width: 10%">Cancellation Remarks</th>
                      <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -649,24 +633,24 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
 
                      $uid=$_SESSION['id'];
 
+
                         $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.cancel_request_remarks,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date, consultation.status, consultation.appointment_timefrom, consultation.consultation_duration from consultation join consultation_type on consultation.consultation_type=consultation_type.type_id
-                          where patient_id='$uid'";
+                          where patient_id='$uid' AND consultation.status != 'Completed'";
 
                     $res = $db->query($sql);
                     $cnt=1;
                     while($row = $res->fetch_assoc()) {
-          $date =date_create($row['date_filed']);
-              $date1 = date_format($date,"F d, Y");
+                    $date =date_create($row['date_filed']);
+                    $date1 = date_format($date,"F d, Y");
                       ?>
 
                     <tr>
                     <td> <?php echo htmlentities($row['date_filed']);?></td>
                     <td> <?php echo htmlentities($row['consultation_type']);?></td>
-                    <td><?php echo htmlentities($row['communication_mode_first_option']);?></td>
-                    <td><?php echo htmlentities($row['communication_mode_second_option']);?></td>
+                    <td class="max"><?php echo htmlentities($row['communication_mode_first_option']);?></td>
+                    <td class="max"><?php echo htmlentities($row['communication_mode_second_option']);?></td>
                     <td><?php echo htmlentities($row['appointment_date']);?></td>
                     <td> <?php echo htmlentities($row['appointment_timefrom']);?></td>
-                    <td> <?php echo htmlentities($row['consultation_duration']);?></td>
                     <td><?php echo htmlentities($row['status']);?></td>
           <td><?php echo htmlentities($row['cancel_request_remarks']);?></td>
                     <td>
@@ -697,6 +681,198 @@ $query2=mysqli_query($conn,"SELECT count(*) as cnt from job_hiring_announcement"
               </div>
             </div>
           </div>
+
+
+         <!--<div class="page-error tile">-->
+
+       <div class="row">
+          <div class="col-md-12">
+            <div class="tile">
+              <div class="tile-body">
+                <div>
+                <div>
+                
+                <h3 class="mb-3 line-head">Consultation History</h3>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-auto">
+
+                      
+                   <div class="inline-block">
+                    Consultation Type
+                    <br>
+                    <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
+                        <option class="select-item" value="" selected="selected">All</option>
+                        <option class="select-item" value="Medical Consultation">Medical Consultation</option>
+                        <option class="select-item" value="Dental Consultation">Dental Consultation</option>
+                      </select>
+                    </div>
+                    &emsp;
+
+                    <div class="inline-block">
+                    Type of Communication
+                    <br>
+                    <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
+                        <option class="select-item" value="" selected="selected">All</option>
+                        <?php
+                                                  // Feching active mode of communication
+                                                  $sql=mysqli_query($db,"select * from mode_of_communication");
+                                                  while($result=mysqli_fetch_array($sql))
+                                                  {    
+                                                  ?>
+                                                  <option class="select-item" value="<?php echo htmlentities($result['communication_mode']);?>"><?php echo htmlentities($result['communication_mode']);?></option>
+                                                  <?php }
+                                                  
+                                                  ?>
+                      </select>
+                    </div>
+
+                    &emsp;
+                                 
+                    <div class="inline-block">
+                    Status
+                    <br>
+                    <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
+                        <option class="select-item" value="" selected="selected">All</option>
+                        <option class="select-item" value="Cancelled">Cancelled</option>
+                        <option class="select-item" value="Completed">Completed</option>
+                   
+                      </select>
+                    </div>
+
+
+
+                      </div>
+
+                    
+                    </div>
+                  
+
+
+                   
+
+                    
+                     
+
+     <!--   <button class="btn btn-danger btn-sm verify" id="demoNotify" href="#" >Verify</button>-->
+       
+                     
+
+            </div>
+            </div>
+            <div class="table-bd">
+            <div class="table-responsive">
+            <br>
+                            
+            <div id="table_clone" style="display: compact">
+              <table  class="head">
+
+      
+                  <table class="table table-hover reports-list" id="myTable">
+        
+                   <thead>
+
+
+
+                      <tr>
+                      <th scope="col">Complaint Date</th>
+                      <th scope="col">Consultation type</th>
+                      <th scope="col">Mode of Communication (First Option)</th>
+                      <th scope="col">Mode of Communication (Second Option)</th>
+                      <th scope="col">Appointment Date</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Status</th>
+                      <th class="max">Cancellation Remarks</th>
+                    
+                    </tr>
+                  </thead>
+                  <tbody>         <?php 
+
+                     $db = mysqli_connect("localhost","root","","backupdb-3");
+
+                     $uid=$_SESSION['id'];
+
+                        $sql = "SELECT consultation.id,consultation.patient_id,consultation.date_filed,consultation.cancel_request_remarks,consultation_type.consultation_type,consultation.communication_mode_first_option,consultation.communication_mode_second_option, consultation.appointment_date, consultation.status, consultation.appointment_timefrom, consultation.consultation_duration from consultation join consultation_type on consultation.consultation_type=consultation_type.type_id
+                          where patient_id='$uid' AND consultation.status = 'Completed' OR consultation.status = 'Request Granted'";
+
+                    $res = $db->query($sql);
+                    $cnt=1;
+                    while($row = $res->fetch_assoc()) {
+          $date =date_create($row['date_filed']);
+              $date1 = date_format($date,"F d, Y");
+                      ?>
+
+                    <tr>
+                    <td> <?php echo htmlentities($row['date_filed']);?></td>
+                    <td> <?php echo htmlentities($row['consultation_type']);?></td>
+                    <td><?php echo htmlentities($row['communication_mode_first_option']);?></td>
+                    <td><?php echo htmlentities($row['communication_mode_second_option']);?></td>
+                    <td>
+                     <?php
+                        if(empty($row['appointment_date'])){
+                          echo '<i>Null</i>';
+
+                        }else{
+                          echo $row['appointment_date'];
+
+                        }
+                        ?>
+                    </td>
+                    <td> 
+                      <?php
+                        if(empty($row['appointment_timefrom'])){
+                          echo '<i>Null</i>';
+
+                        }else{
+                          echo $row['appointment_timefrom'];
+
+                        }
+                        ?>
+                    <td>
+
+                        <?php
+                        if(($row['status'])=='Request Granted'){
+                          echo 'Cancelled';
+                        }
+                        else{
+                          echo 'Completed';
+
+                        }
+                        ?>
+                        
+                    </td>
+
+                    <td>
+
+                        <?php
+                        if(empty($row['cancel_request_remarks'])){
+                          echo 'N/A';
+
+                        }else{
+                          echo $row['cancel_request_remarks'];
+
+                        }
+                        ?>
+                        
+                    </td>
+
+                     
+
+                    </tr>
+            <?php
+  
+  }?>
+                  </tbody>
+                  </table>      
+              </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+
         </div>  
 
         

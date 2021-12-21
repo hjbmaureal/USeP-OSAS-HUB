@@ -396,18 +396,54 @@ function timeago($datetime, $full = false) {
 
       <!-- Navbar-->
        
+<script>
+        (function(document) {
+            'use strict';
 
+            var TableFilter = (function(myArray) {
+                var search_input;
+
+                function _onInputSearch(e) {
+                    search_input = e.target;
+                    var tables = document.getElementsByClassName(search_input.getAttribute('data-table'));
+                    myArray.forEach.call(tables, function(table) {
+                        myArray.forEach.call(table.tBodies, function(tbody) {
+                            myArray.forEach.call(tbody.rows, function(row) {
+                                var text_content = row.textContent.toLowerCase();
+                                var search_val = search_input.value.toLowerCase();
+                                row.style.display = text_content.indexOf(search_val) > -1 ? '' : 'none';
+                            });
+                        });
+                    });
+                }
+
+                return {
+                    init: function() {
+                        var inputs = document.getElementsByClassName('bootstrap-select');
+                        myArray.forEach.call(inputs, function(input) {
+                            input.oninput = _onInputSearch;
+                        });
+                    }
+                };
+            })(Array.prototype);
+
+            document.addEventListener('readystatechange', function() {
+                if (document.readyState === 'complete') {
+                    TableFilter.init();
+                }
+            });
+
+        })(document);
+    </script>  
          <!--<div class="page-error tile">-->
 
  <div class="row">
           <div class="col-md-12">
-                
-              <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
-                <div>
-                <div>
+                
                 <h3 class="mb-3 line-head">Request for Medical Certificate</h3>
-                  </div>
+                 
                   <br>
                   <div class="row">
                     <div class="col-auto">
@@ -418,10 +454,8 @@ function timeago($datetime, $full = false) {
                     <br>
                     <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
                         <option class="select-item" value="" selected="selected">All</option>
-                        <option class="select-item" value="Employment">Employment</option>
-                        <option class="select-item" value="Field Trip">Field Trip</option>
                         <option class="select-item" value="OJT">OJT</option>
-                        
+                        <option class="select-item" value="Field Trip">Field Trip</option>
                    
                       </select>
                     </div>
@@ -449,27 +483,26 @@ function timeago($datetime, $full = false) {
 
      <!--   <button class="btn btn-danger btn-sm verify" id="demoNotify" href="#" >Verify</button>-->
        
-                      </div>   
-                </div>
-                  
-                  <div class="table-bd">
+                      </div>  
+              
+<div class="table-bd">
                     <br>
                   <div class="table-responsive">
                   <table class="table table-hover reports-list" id="myTable" style="border: none;">
 
-                    <br>
                     <thead class>
                       <tr>
+                     
                       <th scope="col">Date Requested</th>
                       <th scope="col">Purpose</th>
                       <th scope="col">Required Lab Test</th>
-                      <th scope="col">Submit Lab Result</th>
+                      <th scope="col">Laboratory Result</th>
                       <th scope="col">Certificate</th>
                      <th scope="col">Status</th>
                      <th scope="col">Date Released</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="myTable">
                     <tr>
                       <?php 
 
@@ -488,15 +521,10 @@ function timeago($datetime, $full = false) {
           $lip = $res['Lipid'];
           $sgot = $res['SGOT'];
           $sgpt = $res['SGPT'];
-
-          $bloodtest = $res['blood_test'];
-          $chest_xray = $res['chest_xray'];
-          $drugtest = $res['drug_test'];
-          $psychological_test = $res['psychological_test'];
-          $NPE = $res['NPE'];
-
           $others = $res['others'];
           $other_text = $res['other_text'];
+          $staff_name = $res['requested_by'];
+          $status = $res['status'];
 
 ?>
                       
@@ -505,45 +533,60 @@ function timeago($datetime, $full = false) {
                       <td><?php echo $res['purpose']; ?></td>
                       <td>
                         <?php
-                        if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1 || $res['blood_test'] == 1 || $res['chest_xray'] == 1 || $res['drug_test'] == 1 || $res['psychological_test'] == 1 || $res['NPE'] == 1 ){
-                           echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" href=#requiredlab'.$res['request_id'].' style="height: 35px;">View</button>';
-                          include("facultyrequired_docs.php");
-                        }else{
-                          echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" style="height: 35px;" disabled>View</button>';
+                        if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1){
+                          echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" href=#requiredlab'.$res['request_id'].' style="height: 35px;">View</button>';
+                          include("required_docs.php");
+                        }
 
+                        else{
+                          echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" style="height: 35px;" disabled>View</button>';
+                          
 
                         }
                         ?>
                       </td>
+
                         <td>
                           <?php
-                        if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1 || $res['blood_test'] == 1 || $res['chest_xray'] == 1 || $res['drug_test'] == 1 || $res['psychological_test'] == 1 || $res['NPE'] == 1 ){
-                          echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 60%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
-                          include("facultylab_modal.php");
-                          
-                        }else{
-                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 60%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
+                        if($res['status'] != 'Completed'){
+                          if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1 && $res['status'] != 'Completed'){
+                           echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 80%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
+                            include("lab_modal.php");
+                                }
+
+                          else {
+                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 80%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
                             
                           ';
-                        }
+                        }      
+
+
+                          }
+
+                          else {
+                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 80%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
+                            
+                          ';
+}
+
+                        
 
                           ?>
-
-
                         </td>
+
                         <td>
                           <?php
                         if(empty($res['certificate_location'])){
-                          echo '<button class="btn btn-danger btn-sm verify" data-toggle="modal" style="width:70%; height: 35px;" data-target="#ModalRequiredLab" disabled>Open Certificate</i></button>';
+                          echo '<button class="btn btn-danger btn-sm verify" data-toggle="modal" style="width:80%; height: 35px;" data-target="#ModalRequiredLab" disabled>Open Certificate</i></button>';
 
                         }else{
-                          echo '<a class="btn btn-danger btn-sm verify" target="_blank" href=facultyview.php?id='.$res['request_id'].' style="height: 35px; width:70%;">Open Certificate</a>';
+                          echo '<a class="btn btn-danger btn-sm verify" target="_blank" href=view.php?id='.$res['request_id'].' style="height: 35px; width:80%;">Open Certificate</a>';
 
                         }
                         ?>
                         </td>
                         
-                      </td>
+                      
 
                       <td><?php
                         if(empty($res['certificate_location'])){
@@ -558,6 +601,7 @@ function timeago($datetime, $full = false) {
                         </td>
 
                         <td><?php echo $res['date_released']; ?></td>
+                        
                       
                     </tr>
                     <?php
@@ -566,14 +610,16 @@ function timeago($datetime, $full = false) {
                     </tbody>
 
                   </table>
-
+         
               </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>  
+      </div>
+    </div>
 
-        <div class="modal fade " id="RequestModal" tabindex="-1" role="dialog" aria-labelledby="RequestModalLabel" aria-hidden="true">
+    <div class="modal fade " id="RequestModal" tabindex="-1" role="dialog" aria-labelledby="RequestModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -594,12 +640,11 @@ function timeago($datetime, $full = false) {
                         <hr width=”75%″ size="10">
                         <hr width=”75%″ size="10">
                       </div>
-                      <form method="POST" action="facultyadd_request_modal.php">
-                        <h6 class="font-weight-bold">Date: <?php echo(date('Y/m/d'))?></h6> 
+                      <form method="POST" action="add_request_modal.php">
+                        <h6 class="font-weight-bold">Date: <input type="text" name="date" readonly="" value="<?php echo(date('Y/m/d'))?>"  style="border:none;outline: none; cursor: default; font-weight: bold;"></input></h6> 
                         <br>
-
-                        <input type="checkbox" class="box" id="ojt" name="purpose[]" value="Employment">
-                        <label for=""> Employment</label><br> 
+                        <input type="checkbox" class="box" id="ojt" name="purpose[]" value="OJT">
+                        <label for=""> OJT</label><br> 
 
                         <input type="checkbox" class="box" id="ft" name="purpose[]" value="Field Trip">
                         <label for=""> Field Trip </label><br> 
@@ -607,51 +652,40 @@ function timeago($datetime, $full = false) {
                         <input type="checkbox" class="box" id="others" name="purpose[]" value="others" onclick="showOthers()">
                         <label for=""> Others</label><br> 
                         <textarea placeholder="Enter Purpose" id="other_text" name="other_text" style="width: 100%; height: auto;display: none "></textarea>
-                          </div>   
+<!-- 
+                         <h6 class="font-weight-bold">Purpose: </h6> 
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                                      <textarea id="preslist" class="preslist" name="purpose" rows="4" placeholder="&nbsp;Type your purpose here. . ." style="width: 100%; border-radius: 5px;"></textarea>
+                                      </div>
+                          </div>    -->
                         </div>
 
+
+                      </div>
                       <div class="modal-footer">
                         <button type="submit" class="btn btn-success" name="submit">Submit</button>
                       </div>
                     </div>
                     </form>
                   </div>
-                </div>      
+                </div>  
 
-
-
-                 
 
         <!--</div>-->
       </main>
       <!-- Essential javascripts for application to work-->
       
-      <script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
+      <script src="jsc/jquery-3.3.1.min.js"></script>
+      <script src="jsc/popper.min.js"></script>
+      <script src="jsc/bootstrap.min.js"></script>
+      <script src="jsc/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
+      <script src="jsc/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
-      <script>
-          function showOthers() {
-            var checkBox = document.getElementById("others");
-            var text = document.getElementById("other_text");
-            if (checkBox.checked == true){
-              text.style.display = "block";
-            } else {
-               text.style.display = "none";
-            }
-          }
-          $(document).ready(function(){
-          $('.box').on('change', function() {
-             $('.box').not(this).prop('checked', false);
-             
-          });
-          });
-      </script>
+      <script type="text/javascript" src="jsc/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/sweetalert.min.js"></script>
+
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -669,12 +703,29 @@ function timeago($datetime, $full = false) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
-      <!-- Data table plugin-->
-      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-      <script type="text/javascript">$('#sampleTable').DataTable();</script>
+      <script type="text/javascript">$('#myTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
       <!-- Google analytics script-->
+       <script>
+          function showOthers() {
+            var checkBox = document.getElementById("others");
+            var text = document.getElementById("other_text");
+            if (checkBox.checked == true){
+              text.style.display = "block";
+            } else {
+               text.style.display = "none";
+            }
+          }
+          $(document).ready(function(){
+          $('.box').on('change', function() {
+             $('.box').not(this).prop('checked', false);
+             
+          });
+          });
+
+      </script>
       <script type="text/javascript">
         if(document.location.hostname == 'pratikborsadiya.in') {
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -704,22 +755,5 @@ function timeago($datetime, $full = false) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
       
-
-     <div id="myModal" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Notifications</h5>
-            </div>
-            <div class="modal-body">
-                <p>You have <?php echo $count;  ?> unread notifications</p><br>
-                
-                   
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    </body>
+</body>
   </html>

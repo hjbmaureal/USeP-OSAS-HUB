@@ -29,7 +29,7 @@ $message = 'Submitted a letter of request';
     $patient_id = $res['patient_id'];
     }
 
-    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Staff' AND position='Nurse' AND account_status='Active'");
+    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Coordinator' and office_id = 3 AND account_status='Active'");
     while($res = mysqli_fetch_array($sql2)) { 
     $staff_id = $res['staff_id'];
     }
@@ -43,13 +43,13 @@ $fileinfo=PATHINFO($_FILES["file"]["name"]);
     }
     if($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif" && $ext != "pdf" && $ext != "PDF" && $ext != "doc" && $ext != "docx" && $ext != "zip" && $ext != "rar"){
         echo '<script>alert("File Extension not allowed!")</script>';
-        header("Location:RequestMedRecsCert.php");
+        header("Location:facultyRequestMedRecsCert.php");
         exit();
     }
 
     else{
     $newFilename=$fileinfo['filename'] ."_". time() . "." . $fileinfo['extension'];
-    move_uploaded_file($_FILES["file"]["tmp_name"],"../C-Admin/Letter of Request/" . $newFilename);
+    move_uploaded_file($_FILES["file"]["tmp_name"],"../Clinic/Letter of Request/" . $newFilename);
     $location="Letter of Request/" . $newFilename;
     }   
 

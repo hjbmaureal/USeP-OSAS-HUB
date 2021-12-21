@@ -602,8 +602,8 @@ function timeago($datetime, $full = false) {
 
                 if ($res->num_rows > 0) {
                 while($row = $res->fetch_assoc()) {
-                            $date_from =date_create($row['datefrom']);
-                            $date_to =date_create($row['dateto']);
+                            $date_from = date_create($row['datefrom']);
+                            $date_to = date_create($row['dateto']);
                             $date1 = date_format($date_from,"F d, Y");
                             $date2 = date_format($date_to,"F d, Y");
                   ?>

@@ -478,7 +478,7 @@ function timeago($datetime, $full = false) {
 
  <div class="row">
           <div class="col-md-12">
-            <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
                 <h3 class="mb-3 line-head">Prescription</h3>
                  

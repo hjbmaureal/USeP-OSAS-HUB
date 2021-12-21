@@ -479,7 +479,7 @@ function timeago($datetime, $full = false) {
 
  <div class="row">
           <div class="col-md-12">
-            <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
                 
                 <h3 class="mb-3 line-head">Request for Medical Certificate</h3>
@@ -525,13 +525,11 @@ function timeago($datetime, $full = false) {
        
                       </div>  
               
-                 
-                  <div class="table-bd">
+<div class="table-bd">
                     <br>
                   <div class="table-responsive">
                   <table class="table table-hover reports-list" id="myTable" style="border: none;">
 
-                    <br>
                     <thead class>
                       <tr>
                      
@@ -544,7 +542,7 @@ function timeago($datetime, $full = false) {
                      <th scope="col">Date Released</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="myTable">
                     <tr>
                       <?php 
 
@@ -566,6 +564,7 @@ function timeago($datetime, $full = false) {
           $others = $res['others'];
           $other_text = $res['other_text'];
           $staff_name = $res['requested_by'];
+          $status = $res['status'];
 
 ?>
                       
@@ -577,27 +576,44 @@ function timeago($datetime, $full = false) {
                         if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1){
                           echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" href=#requiredlab'.$res['request_id'].' style="height: 35px;">View</button>';
                           include("required_docs.php");
-                        }else{
+                        }
+
+                        else{
                           echo '<button class="btn btn-info btn-sm verify" data-toggle="modal" style="height: 35px;" disabled>View</button>';
                           
 
                         }
                         ?>
+                      </td>
 
                         <td>
                           <?php
-                        if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1){
-                         echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 80%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
-                          include("lab_modal.php");
-                          
-                        }else{
+                        if($res['status'] != 'Completed'){
+                          if($res['CBC'] == 1 || $res['PLATELET'] == 1 || $res['HEMOTOCRIT'] == 1 || $res['HEMOGLOBIN'] == 1 || $res['Urinalysis'] == 1 || $res['Fecalysis'] == 1 || $res['FBS'] == 1 || $res['sua'] == 1 || $res['Creatinine'] == 1 || $res['Lipid'] == 1 || $res['SGOT'] == 1 || $res['SGPT'] == 1 || $res['others'] == 1 && $res['status'] != 'Completed'){
+                           echo '<button class="btn btn-success btn-sm verify" data-toggle="modal"  href=#SubmitLabModal'.$res['request_id'].' style="width: 80%; height: 35px; color: white;"><i class="fas fa-upload"></i>&emsp;Upload Lab Result</button>';
+                            include("lab_modal.php");
+                                }
+
+                          else {
                            echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 80%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
                             
                           ';
-                        }
+                        }      
+
+
+                          }
+
+                          else {
+                           echo' <button class="btn btn-success btn-sm verify" data-toggle="modal" href="" style="width: 80%; height: 35px; color: white;" disabled><i class="fas fa-upload"></i>&emsp;Upload Lab Result </button>
+                            
+                          ';
+}
+
+                        
 
                           ?>
                         </td>
+
                         <td>
                           <?php
                         if(empty($res['certificate_location'])){
@@ -610,7 +626,7 @@ function timeago($datetime, $full = false) {
                         ?>
                         </td>
                         
-                      </td>
+                      
 
                       <td><?php
                         if(empty($res['certificate_location'])){
@@ -709,6 +725,7 @@ function timeago($datetime, $full = false) {
       <!-- Page specific javascripts-->
       <script type="text/javascript" src="jsc/plugins/bootstrap-notify.min.js"></script>
       <script type="text/javascript" src="jsc/plugins/sweetalert.min.js"></script>
+
       <script type="text/javascript">
         $('#demoNotify').click(function(){
           $.notify({
@@ -726,10 +743,8 @@ function timeago($datetime, $full = false) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
-      <!-- Data table plugin-->
-      <script type="text/javascript" src="jsc/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="jsc/plugins/dataTables.bootstrap.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#myTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
       <!-- Google analytics script-->
@@ -789,22 +804,5 @@ function timeago($datetime, $full = false) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
       
-
-     <div id="myModal" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Notifications</h5>
-            </div>
-            <div class="modal-body">
-                <p>You have <?php echo $count;  ?> unread notifications</p><br>
-                
-                   
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                
-            </div>
-        </div>
-    </div>
-</div>
-    </body>
+</body>
   </html>

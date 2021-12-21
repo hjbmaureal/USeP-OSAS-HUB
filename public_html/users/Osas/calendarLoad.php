@@ -2,7 +2,7 @@
 
 include('conn.php');
 $data = array();/*GROUP BY day(appointment_date)*/
-$querry = mysqli_query($conn,"SELECT * FROM response WHERE status = 'On Going' ORDER BY date_schedule, time_from ASC");
+$querry = mysqli_query($conn,"SELECT * FROM response WHERE Status = 'On Going' ORDER BY date_schedule, time_from ASC");
  while($row = mysqli_fetch_array($querry)) {
  					$timestamp = strtotime($row['time_from']) + 60*60;
 					$time = date('H:i A', $timestamp);

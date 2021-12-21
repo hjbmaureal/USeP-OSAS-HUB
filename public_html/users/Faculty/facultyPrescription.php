@@ -403,7 +403,7 @@ function timeago($datetime, $full = false) {
 
  <div class="row">
           <div class="col-md-12">
-            <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
                 <h3 class="mb-3 line-head">Prescription</h3>
                  
@@ -418,7 +418,7 @@ function timeago($datetime, $full = false) {
                     <select class="bootstrap-select" id="myInput" data-table="reports-list" style="height: 35px;width: 200px">
                         <option class="select-item" value="" selected="selected">All</option>
                         <?php
-                                                  //Fetching consultation type
+                                                
                                                   $sql1=mysqli_query($db,"select * from consultation_type");
                                                   while($result=mysqli_fetch_array($sql1))
                                                   {    
@@ -468,6 +468,8 @@ function timeago($datetime, $full = false) {
                     
                     while($row = $res->fetch_assoc()) {
                       $prescription_id = $row['prescription_id'];
+                      $image_data=$row['e_signature'];
+
                       ?>
 
                     <tr>
@@ -531,12 +533,62 @@ function timeago($datetime, $full = false) {
           });
         });
       </script>
+
+      <script type="text/javascript">
+        $('textarea#address').html($('textarea#address').html().trim());
+      </script>
+
+      
+
       <script>
         <!-- table selection -->
           $('#selectAll').click(function (e) {
     $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
 });
       </script>
+
+      <script type="text/javascript">
+ 
+          // JavaScript program to put spaces between words
+          // starting with capital letters.
+           
+          // Function to amend the sentence
+          function amendSentence(sstr)
+          {
+              let str = sstr.split("\n");
+                 
+              // Traverse the string
+              for (let i = 0; i < str.length; i++)
+              {
+                     
+                  // Convert to lowercase if its
+                  // an uppercase character
+                  if (str[i].charCodeAt() >= 'A'.charCodeAt() &&
+                  str[i].charCodeAt() <= 'Z'.charCodeAt())
+                  {
+                    str[i] =
+                    String.fromCharCode(str[i].charCodeAt() + 32);
+                         
+                      // Print space before it
+                      // if its an uppercase
+                      // character
+                      if (i != 0)
+                         document.write("\n");
+             
+                      // Print the character
+                      document.write(str[i]);
+                  }
+             
+                  // if lowercase character
+                  // then just print
+                  else
+                      document.write(str[i]);
+              }
+          }
+           
+     
+      </script>
+
       <!-- Data table plugin-->
       <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
       <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>

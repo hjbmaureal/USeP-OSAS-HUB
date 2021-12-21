@@ -448,7 +448,7 @@ function timeago($datetime, $full = false) {
 
 
                                   <div class="form-group">
-                                    <label class="control-label"><b>Do you experience headache, dizziness or syncope(pagkahimatay) at any time?</b></label>
+                                    <label class="control-label"><b>Do you experience headache, dizziness (<i>pagkahilo</i>) or syncope (<i>pagkahimatay</i>) at any time?</b></label>
                                     <div class="form-check">
                                       <label class="form-check-label">
                                         <input class="form-check-input" type="radio" name="illness" value="Yes">Yes
@@ -602,7 +602,7 @@ function timeago($datetime, $full = false) {
                   closeOnEsc: false,
                   }).then(function(){
 
-                    window.location = "facultyClinicComplaint.php";
+                    window.location = "ClinicComplaint.php";
                     })
                  </script>';
 
@@ -631,8 +631,17 @@ if($in_ch==1)
       $res ="INSERT INTO clinic_patient_info_female(patient_id,mens_age_start,mens_regular,mens_irregular,dysmenorrhea,pms) VALUES('$patient_id','$first','$regular','$peryear','$dysmenorrhea','$premen')";
 
             if ($db->query($res) === TRUE) {
+              
+        $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
 
-           $sql="Update staff set patinfo_status='1'  where staff_id='$patient_id'";
+$admin_id= $request['staff_id'];
+
+$notif_body = "A student filed a consultation.";
+$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status, office_id) values ('$admin_id', '$notif_body',now(),'../users/Clinic/Admin-NewConsultation.php', 'Delivered', '3')");
+
+           $sql="Update student set patinfo_status='1'  where Student_id='$patient_id'";
            $result5 = $db->query($sql);
 
           echo '<script>
@@ -757,15 +766,15 @@ echo"<meta http-equiv='refresh' content='2'>";
       </main>
       <!-- Essential javascripts for application to work-->
       
-      <script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
+      <script src="jsc/jquery-3.3.1.min.js"></script>
+      <script src="jsc/popper.min.js"></script>
+      <script src="jsc/bootstrap.min.js"></script>
+      <script src="jsc/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
+      <script src="jsc/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/sweetalert.min.js"></script>
       
       <script>
         <!-- table selection -->
@@ -774,8 +783,8 @@ echo"<meta http-equiv='refresh' content='2'>";
 });
       </script>
       <!-- Data table plugin-->
-      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>
       <!-- Google analytics script-->

@@ -409,13 +409,10 @@ function timeago($datetime, $full = false) {
 
  <div class="row">
           <div class="col-md-12">
-            <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
-                <div>
-                <div>
-                <div class="float-left"><h4>Request for Medical Records Certification</h4></div>
-                  </div>
-                  <br><br><br>
+                <h3 class="mb-3 line-head">Request for Medical Records Certification
+</h3><br>
                   <div class="row">
                     <div class="col-auto">
 
@@ -491,15 +488,24 @@ function timeago($datetime, $full = false) {
                                         <td><?php echo $row["date_requested"]; ?></td>  
                                         <td><?php echo $row["purpose"]; ?></td>
                                         <td>
+                                          <?php
 
-                                          <button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 60%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>
+                                          if (($row['status']) == 'Completed') {
+                                            echo '<button class="btn btn-success btn-sm verify" data-toggle="modal" style="width: 90%;" disabled><i class="fas fa-upload"></i>&ensp;Upload Letter</button>';
+                                          }
+
+                                          else {
+                                          echo '<button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 90%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>';
+                                        }
+
+                                        ?>
                                         </td>                                    
-                          <td>
+                      <td>
                         <?php
                         if(empty($row['med_info'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['med_info'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['med_info'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 
@@ -510,7 +516,7 @@ function timeago($datetime, $full = false) {
                         if(empty($row['med_history'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['med_history'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['med_history'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 
@@ -521,7 +527,7 @@ function timeago($datetime, $full = false) {
                         if(empty($row['health_record'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';
                         }else{
-                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../C-Admin/certs/'.$row['health_record'].'"><i class="fas fa-download"></i></a>';
+                          echo '<a class="btn btn-warning btn-sm" target="_blank" href="../Clinic/certs/'.$row['health_record'].'"><i class="fas fa-download"></i></a>';
 
                         }?>
 
@@ -588,7 +594,7 @@ function timeago($datetime, $full = false) {
                         <hr width=”75%″ size="10">
                         <hr width=”75%″ size="10">
                       </div>
-                          <form method="POST" action="facultysubmit_request.php">
+                          <form method="POST" action="submit_request.php">
                          <h6 class="font-weight-bold">Date: <input type="Text" name="date" readonly="" value="<?php echo(date('Y/m/d'))?>"  style="border:none;outline: none;cursor: default; font-weight: bold;"></input></h6> 
                         <br>
                          <h6 class="font-weight-bold">Purpose: </h6> 
@@ -631,7 +637,7 @@ function timeago($datetime, $full = false) {
                         <hr width=”75%″ size="10">
                         <hr width=”75%″ size="10">
                       </div>
-                       <form method="POST" action="facultysubmit_letter.php" enctype="multipart/form-data"> 
+                       <form method="POST" action="submit_letter.php" enctype="multipart/form-data"> 
 
                        <input type="" name="request_id" value="<?php echo $id ?>" hidden />
                           <br> 
@@ -657,15 +663,15 @@ function timeago($datetime, $full = false) {
       </main>
       <!-- Essential javascripts for application to work-->
       
-      <script src="js/jquery-3.3.1.min.js"></script>
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
+      <script src="jsc/jquery-3.3.1.min.js"></script>
+      <script src="jsc/popper.min.js"></script>
+      <script src="jsc/bootstrap.min.js"></script>
+      <script src="jsc/main.js"></script>
       <!-- The javascript plugin to display page loading on top-->
-      <script src="js/plugins/pace.min.js"></script>
+      <script src="jsc/plugins/pace.min.js"></script>
       <!-- Page specific javascripts-->
-      <script type="text/javascript" src="js/plugins/bootstrap-notify.min.js"></script>
-      <script type="text/javascript" src="js/plugins/sweetalert.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/bootstrap-notify.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/sweetalert.min.js"></script>
       <script type="text/javascript">
 
         $('#demoNotify').click(function(){
@@ -685,8 +691,8 @@ function timeago($datetime, $full = false) {
 });
       </script>
       <!-- Data table plugin-->
-      <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="jsc/plugins/dataTables.bootstrap.min.js"></script>
       <script type="text/javascript">$('#myTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable').DataTable();</script>
       <script type="text/javascript">$('#sampleTable2').DataTable();</script>

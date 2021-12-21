@@ -48,7 +48,7 @@ foreach ($purpose as $purpose2){
     }
     if (empty($patient_id)) {
         echo '<script> alert("No records")
-        window.location.href="StudentConsultation.php";
+        window.location.href="Clinic_Privacy_Policy.php";
          </script>
         ';
     }else{
@@ -56,7 +56,7 @@ $query = "INSERT INTO clinic_certificate_requests(user_id, date_requested, purpo
 
 
 if ($conn->query($query) === TRUE) {
-    $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
 $request=mysqli_fetch_assoc($result2);
 $admin_id= $request['staff_id'];
@@ -72,7 +72,7 @@ $result=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, li
                 closeOnClickOutside: false,
                 closeOnEsc: false,                                                                                             
                 }).then(function() {
-                window.location = "requestmedcert.php";
+                window.location = "facultyRequestMedCert.php";
             })
          </script>';
 } else {

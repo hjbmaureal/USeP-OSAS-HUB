@@ -9,7 +9,7 @@ if(isset($_GET['id']))
     $name = $res['certificate_location'];
     }
    
-    echo "<img src=$name>";
+    echo "<img src='$name'>";
     
 
 

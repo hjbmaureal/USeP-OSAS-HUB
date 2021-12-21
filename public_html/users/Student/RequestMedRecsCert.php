@@ -488,7 +488,7 @@ function timeago($datetime, $full = false) {
 
  <div class="row">
           <div class="col-md-12">
-            <div class="tile" style="border-radius: 20px;">
+            <div class="tile">
               <div class="tile-body">
                 <h3 class="mb-3 line-head">Request for Medical Records Certification
 </h3><br>
@@ -567,10 +567,19 @@ function timeago($datetime, $full = false) {
                                         <td><?php echo $row["date_requested"]; ?></td>  
                                         <td><?php echo $row["purpose"]; ?></td>
                                         <td>
+                                          <?php
 
-                                          <button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 90%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>
+                                          if (($row['status']) == 'Completed') {
+                                            echo '<button class="btn btn-success btn-sm verify" data-toggle="modal" style="width: 90%;" disabled><i class="fas fa-upload"></i>&ensp;Upload Letter</button>';
+                                          }
+
+                                          else {
+                                          echo '<button class="btn btn-success btn-sm verify" data-toggle="modal" data-target="#UploadlLetterModal" style="width: 90%;"><i class="fas fa-upload" data-toggle="modal" data-target="#UploadlLetterModal"></i>&ensp;Upload Letter</button>';
+                                        }
+
+                                        ?>
                                         </td>                                    
-                          <td>
+                      <td>
                         <?php
                         if(empty($row['med_info'])){
                           echo '<a class="btn btn-warning btn-sm" disabled><i class="fas fa-download"></i></a>';

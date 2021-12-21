@@ -23,9 +23,9 @@ if(isset($_POST['submit'])) {
 $purpose = $_POST['purpose'];  
 $date = $_POST['date'];
 $id = $_SESSION['id'];
-$message = 'Request for a Medical Records Certification';
+$message = 'filed a request for Medical Records Certification.';
 
-    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Staff' AND position='Nurse' AND account_status='Active'");
+    $sql2 = mysqli_query($mysqli, "SELECT * from staff where type = 'Coordinator' and office_id = 3 AND account_status='Active'");
     while($res = mysqli_fetch_array($sql2)) { 
     $staff_id = $res['staff_id'];
     }
@@ -35,7 +35,7 @@ $message = 'Request for a Medical Records Certification';
     $patient_id = $res['patient_id'];
     }
     if (empty($patient_id)) {
-        echo '<script>
+    echo '<script>
                     swal({
                     title: "No records!",
                     text: "Server Request Failed!",
@@ -44,18 +44,24 @@ $message = 'Request for a Medical Records Certification';
                     button: false,
                     timer:2000,
                     closeOnClickOutside: false,
-                    closeOnEsc: false,                                                                                             
-                    },function() {
-                    window.location = "Clinic_Privacy_Policy.php";
+                    closeOnEsc: false,
+                }).then(function() {
+              window.location = "Clinic_Privacy-Policy.php";
             })
          </script>';
-    }
+  }
     else {
 
 $query = "INSERT INTO clinic_certificate_requests(user_id, date_requested, purpose,request_type,status) VALUES('$id','$date','$purpose','Medical Records Certification','pending')";
-$result=mysqli_query($mysqli,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$staff_id', '$name" .' '. "".$message."',now(),'Admin-MedicalRecordCert.php', 'Delivered','3')");
+
+
 
 if ($mysqli->query($query) === TRUE) {
+  $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='Clinic' LIMIT 1";
+$result2=mysqli_query($mysqli,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+$admin_id= $request['staff_id'];
+$result=mysqli_query($mysqli,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$admin_id', '$name" .' '. "".$message."',now(),'../users/Clinic/Admin-MedicalRecordCert.php', 'Delivered','3')");
   echo '<script>
                 swal({
                 title: "Request added successfully!",
@@ -63,11 +69,11 @@ if ($mysqli->query($query) === TRUE) {
                 type:"success",
                 icon: "success",
                 button: false,
-                timer:2000,
+                timer:1000,
                 closeOnClickOutside: false,
                 closeOnEsc: false,
                 }).then(function() {
-                window.location = "facultyRequestMedRecsCert.php";
+              window.location = "RequestMedRecsCert.php";
             })
          </script>';
 } 

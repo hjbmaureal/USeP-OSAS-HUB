@@ -725,28 +725,6 @@ include_once('connect.php');
  {
    $sql = "Update consultation set appointment_date='$date', communication_mode_first_option='$mode', communication_mode_first_option='$mode2',consultation_duration='$duration', appointment_timefrom='$date',status='Approved', appointment_meetinglink='$link', date_received_by_nurse= now() where id='$pat_id'"; 
    if ($db->query($sql) === TRUE) {
-
-
-  $user_check_query="SELECT * from login_credentials where username='$patient_id' LIMIT 1";
-  $result2=mysqli_query($db,$user_check_query);
-  $request=mysqli_fetch_assoc($result2);
-
-  if($request['usertype']=='Student'){
-    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Your ".$type." Appointment has been set by the USeP Clinic',now(),'../users/Student/Clinic_Home.php#dash', 'Delivered','3')");
-    }
-
-if($request['usertype']=='Faculty Head'){
-    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Your ".$type." Appointment has been set by the USeP Clinic',now(),'../users/Faculty/FacultyHome.php#dash', 'Delivered','3')");
-    
-}
-if($request['usertype']=='Faculty'){
-     $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Your ".$type." Appointment has been set by the USeP Clinic',now(),'../users/Faculty/FacultyHome.php#dash', 'Delivered','3')");
-    
-}
-if($request['usertype']=='Staff'){
-    $result=mysqli_query($db,"insert into `notif` (user_id, message_body, time, link, message_status,office_id) values ('$patient_id', 'Your ".$type." Appointment has been set by the USeP Clinic',now(),'../users/Faculty/FacultyHome.php#dash', 'Delivered','3')");
-    
-}
  echo '<script>
       swal({
       title: "Appointment set successfully!",

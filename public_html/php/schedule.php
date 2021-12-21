@@ -40,12 +40,12 @@
         $complaintID = $_POST['complain_ID'];
         $responseID = $_POST['response_id'];
         $date =  date('Y-m-d',strtotime($_POST['appdate']));
-        $time =date('Y-m-d',strtotime($_POST['appdate']));
+        $time =$_POST['appdate'];
         $meet_type = $_POST['meet_type'];
         $meet_link = $_POST['meet_link'];
         $meet_id = $_POST['meet_id'] ?? null;
         $passcode = $_POST['passcode'] ?? null;
-        $status = 'On Going';
+        $status = 'On Going Schedule';
 
         //$date1 = $date->format('Y-m-d');
 

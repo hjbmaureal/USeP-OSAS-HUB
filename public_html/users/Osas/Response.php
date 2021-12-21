@@ -387,7 +387,7 @@
                                     </thead>
                                     <tbody>
                                     <?php
-                                  $tab = mysqli_query($conn,"SELECT * FROM studentdetails JOIN  viewresponse ON viewresponse.student_id = studentdetails.student_id WHERE viewresponse.Status = 'In Process' OR viewresponse.Status = 'On Going'");
+                                  $tab = mysqli_query($conn,"SELECT * FROM studentdetails JOIN  viewresponse ON viewresponse.student_id = studentdetails.student_id WHERE viewresponse.response_status = 'In Process' OR viewresponse.response_status = 'On Going' OR viewresponse.response_status = 'On Going Schedule'");
 
                                   $row=mysqli_num_rows($tab);
                                   while($res = mysqli_fetch_array($tab)) {
