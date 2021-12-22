@@ -72,7 +72,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by1%'"
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -141,7 +141,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -206,7 +206,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -274,7 +274,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -339,7 +339,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -403,7 +403,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -470,7 +470,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -535,7 +535,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -599,7 +599,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -663,7 +663,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -726,7 +726,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -790,7 +790,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -854,7 +854,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];

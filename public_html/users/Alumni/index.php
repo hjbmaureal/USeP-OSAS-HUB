@@ -343,7 +343,7 @@ if ($sql && $notification) {
         <div class="row">
        
         <div class="col-md">
-          <form method="POST" action="index.php" onsubmit="return validate();">
+          <form enctype="multipart/form-data"   method="POST" action="uploadalumni.php" onsubmit="return validate();">
           <div style="background-color: #C12C32; padding: 8px 10px;"> </div>
           <div class="tile">
               
@@ -427,13 +427,13 @@ if ($sql && $notification) {
                 <div class="row">
                   <div class="form-group col-sm">
                     <p style="font-weight: bolder;">Upon Requesting Good Moral we need to verify your OR No. Please upload your Official Reciept. 
-                    <input class="form-control-file" type="file" id="or_pic" name="or_pic" aria-describedby="fileHelp" required=""> 
+                    <input class="form-control-file" type="file" id="or_pic" name="my_image" aria-describedby="fileHelp" required=""> 
                     
                   </div>
                 </div>
 
               <div class="tile-footer"></div>
-              <button class="btn btn-success" type="submit" name="submit" id="submit" >Submit</button>
+              <button class="btn btn-success" type="submit" name="submits" id="submit" >Submit</button>
               <button class="btn btn-primary" type="submit">Cancel</button>
 
           </div>

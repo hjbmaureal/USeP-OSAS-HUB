@@ -213,7 +213,6 @@
                       <th class='max'>Full Name</th>
                       <th>Course/Degree</th>
                       <th>Year Level</th>
-                      <th>School Year</th>
                       <th>Purpose</th>
                       <th>Student Type</th>
                       <th class='max'>Date Requested</th>
@@ -237,7 +236,6 @@
                                         echo  "<td>".$row['or_no']. "</td>";
                                         echo  "<td>".$row['name']."</td>";
                                         echo  "<td>".$row['course']."</td>";
-                                        echo  "<td>".$row['year_level']."</td>";
                                         echo  "<td>".$row['sy_attended']."</td>";
                                         echo  "<td>".$row['purpose']."</td>";
                                         echo  "<td>".$row['type']."</td>";
