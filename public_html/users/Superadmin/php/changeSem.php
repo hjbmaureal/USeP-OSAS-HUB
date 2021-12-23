@@ -39,11 +39,11 @@ $month= "";
 $august_year="";
 $january_june_year="";
   if(isset($_POST['changeSemester'])){
-    // $month = date('m');
-    // $august_year1 = date('Y');
-    // $august_year2 = date('Y') + 1;
-    // $august_year = $august_year1.'-'.$august_year2;
-    // $january_june_year = date('Y') - 1 .'-'.date('Y');
+     $month = date('m');
+     $august_year1 = date('Y');
+     $august_year2 = date('Y') + 1;
+     $august_year = $august_year1.'-'.$august_year2;
+     $january_june_year = date('Y') - 1 .'-'.date('Y');
 
   $username= 'superadmin';
   $pass= $_POST['pass'];
@@ -51,8 +51,8 @@ $january_june_year="";
   $stmt->bind_param("s", $username);
   $stmt->execute();
   $user = $stmt->get_result()->fetch_assoc();
-  $month = 1;
-  $january_june_year = "2021-2022";
+  /*$month = 1;
+  $january_june_year = "2021-2022";*/
 
   if (password_verify($pass, $user['password'])){
     $stmt = $conn->prepare("call ScholarshipChangeSemesterEvent(?,?)");
