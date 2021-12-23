@@ -4,6 +4,17 @@
                               $id = $_POST['id'];
                               $tab = mysqli_query($conn,"SELECT * from remarks_apply where status=0 and ID ='$id' " );             
                               $res = mysqli_fetch_array($tab);
+
+                              $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+$result2=mysqli_query($conn,$admin_check_query);
+$request=mysqli_fetch_assoc($result2);
+
+$idy=$res['Submitted_by'];
+$org_check_query="SELECT * from approve_funded where org_pres_gov like '%$idy%'";
+$org_result=mysqli_query($conn,$org_check_query);
+$org=mysqli_fetch_assoc($org_result);
+
+$org_name=$org['org_name'];
                                 ?>
                               
                               <div class="modal-header" style="margin-bottom: 10px; padding: 0px;">
@@ -56,7 +67,8 @@
                                         <?php } ?> 
                                       </div>
 
-                                      <input type="hidden" name="submitted_by" value="<?php echo $res['Submitted_by']; ?>">
+                                      <input type="text" name="submitted_by" value="<?php echo $res['Submitted_by']; ?>">
+                                      <input type="text" name="" value="<?php echo $org_name; ?>">
 
                                    </div>
                                     <div style="top: 0px;">

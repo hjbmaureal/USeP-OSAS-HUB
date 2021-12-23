@@ -34,7 +34,13 @@
   </head>
   <body>
 <?php 
-include 'conn.php';
+include 'conn.php';include '../../php/notification-timeago.php'; 
+    session_start();
+    if (!isset($_SESSION['id']) || $_SESSION['usertype'] != 'Student'){
+      echo '<script type="text/javascript">'; 
+      echo 'window.location= "../../index.php";';
+      echo '</script>';
+    }
 error_reporting(0);
 if(isset($_POST['postbtn'])){
 
@@ -65,16 +71,16 @@ if(isset($_POST['postbtn'])){
       $run1 = mysqli_query($conn,$query1);
 
 
-$by1= $_SESSION['id'];
+
 $admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
 $result2=mysqli_query($conn,$admin_check_query);
 $request=mysqli_fetch_assoc($result2);
 
-$org_check_query="SELECT * from approve_funded where org_pres_gov like '%$by1%'";
+$org_check_query="SELECT * from approve_funded where org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -343,7 +349,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -407,7 +413,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -474,7 +480,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -539,7 +545,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -603,7 +609,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -667,7 +673,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -730,7 +736,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -794,7 +800,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];
@@ -858,7 +864,7 @@ $org_check_query="SELECT * from approve_funded where Org_pres_gov like '%$by%'";
 $org_result=mysqli_query($conn,$org_check_query);
 $org=mysqli_fetch_assoc($org_result);
 
-$org_name=$org['Org_Name'];
+$org_name=$org['org_name'];
 
 
 $admin_id= $request['staff_id'];

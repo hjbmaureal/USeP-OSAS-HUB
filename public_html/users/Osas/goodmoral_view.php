@@ -22,7 +22,7 @@
                           <h6 class="font-weight-bold">Purpose:
                           <span class="ml-1 font-weight-normal"><?php echo $row['purpose'] ?></span></h6> 
                           <h6 class="font-weight-bold">Submitted OR:</h6>
-                          <center><img src="data:image/jpg; image/png; image/JPEG; image/JPG; image/PNG; image/jpeg; charset=utf8;base64,<?php echo base64_encode($row['or_pic']) ?>"></center>
+                          <center><img src="../../images/<?php echo $row['or_pic']; ?>"></center>
 
                         </div>
                       </div>

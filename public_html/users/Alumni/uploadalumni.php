@@ -16,14 +16,7 @@ $datereq = date('Y-m-d H:i:s');
 $orno = $_POST['or_no'];
 $purpose = $_POST['purpose'];
 
-$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
-$result2=mysqli_query($conn,$admin_check_query);
-$request=mysqli_fetch_assoc($result2);
 
-$admin_id= $request['staff_id'];
-
-$notif_body = "An alumni requests for a Good Moral Certificate.";
-$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/ReqGoodMoral.php', 'Delivered')");
 
 
 	$img_name = $_FILES['my_image']['name'];
@@ -53,13 +46,21 @@ $notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, ti
 
 			if (in_array($img_ex_lc, $allowed_exs)) {
 				$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-				$img_upload_path = 'image/'.$new_img_name;
+				$img_upload_path = '../../images/'.$new_img_name;
 				move_uploaded_file($tmp_name, $img_upload_path);
 
 
 				 $sql = mysqli_query($conn,"INSERT INTO good_moral_requests (request_id, last_sy_attended, requested_by, date_requested, or_no, purpose, or_pic)
  				VALUES ('','$lastsyattendedfrom-$lastsyattendedto','$reqby','$datereq','$orno','$purpose','$new_img_name')");
-				if ($sql && $notification) {
+				if ($sql) {
+				$admin_check_query="SELECT * from staffdetails where type='Coordinator' and office_name='OSAS' LIMIT 1";
+				$result2=mysqli_query($conn,$admin_check_query);
+				$request=mysqli_fetch_assoc($result2);
+
+				$admin_id= $request['staff_id'];
+
+				$notif_body = "".$_SESSION['fullname'].", an alumni, requests for a Good Moral Certificate.";
+				$notification=mysqli_query($conn,"insert into `notif` (user_id, message_body, time, link, message_status) values ('$admin_id', '$notif_body',now(),'../users/Osas/ReqGoodMoral.php', 'Delivered')");
 					echo "         .";
 				    echo '<script>
 				                 swal({

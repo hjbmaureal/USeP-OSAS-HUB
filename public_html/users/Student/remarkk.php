@@ -13,7 +13,7 @@
                                   </button>
                               </div>
                               <div class="tile" style="border-radius:5px; margin-bottom: 0px;">
-                                  <h5 class="modal-title" id="exampleModalLabel">Remark:&emsp;<input type="text" name="by" style="border:none; width:300px;" value=" <?php echo $res['file'];?>"></h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Remark:&emsp;<input type="text" name="by" style="border:none; width:300px;" value="<?php echo $res['file'];?>"></h5>
                                   <div class="container">
                               
                                       <div class="row">

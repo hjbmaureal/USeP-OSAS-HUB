@@ -75,7 +75,7 @@ if (isset($_POST['pass'])){
             type: "warning"
             }, function () {
               setTimeout(function () {
-               window.location.href="../Faculty_Staff Accounts.php";
+               window.location.href="../Faculty_Staff_Accounts.php";
                }, 500);
                });
                </script>'; 
